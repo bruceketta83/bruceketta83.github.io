@@ -241,12 +241,98 @@ function drawGemelli() {
   </g>`;
 }
 
+/* --------------------------------------------------------------------------
+   AREA 3: BIBLIOTECARIO ARCHIMEDE
+   -------------------------------------------------------------------------- */
+function drawArchimede() {
+  const stars = [[-5, -31], [4, -21], [-3, -13], [6, -35], [-7, -20], [1, -9]].map(([x, y]) =>
+    `<path d="M${x} ${y - 1.4} L${x + 0.4} ${y - 0.4} L${x + 1.4} ${y} L${x + 0.4} ${y + 0.4} L${x} ${y + 1.4} L${x - 0.4} ${y + 0.4} L${x - 1.4} ${y} L${x - 0.4} ${y - 0.4} Z" fill="#fde68a"/>`).join('');
+  return `
+  <g class="char archimede">
+    <ellipse cx="0" cy="0" rx="13" ry="2.8" fill="#000" opacity="0.3"/>
+    <g class="leg leg-b"><rect x="-5" y="-6" width="4" height="6" fill="#1e293b"/><rect x="-6.5" y="-2.6" width="6" height="2.6" rx="1" fill="#451a03"/></g>
+    <g class="leg leg-f"><rect x="0.5" y="-6" width="4" height="6" fill="#1e293b"/><rect x="0" y="-2.6" width="6.5" height="2.6" rx="1" fill="#5b3415"/></g>
+    <g class="torso">
+      <path d="M-7.5 -43 Q0 -46 7.5 -43 L12 -4 L-12 -4 Z" fill="#1e3a8a"/>
+      <path d="M-12 -4 L12 -4 L11.6 -7.5 L-11.6 -7.5 Z" fill="#fbbf24"/>
+      <path d="M-2 -43 L0 -4" stroke="#172554" stroke-width="1"/>
+      ${stars}
+      <path d="M-9 -26 Q0 -23.5 9 -26" stroke="#d6b88a" stroke-width="1.5" fill="none"/>
+      <path d="M-4 -25 L-5 -16 M-4 -25 L-2.5 -17" stroke="#d6b88a" stroke-width="1" fill="none"/>
+      <g class="arm">
+        <path d="M3 -41 Q10.5 -35 9 -27" stroke="#1e40af" stroke-width="4.6" fill="none" stroke-linecap="round"/>
+        <line x1="10.5" y1="-28.5" x2="13.5" y2="-33" stroke="#78350f" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="15" cy="-35.5" r="3.6" fill="#bae6fd" fill-opacity="0.55" stroke="#b45309" stroke-width="1.3"/>
+        <path d="M13.6 -37 Q14.6 -38 16 -37.6" stroke="#fff" stroke-width="0.7" fill="none" opacity="0.8"/>
+        <circle cx="9.5" cy="-26.5" r="2.2" fill="#f1c9a5"/>
+      </g>
+      <g class="head">
+        <path d="M-8.6 -55 Q-12.5 -51 -9.5 -45.5 Q-7.5 -49.5 -6 -52.5 Z" fill="#f1f5f9"/>
+        <circle cx="0" cy="-52" r="8.6" fill="#f1c9a5"/>
+        <circle cx="-1.8" cy="-51.5" r="1.9" fill="#e5b48c"/>
+        <path d="M-2.4 -47.6 Q3 -45 9 -48 Q10 -40 5.8 -32.5 Q3.4 -29 1.2 -32.6 Q-2.8 -39 -2.4 -47.6 Z" fill="#f8fafc"/>
+        <path d="M2.4 -47.9 Q5.8 -49.8 9.2 -47.9 Q5.8 -46.8 2.4 -47.9 Z" fill="#e2e8f0"/>
+        <ellipse class="mouth" cx="5.8" cy="-46.4" rx="1.3" ry="0.7" fill="#7f1d1d"/>
+        ${eyesSVG(-53)}
+        <circle cx="2.8" cy="-53" r="2.3" fill="none" stroke="#b45309" stroke-width="0.7"/>
+        <circle cx="6.6" cy="-53" r="2.3" fill="none" stroke="#b45309" stroke-width="0.7"/>
+        <path d="M5 -53.2 L4.4 -53.2" stroke="#b45309" stroke-width="0.7"/>
+        <path d="M1 -56.4 L4.4 -56.8 M5.2 -56.8 L8.6 -56.2" stroke="#f8fafc" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M-8.4 -56 Q0 -67.5 8.4 -56 Q0 -59.4 -8.4 -56 Z" fill="#1e3a8a"/>
+        <path d="M0 -62.4 Q3 -63 4.6 -60" stroke="#fbbf24" stroke-width="0.9" fill="none"/>
+        <circle cx="4.8" cy="-59.4" r="1.1" fill="#fbbf24"/>
+      </g>
+    </g>
+  </g>`;
+}
+
+/* --------------------------------------------------------------------------
+   AREA 3: TERMINALE DELL'ASCENSORE (macchina con viso sullo schermo)
+   -------------------------------------------------------------------------- */
+function drawTerminal() {
+  const keys = [];
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 4; c++) {
+      keys.push(`<rect x="${-9 + c * 4.8}" y="${-33 + r * 3.6}" width="3.6" height="2.6" rx="0.6" fill="${r === 2 && c === 3 ? '#22c55e' : '#94a3b8'}"/>`);
+    }
+  }
+  return `
+  <g class="char terminal">
+    <ellipse cx="0" cy="0" rx="16" ry="3" fill="#000" opacity="0.3"/>
+    <rect x="-11" y="-14" width="22" height="14" rx="2" fill="#334155"/>
+    <rect x="-14" y="-3" width="28" height="3" rx="1" fill="#1e293b"/>
+    <path d="M14 -8 Q24 -8 30 -20" stroke="#0f172a" stroke-width="2" fill="none"/>
+    <g class="torso">
+      <line x1="-8" y1="-66" x2="-11" y2="-76" stroke="#94a3b8" stroke-width="1.2"/>
+      <circle class="led-blink" cx="-11" cy="-77" r="1.8" fill="#ef4444"/>
+      <rect x="-16" y="-66" width="32" height="53" rx="4" fill="#475569" stroke="#94a3b8" stroke-width="1.4"/>
+      <rect x="-16" y="-66" width="32" height="4" rx="2" fill="#64748b"/>
+      <rect x="-12.5" y="-60" width="25" height="20" rx="2.5" fill="#022c22" stroke="#0f172a" stroke-width="1.2"/>
+      <path d="M-12.5 -55 L12.5 -55 M-12.5 -50 L12.5 -50 M-12.5 -45 L12.5 -45" stroke="#065f46" stroke-width="0.4" opacity="0.6"/>
+      <g class="head">
+        <g class="eyes">
+          <rect x="-7.5" y="-56" width="4.6" height="5.4" rx="0.8" fill="#4ade80"/>
+          <rect x="2.9" y="-56" width="4.6" height="5.4" rx="0.8" fill="#4ade80"/>
+        </g>
+        <rect class="mouth" x="-5.5" y="-46" width="11" height="1.8" rx="0.6" fill="#4ade80"/>
+      </g>
+      ${keys.join('')}
+      <circle cx="10.5" cy="-17.5" r="1.6" fill="#facc15"/>
+      <rect x="-12" y="-19" width="16" height="3" rx="1" fill="#1e293b"/>
+      <circle cx="-13" cy="-62" r="0.8" fill="#cbd5e1"/><circle cx="13" cy="-62" r="0.8" fill="#cbd5e1"/>
+      <circle cx="-13" cy="-16" r="0.8" fill="#cbd5e1"/><circle cx="13" cy="-16" r="0.8" fill="#cbd5e1"/>
+    </g>
+  </g>`;
+}
+
 const CHARS = {
   aria: { draw: drawAria, h: 57, portraitVB: '-13 -59 26 26' },
   vera: { draw: drawVera, h: 67, portraitVB: '-15 -68 30 30' },
   barnaba: { draw: drawBarnaba, h: 82, portraitVB: '-14 -84 28 28' },
   oste: { draw: drawOste, h: 61, portraitVB: '-12 -64 28 28' },
-  gemelli: { draw: drawGemelli, h: 56, portraitVB: '-21 -60 40 40' }
+  gemelli: { draw: drawGemelli, h: 56, portraitVB: '-21 -60 40 40' },
+  archimede: { draw: drawArchimede, h: 66, portraitVB: '-13 -67 30 30' },
+  terminal: { draw: drawTerminal, h: 79, portraitVB: '-18 -70 36 36' }
 };
 
 function portraitSVG(key) {

@@ -180,24 +180,15 @@ const AREAS = [
     ruleId: 'pow_of_pow',
     music: 'mystery',
     maxHp: 3,
+    scene: 'torre',
     layout: {
-      groundY: 192,
-      ariaStart: 195,
-      mentor: { x: 105, top: 121, bottom: 185, stand: 140, label: '🔭 Archimede' },
-      guardian: { x: 297, top: 105, bottom: 180, stand: 258, label: '⚙️ Ascensore' }
+      groundY: 190,
+      ariaStart: 196,
+      mentor: { x: 92, draw: 'archimede', stand: 128, label: '🔭 Archimede' },
+      guardian: { x: 270, draw: 'terminal', stand: 236, label: '⚙️ Ascensore' }
     },
     crystal: { id: 'c3', name: 'Cristallo Viola', icon: '🟣', desc: 'Vibra con la forza della potenza di potenza.' },
     item: { id: 'i3', name: 'Lente Stellare', icon: '🔍', desc: 'Calibrata in cima alla Torre.' },
-    svgBg: `
-      <rect width="400" height="220" fill="#1e1b4b"/>
-      <circle cx="80" cy="40" r="2" fill="#fff"/><circle cx="200" cy="30" r="2" fill="#fff"/>
-      <circle cx="340" cy="60" r="3" fill="#fde047"/><circle cx="150" cy="70" r="2" fill="#fff"/>
-      <polygon points="140,220 170,60 230,60 260,220" fill="#312e81"/>
-      <path d="M160 60 Q200 15 240 60 Z" fill="#4f46e5"/>
-      <circle cx="105" cy="135" r="14" fill="#fed7aa"/>
-      <rect x="91" y="149" width="28" height="36" rx="5" fill="#0d9488"/>
-      <rect x="270" y="105" width="54" height="75" rx="6" fill="#475569" stroke="#94a3b8" stroke-width="3"/>
-    `,
     intro: 'Sei ai piedi della Torre dell’Osservatorio. Il Bibliotecario Archimede sta sistemando delle lenti sovrapposte accanto all’ascensore bloccato.',
     mentor: {
       name: 'Bibliotecario Archimede',
