@@ -910,9 +910,9 @@ sup {
 /* ---------- BARRA INFERIORE ---------- */
 #bottom-nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding: 10px 12px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 10px 10px;
   background: #0b1120;
   border-top: 2px solid var(--panel-border);
   flex-shrink: 0;
@@ -1239,3 +1239,125 @@ sup {
     transition: none !important;
   }
 }
+
+/* ---------- PROFILO, NEGOZIO, MEDAGLIE ---------- */
+.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.tabs button {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  background: #0f172a;
+  color: var(--text-muted);
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.tabs button.on { color: #0f172a; background: var(--accent-gold); border-color: var(--accent-gold); }
+
+.shop-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 14px;
+  background: radial-gradient(circle at 30% 40%, #334155, #0f172a);
+  border: 1px solid var(--panel-border);
+}
+.shop-preview { width: 84px; height: 120px; flex-shrink: 0; }
+.shop-name { font-weight: 900; }
+.shop-aura { color: var(--accent-gold); font-weight: 900; font-size: 1.1rem; margin: 2px 0 4px; }
+.shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: #0f172a;
+  color: var(--text-main);
+  cursor: pointer;
+}
+.shop-item.owned { border-color: #38bdf8; }
+.shop-item.equipped { border-color: var(--accent-green); background: rgba(16, 185, 129, 0.15); }
+.swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.4); }
+.swatch-emoji { font-size: 1.3rem; line-height: 22px; }
+.shop-item-name { font-size: 0.72rem; font-weight: 700; text-align: center; }
+.shop-price { font-size: 0.68rem; font-weight: 800; color: var(--accent-gold); }
+.shop-item.equipped .shop-price { color: #6ee7b7; }
+
+.medal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.medal {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: #0f172a;
+  text-align: center;
+  opacity: 0.55;
+}
+.medal.on { opacity: 1; border-color: var(--accent-gold); background: rgba(245, 158, 11, 0.12); }
+.medal-icon { font-size: 1.8rem; }
+.medal-name { font-weight: 900; font-size: 0.82rem; color: var(--accent-gold); margin-top: 2px; }
+.medal-desc { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+.rule-card.diary { border-left-color: #a855f7; }
+.rule-card.diary hr { border: none; border-top: 1px dashed #e9d5ff; margin: 8px 0; }
+
+/* ---------- PROFILI ---------- */
+.modal-overlay.players { z-index: 120; }
+.profile-chip {
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f8fafc;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.profile-chip span { color: var(--text-muted); font-weight: 600; }
+.player-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #0f172a;
+  border: 1px solid var(--panel-border);
+}
+.player-row.current { border-color: var(--accent-gold); }
+.player-actions { display: flex; gap: 6px; align-items: center; }
+.player-actions button, .player-new button {
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid #38bdf8;
+  background: #0c4a6e;
+  color: #e0f2fe;
+  font-weight: 800;
+  cursor: pointer;
+}
+.player-actions button.danger { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); }
+.player-new { display: flex; gap: 6px; }
+.player-new input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 0.9rem;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ---------- MAPPA ILLUSTRATA ---------- */
+.island-map { width: 100%; max-height: 62vh; display: block; border-radius: 14px; }
+.map-node.unlocked { cursor: pointer; }
+.map-node.locked { opacity: 0.7; }
+.map-pulse { transform-box: fill-box; transform-origin: center; animation: alertPulse 1.4s ease-in-out infinite; }
+.map-pin { animation: labelBob 1.4s ease-in-out infinite; }
+.map-hint { font-size: 0.8rem; color: var(--text-muted); text-align: center; }

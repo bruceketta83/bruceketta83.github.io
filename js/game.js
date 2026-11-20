@@ -24,7 +24,11 @@ const DEFAULT_STATE = {
   rooms: {},
   flags: {},
   curiosities: [],
-  quests: {}
+  quests: {},
+  medals: [],
+  look: {},
+  owned: [],
+  maxStreak: 0
 };
 
 function clone(obj) {
@@ -32,6 +36,8 @@ function clone(obj) {
 }
 
 let gameStarted = false;
+const PROFILES_KEY = 'esponentia_profiles';
+let profiles = loadProfiles();
 let state = loadState();
 let duel = null;
 let busy = false;
@@ -41,10 +47,33 @@ let typer = null;
 /* --------------------------------------------------------------------------
    SALVATAGGIO (con migrazione dal salvataggio v1)
    -------------------------------------------------------------------------- */
+/* Profili: ogni giocatrice ha il suo salvataggio. */
+function loadProfiles() {
+  let p = null;
+  try { p = JSON.parse(localStorage.getItem(PROFILES_KEY)); } catch (e) {}
+  if (!p || !Array.isArray(p.list) || !p.list.length) p = { list: [{ id: 'p1', name: 'Giocatrice 1' }], current: 'p1' };
+  if (!p.list.some(x => x.id === p.current)) p.current = p.list[0].id;
+  // Migrazione: il salvataggio senza profilo passa al profilo in uso.
+  try {
+    const legacy = localStorage.getItem(SAVE_KEY) || localStorage.getItem(OLD_SAVE_KEY);
+    if (legacy) {
+      localStorage.setItem(`${SAVE_KEY}_${p.current}`, legacy);
+      localStorage.removeItem(SAVE_KEY);
+      localStorage.removeItem(OLD_SAVE_KEY);
+    }
+    localStorage.setItem(PROFILES_KEY, JSON.stringify(p));
+  } catch (e) {}
+  return p;
+}
+function saveProfiles() {
+  try { localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles)); } catch (e) {}
+}
+function profileSaveKey(id = profiles.current) { return `${SAVE_KEY}_${id}`; }
+
 function loadState() {
   const s = clone(DEFAULT_STATE);
   try {
-    const raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem(OLD_SAVE_KEY);
+    const raw = localStorage.getItem(profileSaveKey());
     if (raw) {
       Object.assign(s, JSON.parse(raw));
       s.version = 2;
@@ -58,15 +87,17 @@ function loadState() {
   return s;
 }
 
+function writeSave() {
+  try { localStorage.setItem(profileSaveKey(), JSON.stringify(state)); } catch (e) {}
+}
+
 function saveState() {
-  try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (e) {}
+  writeSave();
+  checkMedals();
 }
 
 function resetSave() {
-  try {
-    localStorage.removeItem(SAVE_KEY);
-    localStorage.removeItem(OLD_SAVE_KEY);
-  } catch (e) {}
+  try { localStorage.removeItem(profileSaveKey()); } catch (e) {}
   state = clone(DEFAULT_STATE);
   location.reload();
 }
@@ -84,6 +115,7 @@ function confirmReset() {
    -------------------------------------------------------------------------- */
 function initTitle() {
   $('title-svg').innerHTML = SCENES.title.svg();
+  $('profile-chip').innerHTML = `👤 ${currentProfile().name} <span>· cambia</span>`;
   if (hasSave()) {
     const stars = Object.values(state.stars).reduce((a, b) => a + b, 0);
     $('btn-start').textContent = '⛵ CONTINUA L\'AVVENTURA';
@@ -474,6 +506,10 @@ function buildArea(areaIndex) {
   if (gameStarted) Music.play(area.music);
 
   if (state.gameWon && areaIndex === AREAS.length - 1) {
+    if (area.rooms && currentRoomId(area) !== 'cima') {
+      state.rooms[area.id] = 'cima';
+      buildScene(area);
+    }
     lightTheLighthouse();
     showVictoryScreen();
     return;
@@ -571,7 +607,7 @@ function startGuardianChallenge(area) {
   }
 
   // Condizione extra dell'area (es. Barnaba vuole prima la sua cassa).
-  const gateMsg = area.duelGate && area.duelGate();
+  const gateMsg = !state.completedAreas.includes(area.id) && area.duelGate && area.duelGate();
   if (gateMsg) {
     setDialogue(g.name, g.role, guardianAvatar(area), gateMsg, 'guardian');
     clearChoices();
@@ -724,6 +760,7 @@ function handleAnswer(opt, btn) {
   btn.classList.add('right');
   playSound('hit');
   duel.streak++;
+  state.maxStreak = Math.max(state.maxStreak || 0, duel.streak);
   duel.hp--;
   const bonus = 10 * (duel.streak - 1);
   state.aura += 50 + bonus;
@@ -754,6 +791,7 @@ function starsHTML(n) { return '⭐'.repeat(n) + '☆'.repeat(3 - n); }
 
 function winDuel(area) {
   const stars = duel.errors === 0 ? 3 : duel.errors === 1 ? 2 : 1;
+  if (duel.errors === 0) state.flags.perfect = true;
   const prev = state.stars[area.id] || 0;
   if (stars > prev) state.stars[area.id] = stars;
   duel = null;
@@ -880,11 +918,15 @@ function showVictoryScreen() {
   setDialogue("Faro dell'Accademia", 'Missione Compiuta!', '🏆',
     `<b>HAI SALVATO L'ISOLA DI ESPO-NENTIA!</b><br><br>
     Tutti e 5 i Cristalli Esponenziali brillano di nuovo e la flotta dell'Accademia può salpare!<br>
-    Punteggio finale: <b>${state.aura} Aura</b>.<br><br>
+    ${questState('diario') === 'done'
+      ? '<i>Lavinia ti saluta da lontano. Per la prima volta, sorride davvero. 💜</i><br><br>'
+      : `<i>Pagine del diario di Lavinia trovate: ${questCount('diario')}/5. Trovale tutte per il finale segreto!</i><br><br>`}
+    Punteggio finale: <b>${state.aura} Aura</b> · Medaglie: <b>${state.medals.length}/${MEDALS.length}</b><br><br>
     <b>📊 Il tuo resoconto:</b>${reportHTML()}`, null);
   burst(200, 60, ['🎉', '✨', '⭐', '💎'], 24);
   clearChoices();
-  addChoice('🗺️ Rigioca un’area dalla Mappa', () => openModal('map'));
+  addChoice('🗺️ Esplora ancora l’isola dalla Mappa', () => openModal('map'));
+  addChoice('<span>🏅 Guarda le medaglie</span><span>→</span>', () => { openModal('profile'); renderProfile('medals'); });
   addChoice("🔄 Gioca di nuovo dall'inizio", () => resetSave(), 'primary-action');
 }
 
@@ -900,6 +942,8 @@ function openModal(type) {
     renderMap();
   } else if (type === 'inventory') {
     renderInventory();
+  } else if (type === 'profile') {
+    renderProfile('shop');
   }
   $(`modal-${type}`).classList.add('open');
 }
@@ -946,40 +990,18 @@ function renderNotebook() {
          <div class="rule-desc">Esplora l'isola e leggi tutto quello che trovi.</div>`;
     container.appendChild(card);
   });
-}
 
-function renderMap() {
-  const container = $('map-content');
-  container.innerHTML = '';
-
-  AREAS.forEach(area => {
-    const isUnlocked = area.id <= state.unlockedArea;
-    const isCompleted = state.completedAreas.includes(area.id);
-    const isCurrent = area.id === state.currentArea;
-    const stars = state.stars[area.id] || 0;
-
-    const div = document.createElement('div');
-    div.className = `map-item ${isCurrent ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${isUnlocked ? '' : 'locked'}`;
-    const statusIcon = isCompleted ? '✅' : isUnlocked ? '📍' : '🔒';
-
-    div.innerHTML = `
-      <div>
-        <div style="font-weight:800; font-size:0.95rem;">${area.name}</div>
-        <div style="font-size:0.78rem; color:#94a3b8; margin-top:2px;">
-          ${isUnlocked ? (isCompleted ? 'Area completata' : 'Disponibile') : "Completa l'area precedente"}
-        </div>
-        ${isCompleted ? `<div class="map-stars">${starsHTML(stars)}</div>` : ''}
-      </div>
-      <div style="font-size:1.3rem;">${statusIcon}</div>`;
-
-    if (isUnlocked) {
-      div.onclick = () => {
-        closeModal('map');
-        renderArea(area.id);
-      };
-    }
-    container.appendChild(div);
-  });
+  const pages = DIARY.map((_, i) => i + 1).filter(n => flag(`dia${n}`));
+  const dHead = document.createElement('div');
+  dHead.className = 'nb-section';
+  dHead.innerHTML = `📓 Diario di Lavinia <span>${pages.length}/${DIARY.length}</span>`;
+  container.appendChild(dHead);
+  const dCard = document.createElement('div');
+  dCard.className = 'rule-card curiosity diary';
+  dCard.innerHTML = pages.length
+    ? pages.map(n => `<div class="rule-desc"><b>Pag. ${n}.</b> <i>${DIARY[n - 1]}</i></div>`).join('<hr>')
+    : '<div class="rule-desc">Lavinia ha perso delle pagine viola in giro per l’isola...</div>';
+  container.appendChild(dCard);
 }
 
 function renderInventory() {

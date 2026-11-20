@@ -1145,3 +1145,296 @@ SCENES.capanno = {
     `;
   }
 };
+
+/* ==========================================================================
+   TAVERNA – STANZA: LA STRADA DAVANTI ALLA TAVERNA
+   ========================================================================== */
+SCENES.strada = {
+  bg() {
+    const stones = [];
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 15; c++) {
+        stones.push(`<ellipse cx="${c * 28 + (r % 2 ? 14 : 0)}" cy="${186 + r * 10}" rx="12" ry="4" fill="#475569" opacity="${0.5 + (c % 3) * 0.15}"/>`);
+      }
+    }
+    return `
+    <defs>
+      <linearGradient id="st-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#020617"/><stop offset="1" stop-color="#312e81"/>
+      </linearGradient>
+      <radialGradient id="st-lamp">
+        <stop offset="0" stop-color="#fde68a" stop-opacity="0.8"/><stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="400" height="220" fill="url(#st-sky)"/>
+    ${starField(30, 77, 400, 80, 0.9)}
+    <circle cx="70" cy="34" r="12" fill="#fef3c7"/>
+
+    <!-- Case sullo sfondo -->
+    <path d="M0 120 L0 70 L30 52 L60 70 L60 120 Z" fill="#1e1b4b"/>
+    <path d="M340 120 L340 64 L372 44 L404 64 L404 120 Z" fill="#1e1b4b"/>
+    <rect x="16" y="82" width="10" height="12" fill="#fbbf24" opacity="0.6"/>
+    <rect x="356" y="78" width="10" height="12" fill="#fbbf24" opacity="0.5"/>
+
+    <!-- Facciata della Taverna -->
+    <rect x="140" y="58" width="196" height="124" fill="#5b3415"/>
+    <path d="M140 72 L336 72 M140 100 L336 100 M140 128 L336 128 M140 156 L336 156" stroke="#3b2410" stroke-width="1.2"/>
+    <polygon points="128,62 348,62 310,26 166,26" fill="#7f1d1d"/>
+    <path d="M140 50 L336 50" stroke="#991b1b" stroke-width="2"/>
+    <rect x="160" y="84" width="34" height="26" fill="#fbbf24" class="flicker"/>
+    <path d="M177 84 L177 110 M160 97 L194 97" stroke="#3b2410" stroke-width="2.4"/>
+    <rect x="282" y="84" width="34" height="26" fill="#fbbf24" class="flicker" style="animation-delay:-1.3s"/>
+    <path d="M299 84 L299 110 M282 97 L316 97" stroke="#3b2410" stroke-width="2.4"/>
+    <circle cx="170" cy="100" r="4" fill="#3b2410" opacity="0.6"/><circle cx="306" cy="98" r="4" fill="#3b2410" opacity="0.6"/>
+
+    <!-- Insegna appesa -->
+    <line x1="238" y1="58" x2="238" y2="66" stroke="#1c1008" stroke-width="1.2"/>
+    <g transform="translate(238 66)"><g class="swing" style="animation-duration:4s">
+      <rect x="-26" y="0" width="52" height="16" rx="3" fill="#78350f" stroke="#451a03" stroke-width="1.5"/>
+      <text x="0" y="11" font-size="8" fill="#fbbf24" text-anchor="middle" font-weight="900" font-family="Georgia, serif">÷ TAVERNA</text>
+    </g></g>
+
+    <!-- Porta -->
+    <rect x="218" y="116" width="40" height="66" rx="3" fill="#3b2410"/>
+    <rect x="222" y="120" width="32" height="62" fill="#78350f"/>
+    <path d="M238 120 L238 182" stroke="#451a03" stroke-width="1.2"/>
+    <circle cx="249" cy="152" r="1.8" fill="#fbbf24"/>
+
+    <!-- Lanterna a muro -->
+    <circle class="flicker" cx="208" cy="124" r="16" fill="url(#st-lamp)"/>
+    <rect x="204" y="118" width="8" height="11" rx="2" fill="#fbbf24" class="flicker"/>
+
+    <!-- Casse e barile -->
+    <rect x="58" y="150" width="30" height="32" fill="#a16207" stroke="#713f12" stroke-width="1"/>
+    <path d="M58 150 L88 182 M88 150 L58 182" stroke="#713f12" stroke-width="0.8" opacity="0.6"/>
+    <rect x="92" y="160" width="22" height="22" fill="#92400e" stroke="#713f12" stroke-width="1"/>
+    <g transform="translate(350 168)">
+      <rect x="-12" y="-16" width="24" height="30" rx="6" fill="#92400e"/>
+      <rect x="-12" y="-9" width="24" height="2.5" fill="#451a03"/><rect x="-12" y="6" width="24" height="2.5" fill="#451a03"/>
+    </g>
+    <!-- Gatto che dorme sul davanzale -->
+    <g transform="translate(299 112)">
+      <ellipse cx="0" cy="0" rx="9" ry="4" fill="#1c1917"/>
+      <circle cx="8" cy="-2" r="3.2" fill="#1c1917"/>
+      <path d="M6 -5 L7 -7.5 L8.5 -5 M9 -5 L10.5 -7.5 L11 -4.6" fill="#1c1917"/>
+      <path d="M-9 0 Q-14 -4 -12 -8" stroke="#1c1917" stroke-width="1.6" fill="none" class="swing" style="animation-duration:3s"/>
+    </g>
+
+    <!-- Strada di ciottoli -->
+    <rect y="180" width="400" height="40" fill="#334155"/>
+    ${stones.join('')}
+    `;
+  }
+};
+
+/* ==========================================================================
+   TORRE – STANZA: LA BIBLIOTECA
+   ========================================================================== */
+SCENES.biblioteca = {
+  bg() {
+    const colors = ['#b91c1c', '#1d4ed8', '#15803d', '#a16207', '#7c3aed', '#0e7490', '#be185d'];
+    const shelf = (x0, x1, rows = 4) => {
+      let out = '';
+      for (let r = 0; r < rows; r++) {
+        const y = 40 + r * 34;
+        out += `<rect x="${x0}" y="${y + 28}" width="${x1 - x0}" height="4" fill="#451a03"/>`;
+        for (let x = x0 + 3, i = 0; x < x1 - 6; x += 7, i++) {
+          const h = 20 + ((x * 7 + r * 3) % 7);
+          out += `<rect x="${x}" y="${y + 28 - h}" width="6" height="${h}" fill="${colors[(i + r * 2) % colors.length]}"/>`;
+        }
+      }
+      return out;
+    };
+    return `
+    <defs>
+      <linearGradient id="bi-win" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#020617"/><stop offset="1" stop-color="#312e81"/>
+      </linearGradient>
+      <radialGradient id="bi-candle">
+        <stop offset="0" stop-color="#fde68a" stop-opacity="0.7"/><stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="400" height="220" fill="#1e293b"/>
+    <path d="M0 0 L400 0 L400 182 L0 182 Z" fill="#334155"/>
+    <path d="M0 30 L400 30 M0 70 L400 70 M0 110 L400 110 M0 150 L400 150" stroke="#1e293b" stroke-width="1" opacity="0.7"/>
+
+    <!-- Scaffali -->
+    <rect x="44" y="34" width="96" height="148" fill="#5b3415"/>
+    ${shelf(46, 138)}
+    <rect x="286" y="34" width="70" height="78" fill="#5b3415"/>
+    ${shelf(288, 354, 2)}
+
+    <!-- Scala a pioli -->
+    <path d="M130 182 L150 40 M146 182 L166 40" stroke="#a16207" stroke-width="2"/>
+    <path d="M133 160 L149 160 M136 136 L152 136 M139 112 L155 112 M143 88 L159 88 M146 64 L162 64" stroke="#a16207" stroke-width="1.6"/>
+
+    <!-- Finestra ad arco con le stelle -->
+    <path d="M180 100 L180 50 Q200 26 220 50 L220 100 Z" fill="url(#bi-win)"/>
+    <circle class="twinkle" cx="192" cy="60" r="1" fill="#fff"/><circle class="twinkle" cx="208" cy="70" r="1.2" fill="#fff" style="animation-delay:-1s"/>
+    <circle class="twinkle" cx="200" cy="48" r="0.8" fill="#fff" style="animation-delay:-2s"/>
+    <path d="M200 30 L200 100 M180 72 L220 72" stroke="#1e293b" stroke-width="2"/>
+    <path d="M180 100 L180 50 Q200 26 220 50 L220 100 Z" fill="none" stroke="#64748b" stroke-width="3"/>
+
+    <!-- Lavagna -->
+    <rect x="226" y="44" width="56" height="40" rx="2" fill="#14532d" stroke="#78350f" stroke-width="3"/>
+    <text x="254" y="62" font-size="10" fill="#f8fafc" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">(2³)² = ?</text>
+    <path d="M234 72 Q246 76 258 70 M260 74 L272 74" stroke="#f8fafc" stroke-width="0.8" opacity="0.6" fill="none"/>
+
+    <!-- Scrivania con candela -->
+    <rect x="172" y="140" width="64" height="5" rx="1" fill="#78350f"/>
+    <rect x="178" y="145" width="4" height="37" fill="#451a03"/><rect x="226" y="145" width="4" height="37" fill="#451a03"/>
+    <circle class="flicker" cx="224" cy="128" r="16" fill="url(#bi-candle)"/>
+    <rect x="221" y="128" width="5" height="12" fill="#fef3c7"/>
+    <ellipse class="flicker" cx="223.5" cy="125" rx="1.6" ry="2.8" fill="#fbbf24"/>
+
+    <!-- Armadio con tastierino -->
+    <rect x="300" y="112" width="52" height="70" rx="2" fill="#78350f" stroke="#451a03" stroke-width="2"/>
+    <path d="M326 114 L326 180" stroke="#451a03" stroke-width="1.4"/>
+    <circle cx="322" cy="148" r="1.4" fill="#fbbf24"/><circle cx="330" cy="148" r="1.4" fill="#fbbf24"/>
+
+    <!-- Pavimento -->
+    <rect y="182" width="400" height="38" fill="#475569"/>
+    <path d="M0 194 L400 194 M0 208 L400 208" stroke="#334155" stroke-width="1"/>
+    <rect x="10" y="98" width="30" height="84" fill="#1e293b"/>
+    <path d="M10 98 Q25 86 40 98" fill="#1e293b"/>
+    `;
+  }
+};
+
+/* ==========================================================================
+   SERRA – STANZA: IL VIVAIO (buio finché la Lente non lo illumina)
+   ========================================================================== */
+SCENES.vivaio = {
+  bg() {
+    const trays = [];
+    [70, 120].forEach(y => {
+      trays.push(`<rect x="50" y="${y}" width="110" height="5" fill="#78350f"/>`);
+      for (let x = 56; x < 156; x += 12) trays.push(`<path d="M${x} ${y} Q${x + 3} ${y - 9} ${x + 6} ${y}" stroke="#22c55e" stroke-width="2" fill="none"/>`);
+    });
+    return `
+    <rect width="400" height="220" fill="#14532d"/>
+    <path d="M0 0 L400 0 L400 184 L0 184 Z" fill="#166534"/>
+    <path d="M0 40 L400 40 M0 90 L400 90 M0 140 L400 140" stroke="#14532d" stroke-width="1.2"/>
+    <!-- Lucernario -->
+    <rect x="170" y="0" width="64" height="18" fill="#bae6fd"/>
+    <path d="M202 0 L202 18 M170 9 L234 9" stroke="#475569" stroke-width="2"/>
+    <rect x="170" y="0" width="64" height="18" fill="none" stroke="#475569" stroke-width="3"/>
+    ${trays.join('')}
+    <rect x="250" y="70" width="110" height="5" fill="#78350f"/>
+    <g transform="translate(270 70)"><path d="M-6 0 L6 0 L5 -9 L-5 -9 Z" fill="#c2410c"/><circle cy="-13" r="6" fill="#15803d"/></g>
+    <g transform="translate(300 70)"><path d="M-6 0 L6 0 L5 -9 L-5 -9 Z" fill="#c2410c"/><circle cy="-12" r="5" fill="#22c55e"/></g>
+    <!-- Pavimento in mattoni -->
+    <rect y="184" width="400" height="36" fill="#7c2d12"/>
+    <path d="M0 196 L400 196 M0 208 L400 208" stroke="#431407" stroke-width="1"/>
+    <!-- Porta verso il giardino -->
+    <rect x="12" y="100" width="34" height="84" fill="#064e3b" stroke="#022c22" stroke-width="2"/>
+    <rect x="16" y="106" width="26" height="30" fill="#a7f3d0" opacity="0.6"/>
+    `;
+  }
+};
+
+/* ==========================================================================
+   OFFICINA – STANZA: IL MAGAZZINO RICAMBI
+   ========================================================================== */
+SCENES.magazzino = {
+  bg() {
+    const parts = [];
+    [60, 104].forEach((y, r) => {
+      parts.push(`<rect x="230" y="${y}" width="140" height="4" fill="#71717a"/>`);
+      for (let x = 238; x < 362; x += 18) {
+        parts.push((x + r) % 3
+          ? `<rect x="${x}" y="${y - 12}" width="12" height="12" rx="1" fill="${r ? '#a16207' : '#64748b'}"/>`
+          : `<circle cx="${x + 6}" cy="${y - 6}" r="6" fill="none" stroke="#d97706" stroke-width="2"/>`);
+      }
+    });
+    return `
+    <rect width="400" height="220" fill="url(#w-brick-m)"/>
+    <defs>
+      <pattern id="w-brick-m" width="24" height="12" patternUnits="userSpaceOnUse">
+        <rect width="24" height="12" fill="#292524"/>
+        <rect x="0.6" y="0.6" width="22.8" height="5" rx="0.6" fill="#3f3a36"/>
+        <rect x="-11.4" y="6.6" width="22.8" height="5" rx="0.6" fill="#3f3a36"/>
+        <rect x="12.6" y="6.6" width="22.8" height="5" rx="0.6" fill="#3f3a36"/>
+      </pattern>
+      <radialGradient id="mg-lamp">
+        <stop offset="0" stop-color="#fde68a" stop-opacity="0.6"/><stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="400" height="220" fill="url(#w-brick-m)"/>
+    <circle class="flicker" cx="200" cy="40" r="60" fill="url(#mg-lamp)"/>
+    <line x1="200" y1="0" x2="200" y2="26" stroke="#3f3f46" stroke-width="1.2"/>
+    <path d="M190 26 L210 26 L206 34 L194 34 Z" fill="#3f3f46"/><circle class="flicker" cx="200" cy="35" r="3" fill="#fde68a"/>
+    <!-- Scaffali con ricambi -->
+    <rect x="232" y="60" width="4" height="122" fill="#52525b"/><rect x="366" y="60" width="4" height="122" fill="#52525b"/>
+    ${parts.join('')}
+    <rect x="230" y="148" width="140" height="4" fill="#71717a"/>
+    <!-- Bilancia a potenze -->
+    <g transform="translate(150 182)">
+      <rect x="-3" y="-60" width="6" height="58" fill="#b45309"/>
+      <rect x="-14" y="-4" width="28" height="4" rx="1" fill="#78350f"/>
+      <rect x="-34" y="-62" width="68" height="3" rx="1" fill="#d97706"/>
+      <path d="M-30 -60 L-38 -40 M-30 -60 L-22 -40 M30 -60 L22 -40 M30 -60 L38 -40" stroke="#a16207" stroke-width="0.8"/>
+      <path d="M-40 -40 Q-30 -34 -20 -40 Z" fill="#fbbf24"/><path d="M20 -40 Q30 -34 40 -40 Z" fill="#fbbf24"/>
+      <text x="-30" y="-44" font-size="7" fill="#fef3c7" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">2⁴·5⁴</text>
+      <text x="30" y="-44" font-size="8" fill="#fef3c7" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">?</text>
+      <circle cy="-62" r="3" fill="#b45309"/>
+    </g>
+    <!-- Cassettiera -->
+    <rect x="56" y="122" width="54" height="60" fill="#57534e" stroke="#292524" stroke-width="1.5"/>
+    <path d="M56 142 L110 142 M56 162 L110 162" stroke="#292524" stroke-width="1.2"/>
+    <rect x="78" y="130" width="10" height="3" rx="1" fill="#a8a29e"/><rect x="78" y="150" width="10" height="3" rx="1" fill="#a8a29e"/><rect x="78" y="170" width="10" height="3" rx="1" fill="#a8a29e"/>
+    <!-- Porta verso l'officina -->
+    <rect x="10" y="96" width="36" height="86" fill="#3f3f46" stroke="#18181b" stroke-width="2"/>
+    <circle cx="40" cy="140" r="1.8" fill="#a8a29e"/>
+    <!-- Pavimento -->
+    <rect y="182" width="400" height="38" fill="#3f3f46"/>
+    <path d="M0 192 L400 192" stroke="#27272a" stroke-width="1"/>
+    `;
+  }
+};
+
+/* ==========================================================================
+   FARO – STANZA: LA SCALA A CHIOCCIOLA
+   ========================================================================== */
+SCENES.scala = {
+  bg() {
+    const steps = [];
+    for (let i = 0; i < 9; i++) {
+      const x = 120 + i * 26;
+      const y = 176 - i * 17;
+      steps.push(`<path d="M${x} ${y} L${x + 30} ${y} L${x + 30} ${y + 6} L${x} ${y + 6} Z" fill="#64748b" stroke="#334155" stroke-width="0.8"/>`);
+    }
+    return `
+    <defs>
+      <linearGradient id="sc-wall" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#1e293b"/><stop offset="0.5" stop-color="#334155"/><stop offset="1" stop-color="#1e293b"/>
+      </linearGradient>
+      <radialGradient id="sc-torch">
+        <stop offset="0" stop-color="#fdba74" stop-opacity="0.7"/><stop offset="1" stop-color="#fdba74" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="400" height="220" fill="url(#sc-wall)"/>
+    <path d="M0 40 Q200 30 400 40 M0 90 Q200 80 400 90 M0 140 Q200 130 400 140" stroke="#0f172a" stroke-width="1" fill="none" opacity="0.6"/>
+    <!-- Finestra sulla tempesta -->
+    <rect x="60" y="54" width="34" height="50" rx="16" fill="#1e1b4b"/>
+    <rect class="lightning" x="60" y="54" width="34" height="50" rx="16" fill="#e9d5ff"/>
+    <path d="M77 54 L77 104 M60 80 L94 80" stroke="#0f172a" stroke-width="2"/>
+    <!-- Torce -->
+    <circle class="flicker" cx="44" cy="120" r="18" fill="url(#sc-torch)"/>
+    <rect x="42" y="120" width="4" height="12" fill="#78350f"/><ellipse class="flicker" cx="44" cy="116" rx="3" ry="5" fill="#fb923c"/>
+    <circle class="flicker" cx="250" cy="60" r="18" fill="url(#sc-torch)" style="animation-delay:-1s"/>
+    <rect x="248" y="60" width="4" height="12" fill="#78350f"/><ellipse class="flicker" cx="250" cy="56" rx="3" ry="5" fill="#fb923c" style="animation-delay:-1s"/>
+    <!-- Colonna centrale e gradini -->
+    <rect x="186" y="0" width="16" height="190" fill="#475569"/>
+    ${steps.join('')}
+    <!-- Botola verso la cima -->
+    <rect x="300" y="14" width="56" height="12" rx="2" fill="#78350f" stroke="#451a03" stroke-width="1.5"/>
+    <path d="M308 14 L308 26 M348 14 L348 26" stroke="#451a03" stroke-width="1.2"/>
+    <!-- Graffito -->
+    <text x="120" y="70" font-size="12" fill="#a5b4fc" font-family="Courier New, monospace" font-weight="900" opacity="0.7" transform="rotate(-6 120 70)">2⁸=256!</text>
+    <!-- Pavimento -->
+    <rect y="186" width="400" height="34" fill="#334155"/>
+    <path d="M0 198 L400 198 M0 210 L400 210" stroke="#1e293b" stroke-width="1"/>
+    `;
+  }
+};
