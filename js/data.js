@@ -238,24 +238,15 @@ const AREAS = [
     ruleId: 'zero_one_exp',
     music: 'mystery',
     maxHp: 3,
+    scene: 'serra',
     layout: {
-      groundY: 182,
-      ariaStart: 185,
-      mentor: { x: 95, top: 105, bottom: 173, stand: 130, label: '🕶️ Madame Zeri' },
-      guardian: { x: 285, top: 71, bottom: 180, stand: 248, label: '🌺 Pianta Carnivora' }
+      groundY: 184,
+      ariaStart: 190,
+      mentor: { x: 92, draw: 'zeri', stand: 128, label: '🕶️ Madame Zeri' },
+      guardian: { x: 285, draw: 'plant', stand: 240, label: '🌺 Pianta Carnivora' }
     },
     crystal: { id: 'c4', name: 'Cristallo Smeraldo', icon: '🟢', desc: 'Racchiude il potere assoluto dell’unità.' },
     item: { id: 'i4', name: 'Seme Luminescente', icon: '🌱', desc: 'Donato da Madame Zeri.' },
-    svgBg: `
-      <rect width="400" height="220" fill="#064e3b"/>
-      <path d="M0 40 L400 40 M0 100 L400 100 M100 0 L100 220 M300 0 L300 220" stroke="#10b981" stroke-width="2" opacity="0.25"/>
-      <circle cx="95" cy="120" r="15" fill="#fed7aa"/>
-      <rect x="82" y="114" width="26" height="7" fill="#0f172a"/>
-      <rect x="80" y="135" width="30" height="38" rx="6" fill="#ec4899"/>
-      <path d="M280 180 Q270 130 285 105" stroke="#22c55e" stroke-width="8" fill="none"/>
-      <circle cx="285" cy="95" r="24" fill="#be185d"/>
-      <polygon points="265,95 285,82 305,95 285,108" fill="#fef08a"/>
-    `,
     intro: 'L’aria nella Serra è umida e profuma di ozono. Madame Zeri indossa occhiali da sole anche al chiuso, mentre una pianta gigante ringhia davanti al Cristallo Smeraldo.',
     mentor: {
       name: 'Madame Zeri',

@@ -581,3 +581,140 @@ SCENES.torre = {
     `;
   }
 };
+
+/* Foglia grande stilizzata (tipo monstera). */
+function bigLeaf(x, y, size, rot, color) {
+  return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${size})">
+    <path d="M0 0 Q-14 -10 -10 -28 Q0 -36 10 -28 Q14 -10 0 0 Z" fill="${color}"/>
+    <path d="M0 0 L0 -30 M0 -8 L-8 -14 M0 -14 L8 -20 M0 -20 L-7 -26" stroke="#064e3b" stroke-width="0.9" opacity="0.6"/>
+  </g>`;
+}
+
+/* Liana appesa che oscilla. */
+function vine(x, len, delay) {
+  let leaves = '';
+  for (let y = 8; y < len; y += 9) {
+    const side = (y / 9) % 2 ? -1 : 1;
+    leaves += `<ellipse cx="${side * 3}" cy="${y}" rx="3" ry="1.6" fill="#22c55e" transform="rotate(${side * 30} ${side * 3} ${y})"/>`;
+  }
+  return `<g transform="translate(${x} 0)"><g class="swing" style="animation-duration:6s;animation-delay:-${delay}s">
+    <path d="M0 0 Q3 ${len / 2} 0 ${len}" stroke="#15803d" stroke-width="1.2" fill="none"/>${leaves}
+  </g></g>`;
+}
+
+function butterfly(color, dur, delay) {
+  return `<g class="butterfly" style="animation-duration:${dur}s;animation-delay:-${delay}s">
+    <g class="wings">
+      <path d="M0 0 Q-5 -6 -6 -1 Q-5 3 0 0 Z" fill="${color}"/>
+      <path d="M0 0 Q5 -6 6 -1 Q5 3 0 0 Z" fill="${color}"/>
+    </g>
+    <line x1="0" y1="-2" x2="0" y2="2" stroke="#1c1917" stroke-width="0.8"/>
+  </g>`;
+}
+
+/* ==========================================================================
+   SCENA 4: LA SERRA DEGLI ESPONENTI ZERO
+   ========================================================================== */
+SCENES.serra = {
+  bg() {
+    const mullions = [50, 100, 150, 200, 250, 300, 350].map(x =>
+      `<line x1="${x}" y1="${(60 - 90 * (1 - Math.pow((x - 200) / 200, 2)) * 0.98).toFixed(1)}" x2="${x}" y2="178" stroke="#f1f5f9" stroke-width="2" opacity="0.65"/>`).join('');
+    const tiles = [];
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 20; c++) {
+        if ((r + c) % 2) tiles.push(`<rect x="${c * 20}" y="${178 + r * 11}" width="20" height="11" fill="#9a3412" opacity="0.55"/>`);
+      }
+    }
+    const pots = [[150, 6, '#16a34a'], [166, 5, '#22c55e'], [182, 6.5, '#15803d'], [212, 5, '#4ade80'], [226, 6, '#16a34a']].map(([x, r, c]) => `
+      <path d="M${x - 5} 136 L${x + 5} 136 L${x + 4} 145 L${x - 4} 145 Z" fill="#c2410c"/>
+      <circle cx="${x}" cy="${134 - r / 2}" r="${r}" fill="${c}"/>`).join('');
+    const pollen = [[60, 0], [140, 1.2], [230, 2.4], [330, 0.7], [380, 3]].map(([x, d]) =>
+      `<circle class="pollen" cx="${x}" cy="172" r="1.1" fill="#fef08a" style="animation-delay:-${d}s"/>`).join('');
+    const crystalTaken = typeof state !== 'undefined' && state.completedAreas.includes(3);
+
+    return `
+    <defs>
+      <linearGradient id="s-air" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ecfeff"/>
+        <stop offset="0.45" stop-color="#99f6e4"/>
+        <stop offset="1" stop-color="#047857"/>
+      </linearGradient>
+      <linearGradient id="s-ray" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.55"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="s-gem">
+        <stop offset="0" stop-color="#6ee7b7" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#6ee7b7" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <rect width="400" height="220" fill="url(#s-air)"/>
+
+    <!-- Fogliame sullo sfondo -->
+    <path d="M0 178 Q30 120 70 150 Q90 110 130 160 Q170 130 200 170 Q240 125 280 160 Q320 115 360 150 Q385 130 400 140 L400 178 Z" fill="#065f46" opacity="0.55"/>
+
+    <!-- Struttura in vetro e ferro -->
+    <path d="M-10 62 Q200 -32 410 62" stroke="#f8fafc" stroke-width="3" fill="none" opacity="0.8"/>
+    <path d="M-10 92 Q200 4 410 92" stroke="#f8fafc" stroke-width="1.6" fill="none" opacity="0.5"/>
+    ${mullions}
+    <line x1="0" y1="118" x2="400" y2="118" stroke="#f1f5f9" stroke-width="1.6" opacity="0.5"/>
+    <path d="M70 70 L86 50 M76 74 L94 52 M270 96 L288 74 M330 70 L344 52" stroke="#fff" stroke-width="1.4" opacity="0.5"/>
+
+    <!-- Raggi di luce -->
+    <polygon class="shimmer" points="40,0 90,0 190,178 120,178" fill="url(#s-ray)" style="animation-duration:5s"/>
+    <polygon class="shimmer" points="230,0 262,0 330,178 284,178" fill="url(#s-ray)" style="animation-duration:6.5s;animation-delay:-2s"/>
+
+    <!-- Liane appese -->
+    ${vine(28, 64, 0)}${vine(122, 42, 1.5)}${vine(250, 54, 3)}${vine(372, 70, 4.2)}
+
+    <!-- Vasi appesi -->
+    <g transform="translate(176 0)">
+      <g class="swing" style="animation-duration:5s">
+        <path d="M0 0 L-6 26 M0 0 L6 26" stroke="#78350f" stroke-width="0.7"/>
+        <path d="M-8 26 L8 26 L6 34 L-6 34 Z" fill="#c2410c"/>
+        <path d="M-8 26 Q-14 34 -12 44 M-4 26 Q-6 36 -4 46 M4 26 Q8 36 6 44 M8 26 Q14 32 13 40" stroke="#16a34a" stroke-width="1.6" fill="none"/>
+      </g>
+    </g>
+
+    <!-- Banco con piantine e annaffiatoio -->
+    <rect x="138" y="145" width="100" height="5" rx="1" fill="#78350f"/>
+    <rect x="142" y="150" width="4" height="28" fill="#5b3415"/>
+    <rect x="230" y="150" width="4" height="28" fill="#5b3415"/>
+    ${pots}
+    <g transform="translate(198 145)">
+      <path d="M-6 0 L6 0 L5 -10 L-5 -10 Z" fill="#64748b"/>
+      <path d="M5 -8 L12 -14" stroke="#64748b" stroke-width="2"/>
+      <path d="M-5 -9 Q-10 -9 -9 -3" stroke="#64748b" stroke-width="1.4" fill="none"/>
+    </g>
+
+    <!-- Cristallo Smeraldo dietro la pianta -->
+    <g transform="translate(345 178)">
+      <rect x="-9" y="-26" width="18" height="26" fill="#cbd5e1"/>
+      <rect x="-12" y="-29" width="24" height="4" rx="1" fill="#e2e8f0"/>
+      ${crystalTaken ? '' : `<g id="area-crystal">
+      <circle class="crystal-glow" cx="0" cy="-40" r="14" fill="url(#s-gem)"/>
+      <g class="crystal-float">
+        <polygon points="0,-50 6,-41 0,-31 -6,-41" fill="#10b981" stroke="#ecfdf5" stroke-width="0.8"/>
+        <polygon points="0,-50 6,-41 0,-40" fill="#fff" opacity="0.45"/>
+      </g></g>`}
+    </g>
+
+    <!-- Foglie grandi ai lati -->
+    ${bigLeaf(18, 182, 1.5, 18, '#15803d')}
+    ${bigLeaf(44, 182, 1.1, -8, '#16a34a')}
+    ${bigLeaf(388, 182, 1.6, -22, '#15803d')}
+
+    <!-- Farfalle e polline -->
+    ${butterfly('#f472b6', 16, 0)}
+    ${butterfly('#facc15', 21, 7)}
+    ${pollen}
+
+    <!-- Pavimento in cotto -->
+    <rect y="178" width="400" height="42" fill="#c2410c"/>
+    ${tiles.join('')}
+    <rect y="178" width="400" height="2" fill="#9a3412"/>
+    <ellipse class="shimmer" cx="120" cy="204" rx="16" ry="2.4" fill="#bae6fd" opacity="0.5"/>
+    `;
+  }
+};

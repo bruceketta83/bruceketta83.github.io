@@ -708,6 +708,9 @@ function winDuel(area) {
   saveState();
 
   const gc = guardianCenter(area);
+  // Se la scena mostra il cristallo (es. la Serra), il cristallo sparisce quando Aria lo prende.
+  const sceneCrystal = $('area-crystal');
+  if (sceneCrystal) sceneCrystal.remove();
   if (isFirstTime && area.crystal) {
     playSound('crystal');
     flyCrystal(area.crystal.icon, gc.x, gc.y, () => { updateHUD(); popBadge('hud-crystals'); });

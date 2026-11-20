@@ -417,6 +417,59 @@ body {
   100% { opacity: 0.15; }
 }
 
+/* Serra */
+.char.plant.defeated { animation: plantShrink 1.3s ease forwards; }
+@keyframes plantShrink {
+  30% { transform: scale(1.08, 0.94); }
+  100% { transform: scale(0.3); }
+}
+.plant .torso {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: plantSway 3.6s ease-in-out infinite;
+}
+@keyframes plantSway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.plant .jaw-low { animation: chompIdle 3.4s ease-in-out infinite; }
+.plant .jaw-up { animation: chompIdleUp 3.4s ease-in-out infinite; }
+@keyframes chompIdle {
+  0%, 70%, 100% { transform: translateY(0); }
+  78% { transform: translateY(4px); }
+  86% { transform: translateY(0); }
+}
+@keyframes chompIdleUp {
+  0%, 70%, 100% { transform: translateY(0); }
+  78% { transform: translateY(-2px); }
+  86% { transform: translateY(0); }
+}
+.talking .jaw-low { animation: chomp 0.18s infinite alternate; }
+.talking .jaw-up { animation: chompUp 0.18s infinite alternate; }
+@keyframes chomp { from { transform: translateY(0); } to { transform: translateY(5px); } }
+@keyframes chompUp { from { transform: translateY(0); } to { transform: translateY(-2.5px); } }
+
+.butterfly { animation: butterfly 16s ease-in-out infinite; }
+@keyframes butterfly {
+  0% { transform: translate(-20px, 120px); }
+  25% { transform: translate(110px, 70px); }
+  50% { transform: translate(220px, 100px); }
+  75% { transform: translate(330px, 60px); }
+  100% { transform: translate(430px, 95px); }
+}
+.wings {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wingFlap 0.22s ease-in-out infinite alternate;
+}
+@keyframes wingFlap { from { transform: scaleX(1); } to { transform: scaleX(0.2); } }
+.pollen { animation: pollen 7s linear infinite; }
+@keyframes pollen {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 0.9; }
+  100% { transform: translate(18px, -120px); opacity: 0; }
+}
+
 /* Schermata iniziale */
 .crystal-float { animation: crystalFloat 3.2s ease-in-out infinite; }
 @keyframes crystalFloat {
