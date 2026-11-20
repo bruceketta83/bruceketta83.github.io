@@ -356,6 +356,7 @@ function buildScene(area) {
   });
   chars += `<g id="char-aria" style="transform: translate(${ariaX}px, ${ariaY}px)"><g id="aria-flip">${CHARS.aria.draw()}</g></g>`;
 
+  $('scene-svg').classList.remove('lit');
   $('scene-svg').innerHTML = `
     <g id="layer-bg">${sc ? sc.bg() : area.svgBg}</g>
     <g id="layer-chars">${chars}</g>
@@ -787,10 +788,13 @@ function updateDuelPanel() {
    VITTORIA FINALE E RESOCONTO
    -------------------------------------------------------------------------- */
 function lightTheLighthouse() {
-  const fg = $('layer-fg');
-  if (fg && !$('faro-glow')) {
-    fg.insertAdjacentHTML('beforeend',
-      '<circle id="faro-glow" class="faro-on" cx="200" cy="45" r="55" fill="#fde047" opacity="0.6"/>');
+  const svg = $('scene-svg');
+  if (svg.classList.contains('lit')) return;
+  svg.classList.add('lit');
+  // Le scene statiche non hanno elementi "lit-only": aggiunge un bagliore generico.
+  if (!svg.querySelector('.lit-only')) {
+    $('layer-fg').insertAdjacentHTML('beforeend',
+      '<circle class="faro-on" cx="200" cy="45" r="55" fill="#fde047" opacity="0.6"/>');
   }
 }
 
