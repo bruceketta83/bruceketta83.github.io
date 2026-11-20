@@ -56,6 +56,8 @@
         <span id="duel-combo"></span>
       </div>
     </div>
+    <div id="use-banner"></div>
+    <div id="action-bubble"></div>
   </div>
 
   <!-- AREA DIALOGHI E SFIDE -->
@@ -79,16 +81,16 @@
 
   <!-- BARRA INFERIORE -->
   <div id="bottom-nav">
-    <button class="nav-btn" onclick="openModal('notebook')">
+    <button class="nav-btn" data-nav="notebook" onclick="openModal('notebook')">
       <span class="badge-dot" id="notebook-dot"></span>
       <span class="icon">📖</span>
       <span>Taccuino</span>
     </button>
-    <button class="nav-btn" onclick="openModal('map')">
+    <button class="nav-btn" data-nav="map" onclick="openModal('map')">
       <span class="icon">🗺️</span>
       <span>Mappa</span>
     </button>
-    <button class="nav-btn" onclick="openModal('inventory')">
+    <button class="nav-btn" data-nav="inventory" onclick="openModal('inventory')">
       <span class="icon">🎒</span>
       <span>Zaino (<span id="inv-count">0</span>)</span>
     </button>
@@ -127,6 +129,9 @@
     </div>
   </div>
 
+  <!-- NOTIFICHE -->
+  <div id="toast"></div>
+
   <!-- TRANSIZIONE TRA AREE -->
   <div id="fade"></div>
 </div>
@@ -136,6 +141,8 @@
 <script src="js/generator.js"></script>
 <script src="js/characters.js"></script>
 <script src="js/scenes.js"></script>
+<script src="js/world.js"></script>
+<script src="js/rooms.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>
