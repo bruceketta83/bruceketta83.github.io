@@ -14,21 +14,31 @@
 <div id="app">
   <!-- SCHERMATA INIZIALE -->
   <div id="title-screen">
-    <div class="title-icons">🏝️🧭✨</div>
-    <div class="game-logo">IL SEGRETO DELL'ISOLA<br>DI ESPO-NENTIA</div>
-    <p class="game-sub">
-      Qualcuno ha sabotato il Faro dell'Accademia rubando i <b>5 Cristalli Esponenziali</b>!<br><br>
-      Esplora l'isola nei panni di <b>Aria</b>, impara le regole dai Mentori e sconfiggi i Guardiani a colpi di potenze.
-    </p>
-    <button class="start-btn" onclick="startGame()">SALPA VERSO L'ISOLA</button>
-    <button class="reset-link" id="btn-reset-save" onclick="resetSave()" style="display:none;">Ricomincia da zero</button>
+    <svg id="title-svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+    <button class="title-audio audio-toggle" onclick="toggleAudio()" aria-label="Audio">🔊</button>
+
+    <div class="title-top">
+      <div class="logo-small">IL SEGRETO DELL'ISOLA DI</div>
+      <div class="logo-big">ESPO-NENTIA<span class="logo-n">n</span></div>
+      <div><span class="logo-tag">⚔️ Un'avventura a colpi di potenze</span></div>
+    </div>
+
+    <div class="title-bottom">
+      <p class="game-sub">
+        Qualcuno ha sabotato il Faro rubando i <b>5 Cristalli Esponenziali</b>!
+        Esplora l'isola con <b>Aria</b>, impara le regole e sconfiggi i Guardiani.
+      </p>
+      <button class="start-btn" id="btn-start" onclick="startGame()">⛵ SALPA VERSO L'ISOLA</button>
+      <div class="save-info" id="save-info"></div>
+      <button class="reset-link" id="btn-reset-save" onclick="confirmReset()" style="display:none;">Ricomincia da zero</button>
+    </div>
   </div>
 
   <!-- HUD -->
   <div id="hud">
     <div class="hud-badge">✨ Aura: <span class="aura-val" id="hud-aura">100</span></div>
     <div class="hud-badge">💎 Cristalli: <span class="crystal-val" id="hud-crystals">0/5</span></div>
-    <button id="btn-audio" onclick="toggleAudio()" title="Audio" aria-label="Audio">🔊</button>
+    <button id="btn-audio" class="audio-toggle" onclick="toggleAudio()" title="Audio" aria-label="Audio">🔊</button>
   </div>
 
   <!-- SCENA GRAFICA -->
@@ -124,6 +134,7 @@
 <script src="js/audio.js"></script>
 <script src="js/data.js"></script>
 <script src="js/generator.js"></script>
+<script src="js/characters.js"></script>
 <script src="js/scenes.js"></script>
 <script src="js/game.js"></script>
 </body>

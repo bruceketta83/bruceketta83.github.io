@@ -122,24 +122,15 @@ const AREAS = [
     ruleId: 'quot_same_base',
     music: 'tavern',
     maxHp: 3,
+    scene: 'taverna',
     layout: {
       groundY: 172,
       ariaStart: 190,
-      mentor: { x: 100, top: 100, bottom: 165, stand: 135, label: '🍺 Oste Bartolomeo' },
-      guardian: { x: 275, top: 101, bottom: 165, stand: 240, label: '🎲 Pirati Gemelli' }
+      mentor: { x: 92, draw: 'oste', stand: 128, label: '🍺 Oste Bartolomeo' },
+      guardian: { x: 292, draw: 'gemelli', face: -1, stand: 238, label: '🎲 Pirati Gemelli' }
     },
     crystal: { id: 'c2', name: 'Cristallo Ciano', icon: '🔵', desc: 'Brilla della luce fredda della sottrazione.' },
     item: { id: 'i2', name: 'Cannocchiale Ottico', icon: '🔭', desc: 'Vinto ai dadi contro i Pirati Gemelli.' },
-    svgBg: `
-      <rect width="400" height="220" fill="#291509"/>
-      <rect x="20" y="25" width="110" height="75" rx="6" fill="#0f172a" stroke="#78350f" stroke-width="4"/>
-      <circle cx="95" cy="50" r="10" fill="#fef08a" opacity="0.6"/>
-      <rect x="0" y="165" width="400" height="55" fill="#451a03"/>
-      <circle cx="100" cy="115" r="15" fill="#fed7aa"/>
-      <rect x="82" y="130" width="36" height="35" rx="6" fill="#d97706"/>
-      <circle cx="275" cy="115" r="14" fill="#fde68a"/>
-      <rect x="255" y="129" width="40" height="36" rx="6" fill="#be123c"/>
-    `,
     intro: 'La Taverna del Quoziente è piena di fumo e risate. L’Oste Bartolomeo sta lucidando i boccali, mentre i Pirati Gemelli giocano a dadi in un angolo.',
     mentor: {
       name: 'Oste Bartolomeo',

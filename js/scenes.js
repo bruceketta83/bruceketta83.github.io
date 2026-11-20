@@ -1,146 +1,6 @@
 /* ==========================================================================
-   GRAFICA: PERSONAGGI E SCENE SVG ANIMATE
-   Tutti i personaggi hanno i piedi in (0,0) e guardano a destra.
-   Le classi CSS (torso, eyes, mouth, leg-f, leg-b...) attivano le animazioni.
+   SCENE SVG ANIMATE (viewBox 400 x 220, titolo 400 x 800)
    ========================================================================== */
-
-function drawAria() {
-  return `
-  <g class="char aria">
-    <ellipse cx="0" cy="0" rx="10" ry="2.5" fill="#000" opacity="0.3"/>
-    <g class="leg leg-b">
-      <rect x="-4.5" y="-19" width="4.2" height="19" rx="1.6" fill="#1e3a8a"/>
-      <rect x="-5.5" y="-3.2" width="6.5" height="3.2" rx="1.2" fill="#3f2a1d"/>
-    </g>
-    <g class="leg leg-f">
-      <rect x="0.3" y="-19" width="4.2" height="19" rx="1.6" fill="#2548b8"/>
-      <rect x="-0.2" y="-3.2" width="7" height="3.2" rx="1.2" fill="#4a3222"/>
-    </g>
-    <g class="torso">
-      <rect x="-12" y="-37" width="7.5" height="15" rx="2.5" fill="#92400e"/>
-      <rect x="-12" y="-31" width="7.5" height="2" fill="#78350f"/>
-      <path d="M-6.5 -37 Q0 -40 6.5 -37 L7.5 -17 L-7.5 -17 Z" fill="#0d9488"/>
-      <rect x="-7.5" y="-21" width="15" height="3" fill="#78350f"/>
-      <circle cx="3" cy="-19.5" r="1.8" fill="#fbbf24" stroke="#92400e" stroke-width="0.5"/>
-      <path d="M-5.5 -37.5 L5.5 -37.5 L1.5 -32.5 Z" fill="#e11d48"/>
-      <g class="arm">
-        <path d="M2.5 -35 Q6.5 -29 5.5 -23" stroke="#0f766e" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-        <circle cx="5.5" cy="-22.5" r="1.9" fill="#f2c094"/>
-      </g>
-      <g class="head">
-        <path class="ponytail" d="M-6.5 -51 Q-17 -49 -14 -38 Q-11.5 -44 -6 -45.5 Z" fill="#5b3415"/>
-        <circle cx="0" cy="-46" r="8.6" fill="#f2c094"/>
-        <path d="M-8.8 -46.5 Q-8 -56.5 0.5 -56 Q8.5 -55.5 8.8 -48.5 Q4.5 -52 -0.5 -50.8 Q-4.8 -49.8 -8.8 -44.5 Z" fill="#5b3415"/>
-        <circle cx="-6.6" cy="-51.8" r="2.2" fill="#e11d48"/>
-        <g class="eyes">
-          <ellipse cx="2.6" cy="-46.6" rx="1.05" ry="1.5" fill="#1e293b"/>
-          <ellipse cx="6.2" cy="-46.6" rx="1.05" ry="1.5" fill="#1e293b"/>
-        </g>
-        <circle cx="0.6" cy="-43.4" r="1.5" fill="#fb7185" opacity="0.45"/>
-        <ellipse class="mouth" cx="4.8" cy="-42.2" rx="1.6" ry="0.9" fill="#7f1d1d"/>
-      </g>
-    </g>
-  </g>`;
-}
-
-function drawVera() {
-  return `
-  <g class="char vera">
-    <ellipse cx="0" cy="0" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
-    <g class="leg leg-b">
-      <rect x="-5" y="-21" width="4.6" height="21" rx="1.5" fill="#3f2a1d"/>
-      <rect x="-6" y="-7" width="6.4" height="7" rx="1.5" fill="#111"/>
-    </g>
-    <g class="leg leg-f">
-      <rect x="0.4" y="-21" width="4.6" height="21" rx="1.5" fill="#4a3222"/>
-      <rect x="0" y="-7" width="7" height="7" rx="1.5" fill="#1a1a1a"/>
-    </g>
-    <g class="torso">
-      <path d="M-9 -43 L-13 -14 L-2 -17 Z" fill="#1e3a8a"/>
-      <path d="M-8 -43 Q0 -46 8 -43 L10.5 -18 L-10.5 -18 Z" fill="#1d4ed8"/>
-      <path d="M-3 -43 L3 -43 L0 -35 Z" fill="#f8fafc"/>
-      <path d="M-3 -43 L0 -35 L0 -18" stroke="#fbbf24" stroke-width="1" fill="none"/>
-      <rect x="-9.5" y="-26" width="19" height="3.6" fill="#dc2626"/>
-      <circle cx="2.5" cy="-32" r="0.9" fill="#fbbf24"/>
-      <circle cx="2.5" cy="-29" r="0.9" fill="#fbbf24"/>
-      <path d="M-8 -24 L-15 -6" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-      <rect x="-9.5" y="-25.5" width="3" height="2.5" fill="#a16207"/>
-      <g class="arm">
-        <path d="M5 -41 Q11.5 -34 9.5 -26" stroke="#1d4ed8" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <circle cx="9.5" cy="-25" r="2.1" fill="#d9a07a"/>
-      </g>
-      <g class="head">
-        <path d="M-8 -53 Q-13 -41 -9.5 -33 Q-6 -40 -5 -47 Z" fill="#9a3412"/>
-        <circle cx="0" cy="-50.5" r="8.6" fill="#d9a07a"/>
-        <path d="M-8.6 -51 Q-4 -58.5 4 -57.5 Q7.5 -56.5 8.6 -52 Q2 -54.5 -3 -52.5 Z" fill="#9a3412"/>
-        <circle cx="-2" cy="-46" r="1" fill="#fbbf24"/>
-        <g class="eyes">
-          <ellipse cx="3" cy="-51" rx="1.05" ry="1.5" fill="#1e293b"/>
-          <ellipse cx="6.6" cy="-51" rx="1.05" ry="1.5" fill="#1e293b"/>
-        </g>
-        <path d="M1.6 -53.6 L4.4 -53.2 M5.4 -53.2 L8 -53.8" stroke="#7c2d12" stroke-width="0.7"/>
-        <ellipse class="mouth" cx="5" cy="-46.6" rx="1.7" ry="0.9" fill="#7f1d1d"/>
-        <path d="M-13.5 -55.5 Q0 -50.5 13.5 -55.5 Q8.5 -67 0 -65 Q-8.5 -67 -13.5 -55.5 Z" fill="#111827"/>
-        <path d="M-11.5 -56 Q0 -52 11.5 -56" stroke="#fbbf24" stroke-width="1" fill="none"/>
-        <circle cx="0" cy="-60" r="2" fill="#f8fafc"/>
-        <rect x="-1.1" y="-58.6" width="2.2" height="0.8" fill="#111827"/>
-      </g>
-    </g>
-  </g>`;
-}
-
-function drawBarnaba() {
-  return `
-  <g class="char barnaba">
-    <ellipse cx="0" cy="0" rx="17" ry="3" fill="#000" opacity="0.3"/>
-    <g class="leg leg-b">
-      <rect x="-10" y="-27" width="8.5" height="27" rx="2.5" fill="#1f2937"/>
-      <rect x="-12" y="-4.5" width="11" height="4.5" rx="2" fill="#f8fafc"/>
-    </g>
-    <g class="leg leg-f">
-      <rect x="1.5" y="-27" width="8.5" height="27" rx="2.5" fill="#111827"/>
-      <rect x="1" y="-4.5" width="11" height="4.5" rx="2" fill="#e2e8f0"/>
-    </g>
-    <g class="torso">
-      <path d="M-16 -59 Q0 -63 16 -59 L14 -25 L-14 -25 Z" fill="#18181b"/>
-      <rect x="-14" y="-28" width="28" height="3.5" fill="#a16207"/>
-      <rect x="-2.5" y="-28.3" width="5" height="4" rx="0.8" fill="#facc15"/>
-      <path d="M-16 -58 Q-23 -49 -17.5 -38" stroke="#c68a5c" stroke-width="8" fill="none" stroke-linecap="round"/>
-      <path d="M16 -58 Q23 -49 17.5 -38" stroke="#c68a5c" stroke-width="8" fill="none" stroke-linecap="round"/>
-      <path d="M-6.5 -60 Q0 -50 6.5 -60" stroke="#facc15" stroke-width="1.4" fill="none"/>
-      <circle cx="0" cy="-52" r="1.8" fill="#facc15"/>
-      <rect x="-18" y="-43" width="36" height="7.5" rx="3.7" fill="#c68a5c"/>
-      <rect x="-16" y="-39" width="32" height="6.5" rx="3.2" fill="#b47a4e"/>
-      <rect x="-4.5" y="-65" width="9" height="6" fill="#b47a4e"/>
-      <g class="head">
-        <circle cx="-10" cy="-70" r="2.3" fill="#b47a4e"/>
-        <circle cx="10" cy="-70" r="2.3" fill="#b47a4e"/>
-        <ellipse cx="0" cy="-71" rx="10" ry="10.5" fill="#c68a5c"/>
-        <path d="M-7.5 -65 Q0 -59.5 7.5 -65 Q6 -61 0 -60.5 Q-6 -61 -7.5 -65 Z" fill="#6b4226" opacity="0.5"/>
-        <g class="brows">
-          <path d="M-8 -77 L-2 -75.5 M2 -75.5 L8 -77" stroke="#3f2a1d" stroke-width="1.4" stroke-linecap="round"/>
-        </g>
-        <rect x="-8.5" y="-74.5" width="7.5" height="4" rx="1.3" fill="#0a0a0a"/>
-        <rect x="1" y="-74.5" width="7.5" height="4" rx="1.3" fill="#0a0a0a"/>
-        <rect x="-1.2" y="-73.5" width="2.4" height="1" fill="#0a0a0a"/>
-        <path d="M-7 -73.6 L-4.5 -73.6 M2.5 -73.6 L5 -73.6" stroke="#fff" stroke-width="0.6" opacity="0.6"/>
-        <rect class="mouth" x="-3.2" y="-65.6" width="6.4" height="1.4" rx="0.7" fill="#7f1d1d"/>
-        <path d="M-4 -80.5 Q0 -82.5 4 -80.5" stroke="#fff" stroke-width="0.8" opacity="0.25" fill="none"/>
-      </g>
-    </g>
-  </g>`;
-}
-
-const CHARS = {
-  aria: { draw: drawAria, h: 57, portraitVB: '-13 -59 26 26' },
-  vera: { draw: drawVera, h: 67, portraitVB: '-15 -68 30 30' },
-  barnaba: { draw: drawBarnaba, h: 82, portraitVB: '-14 -84 28 28' }
-};
-
-function portraitSVG(key) {
-  const c = CHARS[key];
-  return `<svg viewBox="${c.portraitVB}" class="portrait" aria-hidden="true">${c.draw()}</svg>`;
-}
 
 /* Onda ripetuta con periodo 40 (si sposta di 40 unità in loop). */
 function wavePath(y, amp) {
@@ -287,5 +147,271 @@ const SCENES = {
         <path d="${wavePath(212, 2.2)}" stroke="#bfdbfe" stroke-opacity="0.22" fill="none" stroke-width="1.2"/>
       </g>`;
     }
+  }
+};
+
+/* Campo di stelle deterministico (stessa posizione a ogni apertura). */
+function starField(n, seed, w, h, maxR = 1.3) {
+  let s = seed;
+  const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  let out = '';
+  for (let i = 0; i < n; i++) {
+    out += `<circle class="twinkle" cx="${(r() * w).toFixed(1)}" cy="${(r() * h).toFixed(1)}" r="${(0.35 + r() * maxR).toFixed(2)}" fill="#fff" style="animation-delay:-${(r() * 3).toFixed(2)}s"/>`;
+  }
+  return out;
+}
+
+/* Lanterna appesa che oscilla. Il gancio è in (x, y). */
+function hangingLantern(x, y, len, gradId) {
+  return `
+  <g transform="translate(${x} ${y})">
+    <g class="swing" style="animation-delay:-${(x % 7) / 2}s">
+      <line x1="0" y1="0" x2="0" y2="${len}" stroke="#1c1008" stroke-width="1"/>
+      <circle class="flicker" cx="0" cy="${len + 7}" r="20" fill="url(#${gradId})"/>
+      <path d="M-4 ${len} L4 ${len} L5 ${len + 3} L-5 ${len + 3} Z" fill="#292524"/>
+      <rect class="flicker" x="-4" y="${len + 3}" width="8" height="9" rx="1.5" fill="#fbbf24"/>
+      <path d="M-4 ${len + 3} L-4 ${len + 12} M0 ${len + 3} L0 ${len + 12} M4 ${len + 3} L4 ${len + 12}" stroke="#292524" stroke-width="0.7"/>
+      <rect x="-5" y="${len + 12}" width="10" height="2" fill="#292524"/>
+    </g>
+  </g>`;
+}
+
+/* ==========================================================================
+   SCENA 2: LA TAVERNA DEL QUOZIENTE
+   ========================================================================== */
+SCENES.taverna = {
+  bg() {
+    const planks = Array.from({ length: 16 }, (_, i) =>
+      `<line x1="${i * 26 + 8}" y1="26" x2="${i * 26 + 8}" y2="165" stroke="#1c1008" stroke-width="1" opacity="0.45"/>`).join('');
+    const floor = [172, 181, 192, 205].map(y =>
+      `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#1c1008" stroke-width="0.9" opacity="0.5"/>`).join('');
+    const bottles = [
+      [306, '#15803d'], [316, '#b45309'], [326, '#7f1d1d'], [348, '#0e7490'], [358, '#15803d'], [370, '#a16207']
+    ].map(([x, c], i) => `
+      <rect x="${x}" y="${i % 2 ? 47 : 44}" width="7" height="${i % 2 ? 13 : 16}" rx="1.5" fill="${c}"/>
+      <rect x="${x + 2.2}" y="${i % 2 ? 42 : 38}" width="2.6" height="6" fill="${c}"/>
+      <rect x="${x + 1}" y="${i % 2 ? 49 : 47}" width="1.4" height="8" fill="#fff" opacity="0.3"/>`).join('');
+    return `
+    <defs>
+      <linearGradient id="t-wall" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2a170b"/><stop offset="1" stop-color="#4a2a14"/>
+      </linearGradient>
+      <linearGradient id="t-night" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0b1026"/><stop offset="1" stop-color="#3b1d5e"/>
+      </linearGradient>
+      <radialGradient id="t-lamp">
+        <stop offset="0" stop-color="#fde68a" stop-opacity="0.8"/>
+        <stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="t-warm" cx="0.5" cy="0.3" r="0.7">
+        <stop offset="0" stop-color="#f59e0b" stop-opacity="0.18"/>
+        <stop offset="1" stop-color="#f59e0b" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <rect width="400" height="220" fill="url(#t-wall)"/>
+    ${planks}
+    <rect width="400" height="220" fill="url(#t-warm)"/>
+    <rect y="14" width="400" height="10" fill="#1c1008"/>
+    <rect x="148" y="14" width="8" height="152" fill="#2a170b"/>
+
+    <!-- Finestra sul mare di notte -->
+    <rect x="16" y="34" width="74" height="56" rx="3" fill="url(#t-night)"/>
+    <circle cx="70" cy="48" r="7" fill="#fef3c7"/>
+    <circle class="twinkle" cx="28" cy="44" r="0.8" fill="#fff"/>
+    <circle class="twinkle" cx="44" cy="40" r="0.6" fill="#fff" style="animation-delay:-1s"/>
+    <circle class="twinkle" cx="38" cy="56" r="0.7" fill="#fff" style="animation-delay:-2s"/>
+    <rect x="16" y="72" width="74" height="18" fill="#1e3a8a"/>
+    <ellipse class="shimmer" cx="70" cy="76" rx="7" ry="1" fill="#fef3c7"/>
+    <ellipse class="shimmer" cx="70" cy="80" rx="4" ry="0.8" fill="#fef3c7" style="animation-delay:-0.8s"/>
+    <path d="M53 34 L53 90 M16 62 L90 62" stroke="#5b3415" stroke-width="3"/>
+    <rect x="16" y="34" width="74" height="56" rx="3" fill="none" stroke="#5b3415" stroke-width="5"/>
+    <rect x="12" y="90" width="82" height="5" rx="1.5" fill="#5b3415"/>
+
+    <!-- Insegna -->
+    <g transform="translate(212 46)">
+      <line x1="-30" y1="-22" x2="-26" y2="-10" stroke="#1c1008" stroke-width="1"/>
+      <line x1="30" y1="-22" x2="26" y2="-10" stroke="#1c1008" stroke-width="1"/>
+      <rect x="-46" y="-11" width="92" height="22" rx="4" fill="#78350f" stroke="#451a03" stroke-width="2"/>
+      <text x="0" y="-1.5" font-size="6.5" fill="#fde68a" text-anchor="middle" font-weight="800" font-family="Georgia, serif" letter-spacing="0.6">TAVERNA DEL</text>
+      <text x="0" y="7" font-size="7.5" fill="#fbbf24" text-anchor="middle" font-weight="900" font-family="Georgia, serif" letter-spacing="0.8">÷ QUOZIENTE ÷</text>
+    </g>
+
+    <!-- Mensola con bottiglie -->
+    ${bottles}
+    <rect x="298" y="60" width="86" height="4" fill="#5b3415"/>
+    <path d="M304 64 L310 70 M378 64 L372 70" stroke="#5b3415" stroke-width="2"/>
+    <rect x="300" y="86" width="84" height="4" fill="#5b3415"/>
+    <rect x="306" y="76" width="9" height="10" rx="1.5" fill="#d97706"/>
+    <rect x="320" y="76" width="9" height="10" rx="1.5" fill="#d97706"/>
+    <circle cx="352" cy="80" r="6" fill="#e7e5e4"/><circle cx="352" cy="80" r="3.6" fill="#a8a29e"/>
+
+    <!-- Bancone dell'Oste -->
+    <rect x="34" y="122" width="132" height="44" fill="#5b3415"/>
+    <rect x="30" y="117" width="140" height="7" rx="2" fill="#92400e"/>
+    <path d="M34 136 L166 136 M34 151 L166 151" stroke="#3b2410" stroke-width="1"/>
+    <rect x="44" y="108" width="8" height="9" rx="1.2" fill="#d97706"/>
+    <path d="M43.6 108 q2 -2.6 4.4 -1 q2 -2 4.4 0.6 Z" fill="#fffbeb"/>
+    <rect x="140" y="106" width="16" height="11" rx="5" fill="#78350f"/>
+    <rect x="146" y="102" width="4" height="4" fill="#78350f"/>
+
+    <!-- Botti -->
+    <g transform="translate(362 150)">
+      <rect x="-16" y="-24" width="32" height="40" rx="7" fill="#92400e"/>
+      <rect x="-16" y="-16" width="32" height="3" fill="#451a03"/><rect x="-16" y="4" width="32" height="3" fill="#451a03"/>
+      <ellipse cx="0" cy="-24" rx="15" ry="3" fill="#b45309"/>
+    </g>
+
+    <!-- Pavimento -->
+    <rect y="165" width="400" height="55" fill="#3b2410"/>
+    ${floor}
+    <rect y="165" width="400" height="2" fill="#5b3415"/>
+
+    ${hangingLantern(118, 24, 22, 't-lamp')}
+    ${hangingLantern(254, 24, 30, 't-lamp')}
+    `;
+  },
+  fg() {
+    return `
+    <!-- Tavolo da gioco davanti ai Pirati Gemelli -->
+    <g transform="translate(292 0)">
+      <rect x="-3" y="156" width="6" height="18" fill="#3b2410"/>
+      <rect x="-14" y="171" width="28" height="4" rx="2" fill="#3b2410"/>
+      <ellipse cx="0" cy="155" rx="31" ry="6" fill="#78350f"/>
+      <ellipse cx="0" cy="153.6" rx="31" ry="5.2" fill="#a16207"/>
+      <g class="dice-bounce">
+        <rect x="-12" y="144" width="7" height="7" rx="1.3" fill="#fff" stroke="#cbd5e1" stroke-width="0.5"/>
+        <circle cx="-10" cy="146" r="0.8" fill="#111"/><circle cx="-7" cy="149" r="0.8" fill="#111"/>
+      </g>
+      <g class="dice-bounce" style="animation-delay:-0.35s">
+        <rect x="-2" y="145" width="7" height="7" rx="1.3" fill="#fff" stroke="#cbd5e1" stroke-width="0.5"/>
+        <circle cx="1.5" cy="148.5" r="0.8" fill="#111"/>
+      </g>
+      <rect x="10" y="145" width="6" height="7" rx="1" fill="#fde68a"/>
+      <path d="M13 145 L13 142" stroke="#1c1008" stroke-width="0.6"/>
+      <ellipse class="flicker" cx="13" cy="140.5" rx="1.4" ry="2.3" fill="#fbbf24"/>
+      <circle class="smoke" cx="13" cy="136" r="2.2" fill="#e7e5e4"/>
+      <circle class="smoke" cx="13" cy="136" r="2.2" fill="#e7e5e4" style="animation-delay:-1.4s"/>
+      <circle class="smoke" cx="13" cy="136" r="2.2" fill="#e7e5e4" style="animation-delay:-2.8s"/>
+      <circle cx="20" cy="150" r="2.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.5"/>
+      <circle cx="23" cy="152" r="2.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.5"/>
+    </g>`;
+  }
+};
+
+/* ==========================================================================
+   SCHERMATA INIZIALE (viewBox 400 x 800, verticale)
+   ========================================================================== */
+const TITLE_CRYSTALS = ['#f59e0b', '#06b6d4', '#a855f7', '#10b981', '#ef4444'];
+
+SCENES.title = {
+  svg() {
+    const crystals = TITLE_CRYSTALS.map((c, i) => {
+      const a = Math.PI * (1.12 + i * 0.19);
+      const x = 205 + Math.cos(a) * 78;
+      const y = 340 + Math.sin(a) * 42;
+      return `
+      <g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">
+        <g class="crystal-float" style="animation-delay:-${i * 0.6}s">
+          <circle r="13" fill="${c}" opacity="0.25" class="crystal-glow"/>
+          <polygon points="0,-10 6,-2 0,10 -6,-2" fill="${c}" stroke="#fff" stroke-width="0.8" stroke-opacity="0.7"/>
+          <polygon points="0,-10 6,-2 0,-1" fill="#fff" opacity="0.4"/>
+        </g>
+      </g>`;
+    }).join('');
+    const waves = [512, 532, 560, 598, 650, 715].map((y, i) =>
+      `<g class="wave" style="animation-duration:${6 + i * 1.5}s${i % 2 ? ';animation-direction:reverse' : ''}">
+        <path d="${wavePath(y, 1.5 + i * 0.5)}" stroke="#93c5fd" stroke-opacity="${0.35 - i * 0.04}" fill="none" stroke-width="${1 + i * 0.2}"/>
+      </g>`).join('');
+    const reflection = [508, 516, 526, 538, 552, 568].map((y, i) =>
+      `<ellipse class="shimmer" cx="318" cy="${y}" rx="${16 - i * 2}" ry="1.4" fill="#fef3c7" style="animation-delay:-${i * 0.4}s"/>`).join('');
+    const sparks = [[150, 300], [260, 296], [120, 350], [290, 352], [205, 262]].map(([x, y], i) =>
+      `<g transform="translate(${x} ${y})"><path class="spark-pop" d="M0 -4 L1 -1 L4 0 L1 1 L0 4 L-1 1 L-4 0 L-1 -1 Z" fill="#fef9c3" style="animation-delay:-${i * 0.5}s"/></g>`).join('');
+
+    return `
+    <defs>
+      <linearGradient id="ti-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#050816"/>
+        <stop offset="0.45" stop-color="#1e1b4b"/>
+        <stop offset="0.75" stop-color="#5b21b6"/>
+        <stop offset="0.92" stop-color="#be185d"/>
+        <stop offset="1" stop-color="#f59e0b"/>
+      </linearGradient>
+      <linearGradient id="ti-sea" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1e3a8a"/>
+        <stop offset="1" stop-color="#020617"/>
+      </linearGradient>
+      <radialGradient id="ti-moon">
+        <stop offset="0" stop-color="#fef3c7" stop-opacity="0.5"/>
+        <stop offset="1" stop-color="#fef3c7" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="ti-lamp">
+        <stop offset="0" stop-color="#fde68a" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <rect width="400" height="502" fill="url(#ti-sky)"/>
+    ${starField(90, 7, 400, 420, 1.2)}
+    <line class="shoot" x1="330" y1="90" x2="352" y2="78" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+
+    <circle cx="318" cy="205" r="70" fill="url(#ti-moon)"/>
+    <circle cx="318" cy="205" r="30" fill="#fef3c7"/>
+    <circle cx="308" cy="196" r="5" fill="#fde68a"/>
+    <circle cx="327" cy="214" r="3.5" fill="#fde68a"/>
+    <circle cx="322" cy="194" r="2" fill="#fde68a"/>
+
+    <g class="drift" style="animation-duration:110s;animation-delay:-30s">
+      <g fill="#c4b5fd" opacity="0.25"><ellipse cx="0" cy="250" rx="50" ry="9"/><ellipse cx="20" cy="242" rx="28" ry="9"/></g>
+    </g>
+    <g class="drift" style="animation-duration:140s;animation-delay:-100s">
+      <g fill="#f0abfc" opacity="0.18"><ellipse cx="0" cy="410" rx="60" ry="7"/><ellipse cx="-18" cy="404" rx="30" ry="7"/></g>
+    </g>
+
+    <!-- Isola e Faro -->
+    <path d="M60 504 Q115 470 160 462 Q190 448 225 456 Q285 468 345 504 Z" fill="#1e1b4b"/>
+    <path d="M118 470 Q122 452 120 440 M120 440 Q110 436 104 442 M120 440 Q128 432 136 436 M120 440 Q116 430 112 428" stroke="#1e1b4b" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M300 482 Q302 466 299 456 M299 456 Q290 452 285 458 M299 456 Q306 449 314 452" stroke="#1e1b4b" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <polygon points="193,462 217,462 212,352 198,352" fill="#e2e8f0"/>
+    <polygon points="195.4,440 214.6,440 213.8,422 196.2,422" fill="#dc2626"/>
+    <polygon points="197,400 213,400 212.4,382 197.6,382" fill="#dc2626"/>
+    <polygon points="198,362 212,362 212,352 198,352" fill="#dc2626"/>
+    <rect x="192" y="346" width="26" height="6" rx="1" fill="#334155"/>
+    <rect x="196" y="328" width="18" height="18" fill="#0f172a"/>
+    <rect class="faro-blink" x="198" y="330" width="14" height="14" fill="#fde68a"/>
+    <circle class="faro-blink" cx="205" cy="337" r="32" fill="url(#ti-lamp)"/>
+    <polygon points="193,328 217,328 205,314" fill="#334155"/>
+    <circle cx="205" cy="312" r="2" fill="#334155"/>
+    <polygon class="faro-blink" points="205,337 400,300 400,372" fill="#fde68a" opacity="0.12"/>
+    <polygon class="faro-blink" points="205,337 0,300 0,372" fill="#fde68a" opacity="0.12" style="animation-delay:-1.7s"/>
+
+    ${crystals}
+    ${sparks}
+
+    <!-- Mare -->
+    <rect y="500" width="400" height="300" fill="url(#ti-sea)"/>
+    ${reflection}
+    ${waves}
+
+    <!-- Nave che attraversa l'orizzonte -->
+    <g class="sail">
+      <g transform="translate(0 503)">
+        <g class="bob">
+          <path d="M-26 -8 L26 -8 L19 0 L-19 0 Z" fill="#0f0a1e"/>
+          <line x1="0" y1="-8" x2="0" y2="-44" stroke="#0f0a1e" stroke-width="2"/>
+          <path d="M2 -42 Q17 -28 2 -12 Z" fill="#1e1b4b"/>
+          <path d="M-2 -38 Q-13 -26 -2 -14 Z" fill="#1e1b4b"/>
+          <path d="M0 -44 L9 -41 L0 -38 Z" fill="#dc2626"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Aria sullo scoglio -->
+    <path d="M-10 800 L-10 532 Q25 500 70 506 Q118 510 150 548 Q170 600 160 800 Z" fill="#0b0716"/>
+    <path d="M10 530 Q45 508 80 512 Q60 518 30 540 Z" fill="#1e1b4b" opacity="0.7"/>
+    <g transform="translate(78 512) scale(1.9)">
+      ${drawAria()}
+    </g>
+    `;
   }
 };

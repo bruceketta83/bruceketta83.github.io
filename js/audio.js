@@ -68,6 +68,14 @@ function playSound(type) {
    MUSICA: sequencer a crome. null = pausa.
    -------------------------------------------------------------------------- */
 const MUSIC = {
+  // Tema della schermata iniziale: lento ed epico in Re maggiore
+  title: {
+    bpm: 112,
+    melody: [62, null, 66, 69, null, 74, 73, null, 71, 69, null, null,
+             67, null, 71, 74, null, 76, 74, null, 73, 74, null, null],
+    bass:   [50, null, null, null, null, null, 45, null, null, null, null, null,
+             43, null, null, null, null, null, 45, null, null, null, null, null]
+  },
   // Canzone marinaresca in Re minore (6/8)
   shanty: {
     bpm: 150,
@@ -151,12 +159,12 @@ const Music = {
 
 function toggleAudio() {
   soundEnabled = !soundEnabled;
-  document.getElementById('btn-audio').textContent = soundEnabled ? '🔊' : '🔇';
+  document.querySelectorAll('.audio-toggle').forEach(b => { b.textContent = soundEnabled ? '🔊' : '🔇'; });
   if (soundEnabled) Music.play(Music.current);
   else Music.stop();
 }
 
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) Music.stop();
-  else if (soundEnabled && Music.current && gameStarted) Music.play(Music.current);
+  else if (soundEnabled && Music.current) Music.play(Music.current);
 });

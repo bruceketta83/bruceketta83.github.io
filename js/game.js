@@ -65,10 +65,44 @@ function resetSave() {
   location.reload();
 }
 
+function hasSave() {
+  return state.currentArea > 0 || state.unlockedRules.length > 0 || state.completedAreas.length > 0;
+}
+
+function confirmReset() {
+  if (window.confirm('Vuoi davvero cancellare i progressi e ricominciare da zero?')) resetSave();
+}
+
+/* --------------------------------------------------------------------------
+   SCHERMATA INIZIALE
+   -------------------------------------------------------------------------- */
+function initTitle() {
+  $('title-svg').innerHTML = SCENES.title.svg();
+  if (hasSave()) {
+    const stars = Object.values(state.stars).reduce((a, b) => a + b, 0);
+    $('btn-start').textContent = '⛵ CONTINUA L\'AVVENTURA';
+    const info = $('save-info');
+    info.innerHTML = `📍 ${AREAS[state.currentArea].name} &nbsp;•&nbsp; 💎 ${state.crystals.length}/5 &nbsp;•&nbsp; ⭐ ${stars}`;
+    info.style.display = 'block';
+    $('title-screen').classList.add('has-save');
+  }
+  // La musica parte al primo tocco (i browser bloccano l'audio senza un gesto).
+  $('title-screen').addEventListener('pointerdown', () => {
+    if (!gameStarted) Music.play('title');
+  }, { once: true });
+}
+
 function startGame() {
+  if (gameStarted) return;
   gameStarted = true;
   playSound('success');
-  $('title-screen').style.display = 'none';
+  const t = $('title-screen');
+  const hide = () => { t.style.display = 'none'; $('title-svg').innerHTML = ''; };
+  if (reducedMotion) hide();
+  else {
+    t.classList.add('leaving');
+    setTimeout(hide, 600);
+  }
   renderArea(state.currentArea, false);
 }
 
@@ -895,3 +929,4 @@ function renderInventory() {
 $('scene-svg').addEventListener('click', onSceneClick);
 $('dialogue-text').addEventListener('click', skipTyping);
 updateHUD();
+initTitle();

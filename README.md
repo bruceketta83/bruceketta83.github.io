@@ -60,14 +60,15 @@ Nessuna dipendenza esterna e nessuna compilazione: GitHub Pages pubblica i file 
 | `js/audio.js` | Effetti sonori e musica generati con Web Audio API |
 | `js/data.js` | Regole, aree, dialoghi, domande d'autore |
 | `js/generator.js` | Generatore di esercizi casuali per ogni regola |
-| `js/scenes.js` | Personaggi e scene SVG animate |
+| `js/characters.js` | Personaggi SVG animati |
+| `js/scenes.js` | Scene SVG animate (schermata iniziale e aree) |
 | `js/game.js` | Motore di gioco: scena, dialoghi, duelli, salvataggio |
 
 - **Salvataggio automatico** in `localStorage` (chiave `esponentia_save_v2`, con migrazione dal salvataggio v1).
 - **Accessibilità**: rispetta l'impostazione di sistema "riduci movimento"; lo zoom della pagina è consentito.
 
 ### Aggiungere una nuova scena animata
-1. Disegna i personaggi in `js/scenes.js` (piedi in `0,0`, sguardo a destra) e registrali in `CHARS`.
+1. Disegna i personaggi in `js/characters.js` (piedi in `0,0`, sguardo a destra) e registrali in `CHARS`.
 2. Aggiungi la scena in `SCENES` con le funzioni `bg()` e `fg()`.
 3. In `js/data.js`, nell'area, imposta `scene` e `draw` per mentore e guardiano.
 
