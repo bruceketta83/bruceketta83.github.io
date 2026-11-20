@@ -1,2 +1,86 @@
-# bruceketta83.github.io
-Game test
+# 🏝️ Il Segreto dell'Isola di Espo-Nentia
+
+Un videogioco educativo HTML5/JavaScript in stile avventura punta-e-clicca, ideato per ripassare le **proprietà delle potenze** in modo divertente, interattivo e ottimizzato per dispositivi mobile. Pubblico: ragazze e ragazzi delle scuole medie.
+
+▶️ **Gioca:** https://bruceketta83.github.io/
+
+---
+
+## 📌 Panoramica del Gioco
+
+Nei panni della giovane esploratrice **Aria**, il giocatore esplora le 6 ambientazioni dell'Isola di Espo-Nentia per recuperare i **5 Cristalli Esponenziali** rubati e riattivare il Faro dell'Accademia prima della rivale Lavinia.
+
+L'avventura combina dialoghi in stile pop/moderno, scene animate in grafica vettoriale SVG e duelli matematici.
+
+---
+
+## 🎯 Obiettivi Didattici (Le 5 Regole delle Potenze)
+
+1. **Prodotto di potenze con la stessa base**: $a^m \cdot a^n = a^{m+n}$
+2. **Quoziente di potenze con la stessa base**: $a^m : a^n = a^{m-n}$
+3. **Potenza di una potenza**: $(a^m)^n = a^{m \cdot n}$
+4. **Esponente 0 e 1**: $a^0 = 1$ (con $a \neq 0$) e $a^1 = a$
+5. **Prodotto e quoziente con lo stesso esponente**: $a^n \cdot b^n = (a \cdot b)^n$ e $a^n : b^n = (a : b)^n$
+
+---
+
+## 🗺️ Ambientazioni
+
+| Livello | Ambientazione | Mentore | Guardiano / Sfida | Regola Didattica |
+| :--- | :--- | :--- | :--- | :--- |
+| **1** | Il Molo delle Basi Uguali | 🏴‍☠️ Capitana Vera | 🦍 Barnaba il Buttafuori | Prodotto con stessa base |
+| **2** | La Taverna del Quoziente | 🍺 Oste Bartolomeo | 🎲 Pirati Gemelli | Quoziente con stessa base |
+| **3** | La Torre dell'Osservatorio | 🔭 Archimede | ⚙️ Ascensore Meccanico | Potenza di una potenza |
+| **4** | La Serra degli Esponenti Zero | 🕶️ Madame Zeri | 🌺 Pianta Carnivora | Esponente $0$ e $1$ |
+| **5** | L'Officina Steampunk | 👯‍♀️ Gemelle Mira & Nora | 🤖 Automa Meccanico | Stesso esponente |
+| **6** | La Cima del Faro | *(Nessuno)* | 👑 Lavinia (Boss Finale) | Sfida Finale Combinata |
+
+---
+
+## 🎮 Meccaniche di Gioco (Gamification)
+
+- **Punta-e-clicca**: tocca un personaggio e Aria cammina fino a lui. Tocca la scena per muovere Aria.
+- **Duello**: ogni guardiano ha una barra di vita. Ogni risposta giusta è un colpo. Aria ha 3 cuori.
+- **Esercizi sempre nuovi**: un generatore crea esercizi casuali per ogni regola. Le risposte sbagliate nascono dagli errori tipici e ogni errore ha la sua spiegazione.
+- **Soluzione passo-passo** dopo ogni risposta.
+- **Aura**: +50 per ogni risposta giusta, bonus combo per le risposte giuste di fila, −10 per ogni errore. Spendi 20 Aura per un "Aiutino".
+- **Stelle (1–3)** per ogni area, in base agli errori nel duello.
+- **Resoconto finale** con la percentuale di risposte giuste per ogni regola (utile per insegnanti e genitori).
+
+---
+
+## 🛠️ Struttura Tecnica
+
+Nessuna dipendenza esterna e nessuna compilazione: GitHub Pages pubblica i file così come sono.
+
+| File | Contenuto |
+| :--- | :--- |
+| `index.html` | Struttura della pagina |
+| `style.css` | Grafica e animazioni CSS |
+| `js/audio.js` | Effetti sonori e musica generati con Web Audio API |
+| `js/data.js` | Regole, aree, dialoghi, domande d'autore |
+| `js/generator.js` | Generatore di esercizi casuali per ogni regola |
+| `js/scenes.js` | Personaggi e scene SVG animate |
+| `js/game.js` | Motore di gioco: scena, dialoghi, duelli, salvataggio |
+
+- **Salvataggio automatico** in `localStorage` (chiave `esponentia_save_v2`, con migrazione dal salvataggio v1).
+- **Accessibilità**: rispetta l'impostazione di sistema "riduci movimento"; lo zoom della pagina è consentito.
+
+### Aggiungere una nuova scena animata
+1. Disegna i personaggi in `js/scenes.js` (piedi in `0,0`, sguardo a destra) e registrali in `CHARS`.
+2. Aggiungi la scena in `SCENES` con le funzioni `bg()` e `fg()`.
+3. In `js/data.js`, nell'area, imposta `scene` e `draw` per mentore e guardiano.
+
+---
+
+## 🚀 Pubblicazione su GitHub Pages
+
+1. Vai nelle impostazioni del repository (**Settings > Pages**).
+2. Seleziona il branch `main` e la cartella `/ (root)` come sorgente di pubblicazione.
+3. Salva: dopo circa un minuto il gioco è online su `https://bruceketta83.github.io/`.
+
+---
+
+## 📄 Licenza
+
+Progetto ad uso didattico libero e gratuito.
