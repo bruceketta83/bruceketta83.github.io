@@ -417,6 +417,154 @@ function drawPlant() {
   </g>`;
 }
 
+/* --------------------------------------------------------------------------
+   AREA 5: GEMELLE MIRA E NORA (stessi occhialoni, tute di colore diverso)
+   -------------------------------------------------------------------------- */
+function mechanicGirl({ overall, skin, hairBack, hairFront, tool }) {
+  return `
+    ${legsSVG({ len: 17, color: overall, shoe: '#292524' })}
+    <g class="torso">
+      <path d="M-6.5 -35 Q0 -38 6.5 -35 L7 -17 L-7 -17 Z" fill="#f8fafc"/>
+      <path d="M-5 -30 L5 -30 L7 -17 L-7 -17 Z" fill="${overall}"/>
+      <path d="M-4.6 -30 L-4 -36 M4.6 -30 L4 -36" stroke="${overall}" stroke-width="1.4"/>
+      <circle cx="-3.6" cy="-29" r="0.8" fill="#fbbf24"/><circle cx="3.6" cy="-29" r="0.8" fill="#fbbf24"/>
+      <rect x="-3" y="-25" width="6" height="4" rx="0.8" fill="#000" opacity="0.18"/>
+      <path d="M-6 -31 Q-8 -24 -6.5 -19" stroke="#fde68a" stroke-width="0.6" fill="none" opacity="0.6"/>
+      <g class="arm">
+        <path d="M3 -33 Q8.5 -27 7 -21" stroke="#f8fafc" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        ${tool}
+        <circle cx="7" cy="-20.5" r="1.9" fill="${skin}"/>
+      </g>
+      <g class="head">
+        ${hairBack}
+        <circle cx="0" cy="-44" r="8.2" fill="${skin}"/>
+        ${hairFront}
+        ${eyesSVG(-44.6)}
+        <circle cx="1.6" cy="-41.6" r="0.4" fill="#92400e"/><circle cx="3" cy="-41" r="0.4" fill="#92400e"/><circle cx="7.6" cy="-41.4" r="0.4" fill="#92400e"/>
+        <ellipse class="mouth" cx="4.9" cy="-40.2" rx="1.5" ry="0.85" fill="#7f1d1d"/>
+        <path d="M-8.2 -49.6 Q0 -52.4 8.6 -49.4" stroke="#78350f" stroke-width="1.7" fill="none"/>
+        <circle cx="2.3" cy="-50.6" r="2.5" fill="#22d3ee" stroke="#b45309" stroke-width="1.1"/>
+        <circle cx="7.1" cy="-50.3" r="2.5" fill="#22d3ee" stroke="#b45309" stroke-width="1.1"/>
+        <path d="M1.4 -51.6 L2.6 -50.4 M6.2 -51.3 L7.4 -50.1" stroke="#fff" stroke-width="0.6" opacity="0.8"/>
+      </g>
+    </g>`;
+}
+
+function drawGemelle() {
+  const mira = mechanicGirl({
+    overall: '#0284c7',
+    skin: '#f2c094',
+    hairBack: '<path d="M-9.2 -45 Q-9.6 -54.6 0 -54.6 Q9.2 -54.6 9.2 -46 L8.4 -39.6 L-9.6 -38 Z" fill="#111827"/>',
+    hairFront: '<path d="M-8.6 -46 Q-7 -54 1 -53.6 Q8 -53 8.8 -47.6 Q5 -50 0 -49.6 Q-5 -49 -8.6 -44 Z" fill="#111827"/>',
+    tool: '<path d="M7.4 -21 L12.4 -30.4" stroke="#94a3b8" stroke-width="1.7" stroke-linecap="round"/><path d="M11 -31.6 A2 2 0 1 1 14 -29.4" stroke="#94a3b8" stroke-width="1.5" fill="none"/>'
+  });
+  const nora = mechanicGirl({
+    overall: '#7c3aed',
+    skin: '#e8b48c',
+    hairBack: '<circle cx="-6" cy="-54" r="3.6" fill="#ea580c"/><circle cx="5" cy="-55" r="3.4" fill="#ea580c"/><path d="M-9 -46 Q-11 -40 -8 -37 Q-6 -41 -6.6 -45 Z" fill="#ea580c"/>',
+    hairFront: '<path d="M-8.6 -46 Q-6 -54.6 1.6 -53.8 Q8.4 -53 8.8 -47.6 Q6 -49.4 3 -48.4 Q1 -50.4 -2 -49 Q-5 -49.6 -8.6 -44 Z" fill="#ea580c"/>',
+    tool: '<rect x="6.6" y="-29.6" width="2.2" height="9" rx="0.8" fill="#facc15"/><rect x="5.8" y="-31.6" width="3.8" height="2.6" rx="0.6" fill="#64748b"/>'
+  });
+  return `
+  <g class="char gemelle">
+    <ellipse cx="0" cy="0" rx="22" ry="3" fill="#000" opacity="0.3"/>
+    <g transform="translate(10 -1)">${nora}</g>
+    <g transform="translate(-9 0)">${mira}</g>
+  </g>`;
+}
+
+/* --------------------------------------------------------------------------
+   AREA 5: AUTOMA DEL CANCELLO (robot a caldaia, di fronte)
+   -------------------------------------------------------------------------- */
+function drawAutoma() {
+  const rivets = [[-15, -59], [15, -59], [-15, -27], [15, -27], [-15, -43], [15, -43]].map(([x, y]) =>
+    `<circle cx="${x}" cy="${y}" r="0.9" fill="#fde68a"/>`).join('');
+  return `
+  <g class="char automa">
+    <ellipse cx="0" cy="0" rx="21" ry="3.2" fill="#000" opacity="0.3"/>
+    <g class="leg leg-b">
+      <rect x="-12" y="-26" width="7" height="23" rx="2" fill="#52525b"/>
+      <rect x="-11.5" y="-17" width="6" height="3" fill="#a1a1aa"/>
+      <rect x="-14.5" y="-4.5" width="12" height="4.5" rx="1.5" fill="#3f3f46"/>
+    </g>
+    <g class="leg leg-f">
+      <rect x="5" y="-26" width="7" height="23" rx="2" fill="#52525b"/>
+      <rect x="5.5" y="-17" width="6" height="3" fill="#a1a1aa"/>
+      <rect x="2.5" y="-4.5" width="12" height="4.5" rx="1.5" fill="#3f3f46"/>
+    </g>
+    <g class="torso">
+      <path d="M-18 -56 Q-27 -46 -24 -33" stroke="#71717a" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+      <path d="M18 -56 Q27 -46 24 -33" stroke="#71717a" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+      <circle cx="-19" cy="-55" r="3.4" fill="#b45309"/><circle cx="19" cy="-55" r="3.4" fill="#b45309"/>
+      <path d="M-27.5 -33 L-24 -27 L-20.5 -33" stroke="#a1a1aa" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M20.5 -33 L24 -27 L27.5 -33" stroke="#a1a1aa" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <rect x="12.5" y="-74" width="6" height="14" fill="#3f3f46"/>
+      <rect x="11.5" y="-75.5" width="8" height="2.5" fill="#52525b"/>
+      <circle class="steam" cx="15.5" cy="-78" r="3" fill="#e5e7eb"/>
+      <circle class="steam" cx="15.5" cy="-78" r="3" fill="#e5e7eb" style="animation-delay:-0.8s"/>
+      <circle class="steam" cx="15.5" cy="-78" r="3" fill="#e5e7eb" style="animation-delay:-1.6s"/>
+      <rect x="-18" y="-62" width="36" height="38" rx="9" fill="#b45309" stroke="#78350f" stroke-width="1.5"/>
+      <rect x="-18" y="-52" width="36" height="2.4" fill="#78350f"/>
+      <rect x="-18" y="-35" width="36" height="2.4" fill="#78350f"/>
+      ${rivets}
+      <circle cx="0" cy="-42.5" r="6.8" fill="#1c1917" stroke="#78350f" stroke-width="1.4"/>
+      <circle class="flicker" cx="0" cy="-42.5" r="5" fill="#f97316"/>
+      <circle class="flicker" cx="0" cy="-41.5" r="2.6" fill="#fde047" style="animation-delay:-1s"/>
+      <circle cx="10" cy="-57" r="3.2" fill="#fef3c7" stroke="#78350f" stroke-width="0.9"/>
+      <line class="needle" x1="10" y1="-57" x2="11.9" y2="-59" stroke="#dc2626" stroke-width="0.8"/>
+      <rect x="-4.5" y="-67" width="9" height="6" fill="#52525b"/>
+      <g class="head">
+        <rect x="-12" y="-82" width="24" height="17" rx="4" fill="#64748b" stroke="#334155" stroke-width="1.2"/>
+        <circle cx="-13" cy="-73.5" r="1.8" fill="#a1a1aa"/><circle cx="13" cy="-73.5" r="1.8" fill="#a1a1aa"/>
+        <g class="eyes">
+          <circle cx="-5" cy="-75" r="3.2" fill="#ef4444"/>
+          <circle cx="5" cy="-75" r="3.2" fill="#ef4444"/>
+          <circle cx="-5.8" cy="-75.8" r="1.1" fill="#fecaca"/>
+          <circle cx="4.2" cy="-75.8" r="1.1" fill="#fecaca"/>
+        </g>
+        <rect class="mouth" x="-5.5" y="-69.6" width="11" height="2.4" rx="0.8" fill="#1e293b"/>
+        <path d="M-3 -69.6 L-3 -67.2 M0 -69.6 L0 -67.2 M3 -69.6 L3 -67.2" stroke="#64748b" stroke-width="0.6"/>
+      </g>
+    </g>
+  </g>`;
+}
+
+/* --------------------------------------------------------------------------
+   AREA 6: LAVINIA, LA RIVALESSA
+   -------------------------------------------------------------------------- */
+function drawLavinia() {
+  const skin = '#f5d0b5';
+  return `
+  <g class="char lavinia">
+    <ellipse cx="0" cy="0" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
+    ${legsSVG({ len: 17, color: '#581c87', color2: '#6b21a8', shoe: '#f8fafc', shoeH: 6 })}
+    <g class="torso">
+      <path class="hair-sway" d="M-7 -53 Q-13 -40 -14 -26 Q-10 -29 -8 -26 Q-7 -36 -4.5 -45 Z" fill="#7e22ce"/>
+      <path d="M-7.6 -24 L7.6 -24 L11 -14.5 L-11 -14.5 Z" fill="#7e22ce"/>
+      <path d="M-4 -24 L-5 -14.5 M2 -24 L2.6 -14.5" stroke="#6b21a8" stroke-width="0.8"/>
+      <path d="M-6.5 -38 Q0 -41 6.5 -38 L7.4 -23 L-7.4 -23 Z" fill="#ec4899"/>
+      <path d="M-3.4 -38.6 L0 -34 L3.4 -38.6" stroke="#fdf2f8" stroke-width="1.6" fill="none"/>
+      <rect x="-8" y="-33" width="16" height="4.4" rx="2.2" fill="#ec4899"/>
+      <rect x="-6.6" y="-30.2" width="14" height="3.8" rx="1.9" fill="#db2777"/>
+      <circle cx="-7.4" cy="-28.4" r="1.7" fill="${skin}"/>
+      <circle cx="8" cy="-31" r="1.7" fill="${skin}"/>
+      <path d="M-1 -36 L0.4 -33.6 L-2 -34.6 Z" fill="#fde68a"/>
+      <g class="head">
+        <path d="M-9 -52 Q-11 -60 0 -60 Q10 -60 9.6 -51 Q7 -55 0 -55 Q-6 -55 -9 -49 Z" fill="#7e22ce"/>
+        <circle cx="0" cy="-51" r="8.4" fill="${skin}"/>
+        <path d="M-8.8 -51.6 Q-5 -60.8 3.6 -59.4 Q9.6 -58.2 8.8 -52.6 Q5 -56.6 0.6 -54.4 Q-3.6 -52.6 -8.8 -48 Z" fill="#7e22ce"/>
+        ${eyesSVG(-51.6)}
+        <path d="M1.6 -53.6 L1 -54.8 M7.6 -53.6 L8.4 -54.6" stroke="#1e293b" stroke-width="0.6"/>
+        <path d="M1.2 -55.6 Q3 -56.6 4.6 -55.8 M5.6 -55.8 Q7.2 -56.6 8.8 -55.4" stroke="#581c87" stroke-width="0.9" fill="none"/>
+        <circle cx="3.6" cy="-48.4" r="1.4" fill="#f472b6" opacity="0.5"/>
+        <path class="mouth" d="M3.4 -46.8 Q6 -45 8.4 -47.4" stroke="#be185d" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+        <path d="M-5.4 -58.4 L-3.4 -62.4 L-0.6 -59.6 L2.4 -64 L5 -59.6 L7.6 -62 L8.2 -57.6 Q1.4 -60.4 -5.4 -58.4 Z" fill="#fbbf24" stroke="#d97706" stroke-width="0.5"/>
+        <circle cx="2.4" cy="-61" r="1.2" fill="#ec4899"/>
+      </g>
+    </g>
+  </g>`;
+}
+
 const CHARS = {
   aria: { draw: drawAria, h: 57, portraitVB: '-13 -59 26 26' },
   vera: { draw: drawVera, h: 67, portraitVB: '-15 -68 30 30' },
@@ -426,7 +574,10 @@ const CHARS = {
   archimede: { draw: drawArchimede, h: 66, portraitVB: '-13 -67 30 30' },
   terminal: { draw: drawTerminal, h: 79, portraitVB: '-18 -70 36 36' },
   zeri: { draw: drawZeri, h: 64, portraitVB: '-12 -65 28 28' },
-  plant: { draw: drawPlant, h: 110, portraitVB: '-22 -114 44 44' }
+  plant: { draw: drawPlant, h: 110, portraitVB: '-22 -114 44 44' },
+  gemelle: { draw: drawGemelle, h: 56, portraitVB: '-21 -60 40 40' },
+  automa: { draw: drawAutoma, h: 84, portraitVB: '-17 -88 34 34' },
+  lavinia: { draw: drawLavinia, h: 65, portraitVB: '-12 -66 28 28' }
 };
 
 function portraitSVG(key) {

@@ -296,25 +296,15 @@ const AREAS = [
     ruleId: 'same_exp',
     music: 'workshop',
     maxHp: 3,
+    scene: 'officina',
     layout: {
-      groundY: 178,
-      ariaStart: 190,
-      mentor: { x: 103, top: 112, bottom: 170, stand: 150, label: '👯‍♀️ Mira & Nora' },
-      guardian: { x: 284, top: 95, bottom: 150, stand: 248, label: '🤖 Automa' }
+      groundY: 180,
+      ariaStart: 196,
+      mentor: { x: 96, draw: 'gemelle', stand: 136, label: '👯‍♀️ Mira & Nora' },
+      guardian: { x: 292, draw: 'automa', stand: 244, label: '🤖 Automa' }
     },
     crystal: { id: 'c5', name: 'Cristallo Rubino', icon: '🔴', desc: 'L’ultimo cristallo! Arde di energia pura.' },
     item: { id: 'i5', name: "Chiave Inglese d'Oro", icon: '🔧', desc: 'Forgiata dalle Gemelle Mira e Nora.' },
-    svgBg: `
-      <rect width="400" height="220" fill="#27272a"/>
-      <circle cx="70" cy="65" r="32" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="10 6"/>
-      <circle cx="330" cy="55" r="24" fill="none" stroke="#06b6d4" stroke-width="5" stroke-dasharray="8 5"/>
-      <circle cx="85" cy="125" r="13" fill="#fed7aa"/>
-      <rect x="73" y="138" width="24" height="32" rx="4" fill="#0284c7"/>
-      <circle cx="122" cy="125" r="13" fill="#fed7aa"/>
-      <rect x="110" y="138" width="24" height="32" rx="4" fill="#7c3aed"/>
-      <rect x="260" y="95" width="48" height="55" rx="8" fill="#64748b" stroke="#cbd5e1" stroke-width="2"/>
-      <circle cx="275" cy="115" r="5" fill="#ef4444"/><circle cx="293" cy="115" r="5" fill="#ef4444"/>
-    `,
     intro: 'Ingranaggi dorati girano sulle pareti dell’Officina. Le gemelle Mira e Nora stanno riparando un enorme Automa che sbarra il cancello verso il Faro.',
     mentor: {
       name: 'Gemelle Mira e Nora',
@@ -364,23 +354,14 @@ const AREAS = [
     ruleId: null,
     music: 'boss',
     maxHp: 4,
+    scene: 'faro',
     layout: {
-      groundY: 182,
-      ariaStart: 120,
-      guardian: { x: 285, top: 95, bottom: 173, stand: 248, label: '👑 Lavinia' }
+      groundY: 184,
+      ariaStart: 110,
+      guardian: { x: 292, draw: 'lavinia', face: -1, stand: 252, label: '👑 Lavinia' }
     },
     crystal: null,
     item: null,
-    svgBg: `
-      <rect width="400" height="220" fill="#090d16"/>
-      <polygon points="200,30 400,0 400,110" fill="#fef08a" opacity="0.22"/>
-      <polygon points="200,30 0,0 0,110" fill="#fef08a" opacity="0.22"/>
-      <circle cx="200" cy="45" r="22" fill="#f59e0b"/>
-      <rect x="175" y="67" width="50" height="153" fill="#cbd5e1"/>
-      <circle cx="285" cy="120" r="15" fill="#fed7aa"/>
-      <path d="M270 112 Q285 95 300 112 L305 140 L265 140 Z" fill="#a855f7"/>
-      <rect x="271" y="135" width="28" height="38" rx="6" fill="#ec4899"/>
-    `,
     intro: 'Sei in cima al Faro con tutti e 5 i Cristalli! Lavinia è davanti al piedistallo centrale, circondata da scintille fuori controllo. È il momento del Duello Finale!',
     mentor: null,
     guardian: {

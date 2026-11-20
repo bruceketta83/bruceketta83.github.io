@@ -718,3 +718,246 @@ SCENES.serra = {
     `;
   }
 };
+
+/* ==========================================================================
+   SCENA 5: L'OFFICINA STEAMPUNK
+   ========================================================================== */
+SCENES.officina = {
+  bg() {
+    const gateOpen = typeof state !== 'undefined' && state.completedAreas.includes(4);
+    const bars = [];
+    for (let x = 258; x <= 326; x += 8.5) bars.push(`<rect x="${x}" y="64" width="3" height="116" fill="#3f3f46"/>`);
+    const seams = [80, 160, 240, 320].map(x =>
+      `<line x1="${x}" y1="180" x2="${x}" y2="220" stroke="#18181b" stroke-width="1"/>`).join('');
+    const rivets = [];
+    for (let x = 10; x < 400; x += 40) rivets.push(`<circle cx="${x}" cy="186" r="1" fill="#71717a"/><circle cx="${x}" cy="214" r="1" fill="#71717a"/>`);
+    const sparks = [[0, 0], [5, -4], [-4, -5], [3, 3]].map(([dx, dy], i) =>
+      `<g transform="translate(${152 + dx} ${132 + dy})"><path class="spark-pop" d="M0 -3 L0.8 -0.8 L3 0 L0.8 0.8 L0 3 L-0.8 0.8 L-3 0 L-0.8 -0.8 Z" fill="#fde047" style="animation-duration:0.9s;animation-delay:-${i * 0.22}s"/></g>`).join('');
+
+    return `
+    <defs>
+      <pattern id="w-brick" width="24" height="12" patternUnits="userSpaceOnUse">
+        <rect width="24" height="12" fill="#3b2116"/>
+        <rect x="0.6" y="0.6" width="22.8" height="5" rx="0.6" fill="#4a2a1b"/>
+        <rect x="-11.4" y="6.6" width="22.8" height="5" rx="0.6" fill="#4a2a1b"/>
+        <rect x="12.6" y="6.6" width="22.8" height="5" rx="0.6" fill="#4a2a1b"/>
+      </pattern>
+      <radialGradient id="w-forge" cx="0.5" cy="1" r="0.9">
+        <stop offset="0" stop-color="#f97316" stop-opacity="0.35"/>
+        <stop offset="1" stop-color="#f97316" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="w-gate" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1e1b4b"/>
+        <stop offset="1" stop-color="#fbbf24" stop-opacity="0.75"/>
+      </linearGradient>
+      <radialGradient id="w-lamp">
+        <stop offset="0" stop-color="#fde68a" stop-opacity="0.8"/>
+        <stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <rect width="400" height="220" fill="url(#w-brick)"/>
+    <rect width="400" height="220" fill="#000" opacity="0.25"/>
+    <rect width="400" height="220" fill="url(#w-forge)" class="flicker"/>
+
+    <!-- Ingranaggi sul muro -->
+    ${gearSVG(52, 52, 30, 14, '#b45309', 16, false)}
+    ${gearSVG(96, 26, 16, 9, '#d97706', 8.6, true)}
+    ${gearSVG(368, 40, 26, 12, '#c2410c', 13, true)}
+    ${gearSVG(334, 76, 12, 8, '#a16207', 6, false)}
+
+    <!-- Tubi, valvola e manometro -->
+    <rect x="0" y="96" width="232" height="7" fill="#78716c"/>
+    <rect x="226" y="0" width="7" height="103" fill="#78716c"/>
+    <rect x="70" y="94" width="6" height="11" rx="1" fill="#a8a29e"/>
+    <rect x="148" y="94" width="6" height="11" rx="1" fill="#a8a29e"/>
+    <rect x="224" y="40" width="11" height="6" rx="1" fill="#a8a29e"/>
+    <circle class="steam" cx="151" cy="92" r="3.5" fill="#e5e7eb"/>
+    <circle class="steam" cx="151" cy="92" r="3.5" fill="#e5e7eb" style="animation-delay:-0.9s"/>
+    <circle class="steam" cx="151" cy="92" r="3.5" fill="#e5e7eb" style="animation-delay:-1.8s"/>
+    <g transform="translate(229.5 66)">
+      <g class="spin" style="animation-duration:20s">
+        <circle r="8" fill="none" stroke="#dc2626" stroke-width="2"/>
+        <path d="M-8 0 L8 0 M0 -8 L0 8" stroke="#dc2626" stroke-width="1.6"/>
+      </g>
+    </g>
+    <g transform="translate(186 60)">
+      <circle r="11" fill="#fef3c7" stroke="#78350f" stroke-width="2"/>
+      <path d="M-7 4 A8 8 0 0 1 7 4" stroke="#dc2626" stroke-width="1.4" fill="none" opacity="0.6"/>
+      <line class="needle" x1="0" y1="0" x2="5" y2="-6" stroke="#111" stroke-width="1.2" stroke-linecap="round"/>
+      <circle r="1.4" fill="#111"/>
+    </g>
+
+    <!-- Pannello attrezzi -->
+    <rect x="108" y="108" width="62" height="28" rx="2" fill="#5b3415"/>
+    <path d="M116 112 L116 130 M114 113 L118 113" stroke="#94a3b8" stroke-width="2"/>
+    <path d="M128 112 L128 128" stroke="#a16207" stroke-width="2"/><rect x="124" y="110" width="8" height="5" rx="1" fill="#64748b"/>
+    <path d="M140 112 L146 130" stroke="#94a3b8" stroke-width="1.6"/><circle cx="139.5" cy="111" r="2.4" fill="none" stroke="#94a3b8" stroke-width="1.4"/>
+    <rect x="152" y="112" width="12" height="7" rx="1" fill="#dc2626"/>
+
+    <!-- Banco di lavoro con morsa e scintille -->
+    <rect x="28" y="140" width="146" height="6" rx="1" fill="#78350f"/>
+    <rect x="34" y="146" width="5" height="34" fill="#5b3415"/>
+    <rect x="163" y="146" width="5" height="34" fill="#5b3415"/>
+    <rect x="144" y="132" width="16" height="8" rx="1" fill="#52525b"/>
+    <rect x="148" y="126" width="8" height="7" fill="#71717a"/>
+    ${sparks}
+    <g transform="translate(50 140)">
+      <circle cx="0" cy="-6" r="6" fill="#b45309"/>
+      <circle cx="0" cy="-6" r="3" fill="#78350f"/>
+      <rect x="10" y="-5" width="16" height="5" rx="1" fill="#475569"/>
+    </g>
+
+    <!-- Catena con gancio -->
+    <g transform="translate(210 0)">
+      <g class="swing" style="animation-duration:4.5s">
+        <line x1="0" y1="0" x2="0" y2="40" stroke="#71717a" stroke-width="1.4" stroke-dasharray="3 1.5"/>
+        <path d="M0 40 Q5 46 0 50 Q-4 50 -4 46" stroke="#a1a1aa" stroke-width="1.8" fill="none"/>
+      </g>
+    </g>
+
+    <!-- Cancello verso il Faro -->
+    <path d="M250 182 L250 76 Q292 36 334 76 L334 182 Z" fill="#57534e"/>
+    <path d="M256 180 L256 78 Q292 46 328 78 L328 180 Z" fill="url(#w-gate)"/>
+    <g transform="translate(292 70)">
+      <rect x="-3" y="-12" width="6" height="16" fill="#1e1b4b"/>
+      <circle class="faro-blink" cx="0" cy="-12" r="5" fill="#fde68a"/>
+    </g>
+    <g ${gateOpen ? 'transform="translate(0 -104)"' : ''}>
+      ${bars.join('')}
+      <rect x="254" y="118" width="76" height="4" fill="#27272a"/>
+    </g>
+    <path d="M250 76 Q292 36 334 76" stroke="#78716c" stroke-width="4" fill="none"/>
+
+    <!-- Lampade a gabbia -->
+    <circle class="flicker" cx="240" cy="84" r="14" fill="url(#w-lamp)"/>
+    <rect class="flicker" x="236" y="79" width="8" height="10" rx="2" fill="#fbbf24"/>
+    <path d="M236 79 L244 89 M244 79 L236 89" stroke="#3f3f46" stroke-width="0.7"/>
+    <circle class="flicker" cx="344" cy="84" r="14" fill="url(#w-lamp)" style="animation-delay:-1.2s"/>
+    <rect class="flicker" x="340" y="79" width="8" height="10" rx="2" fill="#fbbf24" style="animation-delay:-1.2s"/>
+    <path d="M340 79 L348 89 M348 79 L340 89" stroke="#3f3f46" stroke-width="0.7"/>
+
+    <!-- Pavimento in lamiera -->
+    <rect y="180" width="400" height="40" fill="#3f3f46"/>
+    <rect y="180" width="400" height="2" fill="#52525b"/>
+    ${seams}
+    ${rivets.join('')}
+    <ellipse class="shimmer" cx="190" cy="204" rx="18" ry="3" fill="#a855f7" opacity="0.25"/>
+    `;
+  }
+};
+
+/* ==========================================================================
+   SCENA 6: LA CIMA DEL FARO (DUELLO FINALE)
+   La classe "lit" sullo svg accende il faro alla vittoria finale.
+   ========================================================================== */
+SCENES.faro = {
+  bg() {
+    const owned = typeof state !== 'undefined' ? state.crystals.map(c => c.id) : [];
+    const slots = ['c1', 'c2', 'c3', 'c4', 'c5'].map((id, i) => {
+      const x = 184 + i * 8;
+      const color = TITLE_CRYSTALS[i];
+      return owned.includes(id)
+        ? `<circle class="crystal-glow" cx="${x}" cy="156" r="4.5" fill="${color}"/>
+           <polygon points="${x},151.5 ${x + 2.6},155.5 ${x},159.5 ${x - 2.6},155.5" fill="${color}" stroke="#fff" stroke-width="0.5"/>`
+        : `<circle cx="${x}" cy="155.5" r="2.4" fill="#0f172a" stroke="#475569" stroke-width="0.6"/>`;
+    }).join('');
+    const panes = [168, 184, 200, 216, 232].map(x =>
+      `<line x1="${x}" y1="44" x2="${x}" y2="118" stroke="#334155" stroke-width="1.6"/>`).join('');
+    const rings = [8, 13, 18, 23].map(r =>
+      `<ellipse cx="200" cy="82" rx="${r * 0.75}" ry="${r}" fill="none" stroke="#fde68a" stroke-width="0.8" opacity="0.5"/>`).join('');
+    const sparks = [[176, 66], [222, 70], [190, 104], [214, 98], [200, 56], [230, 88]].map(([x, y], i) =>
+      `<g transform="translate(${x} ${y})"><path class="spark-pop" d="M0 -4 L1 -1 L4 0 L1 1 L0 4 L-1 1 L-4 0 L-1 -1 Z" fill="#c084fc" style="animation-duration:1.4s;animation-delay:-${i * 0.25}s"/></g>`).join('');
+    const posts = [0, 1, 2, 3, 4, 5, 6, 7].map(i => `<rect x="${i * 56 + 6}" y="160" width="3" height="24" fill="#1e293b"/>`).join('');
+
+    return `
+    <defs>
+      <linearGradient id="f-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#020617"/>
+        <stop offset="0.7" stop-color="#1e1b4b"/>
+        <stop offset="1" stop-color="#3b0764"/>
+      </linearGradient>
+      <radialGradient id="f-core">
+        <stop offset="0" stop-color="#fef9c3" stop-opacity="1"/>
+        <stop offset="0.4" stop-color="#fde047" stop-opacity="0.75"/>
+        <stop offset="1" stop-color="#fde047" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="f-beam-l" x1="1" y1="0" x2="0" y2="0">
+        <stop offset="0" stop-color="#fef08a" stop-opacity="0.7"/>
+        <stop offset="1" stop-color="#fef08a" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="f-beam" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fef08a" stop-opacity="0.7"/>
+        <stop offset="1" stop-color="#fef08a" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+
+    <rect width="400" height="220" fill="url(#f-sky)"/>
+    ${starField(35, 51, 400, 110, 0.8)}
+    <rect class="lightning unlit-only" width="400" height="220" fill="#e9d5ff"/>
+
+    <g class="drift" style="animation-duration:60s;animation-delay:-10s">
+      <g fill="#312e81" opacity="0.8"><ellipse cx="0" cy="30" rx="50" ry="11"/><ellipse cx="24" cy="22" rx="30" ry="11"/></g>
+    </g>
+    <g class="drift" style="animation-duration:85s;animation-delay:-50s">
+      <g fill="#3b0764" opacity="0.7"><ellipse cx="0" cy="58" rx="60" ry="10"/><ellipse cx="-20" cy="50" rx="30" ry="9"/></g>
+    </g>
+
+    <!-- Mare lontano, sotto il faro -->
+    <rect y="150" width="400" height="40" fill="#0b1437"/>
+    <g class="wave" style="animation-duration:9s"><path d="${wavePath(158, 1)}" stroke="#93c5fd" stroke-opacity="0.25" fill="none" stroke-width="0.8"/></g>
+    <g class="wave" style="animation-duration:12s;animation-direction:reverse"><path d="${wavePath(168, 1.2)}" stroke="#93c5fd" stroke-opacity="0.2" fill="none" stroke-width="0.8"/></g>
+
+    <!-- Raggi del faro acceso (solo alla vittoria) -->
+    <g class="lit-only">
+      <g class="beam-rot">
+        <polygon points="200,82 420,40 420,124" fill="url(#f-beam)"/>
+        <polygon points="200,82 -20,40 -20,124" fill="url(#f-beam-l)"/>
+      </g>
+    </g>
+
+    <!-- Ringhiera della balconata (dietro) -->
+    <rect y="158" width="400" height="3" fill="#334155"/>
+    ${posts}
+
+    <!-- Stanza della lanterna -->
+    <rect x="148" y="118" width="104" height="66" fill="#e2e8f0"/>
+    <rect x="148" y="136" width="104" height="12" fill="#dc2626"/>
+    <rect x="148" y="166" width="104" height="10" fill="#dc2626"/>
+    <rect x="156" y="40" width="88" height="80" fill="#0f172a" opacity="0.85"/>
+    ${rings}
+    <circle class="unlit-only" cx="200" cy="82" r="9" fill="#78350f"/>
+    <circle class="unlit-only flicker" cx="200" cy="82" r="5" fill="#c084fc" opacity="0.6"/>
+    <g class="lit-only">
+      <circle class="faro-on" cx="200" cy="82" r="48" fill="url(#f-core)"/>
+      <circle cx="200" cy="82" r="10" fill="#fefce8"/>
+    </g>
+    ${panes}
+    <rect x="156" y="40" width="88" height="80" fill="none" stroke="#334155" stroke-width="2.4"/>
+    <path d="M156 52 L176 44 M156 66 L190 50" stroke="#fff" stroke-width="1" opacity="0.18"/>
+    <path d="M150 42 Q200 0 250 42 Z" fill="#b91c1c"/>
+    <rect x="146" y="38" width="108" height="5" rx="1.5" fill="#7f1d1d"/>
+    <circle cx="200" cy="12" r="4" fill="#7f1d1d"/>
+    <line x1="200" y1="8" x2="200" y2="0" stroke="#7f1d1d" stroke-width="1.4"/>
+    <g class="unlit-only">${sparks}</g>
+
+    <!-- Piedistallo con i 5 cristalli -->
+    <rect x="176" y="150" width="48" height="34" fill="#475569"/>
+    <rect x="172" y="146" width="56" height="7" rx="2" fill="#64748b"/>
+    <rect x="180" y="160" width="40" height="2" fill="#334155"/>
+    ${slots}
+
+    <!-- Pavimento della balconata -->
+    <rect y="184" width="400" height="36" fill="#334155"/>
+    <rect y="184" width="400" height="2" fill="#475569"/>
+    <path d="M0 196 L400 196 M0 208 L400 208" stroke="#1e293b" stroke-width="0.8"/>
+    `;
+  },
+  fg() {
+    const posts = [0, 1, 2, 3, 4, 5, 6, 7].map(i => `<rect x="${i * 56 + 4}" y="198" width="4" height="22" fill="#0f172a"/>`).join('');
+    return `
+    <rect y="196" width="400" height="4" rx="1" fill="#0f172a"/>
+    <rect y="208" width="400" height="2" fill="#0f172a"/>
+    ${posts}`;
+  }
+};
