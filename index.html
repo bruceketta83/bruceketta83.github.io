@@ -904,7 +904,7 @@ const AREAS = [
   },
   {
     id: 2,
-    name: '3. La Torre dell'Osservatorio',
+    name: "3. La Torre dell'Osservatorio",
     ruleId: 'pow_of_pow',
     crystal: { id: 'c3', name: 'Cristallo Viola', icon: '🟣', desc: 'Vibra con la forza della potenza di potenza.' },
     item: { id: 'i3', name: 'Lente Stellare', icon: '🔍', desc: 'Calibrata in cima alla Torre.' },
@@ -936,7 +936,7 @@ const AREAS = [
       ]
     },
     guardian: {
-      name: 'Terminale dell'Ascensore',
+      name: "Terminale dell'Ascensore",
       role: 'Meccanismo di Sicurezza',
       avatar: '⚙️',
       intro: 'BEEP! Accesso alla cupola bloccato. Inserire il valore corretto dei contrappesi per attivare il motore.',
@@ -1026,10 +1026,10 @@ const AREAS = [
   },
   {
     id: 4,
-    name: '5. L'Officina Steampunk',
+    name: "5. L'Officina Steampunk",
     ruleId: 'same_exp',
     crystal: { id: 'c5', name: 'Cristallo Rubino', icon: '🔴', desc: 'L’ultimo cristallo! Arde di energia pura.' },
-    item: { id: 'i5', name: 'Chiave Inglese d'Oro', icon: '🔧', desc: 'Forgiata dalle Gemelle Mira e Nora.' },
+    item: { id: 'i5', name: "Chiave Inglese d'Oro", icon: '🔧', desc: 'Forgiata dalle Gemelle Mira e Nora.' },
     svgBg: `
       <rect width="400" height="220" fill="#27272a"/>
       <circle cx="70" cy="65" r="32" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="10 6"/>
@@ -1110,7 +1110,7 @@ const AREAS = [
     mentor: null,
     guardian: {
       name: 'Lavinia, la Rivalessa',
-      role: 'Boss Finale dell'Accademia',
+      role: "Boss Finale dell'Accademia",
       avatar: '👑',
       intro: 'Pensi davvero di battermi, Aria? Io ho l’aura da prima della classe! Vediamo se reggi questi 3 round combinati!',
       questions: [
@@ -1440,7 +1440,7 @@ function completeArea(area) {
 
 function showVictoryScreen() {
   setDialogue(
-    'Faro dell'Accademia',
+    "Faro dell'Accademia",
     'Missione Compiuta!',
     '🏆',
     `<b>HAI SALVATO L'ISOLA DI ESPO-NENTIA!</b><br><br>
@@ -1524,7 +1524,7 @@ function renderMap() {
       <div>
         <div style="font-weight:800; font-size:0.95rem;">${area.name}</div>
         <div style="font-size:0.78rem; color:#94a3b8; margin-top:2px;">
-          ${isUnlocked ? (isCompleted ? 'Area completata' : 'Disponibile') : 'Completa l'area precedente'}
+          ${isUnlocked ? (isCompleted ? 'Area completata' : 'Disponibile') : "Completa l'area precedente"}
         </div>
       </div>
       <div style="font-size:1.3rem;">${statusIcon}</div>
