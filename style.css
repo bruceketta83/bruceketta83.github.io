@@ -390,6 +390,33 @@ body {
   92% { transform: translateY(0); }
 }
 
+/* Torre */
+.scope-sweep {
+  transform-box: view-box;
+  transform-origin: 196px 66px;
+  animation: scopeSweep 9s ease-in-out infinite;
+}
+@keyframes scopeSweep {
+  0%, 100% { transform: rotate(-18deg); }
+  50% { transform: rotate(14deg); }
+}
+.spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 10s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.weight-bob { animation: weightBob 4s ease-in-out infinite; }
+@keyframes weightBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+.led-blink { animation: ledBlink 1.2s steps(2, jump-none) infinite; }
+@keyframes ledBlink {
+  0% { opacity: 1; }
+  100% { opacity: 0.15; }
+}
+
 /* Schermata iniziale */
 .crystal-float { animation: crystalFloat 3.2s ease-in-out infinite; }
 @keyframes crystalFloat {

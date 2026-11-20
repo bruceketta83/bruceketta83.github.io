@@ -415,3 +415,169 @@ SCENES.title = {
     `;
   }
 };
+
+/* Ingranaggio con n denti (centro in 0,0). */
+function gearPath(r, teeth) {
+  const depth = r * 0.2;
+  const n = teeth * 2;
+  let d = '';
+  for (let i = 0; i < n; i++) {
+    const a0 = (i / n) * Math.PI * 2;
+    const a1 = ((i + 1) / n) * Math.PI * 2;
+    const rr = i % 2 ? r - depth : r;
+    d += `${i ? 'L' : 'M'}${(rr * Math.cos(a0)).toFixed(1)} ${(rr * Math.sin(a0)).toFixed(1)} L${(rr * Math.cos(a1)).toFixed(1)} ${(rr * Math.sin(a1)).toFixed(1)} `;
+  }
+  return d + 'Z';
+}
+
+function gearSVG(x, y, r, teeth, color, dur, reverse) {
+  return `
+  <g transform="translate(${x} ${y})">
+    <g class="spin" style="animation-duration:${dur}s${reverse ? ';animation-direction:reverse' : ''}">
+      <path d="${gearPath(r, teeth)}" fill="${color}"/>
+      <circle r="${(r * 0.55).toFixed(1)}" fill="none" stroke="#0f172a" stroke-width="${(r * 0.12).toFixed(1)}" opacity="0.35"/>
+      <circle r="${(r * 0.22).toFixed(1)}" fill="#0f172a"/>
+    </g>
+  </g>`;
+}
+
+/* ==========================================================================
+   SCENA 3: LA TORRE DELL'OSSERVATORIO
+   ========================================================================== */
+SCENES.torre = {
+  bg() {
+    const constellation = [[218, 22], [236, 30], [252, 24], [262, 38], [246, 46]];
+    const constLines = constellation.slice(1).map((p, i) =>
+      `<line x1="${constellation[i][0]}" y1="${constellation[i][1]}" x2="${p[0]}" y2="${p[1]}" stroke="#a5b4fc" stroke-width="0.5" opacity="0.45"/>`).join('');
+    const constStars = constellation.map(([x, y], i) =>
+      `<circle class="twinkle" cx="${x}" cy="${y}" r="1.5" fill="#e0e7ff" style="animation-delay:-${i * 0.7}s"/>`).join('');
+    const bricks = [];
+    for (let row = 0; row < 11; row++) {
+      const y = 82 + row * 9.5;
+      bricks.push(`<line x1="156" y1="${y}" x2="236" y2="${y}" stroke="#1e293b" stroke-width="0.7" opacity="0.6"/>`);
+      for (let c = 0; c < 5; c++) {
+        const x = 160 + c * 16 + (row % 2 ? 8 : 0);
+        if (x < 234) bricks.push(`<line x1="${x}" y1="${y}" x2="${x}" y2="${y + 9.5}" stroke="#1e293b" stroke-width="0.6" opacity="0.5"/>`);
+      }
+    }
+    const braces = [];
+    for (let y = 18; y < 120; y += 22) {
+      braces.push(`<path d="M304 ${y} L352 ${y + 22} M352 ${y} L304 ${y + 22}" stroke="#475569" stroke-width="1.2"/>`);
+      braces.push(`<line x1="302" y1="${y}" x2="354" y2="${y}" stroke="#64748b" stroke-width="1.6"/>`);
+    }
+    const posts = [40, 70, 100, 252, 282].map(x =>
+      `<rect x="${x}" y="166" width="5" height="20" fill="#475569"/><rect x="${x - 1.5}" y="163" width="8" height="4" fill="#64748b"/>`).join('');
+    const tiles = [196, 204, 214].map(y =>
+      `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#0f172a" stroke-width="0.8" opacity="0.6"/>`).join('');
+
+    return `
+    <defs>
+      <linearGradient id="o-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#020617"/>
+        <stop offset="0.6" stop-color="#1e1b4b"/>
+        <stop offset="1" stop-color="#4c1d95"/>
+      </linearGradient>
+      <linearGradient id="o-milky" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#c4b5fd" stop-opacity="0"/>
+        <stop offset="0.5" stop-color="#c4b5fd" stop-opacity="0.22"/>
+        <stop offset="1" stop-color="#c4b5fd" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="o-win">
+        <stop offset="0" stop-color="#fde68a" stop-opacity="0.7"/>
+        <stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <rect width="400" height="220" fill="url(#o-sky)"/>
+    <ellipse cx="200" cy="70" rx="260" ry="22" fill="url(#o-milky)" transform="rotate(-18 200 70)"/>
+    ${starField(70, 23, 400, 160, 1)}
+    ${constLines}${constStars}
+    <line class="shoot" x1="150" y1="18" x2="166" y2="10" stroke="#fff" stroke-width="1.2" stroke-linecap="round" style="animation-delay:-3s"/>
+    <line class="shoot" x1="390" y1="40" x2="404" y2="32" stroke="#fff" stroke-width="1" stroke-linecap="round" style="animation-delay:-6.5s"/>
+
+    <!-- Luna crescente -->
+    <circle cx="70" cy="34" r="13" fill="#fef3c7"/>
+    <circle cx="76" cy="30" r="12" fill="#0b0f2a"/>
+
+    <!-- Colline lontane -->
+    <path d="M0 170 Q60 140 120 158 Q190 132 260 156 Q330 138 400 160 L400 190 L0 190 Z" fill="#0f0b2a"/>
+
+    <!-- Torre dell'Osservatorio -->
+    <rect x="156" y="78" width="80" height="112" fill="#334155"/>
+    ${bricks.join('')}
+    <rect x="156" y="78" width="80" height="112" fill="none" stroke="#1e293b" stroke-width="1.2"/>
+    <rect x="152" y="74" width="88" height="6" rx="1.5" fill="#475569"/>
+    <circle class="flicker" cx="176" cy="104" r="12" fill="url(#o-win)"/>
+    <path d="M170 112 L170 102 Q176 94 182 102 L182 112 Z" fill="#fbbf24" class="flicker"/>
+    <circle class="flicker" cx="216" cy="130" r="12" fill="url(#o-win)" style="animation-delay:-1.3s"/>
+    <path d="M210 138 L210 128 Q216 120 222 128 L222 138 Z" fill="#fbbf24" class="flicker" style="animation-delay:-1.3s"/>
+    <path d="M184 190 L184 166 Q196 152 208 166 L208 190 Z" fill="#3b2410"/>
+    <circle cx="203" cy="178" r="1.2" fill="#fbbf24"/>
+
+    <!-- Cupola con telescopio che si muove -->
+    <path d="M154 75 Q154 34 196 30 Q238 34 238 75 Z" fill="#475569"/>
+    <path d="M190 31 L202 31 L206 75 L186 75 Z" fill="#0f172a" opacity="0.85"/>
+    <path d="M160 70 Q166 42 196 36" stroke="#94a3b8" stroke-width="1" fill="none" opacity="0.5"/>
+    <circle cx="196" cy="28" r="2.5" fill="#64748b"/>
+    <g class="scope-sweep">
+      <rect x="192" y="30" width="9" height="34" rx="3" fill="#b45309" transform="rotate(38 196 66)"/>
+      <rect x="190" y="26" width="13" height="6" rx="2" fill="#78350f" transform="rotate(38 196 66)"/>
+    </g>
+
+    <!-- Sfera armillare e libri -->
+    <g transform="translate(52 186)">
+      <rect x="-3" y="-14" width="6" height="14" fill="#78350f"/>
+      <rect x="-8" y="-2" width="16" height="2" fill="#5b3415"/>
+      <g transform="translate(0 -22)">
+        <g class="spin" style="animation-duration:14s">
+          <circle r="8" fill="none" stroke="#fbbf24" stroke-width="1"/>
+          <ellipse rx="8" ry="3" fill="none" stroke="#fbbf24" stroke-width="0.8"/>
+          <ellipse rx="3" ry="8" fill="none" stroke="#f59e0b" stroke-width="0.8"/>
+          <circle r="2" fill="#38bdf8"/>
+        </g>
+      </g>
+    </g>
+    <rect x="114" y="178" width="18" height="4" fill="#7f1d1d"/>
+    <rect x="116" y="174" width="15" height="4" fill="#1e40af"/>
+    <rect x="113" y="170" width="17" height="4" fill="#15803d"/>
+
+    <!-- Balaustra -->
+    <rect x="0" y="163" width="152" height="3" fill="#64748b"/>
+    <rect x="240" y="163" width="60" height="3" fill="#64748b"/>
+    ${posts}
+
+    <!-- Pozzo dell'ascensore -->
+    <rect x="302" y="10" width="4" height="178" fill="#64748b"/>
+    <rect x="350" y="10" width="4" height="178" fill="#64748b"/>
+    ${braces.join('')}
+    ${gearSVG(328, 14, 13, 10, '#94a3b8', 9, false)}
+    ${gearSVG(312, 28, 7, 8, '#cbd5e1', 5, true)}
+    <line x1="322" y1="20" x2="322" y2="126" stroke="#cbd5e1" stroke-width="0.8"/>
+    <line x1="334" y1="20" x2="334" y2="126" stroke="#cbd5e1" stroke-width="0.8"/>
+
+    <!-- Contrappesi -->
+    <g class="weight-bob">
+      <line x1="342" y1="22" x2="342" y2="62" stroke="#cbd5e1" stroke-width="0.7"/>
+      <rect x="335" y="62" width="14" height="13" rx="1.5" fill="#1e293b" stroke="#94a3b8" stroke-width="0.8"/>
+      <text x="342" y="71.5" font-size="7" fill="#c4b5fd" text-anchor="middle" font-weight="800" font-family="Courier New, monospace">3²</text>
+    </g>
+    <g class="weight-bob" style="animation-delay:-1.4s">
+      <line x1="312" y1="34" x2="312" y2="84" stroke="#cbd5e1" stroke-width="0.7"/>
+      <rect x="305" y="84" width="14" height="13" rx="1.5" fill="#1e293b" stroke="#94a3b8" stroke-width="0.8"/>
+      <text x="312" y="93.5" font-size="7" fill="#c4b5fd" text-anchor="middle" font-weight="800" font-family="Courier New, monospace">2⁴</text>
+    </g>
+
+    <!-- Cabina -->
+    <rect x="306" y="126" width="44" height="62" fill="#1e293b" stroke="#94a3b8" stroke-width="1.4"/>
+    <rect x="310" y="132" width="36" height="52" fill="#0f172a"/>
+    <path d="M316 132 L316 184 M322 132 L322 184 M328 132 L328 184 M334 132 L334 184 M340 132 L340 184" stroke="#64748b" stroke-width="1.2"/>
+    <rect x="306" y="120" width="44" height="7" fill="#475569"/>
+    <circle class="led-blink" cx="328" cy="123.5" r="2" fill="#ef4444"/>
+
+    <!-- Terrazza -->
+    <rect y="186" width="400" height="34" fill="#1e293b"/>
+    <rect y="186" width="400" height="2" fill="#334155"/>
+    ${tiles}
+    `;
+  }
+};
