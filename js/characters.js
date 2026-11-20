@@ -325,6 +325,98 @@ function drawTerminal() {
   </g>`;
 }
 
+/* --------------------------------------------------------------------------
+   AREA 4: MADAME ZERI
+   -------------------------------------------------------------------------- */
+function drawZeri() {
+  const skin = '#e8b49a';
+  const pearls = [-5, -2.5, 0, 2.5, 5].map((x, i) =>
+    `<circle cx="${x}" cy="${-37.6 + Math.abs(i - 2) * -0.5}" r="0.85" fill="#fff"/>`).join('');
+  return `
+  <g class="char zeri">
+    <ellipse cx="0" cy="0" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
+    <g class="leg leg-b"><rect x="-3.6" y="-10" width="2.6" height="10" rx="1.2" fill="${skin}"/><path d="M-5 0 L-1 0 L-1 -2.4 L-4 -2.4 Z" fill="#be185d"/></g>
+    <g class="leg leg-f"><rect x="1" y="-10" width="2.6" height="10" rx="1.2" fill="${skin}"/><path d="M0.4 0 L5.4 0 L4.4 -2.6 L1 -2.6 Z" fill="#db2777"/></g>
+    <g class="torso">
+      <path d="M-6 -39 Q0 -42 6 -39 L8 -28 L13.5 -8 L-13.5 -8 L-8 -28 Z" fill="#ec4899"/>
+      <path d="M-8 -28 L-13.5 -8 L-9 -8 Z" fill="#db2777"/>
+      <rect x="-8.2" y="-29.4" width="16.4" height="2.6" fill="#fbbf24"/>
+      <rect x="-1.4" y="-29.8" width="2.8" height="3.4" rx="0.6" fill="#fde68a"/>
+      <path d="M-8.4 -39.6 Q0 -33 8.4 -39.6 Q9.6 -36 7.4 -34 Q0 -29.6 -7.4 -34 Q-9.6 -36 -8.4 -39.6 Z" fill="#fdf2f8"/>
+      ${pearls}
+      <g class="arm">
+        <path d="M4 -37 Q10 -31 7.5 -25" stroke="#ec4899" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <circle cx="7.5" cy="-24.5" r="1.9" fill="${skin}"/>
+        <path d="M8.5 -26 L14 -31 M8.8 -25 L15 -28 M8.6 -24 L14.8 -24.6" stroke="#fbcfe8" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <g class="head">
+        <path d="M-11 -50 Q-13.5 -63 0 -63 Q13 -63 11 -51 Q12 -42 7 -40 L-8 -40 Q-13.5 -43 -11 -50 Z" fill="#111827"/>
+        <circle cx="0" cy="-50" r="8.2" fill="${skin}"/>
+        <path d="M-8.6 -51.5 Q-4 -60.5 6 -58.4 Q9.4 -56.4 8.6 -53.2 Q2.6 -56.4 -2.6 -53.6 Q-6 -51.6 -8.6 -48 Z" fill="#111827"/>
+        <circle cx="-1.6" cy="-46" r="1.5" fill="none" stroke="#fbbf24" stroke-width="0.7"/>
+        <g class="brows"><path d="M0.8 -55.4 L4.6 -55.8 M5.6 -55.8 L9 -55" stroke="#111827" stroke-width="0.9" stroke-linecap="round"/></g>
+        <rect x="0.4" y="-53.6" width="4.4" height="3.4" rx="1.5" fill="#0f172a" stroke="#f472b6" stroke-width="0.7"/>
+        <rect x="5.4" y="-53.6" width="4" height="3.4" rx="1.5" fill="#0f172a" stroke="#f472b6" stroke-width="0.7"/>
+        <path d="M4.8 -52.4 L5.4 -52.4" stroke="#f472b6" stroke-width="0.7"/>
+        <path d="M1.2 -52.8 L2.6 -51.2 M6 -52.8 L7.2 -51.4" stroke="#fff" stroke-width="0.5" opacity="0.7"/>
+        <circle cx="4" cy="-47.8" r="1.4" fill="#fb7185" opacity="0.4"/>
+        <ellipse class="mouth" cx="5.6" cy="-45.4" rx="1.6" ry="0.85" fill="#be123c"/>
+        <circle cx="7.4" cy="-47.6" r="0.35" fill="#3f2a1d"/>
+      </g>
+    </g>
+  </g>`;
+}
+
+/* --------------------------------------------------------------------------
+   AREA 4: PIANTA CARNIVORA GIGANTE (di fronte, fauci animate)
+   -------------------------------------------------------------------------- */
+function drawPlant() {
+  const upTeeth = [];
+  const lowTeeth = [];
+  for (let x = -14; x <= 10; x += 4.8) {
+    upTeeth.push(`${x},-88 ${x + 2.2},-83.5 ${x + 4.4},-88`);
+    lowTeeth.push(`${x + 1},-87.6 ${x + 3.2},-92 ${x + 5.4},-87.6`);
+  }
+  const spots = [[-9, -96], [-2, -99], [6, -97], [11, -93], [-12, -91]].map(([x, y]) =>
+    `<circle cx="${x}" cy="${y}" r="1.6" fill="#fbcfe8" opacity="0.75"/>`).join('');
+  return `
+  <g class="char plant">
+    <ellipse cx="0" cy="0" rx="18" ry="3" fill="#000" opacity="0.3"/>
+    <path d="M-15 -18 L15 -18 L11 0 L-11 0 Z" fill="#c2410c"/>
+    <rect x="-17.5" y="-23" width="35" height="6" rx="1.8" fill="#ea580c"/>
+    <path d="M-12 -12 Q0 -9 12 -12" stroke="#9a3412" stroke-width="1" fill="none"/>
+    <ellipse cx="0" cy="-22.5" rx="15" ry="2" fill="#3f2a1d"/>
+    <g class="torso">
+      <path d="M0 -21 C-10 -40 10 -58 0 -80" stroke="#15803d" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M-1 -38 Q-19 -45 -21 -32 Q-10 -29.5 -1 -35.5 Z" fill="#22c55e"/>
+      <path d="M-1 -38 Q-12 -37.5 -19 -33.5" stroke="#15803d" stroke-width="0.8" fill="none"/>
+      <path d="M2.5 -56 Q19 -63 22 -50.5 Q11.5 -47 2.5 -53 Z" fill="#16a34a"/>
+      <path d="M2.5 -56 Q13 -55 20 -51.5" stroke="#15803d" stroke-width="0.8" fill="none"/>
+      <path d="M-3 -26 Q-12 -24 -15 -19" stroke="#15803d" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <g class="head">
+        <g class="jaw-low">
+          <path d="M-17 -88 Q0 -64 17 -88 Z" fill="#9d174d"/>
+          <path d="M-12 -87.6 Q0 -74 12 -87.6 Z" fill="#831843"/>
+          <path d="M-5 -82 Q0 -78 5 -82 Q0 -84 -5 -82 Z" fill="#f472b6"/>
+          ${lowTeeth.map(p => `<polygon points="${p}" fill="#fefce8"/>`).join('')}
+        </g>
+        <g class="jaw-up">
+          <path d="M-18 -88 Q0 -117 18 -88 Z" fill="#be185d"/>
+          ${spots}
+          ${upTeeth.map(p => `<polygon points="${p}" fill="#fefce8"/>`).join('')}
+        </g>
+        <g class="eyes">
+          <circle cx="-6.5" cy="-104" r="4.2" fill="#fef08a" stroke="#9d174d" stroke-width="0.8"/>
+          <circle cx="6.5" cy="-104" r="4.2" fill="#fef08a" stroke="#9d174d" stroke-width="0.8"/>
+          <ellipse cx="-6" cy="-104" rx="1" ry="2.8" fill="#111"/>
+          <ellipse cx="7" cy="-104" rx="1" ry="2.8" fill="#111"/>
+        </g>
+        <path d="M-11 -108.5 L-3.5 -106.5 M3.5 -106.5 L11 -108.5" stroke="#831843" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+    </g>
+  </g>`;
+}
+
 const CHARS = {
   aria: { draw: drawAria, h: 57, portraitVB: '-13 -59 26 26' },
   vera: { draw: drawVera, h: 67, portraitVB: '-15 -68 30 30' },
@@ -332,7 +424,9 @@ const CHARS = {
   oste: { draw: drawOste, h: 61, portraitVB: '-12 -64 28 28' },
   gemelli: { draw: drawGemelli, h: 56, portraitVB: '-21 -60 40 40' },
   archimede: { draw: drawArchimede, h: 66, portraitVB: '-13 -67 30 30' },
-  terminal: { draw: drawTerminal, h: 79, portraitVB: '-18 -70 36 36' }
+  terminal: { draw: drawTerminal, h: 79, portraitVB: '-18 -70 36 36' },
+  zeri: { draw: drawZeri, h: 64, portraitVB: '-12 -65 28 28' },
+  plant: { draw: drawPlant, h: 110, portraitVB: '-22 -114 44 44' }
 };
 
 function portraitSVG(key) {
