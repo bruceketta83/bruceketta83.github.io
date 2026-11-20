@@ -40,6 +40,11 @@ L'avventura combina dialoghi in stile pop/moderno, scene animate in grafica vett
 ## 🎮 Meccaniche di Gioco (Gamification)
 
 - **Punta-e-clicca**: tocca un personaggio e Aria cammina fino a lui. Tocca la scena per muovere Aria.
+- **Esplorazione a stanze** (per ora nel Molo): ogni area ha più stanze collegate da uscite. Un fumetto mostra le azioni possibili: 👁 Guarda, 📖 Leggi, ✋ Prendi, 🔧 Usa, 💬 Parla.
+- **Oggetti**: si raccolgono e si usano dallo Zaino ("Usa su…"). Gli enigmi si risolvono con le potenze (es. il codice di un lucchetto).
+- **Curiosità sulle potenze**: testi da leggere nelle stanze, raccolti nel Taccuino.
+- **Missioni secondarie** e **Lavinia** che compare per provocare Aria con una domanda lampo.
+- **Frasi variabili**: molti dialoghi hanno più versioni, scelte a caso a ogni partita.
 - **Duello**: ogni guardiano ha una barra di vita. Ogni risposta giusta è un colpo. Aria ha 3 cuori.
 - **Esercizi sempre nuovi**: un generatore crea esercizi casuali per ogni regola. Le risposte sbagliate nascono dagli errori tipici e ogni errore ha la sua spiegazione.
 - **Soluzione passo-passo** dopo ogni risposta.
@@ -61,7 +66,9 @@ Nessuna dipendenza esterna e nessuna compilazione: GitHub Pages pubblica i file 
 | `js/data.js` | Regole, aree, dialoghi, domande d'autore |
 | `js/generator.js` | Generatore di esercizi casuali per ogni regola |
 | `js/characters.js` | Personaggi SVG animati |
-| `js/scenes.js` | Scene SVG animate (schermata iniziale e aree) |
+| `js/scenes.js` | Scene SVG animate (schermata iniziale, aree e stanze) |
+| `js/world.js` | Motore dell'esplorazione: stanze, fumetto azioni, oggetti, lucchetti, domande lampo, missioni |
+| `js/rooms.js` | Contenuti dell'esplorazione: oggetti, Curiosità, missioni, stanze e dialoghi delle aree |
 | `js/game.js` | Motore di gioco: scena, dialoghi, duelli, salvataggio |
 
 - **Salvataggio automatico** in `localStorage` (chiave `esponentia_save_v2`, con migrazione dal salvataggio v1).

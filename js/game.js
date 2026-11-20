@@ -20,7 +20,11 @@ const DEFAULT_STATE = {
   completedAreas: [],
   gameWon: false,
   stars: {},
-  stats: {}
+  stats: {},
+  rooms: {},
+  flags: {},
+  curiosities: [],
+  quests: {}
 };
 
 function clone(obj) {
@@ -44,8 +48,10 @@ function loadState() {
     if (raw) {
       Object.assign(s, JSON.parse(raw));
       s.version = 2;
-      s.stars = s.stars || {};
-      s.stats = s.stats || {};
+      // Salvataggi vecchi: aggiunge i campi nuovi con il valore iniziale.
+      Object.keys(DEFAULT_STATE).forEach(k => {
+        if (s[k] === undefined || s[k] === null) s[k] = clone(DEFAULT_STATE[k]);
+      });
       $('btn-reset-save').style.display = 'inline-block';
     }
   } catch (e) {}
@@ -247,8 +253,10 @@ function skipTyping() {
 
 /* avatar: chiave di CHARS (ritratto SVG) oppure emoji.
    speaker: 'aria' | 'mentor' | 'guardian' per animare la bocca nella scena. */
-function setDialogue(name, role, avatar, html, speaker) {
+function setDialogue(name, role, avatar, html, speaker, boxClass = '') {
   if (typer) typer.finish();
+  html = say(html);
+  $('dialogue-text').className = `dialogue-box ${boxClass}`;
   $('dialogue-area').scrollTop = 0;
   $('speaker-name').textContent = name;
   $('speaker-role').textContent = role;
@@ -293,11 +301,11 @@ function scrollDialogueToEnd() {
 }
 
 function mentorAvatar(area) {
-  const c = area.layout.mentor;
+  const c = findNpc(area, 'mentor');
   return c && c.draw ? c.draw : area.mentor.avatar;
 }
 function guardianAvatar(area) {
-  const c = area.layout.guardian;
+  const c = findNpc(area, 'guardian');
   return c && c.draw ? c.draw : area.guardian.avatar;
 }
 
@@ -305,7 +313,7 @@ function guardianAvatar(area) {
    SCENA: COSTRUZIONE, ETICHETTE, CAMMINATA DI ARIA
    -------------------------------------------------------------------------- */
 function charBounds(area, role) {
-  const L = area.layout;
+  const L = roomLayout(area);
   const c = L[role];
   if (c.draw) return { top: L.groundY - CHARS[c.draw].h, bottom: L.groundY };
   return { top: c.top, bottom: c.bottom };
@@ -314,7 +322,7 @@ function charBounds(area, role) {
 function labelsHTML(area) {
   let html = '';
   ['mentor', 'guardian'].forEach(role => {
-    const c = area.layout[role];
+    const c = roomLayout(area)[role];
     if (!c) return;
     const b = charBounds(area, role);
     const w = Math.round([...c.label].length * 5.2 + 14);
@@ -334,19 +342,24 @@ function labelsHTML(area) {
         </g>
       </g>`;
   });
-  return html;
+  return html + worldMarkersHTML(area);
 }
 
 function refreshLabels(area) {
+  const props = $('layer-props');
+  if (props) props.innerHTML = propsHTML(area);
   const layer = $('layer-ui');
   if (layer) layer.innerHTML = labelsHTML(area);
 }
 
-function buildScene(area) {
-  const L = area.layout;
+function buildScene(area, arriveX) {
+  const room = currentRoom(area);
+  const L = room.layout;
   const ariaY = L.ariaY || L.groundY;
-  const sc = area.scene ? SCENES[area.scene] : null;
-  ariaX = L.ariaStart;
+  const sc = room.scene ? SCENES[room.scene] : null;
+  ariaX = arriveX !== undefined && arriveX !== null ? arriveX : L.ariaStart;
+  if (walkTimer) { clearTimeout(walkTimer); walkTimer = null; busy = false; }
+  closeBubble();
 
   let chars = '';
   ['mentor', 'guardian'].forEach(role => {
@@ -358,7 +371,8 @@ function buildScene(area) {
 
   $('scene-svg').classList.remove('lit');
   $('scene-svg').innerHTML = `
-    <g id="layer-bg">${sc ? sc.bg() : area.svgBg}</g>
+    <g id="layer-bg">${sc ? sc.bg() : room.svgBg}</g>
+    <g id="layer-props">${propsHTML(area)}</g>
     <g id="layer-chars">${chars}</g>
     <g id="layer-fg">${sc && sc.fg ? sc.fg() : ''}</g>
     <g id="layer-ui">${labelsHTML(area)}</g>`;
@@ -369,12 +383,26 @@ function faceAria(dir) {
   if (f) f.setAttribute('transform', `scale(${dir} 1)`);
 }
 
+let walkTimer = null;
+
 function walkTo(x, cb) {
   const area = AREAS[state.currentArea];
-  const y = area.layout.ariaY || area.layout.groundY;
+  const L = roomLayout(area);
+  const y = L.ariaY || L.groundY;
   const el = $('char-aria');
+  if (!el) { cb && cb(); return; }
+  // Un nuovo tocco interrompe la camminata in corso: Aria riparte da dove si trova.
+  if (walkTimer) {
+    clearTimeout(walkTimer);
+    walkTimer = null;
+    const m = new DOMMatrixReadOnly(getComputedStyle(el).transform);
+    ariaX = m.m41;
+    el.style.transition = 'none';
+    el.style.transform = `translate(${ariaX}px, ${y}px)`;
+    void el.getBoundingClientRect();
+  }
   const dist = Math.abs(x - ariaX);
-  if (!el || dist < 3) { cb && cb(); return; }
+  if (dist < 3) { el.classList.remove('walking'); busy = false; cb && cb(); return; }
   busy = true;
   faceAria(x > ariaX ? 1 : -1);
   const dur = reducedMotion ? 0 : Math.max(0.25, dist / 115);
@@ -382,7 +410,8 @@ function walkTo(x, cb) {
   el.style.transition = `transform ${dur}s linear`;
   el.style.transform = `translate(${x}px, ${y}px)`;
   ariaX = x;
-  setTimeout(() => {
+  walkTimer = setTimeout(() => {
+    walkTimer = null;
     el.classList.remove('walking');
     busy = false;
     cb && cb();
@@ -390,15 +419,10 @@ function walkTo(x, cb) {
 }
 
 function onSceneClick(e) {
-  if (busy || !gameStarted) return;
+  if (!gameStarted || duel) return;
   const area = AREAS[state.currentArea];
-  const target = e.target.closest('[data-role]');
-  if (target) {
-    if (duel) return;
-    interact(area, target.dataset.role);
-    return;
-  }
-  if (duel) return;
+  if (worldClick(area, e)) return;
+  if (selectedItem) cancelUse();
   const svg = $('scene-svg');
   const pt = svg.createSVGPoint();
   pt.x = e.clientX;
@@ -410,8 +434,14 @@ function onSceneClick(e) {
 }
 
 function interact(area, role) {
-  const c = area.layout[role];
-  if (!c) return;
+  const c = roomLayout(area)[role];
+  if (!c) {
+    // Il personaggio è in un'altra stanza: Aria ci va e poi parla.
+    const rid = npcRoomId(area, role);
+    if (!rid) return;
+    goRoom(area, rid, areaRooms(area)[rid].layout.ariaStart, () => interact(area, role));
+    return;
+  }
   playSound('blip');
   walkTo(c.stand, () => {
     faceAria(c.x > ariaX ? 1 : -1);
@@ -432,6 +462,7 @@ function buildArea(areaIndex) {
   state.currentArea = areaIndex;
   duel = null;
   busy = false;
+  cancelUse();
   saveState();
   updateHUD();
   hideDuelPanel();
@@ -447,7 +478,18 @@ function buildArea(areaIndex) {
     showVictoryScreen();
     return;
   }
-  showAreaMenu(area, area.intro);
+  if (area.rooms) {
+    const rid = currentRoomId(area);
+    const firstArea = !flag(`visited_${area.id}`);
+    const firstRoom = !flag(`visited_${area.id}_${rid}`);
+    setFlag(`visited_${area.id}`);
+    setFlag(`visited_${area.id}_${rid}`);
+    const room = currentRoom(area);
+    if (!firstArea && room.onEnter && room.onEnter(firstRoom)) return;
+    showRoomMenu(area, firstArea ? say(area.intro) : say(room.enter));
+    return;
+  }
+  showAreaMenu(area, say(area.intro));
 }
 
 function showAreaMenu(area, text) {
@@ -472,28 +514,40 @@ function showAreaMenu(area, text) {
 /* --------------------------------------------------------------------------
    DIALOGO MENTORE
    -------------------------------------------------------------------------- */
-function startMentorDialogue(area) {
+function startMentorDialogue(area, forceFull = false) {
   duel = null;
   hideDuelPanel();
   setFeedback('');
   const m = area.mentor;
+  const already = area.ruleId && state.unlockedRules.includes(area.ruleId);
+  // Seconda visita: frasi brevi (m.again) invece della lezione intera.
+  const lines = already && m.again && !forceFull ? [m.again] : m.lines;
   let step = 0;
 
-  if (area.ruleId && !state.unlockedRules.includes(area.ruleId)) {
+  if (area.ruleId && !already) {
     state.unlockedRules.push(area.ruleId);
     saveState();
     $('notebook-dot').style.display = 'block';
   }
 
   function showStep() {
-    setDialogue(m.name, m.role, mentorAvatar(area), m.lines[step], 'mentor');
+    setDialogue(m.name, m.role, mentorAvatar(area), lines[step], 'mentor');
     clearChoices();
-    if (step < m.lines.length - 1) {
+    if (step < lines.length - 1) {
       addChoice('Continua →', () => { playSound('blip'); step++; showStep(); }, 'primary-action');
+      return;
+    }
+    refreshLabels(area);
+    if (m.onEnd) m.onEnd(area);
+    if (m.extraChoices) m.extraChoices(area).forEach(c => addChoice(c.html, c.fn, c.cls || ''));
+    if (already && m.again && !forceFull) {
+      addChoice('<span>🔁 Ripeti la lezione</span><span>→</span>', () => startMentorDialogue(area, true));
+    }
+    addChoice('<span>📖 Apri il Taccuino per fissare la regola</span><span>→</span>',
+      () => openModal('notebook'));
+    if (area.rooms) {
+      addChoice('↩️ Continua a esplorare', () => ariaSays(null), 'primary-action');
     } else {
-      refreshLabels(area);
-      addChoice('<span>📖 Apri il Taccuino per fissare la regola</span><span>→</span>',
-        () => openModal('notebook'));
       addChoice(`⚔️ Vai alla sfida di ${area.guardian.name}`,
         () => interact(area, 'guardian'), 'primary-action');
     }
@@ -513,6 +567,15 @@ function startGuardianChallenge(area) {
     clearChoices();
     addChoice(`<span>💬 Vai da ${area.mentor.name}</span><span>→</span>`,
       () => interact(area, 'mentor'), 'primary-action');
+    return;
+  }
+
+  // Condizione extra dell'area (es. Barnaba vuole prima la sua cassa).
+  const gateMsg = area.duelGate && area.duelGate();
+  if (gateMsg) {
+    setDialogue(g.name, g.role, guardianAvatar(area), gateMsg, 'guardian');
+    clearChoices();
+    addChoice('↩️ Ok, ci penso io', () => ariaSays(null), 'primary-action');
     return;
   }
 
@@ -555,7 +618,7 @@ function renderQuestion() {
   const area = AREAS[duel.areaId];
   const g = area.guardian;
   const q = duel.q;
-  const intro = duel.first ? `<p class="g-intro">"${g.intro}"</p>` : '';
+  const intro = duel.first ? `<p class="g-intro">"${say(g.intro)}"</p>` : '';
   duel.first = false;
 
   setDialogue(g.name, `${g.role} • Colpo ${duel.max - duel.hp + 1} di ${duel.max}`,
@@ -612,7 +675,7 @@ function guardianTarget() {
 }
 
 function guardianCenter(area) {
-  const c = area.layout.guardian;
+  const c = roomLayout(area).guardian;
   const b = charBounds(area, 'guardian');
   return { x: c.x, y: (b.top + b.bottom) / 2 };
 }
@@ -766,7 +829,7 @@ function duelLost(area) {
 function showDuelPanel(area) {
   $('location-banner').style.display = 'none';
   $('app').classList.add('in-duel');
-  $('duel-foe').textContent = area.layout.guardian.label;
+  $('duel-foe').textContent = findNpc(area, 'guardian').label;
   $('duel-panel').classList.add('open');
   updateDuelPanel();
 }
@@ -866,6 +929,23 @@ function renderNotebook() {
          <div class="rule-desc">Parla con il Mentore dell'area corrispondente per sbloccare questa regola.</div>`;
     container.appendChild(card);
   });
+
+  const all = Object.keys(CURIOSITIES);
+  const head = document.createElement('div');
+  head.className = 'nb-section';
+  head.innerHTML = `🔍 Curiosità sulle potenze <span>${state.curiosities.length}/${all.length}</span>`;
+  container.appendChild(head);
+  all.forEach(id => {
+    const c = CURIOSITIES[id];
+    const open = state.curiosities.includes(id);
+    const card = document.createElement('div');
+    card.className = `rule-card curiosity ${open ? '' : 'locked'}`;
+    card.innerHTML = open
+      ? `<div class="rule-title"><span>${c.icon} ${c.title}</span></div><div class="rule-desc">${c.text}</div>`
+      : `<div class="rule-title"><span>❔ Curiosità nascosta</span><span>🔒</span></div>
+         <div class="rule-desc">Esplora l'isola e leggi tutto quello che trovi.</div>`;
+    container.appendChild(card);
+  });
 }
 
 function renderMap() {
@@ -904,30 +984,49 @@ function renderMap() {
 
 function renderInventory() {
   const container = $('inventory-content');
+  container.innerHTML = '';
   const allStuff = [...state.crystals, ...state.items];
 
   if (allStuff.length === 0) {
     container.innerHTML = `
       <div style="text-align:center; padding:30px 10px; color:#94a3b8;">
         <div style="font-size:2.5rem; margin-bottom:8px;">🎒</div>
-        Il tuo zaino è ancora vuoto.<br>Sconfiggi i Guardiani per raccogliere i 5 Cristalli e gli oggetti!
+        Il tuo zaino è ancora vuoto.<br>Esplora l'isola e sconfiggi i Guardiani per raccogliere oggetti e Cristalli!
       </div>`;
-    return;
+  } else {
+    const grid = document.createElement('div');
+    grid.className = 'inv-grid';
+    allStuff.forEach(obj => {
+      const usable = ITEMS[obj.id] && ITEMS[obj.id].usable;
+      const card = document.createElement('div');
+      card.className = `inv-card ${usable ? 'usable' : ''}`;
+      card.innerHTML = `
+        <div class="inv-icon">${obj.icon}</div>
+        <div class="inv-name">${obj.name}</div>
+        <div class="inv-desc">${obj.desc}</div>
+        ${usable ? '<button class="inv-use">✋ Usa</button>' : ''}`;
+      if (usable) card.querySelector('.inv-use').onclick = () => selectItem(obj.id);
+      grid.appendChild(card);
+    });
+    container.appendChild(grid);
   }
 
-  const grid = document.createElement('div');
-  grid.className = 'inv-grid';
-  allStuff.forEach(obj => {
-    const card = document.createElement('div');
-    card.className = 'inv-card';
-    card.innerHTML = `
-      <div class="inv-icon">${obj.icon}</div>
-      <div class="inv-name">${obj.name}</div>
-      <div class="inv-desc">${obj.desc}</div>`;
-    grid.appendChild(card);
-  });
-  container.innerHTML = '';
-  container.appendChild(grid);
+  const quests = Object.keys(QUESTS).filter(id => questState(id) !== 'none');
+  if (quests.length) {
+    const head = document.createElement('div');
+    head.className = 'inv-section';
+    head.textContent = '📜 Missioni';
+    container.appendChild(head);
+    quests.forEach(id => {
+      const q = QUESTS[id];
+      const done = questState(id) === 'done';
+      const row = document.createElement('div');
+      row.className = `quest-row ${done ? 'done' : ''}`;
+      row.innerHTML = `<div><b>${q.icon} ${q.title}</b><div class="inv-desc">${q.desc}</div></div>
+        <div class="quest-status">${done ? '✅' : q.progress ? q.progress() : '…'}</div>`;
+      container.appendChild(row);
+    });
+  }
 }
 
 /* --------------------------------------------------------------------------
