@@ -1076,3 +1076,26 @@ $('scene-svg').addEventListener('click', onSceneClick);
 $('dialogue-text').addEventListener('click', skipTyping);
 updateHUD();
 initTitle();
+
+/* --------------------------------------------------------------------------
+   GIOCO OFFLINE (PWA): service worker e pulsante "Installa"
+   -------------------------------------------------------------------------- */
+let installPrompt = null;
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  installPrompt = e;
+  $('btn-install').style.display = 'inline-block';
+});
+function installApp() {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  installPrompt.userChoice.finally(() => {
+    installPrompt = null;
+    $('btn-install').style.display = 'none';
+  });
+}
