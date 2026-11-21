@@ -157,7 +157,7 @@ const AREAS = [
             { text: '7⁵', correct: true },
             { text: '7¹¹', correct: false, msg: 'Hai sommato invece di sottrarre! C’è il simbolo di DIVISO (:), non per!' },
             { text: '1⁵', correct: false, msg: 'Non devi fare 7 : 7 = 1! La base resta 7, sottrai solo gli esponenti.' },
-            { text: '6⁷', correct: false, msg: 'Ancora con sto six seven?! Dai focus, fai 8 meno 3!' }
+            { text: '6⁷', correct: false, msg: 'Ancora con sto six seven?! Concentrati, fai 8 meno 3!' }
           ]
         },
         {

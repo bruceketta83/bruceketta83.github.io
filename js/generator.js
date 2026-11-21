@@ -52,37 +52,48 @@ const MSG = {
   multExp: [
     'Bro, hai moltiplicato gli esponenti! Con la stessa base gli esponenti si SOMMANO.',
     'Nemmeno Fabri Fibra nei testi più paranoici moltiplicherebbe questi esponenti! Stessa base = esponenti SOMMATI.',
-    'Cringe alert: esponenti moltiplicati. Con il PER tra potenze della stessa base si SOMMANO!'
+    'Cringe alert: esponenti moltiplicati. Con il PER tra potenze della stessa base si SOMMANO!',
+    'Red flag: esponenti moltiplicati! Con la stessa base e il PER, gli esponenti si SOMMANO.'
   ],
   multBase: [
     'Hai moltiplicato le basi! Le basi restano ferme come Marracash sul trono.',
     'Le basi non si toccano, sono intoccabili! Somma solo gli esponenti.',
-    'No no no, la base non cambia! Base ferma, esponenti sommati.'
+    'No no no, la base non cambia! Base ferma, esponenti sommati.',
+    'Base cambiata? Sus. La base resta uguale, sommi solo gli esponenti.',
+    'La base resta uguale, come un ritornello di Annalisa che non esce dalla testa. Somma solo gli esponenti!'
   ],
   sumInsteadSub: [
     'Hai sommato invece di sottrarre! C’è il simbolo di DIVISO (:), non per!',
     'Plot twist: era un DIVISO! Con il diviso gli esponenti si SOTTRAGGONO.',
-    'Occhio al segno! DIVISO = esponenti SOTTRATTI.'
+    'Occhio al segno! DIVISO = esponenti SOTTRATTI.',
+    'Chillati e rileggi il segno: è un DIVISO. Gli esponenti si SOTTRAGGONO.',
+    'Nemmeno Olly sul palco di Sanremo sbaglierebbe questo segno: con il DIVISO gli esponenti si SOTTRAGGONO.'
   ],
   sumInsteadMult: [
     'Hai sommato gli esponenti! Nella potenza di potenza si MOLTIPLICANO.',
     'Errore di sistema! Potenza di potenza = esponenti MOLTIPLICATI, non sommati.',
-    'Quella è la regola del prodotto, non della potenza di potenza! Qui si MOLTIPLICA.'
+    'Quella è la regola del prodotto, non della potenza di potenza! Qui si MOLTIPLICA.',
+    'POV: hai usato la regola sbagliata. Potenza di potenza = esponenti MOLTIPLICATI.',
+    'Anna lo direbbe a ritmo: potenza di potenza, esponenti MOLTIPLICATI!'
   ],
   zeroIsZero: [
     'Cringe! Un numero elevato a zero non fa zero, fa UNO!',
     'Zero drama: qualsiasi numero (tranne 0) elevato a 0 fa 1, non 0!',
-    'Esponente 0 ≠ risultato 0. Il risultato è sempre 1!'
+    'Esponente 0 ≠ risultato 0. Il risultato è sempre 1!',
+    'Pensare che a<sup>0</sup> faccia 0 è un po’ delulu. Fa sempre 1 (con a diverso da 0)!',
+    'Angelina Mango canta “La noia”, ma qui la noia è sbagliare: elevato a 0 fa 1!'
   ],
   meme67: [
-    'Six seven?! Ma che stai facendo, il balletto su TikTok?! Focus!',
+    'Six seven?! Ma che stai facendo, il balletto su TikTok?! Concentrati!',
     'Ancora con sto six seven?! Il meme è valido, la risposta no.',
-    '6-7 rilevato 🤖. Meme approvato, risposta bocciata.'
+    '6-7 rilevato 🤖. Meme approvato, risposta bocciata.',
+    'Six seven a random? Raga, concentrazione: rifai il calcolo.'
   ],
   close: [
     'Quasi! Ricontrolla il calcolo dell’esponente.',
     'Ci sei quasi! Rifai il conto con calma.',
-    'Vicina, ma non basta! Ricontrolla l’esponente.'
+    'Vicina, ma non basta! Ricontrolla l’esponente.',
+    'Boh, quasi! Chillati e rifai il conto dell’esponente.'
   ]
 };
 

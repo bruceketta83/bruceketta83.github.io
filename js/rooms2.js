@@ -58,15 +58,23 @@ const TURBINA = {
     'Shhh... i miei calzini parlano. Dicono che oggi devi comprare qualcosa. I calzini non sbagliano MAI.',
     'Il mio cappello ha l’elica! Se gira abbastanza veloce, volo. Non è mai successo. MA SUCCEDERÀ.',
     'Conosco i prezzi a mena dito! Anzi, a mena gomito. A mena ginocchio! Ok, a mena dito.',
-    'Benvenuta! Oggi la mia pozione fa le bolle a forma di esponente. Ieri faceva le bolle a forma di gatto.'
+    'Benvenuta! Oggi la mia pozione fa le bolle a forma di esponente. Ieri faceva le bolle a forma di gatto.',
+    'Ho un Labubu che conta in potenze di 2: uno, due, quattro, otto... poi si addormenta. Come me.',
+    'Assaggia! Cioccolato di Dubai al gusto esponente. Il pistacchio è elevato alla seconda!',
+    'Il mio capibara è così chill che quando lo guardi ti cala l’ansia alla zero. Cioè fa UNO di ansia. Matematica!',
+    'Raga, oggi flexo la mia collezione: 2³ Labubu, tutti diversi. Uno mi guarda male, ma ci sta.',
+    'Ieri ho cantato Mahmood ai miei piccioni. Hanno chiesto il bis. Anzi, il bis al quadrato!'
   ],
   bought: [
     'Ottimo acquisto! Lo racconto a tutti i miei piccioni.',
     'Venduto! Uso i soldi per comprare un’elica più grande.',
     'Che scelta! I miei calzini applaudono.',
-    'Affare fatto! Torna presto, o tardi, o di lato come i granchi!'
+    'Affare fatto! Torna presto, o tardi, o di lato come i granchi!',
+    'Slay! Con questo acquisto il mio Labubu fa la ruota.',
+    'Venduto! Festeggio con il cioccolato di Dubai. E col capibara.',
+    'Affare! Ora canto come Sarah Toscano ad Amici. Stonata, ma col cuore.'
   ],
-  look: ['Zia Turbina. Ha un’elica sul cappello, due occhiali diversi e una pozione che fa le bolle. Normalissima.', 'Ha i capelli di 6 colori. Sei. Come le aree dell’isola. Coincidenza? Sì.']
+  look: ['Zia Turbina. Ha un’elica sul cappello, due occhiali diversi e una pozione che fa le bolle. Normalissima.', 'Ha i capelli di 6 colori. Sei. Come le aree dell’isola. Coincidenza? Sì.', 'Ha un Labubu appeso alla cintura. Il Labubu ha un Labubu più piccolo. È sus.']
 };
 
 function talkTurbina() {
@@ -586,7 +594,7 @@ function readQuestBoard() {
   A.rooms = {
     giardino: {
       scene: 'serra',
-      enter: ['Farfalle ovunque. E una pianta che russa.', 'Che caldo umido! I miei capelli fanno "boing".', 'La luce passa dai vetri e fa tutto verde.'],
+      enter: ['Farfalle ovunque. E una pianta che russa.', 'Che caldo umido! I miei capelli fanno "boing".', 'La luce passa dai vetri e fa tutto verde.', 'Un capibara fa il bagno nella vasca delle ninfee. Chillissimo. Lui sì che sa vivere.'],
       layout: {
         ...A.layout,
         mentor: { ...A.layout.mentor, look: ['Madame Zeri. Occhiali da sole al chiuso. Icona.', 'Ha un ventaglio rosa e un’aura da diva.'] },
@@ -736,7 +744,7 @@ function readQuestBoard() {
      'Mira: "Ciao! Noi siamo Mira e Nora. Gemelle, meccaniche e geniali. In quest’ordine."'],
     'Nora: "Quando moltiplichi o dividi potenze con lo <b>stesso esponente</b>, fai prima l’operazione tra le basi e lasci lo stesso esponente!"',
     ['Mira: "Esempio: <span class="math-expr">4<sup>3</sup> · 5<sup>3</sup> = (4 · 5)<sup>3</sup> = 20<sup>3</sup></span>. Facile come stringere un bullone."',
-     'Nora: "Tipo <span class="math-expr">12<sup>4</sup> : 4<sup>4</sup> = (12 : 4)<sup>4</sup> = 3<sup>4</sup></span>. Boom."'],
+     'Nora: "Tipo <span class="math-expr">12<sup>4</sup> : 4<sup>4</sup> = (12 : 4)<sup>4</sup> = 3<sup>4</sup></span>. Bum."'],
     'Mira: "Abbiamo scritto la <b>Regola 5</b> nel Taccuino. L’Automa è spento: gli manca l’<b>ingranaggio d’oro</b>, chiuso nella bilancia del magazzino." Nora: "E se trovi i nostri <b>3 bulloni d’oro</b>... ti paghiamo!"'
   ];
   A.mentor.again = () => (questState('bulloni') === 'active' && questCount('bulloni') < 3

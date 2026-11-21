@@ -926,7 +926,7 @@ function submitAnswer(ok, msg, extra = '') {
   const gc = guardianCenter(area);
   burst(gc.x, gc.y, ['✨', '⭐', '💥', '💫'], 12);
 
-  const slay = pick(['Slay!', 'Che aura!', 'Iconica!', 'Boom!', 'Mother!', 'Zero sbatti!']);
+  const slay = pick(['Slay!', 'Che aura!', 'Iconica!', 'Bum!', 'Mitica!', 'Zero sbatti!', 'Green flag!', 'Ci sta!']);
   setFeedback(`
     <div class="feedback-banner feedback-success">
       ✅ <b>${slay} +${gain} Aura</b>${duel.double ? ' 🧪' : ''}${duel.streak > 1 ? ` &nbsp;🔥 Combo x${duel.streak}` : ''}
