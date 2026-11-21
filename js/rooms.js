@@ -477,10 +477,10 @@ function laviniaCameo(area, flagKey) {
           look: 'Una bacheca con dei fogli appesi. Qualcuno ha scritto qualcosa.'
         },
         {
-          id: 'cassa-acqua', name: '📦 Cassa in acqua', box: [112, 180, 34, 26], stand: 128,
+          id: 'cassa-acqua', name: '📦 Cassa in acqua', box: [183, 180, 34, 26], stand: 200,
           visible: () => !flag('cassa_ok'),
-          draw: () => `<g class="bob">${objInBox('cassa', [112, 180, 34, 24]).svg}${objText('2⁵', 129, 197, 8, '#fef3c7')}</g>
-            <ellipse class="shimmer" cx="129" cy="205" rx="16" ry="2.4" fill="#c4b5fd" opacity="0.5"/>`,
+          draw: () => `<g class="bob">${objInBox('cassa', [183, 180, 34, 24]).svg}${objText('2⁵', 200, 197, 8, '#fef3c7')}</g>
+            <ellipse class="shimmer" cx="200" cy="205" rx="16" ry="2.4" fill="#c4b5fd" opacity="0.5"/>`,
           look: [
             'Una cassa del carico galleggia sotto il pontile. Senza una corda non ci arrivo.',
             'È la cassa di Barnaba! Dondola tra le onde. Mi serve qualcosa per tirarla su.'
