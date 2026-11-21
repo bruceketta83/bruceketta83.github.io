@@ -123,7 +123,7 @@ Per eseguirli sul computer:
 2. Nella cartella del progetto esegui `npm ci`, poi `npx playwright install chromium`.
 3. Esegui `npm test`. Il server locale parte da solo.
 
-Elenco delle evoluzioni proposte: [ROADMAP.md](ROADMAP.md). Linee guida per i dialoghi: [DIALOGHI.md](DIALOGHI.md).
+Elenco delle evoluzioni proposte: [ROADMAP.md](ROADMAP.md). Linee guida per i dialoghi: [DIALOGHI.md](DIALOGHI.md). Descrizione grafica: [GRAFICA.md](GRAFICA.md).
 
 ## 🚀 Pubblicazione su GitHub Pages
 
