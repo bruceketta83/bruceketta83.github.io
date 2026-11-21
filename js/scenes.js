@@ -1316,9 +1316,11 @@ SCENES.vivaio = {
     <path d="M0 0 L400 0 L400 184 L0 184 Z" fill="#166534"/>
     <path d="M0 40 L400 40 M0 90 L400 90 M0 140 L400 140" stroke="#14532d" stroke-width="1.2"/>
     <!-- Lucernario -->
-    <rect x="170" y="0" width="64" height="18" fill="#bae6fd"/>
-    <path d="M202 0 L202 18 M170 9 L234 9" stroke="#475569" stroke-width="2"/>
-    <rect x="170" y="0" width="64" height="18" fill="none" stroke="#475569" stroke-width="3"/>
+    <path d="M150 0 L188 34 M290 0 L252 34" stroke="#14532d" stroke-width="5"/>
+    <rect x="184" y="30" width="72" height="34" rx="3" fill="#475569"/>
+    <rect x="188" y="34" width="64" height="26" fill="#bae6fd"/>
+    <path d="M220 34 L220 60 M188 47 L252 47" stroke="#475569" stroke-width="2.4"/>
+    <path d="M192 38 L204 38 M232 51 L246 51" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
     ${trays.join('')}
     <rect x="250" y="70" width="110" height="5" fill="#78350f"/>
     <g transform="translate(270 70)"><path d="M-6 0 L6 0 L5 -9 L-5 -9 Z" fill="#c2410c"/><circle cy="-13" r="6" fill="#15803d"/></g>

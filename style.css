@@ -628,7 +628,7 @@ body {
 
 #use-banner {
   position: absolute;
-  top: 44px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 14;
