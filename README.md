@@ -115,7 +115,7 @@ Il gioco è una PWA: dopo la prima apertura funziona anche **senza Internet**.
 
 ## 🧪 Test automatici
 
-A ogni pull request GitHub esegue i test (`.github/workflows/test.yml`): generatore di esercizi, tipi di esercizio, calcolatrice, opzioni di lettura, tutte le stanze, una partita completa con i ritorni, gioco offline, salvataggi vecchi.
+A ogni pull request GitHub esegue i test (`.github/workflows/test.yml`): generatore di esercizi, tipi di esercizio, calcolatrice, opzioni di lettura, personaggi e oggetti separati e toccabili in ogni stanza, tutte le stanze, una partita completa con i ritorni, gioco offline, salvataggi vecchi.
 
 Per eseguirli sul computer:
 
