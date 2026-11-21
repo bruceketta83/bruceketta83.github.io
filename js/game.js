@@ -656,8 +656,10 @@ function authoredToQuestion(q, area) {
 
 function nextQuestion() {
   const area = AREAS[duel.areaId];
-  duel.q = duel.authored.length ? authoredToQuestion(duel.authored.shift(), area) : generateQuestion(area);
+  clearTimeout(duel.timer);
+  duel.q = duel.authored.length ? authoredToQuestion(duel.authored.shift(), area) : makeDuelQuestion(area);
   duel.answered = false;
+  duel.solve = null;
   setFeedback('');
   renderQuestion();
 }
@@ -668,28 +670,152 @@ function renderQuestion() {
   const q = duel.q;
   const intro = duel.first ? `<p class="g-intro">"${say(g.intro)}"</p>` : '';
   duel.first = false;
+  const lvl = LEVELS[q.level !== undefined ? q.level : 1];
+  const typeTag = q.type && q.type !== 'choice' ? `<div class="q-type">${TYPE_NAMES[q.type]}</div>` : '';
 
-  setDialogue(g.name, `${g.role} • Colpo ${duel.max - duel.hp + 1} di ${duel.max}`,
-    guardianAvatar(area), `${intro}<div>${q.prompt}</div>`, 'guardian');
+  setDialogue(g.name, `${g.role} • Colpo ${duel.max - duel.hp + 1} di ${duel.max} • ${lvl.icon} ${lvl.name}`,
+    guardianAvatar(area), `${intro}${typeTag}<div>${q.prompt}</div>`, 'guardian');
 
   const choices = clearChoices();
+  if (q.type === 'input') renderInputQ(choices, q);
+  else if (q.type === 'truefalse') renderTrueFalseQ(choices, q);
+  else if (q.type === 'error') renderErrorQ(choices, q);
+  else if (q.type === 'build') renderBuildQ(choices, q);
+  else renderChoiceQ(choices, q);
+
+  const canHint = (!q.type || q.type === 'choice' || q.type === 'error')
+    && document.querySelectorAll('.q-opt').length > 2;
+  const freeHints = consCount('aiuto');
+  if (canHint && (freeHints > 0 || state.aura >= HINT_COST)) {
+    const label = freeHints > 0 ? `💡 Aiutino gratis (pergamene: ${freeHints})` : `💡 Aiutino: togli una risposta sbagliata (−${HINT_COST} Aura)`;
+    const hint = addChoice(label, () => useHint(hint), 'hint-btn');
+  }
+}
+
+/* Scelta multipla classica. */
+function renderChoiceQ(choices, q) {
   const grid = document.createElement('div');
   grid.className = 'choices-grid';
   shuffle(q.options).forEach(opt => {
     const btn = document.createElement('button');
-    btn.className = 'choice-btn math-choice';
+    btn.className = 'choice-btn math-choice q-opt';
     btn.innerHTML = formatMathString(opt.text);
     btn._opt = opt;
     btn.onclick = () => handleAnswer(opt, btn);
     grid.appendChild(btn);
   });
   choices.appendChild(grid);
+  duel.solve = () => [...grid.children].find(b => b._opt.correct).click();
+}
 
-  const freeHints = consCount('aiuto');
-  if ((freeHints > 0 || state.aura >= HINT_COST) && q.options.filter(o => !o.correct).length > 1) {
-    const label = freeHints > 0 ? `💡 Aiutino gratis (pergamene: ${freeHints})` : `💡 Aiutino: togli una risposta sbagliata (−${HINT_COST} Aura)`;
-    const hint = addChoice(label, () => useHint(hint), 'hint-btn');
-  }
+/* Tastierino: si scrive l'esponente (o il risultato). */
+function renderInputQ(choices, q) {
+  let typed = '';
+  const pad = document.createElement('div');
+  pad.className = 'keypad';
+  pad.innerHTML = `<div class="keypad-display">?</div>
+    <div class="keypad-grid">${[1, 2, 3, 4, 5, 6, 7, 8, 9, '⌫', 0, 'OK'].map(k =>
+      `<button data-k="${k}" class="${k === 'OK' ? 'ok' : ''}">${k}</button>`).join('')}</div>`;
+  choices.appendChild(pad);
+  const display = pad.querySelector('.keypad-display');
+  const submit = () => {
+    if (!typed || duel.answered) return;
+    pad.querySelectorAll('button').forEach(b => { b.disabled = true; });
+    const ok = typed === q.answer;
+    display.classList.add(ok ? 'right' : 'wrong');
+    submitAnswer(ok, ok ? '' : q.msgFor(typed), ok ? '' : `La risposta giusta era <b>${q.answer}</b>.`);
+  };
+  pad.querySelectorAll('button').forEach(b => {
+    b.onclick = () => {
+      const k = b.dataset.k;
+      if (k === 'OK') { submit(); return; }
+      if (k === '⌫') typed = typed.slice(0, -1);
+      else if (typed.length < 3) typed += k;
+      playSound('blip');
+      display.textContent = typed || '?';
+    };
+  });
+  duel.solve = () => { typed = q.answer; display.textContent = typed; submit(); };
+}
+
+/* Vero o falso con il tempo che scorre. */
+function renderTrueFalseQ(choices, q) {
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<div class="tf-timer"><div style="animation-duration:${q.seconds}s"></div></div>
+    <div class="choices-grid tf-grid">
+      <button class="choice-btn math-choice" data-v="1">✅ Vero</button>
+      <button class="choice-btn math-choice" data-v="0">❌ Falso</button>
+    </div>`;
+  choices.appendChild(wrap);
+  const token = duel;
+  const answer = (v, btn) => {
+    if (duel !== token || duel.answered) return;
+    clearTimeout(duel.timer);
+    wrap.querySelector('.tf-timer').classList.add('stopped');
+    wrap.querySelectorAll('button').forEach(b => {
+      b.disabled = true;
+      if ((b.dataset.v === '1') === q.claimTrue) b.classList.add('right');
+    });
+    const ok = v === q.claimTrue;
+    if (btn && !ok) btn.classList.add('wrong');
+    const msg = v === null ? '⏰ Tempo scaduto! Prova a essere più veloce.' : q.claimTrue ? 'Era vero! Il calcolo era giusto.' : q.claimMsg;
+    submitAnswer(ok, ok ? '' : msg);
+  };
+  wrap.querySelectorAll('button').forEach(b => { b.onclick = () => answer(b.dataset.v === '1', b); });
+  duel.timer = setTimeout(() => answer(null, null), q.seconds * 1000);
+  duel.solve = () => answer(q.claimTrue, wrap.querySelector(`button[data-v="${q.claimTrue ? 1 : 0}"]`));
+}
+
+/* Trova l'errore di Lavinia. */
+function renderErrorQ(choices, q) {
+  const list = document.createElement('div');
+  list.className = 'error-list';
+  q.errOptions.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn q-opt';
+    btn.innerHTML = opt.text;
+    btn._opt = opt;
+    btn.onclick = () => {
+      if (duel.answered) return;
+      list.querySelectorAll('button').forEach(b => { b.disabled = true; if (b._opt.correct) b.classList.add('right'); });
+      if (!opt.correct) btn.classList.add('wrong');
+      submitAnswer(opt.correct, opt.msg);
+    };
+    list.appendChild(btn);
+  });
+  choices.appendChild(list);
+  duel.solve = () => [...list.children].find(b => b._opt.correct).click();
+}
+
+/* Costruisci la potenza: scegli la base e l'esponente. */
+function renderBuildQ(choices, q) {
+  let b = null;
+  let e = null;
+  const box = document.createElement('div');
+  box.className = 'build';
+  box.innerHTML = `<div class="build-result"><span class="build-base">?</span><sup class="build-exp">?</sup></div>
+    <div class="build-row"><span>Base</span>${q.bases.map(x => `<button class="tile" data-b="${x}">${x}</button>`).join('')}</div>
+    <div class="build-row"><span>Esponente</span>${q.exps.map(x => `<button class="tile exp" data-e="${x}">${x}</button>`).join('')}</div>
+    <button class="choice-btn primary-action build-ok" disabled>✔ Conferma</button>`;
+  choices.appendChild(box);
+  const ok = box.querySelector('.build-ok');
+  const refresh = () => {
+    box.querySelector('.build-base').textContent = b === null ? '?' : b;
+    box.querySelector('.build-exp').textContent = e === null ? '?' : e;
+    box.querySelectorAll('[data-b]').forEach(t => t.classList.toggle('on', Number(t.dataset.b) === b));
+    box.querySelectorAll('[data-e]').forEach(t => t.classList.toggle('on', Number(t.dataset.e) === e));
+    ok.disabled = b === null || e === null;
+  };
+  box.querySelectorAll('[data-b]').forEach(t => { t.onclick = () => { b = Number(t.dataset.b); playSound('blip'); refresh(); }; });
+  box.querySelectorAll('[data-e]').forEach(t => { t.onclick = () => { e = Number(t.dataset.e); playSound('blip'); refresh(); }; });
+  ok.onclick = () => {
+    if (duel.answered) return;
+    box.querySelectorAll('button').forEach(x => { x.disabled = true; });
+    const right = b === q.ans.b && e === q.ans.e;
+    box.querySelector('.build-result').classList.add(right ? 'right' : 'wrong');
+    submitAnswer(right, right ? '' : q.msgFor(b, e), right ? '' : `La potenza giusta era <b>${q.ans.b}<sup>${q.ans.e}</sup></b>.`);
+  };
+  duel.solve = () => { b = q.ans.b; e = q.ans.e; refresh(); ok.click(); };
 }
 
 function formatMathString(str) {
@@ -700,8 +826,8 @@ function formatMathString(str) {
 function useHint(hintBtn) {
   const free = consCount('aiuto') > 0;
   if (!duel || duel.answered || (!free && state.aura < HINT_COST)) return;
-  const wrongBtns = [...document.querySelectorAll('.choices-grid .math-choice')]
-    .filter(b => !b._opt.correct && !b.disabled);
+  const wrongBtns = [...document.querySelectorAll('.q-opt')]
+    .filter(b => b._opt && !b._opt.correct && !b.disabled);
   if (wrongBtns.length <= 1) return;
   const b = pick(wrongBtns);
   b.disabled = true;
@@ -717,6 +843,7 @@ function useHint(hintBtn) {
 
 function recordStat(ruleId, ok) {
   if (!ruleId) return;
+  pushRecent(ruleId, ok);
   const s = state.stats[ruleId] || { ok: 0, ko: 0 };
   if (ok) s.ok++; else s.ko++;
   state.stats[ruleId] = s;
@@ -734,21 +861,27 @@ function guardianCenter(area) {
 
 function handleAnswer(opt, btn) {
   if (!duel || duel.answered) return;
+  document.querySelectorAll('.choices-grid .math-choice').forEach(b => {
+    b.disabled = true;
+    if (b._opt && b._opt.correct) b.classList.add('right');
+  });
+  btn.classList.add(opt.correct ? 'right' : 'wrong');
+  submitAnswer(opt.correct, opt.msg);
+}
+
+/* Parte comune a tutti i tipi di esercizio: punti, cuori, feedback. */
+function submitAnswer(ok, msg, extra = '') {
+  if (!duel || duel.answered) return;
   duel.answered = true;
+  clearTimeout(duel.timer);
   const token = duel;
   const area = AREAS[duel.areaId];
   const q = duel.q;
-
-  document.querySelectorAll('.choices-grid .math-choice').forEach(b => {
-    b.disabled = true;
-    if (b._opt.correct) b.classList.add('right');
-  });
   const hint = document.querySelector('.hint-btn');
   if (hint) hint.remove();
-  recordStat(q.ruleId, opt.correct);
+  recordStat(q.ruleId, ok);
 
-  if (!opt.correct) {
-    btn.classList.add('wrong');
+  if (!ok) {
     playSound('error');
     restartAnim($('app'), 'shake');
     state.aura = Math.max(0, state.aura - 10);
@@ -760,7 +893,8 @@ function handleAnswer(opt, btn) {
     updateDuelPanel();
     setFeedback(`
       <div class="feedback-banner feedback-error">
-        ❌ <b>${opt.msg}</b> <span style="opacity:0.8;">(−10 Aura, −1 ❤️)</span>
+        ❌ <b>${msg}</b> <span style="opacity:0.8;">(−10 Aura, −1 ❤️)</span>
+        ${extra ? `<div>${extra}</div>` : ''}
         <div class="solution">✔️ ${q.steps}</div>
       </div>`);
     if (duel.hearts <= 0) {
@@ -773,7 +907,6 @@ function handleAnswer(opt, btn) {
   }
 
   // Risposta giusta: colpo al guardiano
-  btn.classList.add('right');
   playSound('hit');
   duel.streak++;
   state.maxStreak = Math.max(state.maxStreak || 0, duel.streak);
@@ -807,6 +940,7 @@ function handleAnswer(opt, btn) {
 function starsHTML(n) { return '⭐'.repeat(n) + '☆'.repeat(3 - n); }
 
 function winDuel(area) {
+  if (duel) clearTimeout(duel.timer);
   const stars = duel.errors === 0 ? 3 : duel.errors === 1 ? 2 : 1;
   if (duel.errors === 0) state.flags.perfect = true;
   const prev = state.stars[area.id] || 0;
@@ -861,6 +995,7 @@ function winDuel(area) {
 }
 
 function duelLost(area) {
+  if (duel) clearTimeout(duel.timer);
   duel = null;
   hideDuelPanel();
   playSound('defeat');
@@ -986,7 +1121,9 @@ function renderNotebook() {
       ? `<div class="rule-title"><span>${rule.title}</span><span>✅</span></div>
          <div class="rule-formula">${rule.formula}</div>
          <div class="rule-desc">${rule.desc}</div>
-         <div class="rule-example">${rule.example}</div>`
+         <div class="rule-example">${rule.example}</div>
+         <div class="rule-level">Il tuo livello: <b>${LEVELS[ruleLevel(rule.id)].icon} ${LEVELS[ruleLevel(rule.id)].name}</b>
+           <span class="recent-dots">${recentOf(rule.id).map(x => (x ? '🟩' : '🟥')).join('') || '—'}</span></div>`
       : `<div class="rule-title"><span>${rule.title}</span><span>🔒</span></div>
          <div class="rule-desc">Parla con il Mentore dell'area corrispondente per sbloccare questa regola.</div>`;
     container.appendChild(card);

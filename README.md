@@ -55,6 +55,8 @@ L'avventura combina dialoghi in stile pop/moderno, scene animate in grafica vett
 - **Enigmi con numeri casuali**, diversi per ogni profilo: nessuno può copiare la soluzione dalla compagna. Il gioco non dà mai il risultato, solo la regola da usare.
 - **Oggetti sparsi** tra le aree: per completare le missioni bisogna tornare indietro (es. la rete dell'Officina serve per il doblone in fondo al mare del Molo).
 - **Duello**: ogni guardiano ha una barra di vita. Ogni risposta giusta è un colpo. Aria ha 3 cuori.
+- **Difficoltà adattiva**: il gioco ricorda le ultime 8 risposte di ogni regola e sceglie il livello (🟢 Facile, 🟡 Medio, 🔴 Sfida). Il livello scende dopo 2 errori nel duello e sale dopo 3 risposte giuste di fila. Il Taccuino mostra il livello di ogni regola.
+- **5 tipi di esercizio** nei duelli: scelta multipla, ⌨️ esponente da scrivere con il tastierino, ⏱️ vero/falso a tempo, 🔍 trova l'errore di Lavinia, 🧱 costruisci la potenza con le tessere. Il mix cambia con il livello.
 - **Esercizi sempre nuovi**: un generatore crea esercizi casuali per ogni regola. Le risposte sbagliate nascono dagli errori tipici e ogni errore ha la sua spiegazione.
 - **Soluzione passo-passo** dopo ogni risposta.
 - **Aura**: +50 per ogni risposta giusta, bonus combo per le risposte giuste di fila, −10 per ogni errore. Spendi 20 Aura per un "Aiutino".

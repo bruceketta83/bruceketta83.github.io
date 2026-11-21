@@ -25,9 +25,9 @@ function shuffle(arr) {
    le risposte "sbagliate" che in realtà valgono come quella giusta. */
 function optPow(b, e, msg) {
   if (e < 0 || b < 0) return null;
-  return { text: `${b}${toSup(e)}`, val: BigInt(b) ** BigInt(e), msg };
+  return { text: `${b}${toSup(e)}`, val: BigInt(b) ** BigInt(e), msg, b, e };
 }
-function optNum(n, msg) { return { text: String(n), val: BigInt(n), msg }; }
+function optNum(n, msg) { return { text: String(n), val: BigInt(n), msg, n }; }
 function optText(t, msg) { return { text: t, val: null, msg }; }
 
 function assemble(correct, wrongs) {
@@ -93,10 +93,12 @@ function maybeMeme(wrongs) {
 /* --------------------------------------------------------------------------
    REGOLA 1: prodotto con la stessa base
    -------------------------------------------------------------------------- */
-function genProd() {
-  const a = pick([2, 3, 5, 7, 10]);
-  const three = Math.random() < 0.4;
-  const exps = three ? [rnd(2, 5), rnd(1, 4), rnd(2, 5)] : [rnd(2, 7), rnd(2, 7)];
+/* lvl: 0 = facile, 1 = medio, 2 = sfida (difficoltà adattiva). */
+function genProd(lvl = 1) {
+  const a = pick([[2, 3, 5], [2, 3, 5, 7, 10], [3, 5, 7, 10, 11]][lvl]);
+  const three = Math.random() < [0, 0.4, 0.75][lvl];
+  const hi = [5, 7, 9][lvl];
+  const exps = three ? [rnd(2, hi - 2), rnd(1, 4), rnd(2, hi - 2)] : [rnd(2, hi), rnd(2, hi)];
   if (three && Math.random() < 0.5) exps[1] = 1;
   const sum = exps.reduce((s, e) => s + e, 0);
   const prod = exps.reduce((s, e) => s * e, 1);
@@ -118,6 +120,7 @@ function genProd() {
 
   return {
     ruleId: 'prod_same_base',
+    expr: terms,
     prompt,
     steps: `${exps.map(e => P(a, e)).join(' · ')} = ${P(a, exps.join('+'))} = ${P(a, sum)}`,
     options: assemble(optPow(a, sum), wrongs)
@@ -127,15 +130,15 @@ function genProd() {
 /* --------------------------------------------------------------------------
    REGOLA 2: quoziente con la stessa base
    -------------------------------------------------------------------------- */
-function genQuot() {
-  const a = pick([2, 3, 5, 7, 10]);
-  const three = Math.random() < 0.35;
+function genQuot(lvl = 1) {
+  const a = pick([[2, 3, 5], [2, 3, 5, 7, 10], [3, 5, 7, 10, 11]][lvl]);
+  const three = Math.random() < [0, 0.35, 0.7][lvl];
   let exps;
   if (three) {
     const n = rnd(1, 4), p = rnd(1, 3);
     exps = [n + p + rnd(1, 5), n, p];
   } else {
-    const m = rnd(4, 12);
+    const m = rnd(4, [8, 12, 15][lvl]);
     exps = [m, rnd(1, m - 1)];
   }
   const diff = exps.slice(1).reduce((d, e) => d - e, exps[0]);
@@ -157,6 +160,7 @@ function genQuot() {
 
   return {
     ruleId: 'quot_same_base',
+    expr: terms,
     prompt: `${intro} ${M(terms)}`,
     steps: `${terms} = ${P(a, subTxt.replace(/ /g, ''))} = ${P(a, diff)}`,
     options: assemble(optPow(a, diff), wrongs)
@@ -166,10 +170,10 @@ function genQuot() {
 /* --------------------------------------------------------------------------
    REGOLA 3: potenza di potenza
    -------------------------------------------------------------------------- */
-function genPow() {
-  const a = pick([2, 3, 5, 7]);
-  const nested = Math.random() < 0.3;
-  const m = rnd(2, 5), n = rnd(2, 4), p = nested ? rnd(2, 3) : 1;
+function genPow(lvl = 1) {
+  const a = pick([[2, 3], [2, 3, 5, 7], [3, 5, 7, 10]][lvl]);
+  const nested = Math.random() < [0, 0.3, 0.6][lvl];
+  const m = rnd([2, 2, 3][lvl], [4, 5, 6][lvl]), n = rnd(2, [3, 4, 4][lvl]), p = nested ? rnd(2, 3) : 1;
   const tot = m * n * p;
   const expr = nested ? `[(${P(a, m)})<sup>${n}</sup>]<sup>${p}</sup>` : `(${P(a, m)})<sup>${n}</sup>`;
   const multTxt = nested ? `${m}·${n}·${p}` : `${m}·${n}`;
@@ -188,6 +192,7 @@ function genPow() {
 
   return {
     ruleId: 'pow_of_pow',
+    expr,
     prompt: `${intro} ${M(expr)}`,
     steps: `${expr} = ${P(a, multTxt)} = ${P(a, tot)}`,
     options: assemble(optPow(a, tot), wrongs)
@@ -197,14 +202,16 @@ function genPow() {
 /* --------------------------------------------------------------------------
    REGOLA 4: esponente 0 e 1
    -------------------------------------------------------------------------- */
-function genZero() {
-  const r = Math.random();
+function genZero(lvl = 1) {
+  // Facile: solo a⁰ e a¹. Sfida: parentesi, quozienti e trabocchetti.
+  const r = [Math.random() * 0.45, Math.random(), 0.45 + Math.random() * 0.55][lvl];
   const noMeaning = (v) => optText('Non ha significato', `Ha significato eccome! Solo ${P(0, 0)} non ce l’ha. Qui il risultato è ${v}.`);
 
   if (r < 0.25) {
     const big = rnd(12, 999);
     return {
       ruleId: 'zero_one_exp',
+      expr: P(big, 0),
       prompt: `Quanto fa ${M(P(big, 0))}?`,
       steps: `${P(big, 0)} = 1 &nbsp;(ogni numero diverso da 0 elevato a 0 fa 1)`,
       options: assemble(optNum(1), [
@@ -218,6 +225,7 @@ function genZero() {
     const x = rnd(2, 99);
     return {
       ruleId: 'zero_one_exp',
+      expr: P(x, 1),
       prompt: `Quanto fa ${M(P(x, 1))}?`,
       steps: `${P(x, 1)} = ${x} &nbsp;(con esponente 1 il numero resta se stesso)`,
       options: assemble(optNum(x), [
@@ -233,6 +241,7 @@ function genZero() {
     const m = rnd(2, 9), n = rnd(2, 9);
     return {
       ruleId: 'zero_one_exp',
+      expr: `(${P(a, m)} · ${P(a, n)})<sup>0</sup>`,
       prompt: `Calcola al volo: ${M(`(${P(a, m)} · ${P(a, n)})<sup>0</sup>`)}`,
       steps: `(${P(a, m)} · ${P(a, n)})<sup>0</sup> = 1 &nbsp;(tutto elevato a 0 fa 1)`,
       options: assemble(optNum(1), [
@@ -247,6 +256,7 @@ function genZero() {
     const m = rnd(2, 9);
     return {
       ruleId: 'zero_one_exp',
+      expr: `${P(a, m)} : ${P(a, m)}`,
       prompt: `Doppia regola! ${M(`${P(a, m)} : ${P(a, m)}`)}`,
       steps: `${P(a, m)} : ${P(a, m)} = ${P(a, `${m}−${m}`)} = ${P(a, 0)} = 1`,
       options: assemble(optNum(1), [
@@ -272,14 +282,15 @@ function genZero() {
 /* --------------------------------------------------------------------------
    REGOLA 5: stesso esponente
    -------------------------------------------------------------------------- */
-function genSame() {
-  const n = rnd(2, 5);
-  if (Math.random() < 0.6) {
+function genSame(lvl = 1) {
+  const n = rnd(2, [3, 5, 7][lvl]);
+  if (Math.random() < [0.8, 0.6, 0.4][lvl]) {
     const pair = shuffle([2, 3, 4, 5, 6]).slice(0, 2);
     const [a, b] = pair;
     const ab = a * b;
     return {
       ruleId: 'same_exp',
+      expr: `${P(a, n)} · ${P(b, n)}`,
       prompt: `${pick(['Fondi gli ingranaggi:', 'Calcola:', 'Unisci le potenze:'])} ${M(`${P(a, n)} · ${P(b, n)}`)}`,
       steps: `${P(a, n)} · ${P(b, n)} = (${a} · ${b})<sup>${n}</sup> = ${P(ab, n)}`,
       options: assemble(optPow(ab, n), [
@@ -296,6 +307,7 @@ function genSame() {
   const a = b * k;
   return {
     ruleId: 'same_exp',
+    expr: `${P(a, n)} : ${P(b, n)}`,
     prompt: `${pick(['Dividi la potenza:', 'Calcola:', 'Separa gli ingranaggi:'])} ${M(`${P(a, n)} : ${P(b, n)}`)}`,
     steps: `${P(a, n)} : ${P(b, n)} = (${a} : ${b})<sup>${n}</sup> = ${P(k, n)}`,
     options: assemble(optPow(k, n), [
@@ -311,8 +323,13 @@ function genSame() {
 /* --------------------------------------------------------------------------
    DUELLO FINALE: esercizi combinati
    -------------------------------------------------------------------------- */
-function genMix() {
-  const t = rnd(1, 4);
+function genMix(lvl = 1) {
+  // Le regole con più errori escono più spesso (peso 3 = facile, 1 = sfida).
+  const rules = ['pow_of_pow', 'prod_same_base', 'same_exp', 'zero_one_exp'];
+  const w = rules.map(r => (typeof ruleLevel === 'function' ? 3 - ruleLevel(r) : 1));
+  let x = Math.random() * w.reduce((a, b) => a + b, 0);
+  let t = 1;
+  for (let i = 0; i < w.length; i++) { x -= w[i]; if (x <= 0) { t = i + 1; break; } }
   const close = (e, txt) => optPow(...e, `${pick(MSG.close)} ${txt}`);
 
   if (t === 1) {
@@ -322,6 +339,7 @@ function genMix() {
     const expr = `(${P(a, m)})<sup>${n}</sup> : ${P(a, p)}`;
     return {
       ruleId: 'pow_of_pow',
+      expr,
       prompt: `Due passaggi! ${M(expr)}`,
       steps: `(${P(a, m)})<sup>${n}</sup> = ${P(a, m * n)} → ${P(a, m * n)} : ${P(a, p)} = ${P(a, r)}`,
       options: assemble(optPow(a, r), [
@@ -340,6 +358,7 @@ function genMix() {
     const expr = `(${P(a, m)} · ${P(a, n)}) : ${P(a, p)}`;
     return {
       ruleId: 'prod_same_base',
+      expr,
       prompt: `Stabilizza il nucleo! ${M(expr)}`,
       steps: `${P(a, m)} · ${P(a, n)} = ${P(a, m + n)} → ${P(a, m + n)} : ${P(a, p)} = ${P(a, r)}`,
       options: assemble(optPow(a, r), [
@@ -359,6 +378,7 @@ function genMix() {
     const expr = `(${P(a, n)} · ${P(b, n)}) : ${P(ab, p)}`;
     return {
       ruleId: 'same_exp',
+      expr,
       prompt: `L’onda d’urto! ${M(expr)}`,
       steps: `${P(a, n)} · ${P(b, n)} = ${P(ab, n)} → ${P(ab, n)} : ${P(ab, p)} = ${P(ab, r)}`,
       options: assemble(optPow(ab, r), [
@@ -374,6 +394,7 @@ function genMix() {
   const expr = `(${P(a, m)})<sup>0</sup> · ${P(a, n)}`;
   return {
     ruleId: 'zero_one_exp',
+    expr,
     prompt: `Trappola di Lavinia! ${M(expr)}`,
     steps: `(${P(a, m)})<sup>0</sup> = 1 → 1 · ${P(a, n)} = ${P(a, n)}`,
     options: assemble(optPow(a, n), [
@@ -393,7 +414,10 @@ const GENERATORS = {
   same_exp: genSame
 };
 
-function generateQuestion(area) {
+function generateQuestion(area, lvl = 1) {
   const gen = area.ruleId ? GENERATORS[area.ruleId] : genMix;
-  return gen();
+  const q = gen(lvl);
+  q.level = lvl;
+  q.type = 'choice';
+  return q;
 }

@@ -227,7 +227,7 @@ function laviniaCameo(area, flagKey) {
   setDialogue(who.name, who.role, who.avatar, LAVINIA.taunts, who.speaker);
   clearChoices();
   const go = () => {
-    const q = generateQuestion(area);
+    const q = generateQuestion(area, area.ruleId ? ruleLevel(area.ruleId) : 1);
     quickQuestion(q, { ...who, intro: say(LAVINIA.challenge) }, (ok) => {
       setDialogue(who.name, who.role, who.avatar, ok ? LAVINIA.win : LAVINIA.lose, who.speaker);
       clearChoices();

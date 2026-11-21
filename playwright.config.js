@@ -18,6 +18,8 @@ module.exports = defineConfig({
   webServer: {
     command: 'python3 -m http.server 4173',
     url: 'http://localhost:4173/',
-    reuseExistingServer: !process.env.CI
+    reuseExistingServer: !process.env.CI,
+    stdout: 'ignore',
+    stderr: 'ignore'
   }
 });
