@@ -66,7 +66,8 @@ function game(page) {
         if (st === null) break;
         if (st) { await W(page, 400); continue; }
         await page.click('#dialogue-text');
-        await page.evaluate(() => [...document.querySelectorAll('.math-choice')].find(b => b._opt.correct).click());
+        // Risponde giusto con qualunque tipo di esercizio (scelta, tastierino, vero/falso...).
+        await page.evaluate(() => duel.solve());
         await W(page, 1900);
       }
       await W(page, 1500);

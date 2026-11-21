@@ -6,8 +6,8 @@ Elenco delle evoluzioni proposte. Stato: ✅ fatto · 🚧 in corso · ⬜ da fa
 
 | # | Proposta | Descrizione | Lavoro | Stato |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | Difficoltà adattiva | Più esercizi, con numeri più facili, sulle regole con più errori. Esercizi più difficili sulle regole già sicure. | Medio | ⬜ |
-| 2 | Nuovi tipi di esercizio | Esponente da scrivere con il tastierino, potenza da costruire trascinando i pezzi, vero/falso a tempo, "trova l'errore" di Lavinia. | Medio | ⬜ |
+| 1 | Difficoltà adattiva | Più esercizi, con numeri più facili, sulle regole con più errori. Esercizi più difficili sulle regole già sicure. | Medio | ✅ |
+| 2 | Nuovi tipi di esercizio | Esponente da scrivere con il tastierino, potenza da costruire con le tessere, vero/falso a tempo, "trova l'errore" di Lavinia. | Medio | ✅ |
 | 3 | Palestra di Zia Turbina | Allenamento libero dopo il gioco, sfide a tempo su tutte le regole, record personale. | Basso | ⬜ |
 | 4 | Sfida del giorno | Una domanda nuova ogni giorno, con una piccola ricompensa in Aura (ripasso distribuito). | Basso | ⬜ |
 | 5 | Seconda isola | Contenuti di terza media: esponenti negativi, notazione scientifica, potenze di frazioni. | Alto | ⬜ |
@@ -41,6 +41,6 @@ Elenco delle evoluzioni proposte. Stato: ✅ fatto · 🚧 in corso · ⬜ da fa
 ## Ordine consigliato
 
 1. ✅ Gioco offline e test automatici (10, 12).
-2. ⬜ Difficoltà adattiva e nuovi tipi di esercizio (1, 2).
+2. ✅ Difficoltà adattiva e nuovi tipi di esercizio (1, 2).
 3. ⬜ Resoconto per l'insegnante (6).
 4. ⬜ Opzioni di lettura (11).
