@@ -201,7 +201,7 @@ const LAVINIA = {
     'Pensi di arrivare al Faro prima di me? Delulu.',
     'Guarda il mio Labubu edizione limitata. Ah, tu non ce l’hai? Che peccato. Non.',
     'Oggi flexo: tre cristalli e zero errori. Tu? Boh, lascia stare.',
-    'Io studio con Elodie nelle cuffie. Tu con i granchi che ti fanno la base.'
+    'Io studio con Elodie nelle cuffie. Tu con i granchi che fanno il beat.'
   ],
   challenge: [
     'Domanda lampo. Vediamo se reggi o se vai in tilt.',
@@ -645,7 +645,7 @@ function laviniaCameo(area, flagKey) {
       onSuccess: () => {
         setFlag('capanno_open');
         refreshLabels(A);
-        ariaSays(['Click! Il lucchetto si apre. Stessa base, esponenti sommati: facilissimo.', 'Aperto! Le potenze le so a mena dito.']);
+        ariaSays(['Click! Il lucchetto si apre. Stessa base, esponenti sommati: too easy.', 'Aperto! Le potenze le so a mena dito.']);
       }
     });
   }

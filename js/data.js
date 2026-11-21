@@ -253,7 +253,7 @@ const AREAS = [
       role: 'Mentore • Esponente 0 e 1',
       avatar: '🕶️',
       lines: [
-        'Tesoro, qui dentro vige la legge della Vera Baddie: non importa quanto un numero sia gigante o spaventoso, se lo elevi a <b>0</b> diventa subito <b>1</b>. Niente drammi, zero sbatti.',
+        'Tesoro, qui dentro vige la legge della Vera Baddie: non importa quanto un numero sia gigante o spaventoso, se lo elevi a <b>0</b> diventa subito <b>1</b>. Zero drama, zero sbatti.',
         'Ricorda solo due cose: <b>qualsiasi numero (tranne zero) elevato a 0 fa 1</b>, mentre <b>qualsiasi numero elevato a 1 resta se stesso</b>. E 0<sup>0</sup> non esiste!',
         'Ho inserito la <b>Regola 4</b> nel Taccuino. Vai a potare quella piantina!'
       ]
@@ -366,9 +366,9 @@ const AREAS = [
     mentor: null,
     guardian: {
       name: 'Lavinia, la Rivalessa',
-      role: "Sfidante finale dell'Accademia",
+      role: "Boss Finale dell'Accademia",
       avatar: '👑',
-      intro: 'Pensi davvero di battermi, Aria? Io ho l’aura da prima della classe! Vediamo se reggi queste sfide miste!',
+      intro: 'Pensi davvero di battermi, Aria? Io ho l’aura da prima della classe! Vediamo se reggi questi round combinati!',
       loseMsg: 'Visto? L’aura da prima della classe è mia. Ripassa il Taccuino e torna, se hai coraggio!',
       questions: [
         {

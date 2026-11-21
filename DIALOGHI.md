@@ -16,21 +16,15 @@ Regole per scrivere e rivedere i dialoghi del gioco. Usale come lista di control
 3. Non usare parolacce, nemmeno attenuate.
 4. Scrivi in italiano. Usa una parola inglese solo se è nello slang approvato (sezione 3).
 5. Puoi usare le parole inglesi già entrate nell'italiano: ok, wow, tilt, nerd, follower, TikTok.
-6. Traduci le altre parole inglesi. Esempi:
+6. Puoi usare queste espressioni inglesi approvate: game over, plot twist, zero drama, cringe alert, combo (es. "Combo x3"), boss finale, round, sistemi online, fashion victim, nerd level, too easy, ON, baby, beat, stop.
+7. Traduci le altre parole inglesi. Esempi:
 
 | Non scrivere | Scrivi |
 | :--- | :--- |
-| game over | partita finita |
 | game on | sfida accettata |
-| plot twist | colpo di scena |
 | focus | concentrati |
-| zero drama | niente drammi |
-| combo | serie (di risposte giuste) |
-| boss | sfidante finale |
-| round | sfida |
-| online (robot) | attivo |
 | boom | bum |
-| stop | ferma |
+| mother (come lode) | mitica |
 
 ## 3. Parole e riferimenti approvati
 

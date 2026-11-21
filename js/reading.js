@@ -136,7 +136,7 @@ function toggleListen() {
 function updateListenBtn() {
   const b = $('btn-listen');
   if (!b) return;
-  b.textContent = speaking ? '⏹ Ferma' : '🔈 Ascolta';
+  b.textContent = speaking ? '⏹ Stop' : '🔈 Ascolta';
   b.setAttribute('aria-pressed', speaking ? 'true' : 'false');
 }
 
