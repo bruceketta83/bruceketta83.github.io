@@ -368,8 +368,8 @@ function labelsHTML(area) {
       ? area.ruleId && !state.unlockedRules.includes(area.ruleId)
       : (!area.ruleId || state.unlockedRules.includes(area.ruleId)) && !state.completedAreas.includes(area.id);
     const color = role === 'mentor' ? '#10b981' : '#ec4899';
-    // Margine di 44: con preserveAspectRatio=slice i bordi della scena possono essere tagliati sui telefoni stretti.
-    const x = Math.min(Math.max(c.x, w / 2 + 44), 356 - w / 2);
+    // Margine di 48: con preserveAspectRatio=slice i bordi della scena possono essere tagliati sui telefoni stretti.
+    const x = Math.min(Math.max(c.x, w / 2 + 48), 352 - w / 2);
     html += `
       <rect class="hit" data-role="${role}" x="${c.x - 22}" y="${b.top}" width="44" height="${b.bottom - b.top}" fill="transparent"/>
       <g id="label-${role}" class="label" data-role="${role}" transform="translate(${x} ${b.top - 9})">

@@ -195,7 +195,7 @@ function readQuestBoard() {
       exits: [
         { ...areaExit('pz-molo', 0, 'pontile', '⬅ Molo', [0, 112, 52, 76], 22, 106), arrive: 360 },
         { id: 'to-strada', label: 'Taverna ➜', box: [348, 164, 52, 36], stand: 370, to: 'strada', arrive: 40, labelY: 192 },
-        areaExit('pz-torre', 2, 'terrazza', '⬆ Torre', [334, 58, 46, 104], 340, 52, () => state.unlockedArea < 2,
+        areaExit('pz-torre', 2, 'terrazza', '⬆ Torre', [334, 58, 46, 104], 340, 124, () => state.unlockedArea < 2,
           ['Il cancello per la Torre è chiuso. Prima devo battere i Pirati Gemelli!', 'Chiuso. Il sentiero per la Torre si apre dopo la Taverna.'])
       ]
     },
@@ -301,9 +301,9 @@ function readQuestBoard() {
           useIcon: '🔍', useLabel: 'Apri una'
         },
         {
-          id: 'mug2', name: '🍺 Un boccale', box: [330, 126, 18, 14], stand: 330,
+          id: 'mug2', name: '🍺 Un boccale', box: [292, 184, 18, 12], stand: 300,
           visible: () => !flag('mug2'),
-          draw: () => sparkleSVG(339, 133, MUG),
+          draw: () => sparkleSVG(301, 191, MUG),
           take: () => collectPiece('boccali', 'mug2', ['Un boccale dell’Oste! Gli altri due sono in giro per l’isola.', 'Boccale numero uno. Pare che Archimede e Madame Zeri ne abbiano presi in prestito altri...'])
         },
         {

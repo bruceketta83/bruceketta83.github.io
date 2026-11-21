@@ -127,7 +127,7 @@ const AREAS = [
       groundY: 186,
       ariaStart: 190,
       mentor: { x: 318, draw: 'oste', stand: 286, label: '🍺 Oste Bartolomeo' },
-      guardian: { x: 206, draw: 'gemelli', face: -1, stand: 236, label: '🎲 Pirati Gemelli' }
+      guardian: { x: 190, draw: 'gemelli', face: -1, stand: 228, label: '🎲 Pirati Gemelli' }
     },
     crystal: { id: 'c2', name: 'Cristallo Ciano', icon: '🔵', desc: 'Brilla della luce fredda della sottrazione.' },
     item: { id: 'i2', name: 'Cannocchiale Ottico', icon: '🔭', desc: 'Vinto ai dadi contro i Pirati Gemelli.' },
