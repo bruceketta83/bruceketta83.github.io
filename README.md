@@ -47,7 +47,7 @@ L'avventura combina dialoghi in stile pop/moderno, scene animate in grafica vett
 - **Frasi variabili**: molti dialoghi hanno più versioni, scelte a caso a ogni partita.
 - **Oggetti a catena**: il premio di ogni guardiano serve nell'area successiva (Chiave → porta della Taverna, Cannocchiale → Archimede, Lente → lucernario del vivaio, Seme → vaso del magazzino, Chiave Inglese → botola del Faro).
 - **Diario di Lavinia**: 5 pagine nascoste, una per area. Trovarle tutte sblocca il finale segreto.
-- **Negozio dell'Aura**: la bancarella di **Zia Turbina**, mercante svalvolata, nella Piazza del Mercato. Vende vestiti per Aria e oggetti utili: ❤️ cuore extra, 💡 pergamena aiutino, 🧪 pozione Doppia Aura, 🧭 bussola dei tesori.
+- **Negozio dell'Aura**: la bancarella di **Zia Turbina**, mercante svalvolata, nella Piazza del Mercato. Vende oggetti utili: ❤️ cuore extra, 💡 pergamena aiutino, 🧪 pozione Doppia Aura, 🧭 bussola dei tesori.
 - **Medaglie**: 12 traguardi (zero errori, tutte le Curiosità, tutte le stelle...).
 - **Profili**: fino a 6 giocatrici sullo stesso dispositivo, ognuna con il suo salvataggio.
 - **Isola a rete con due punti centrali**: la **Piazza del Mercato** (Molo, Taverna, Torre) e il **Belvedere** (Torre, Serra, Officina, Faro), più il ponte tra Serra e Officina.

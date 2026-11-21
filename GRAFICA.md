@@ -184,7 +184,7 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 2. Le misure sono in `CHAR_IMG` (`js/characters.js`): occhi, bocca, ritratto, altezza nel gioco.
 3. Sopra l'immagine, in SVG: palpebre che sbattono, bocca che parla. Chi ha gli occhiali da sole (Barnaba, Madame Zeri, Zia Turbina) non sbatte le palpebre.
 4. Pianta: 2 immagini (fauci chiuse e aperte). Aria: 3 immagini (ferma, passo A, passo B) per la camminata.
-5. Aria: cappelli e occhiali del negozio disegnati in SVG sopra la testa. I colori di tunica, sciarpa e zaino non ci sono più: chi li aveva comprati riceve indietro l'Aura.
+5. Per ora il negozio non vende il look di Aria (colori, cappelli, occhiali): chi li aveva comprati riceve indietro l'Aura. Il codice per disegnare cappelli e occhiali sopra la testa resta, per quando arriveranno le immagini degli accessori.
 
 ### Regole comuni
 
