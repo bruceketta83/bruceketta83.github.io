@@ -3,7 +3,7 @@
 Decisioni:
 - **Personaggi non giocanti:** 1 immagine per personaggio. Bocca che parla e palpebre le disegno io sopra, nel codice.
 - **Pianta carnivora:** 2 immagini (fauci chiuse e aperte), perché il morso non si può disegnare sopra.
-- **Aria:** immagini (ferma + 4 passi della camminata). Cappelli e occhiali come immagini separate. I colori di tunica, sciarpa e zaino escono dal negozio.
+- **Aria:** immagini (ferma + 2 passi della camminata). Cappelli e occhiali come immagini separate. I colori di tunica, sciarpa e zaino escono dal negozio.
 
 ## Come usare i prompt in Gemini
 
@@ -49,15 +49,34 @@ with gold buckle, red scarf around the neck, blue jeans, brown shoes, brown
 backpack. Standing relaxed, arms down. NO hat, NO glasses.
 ```
 
-**2–5. Camminata** (nella stessa chat, una richiesta per immagine):
+**2–3. Camminata: 2 immagini** (nella stessa chat dell'Aria ferma)
+
+I passi "di passaggio" (gambe sotto il corpo) sono quasi uguali all'Aria ferma: uso quella e la alzo un po' nel codice. Servono solo 2 immagini nuove.
+
+Passo A:
 ```
-Same character, same size and same position in the image, walking to the right.
-Frame 1 of 4: left leg forward, right leg back, arms swing opposite.
+Edit the standing girl image. CHANGE THE POSE CLEARLY: she is walking to the right
+with a long step. The leg closer to the viewer is stretched FORWARD (to the right),
+the heel touches the ground. The leg farther from the viewer is stretched BACK
+(to the left), only the toes touch the ground. The arms swing: the arm closer to
+the viewer goes back, the other arm goes forward. Keep everything else identical:
+same girl, same clothes, same size, same head position, same magenta background.
 ```
-Ripeti con:
-- `Frame 2 of 4: legs passing, both under the body, body slightly higher.`
-- `Frame 3 of 4: right leg forward, left leg back, arms swing opposite.`
-- `Frame 4 of 4: legs passing, both under the body, body slightly higher.`
+
+Passo B (riparti sempre dall'Aria ferma, non dal passo A):
+```
+Edit the standing girl image. CHANGE THE POSE CLEARLY: she is walking to the right
+with a long step. The leg farther from the viewer is stretched FORWARD (to the
+right), the heel touches the ground. The leg closer to the viewer is stretched BACK
+(to the left), only the toes touch the ground. The arms swing: the arm closer to
+the viewer goes forward, the other arm goes back. Keep everything else identical:
+same girl, same clothes, same size, same head position, same magenta background.
+```
+
+Se Gemini non cambia la posa:
+1. Apri una chat nuova, allega solo l'Aria ferma e incolla il prompt.
+2. Aggiungi all'inizio: `The legs in the result must look very different from the attached image.`
+3. Se serve, chiedi la posa con un esempio: `like a cartoon character walking in a side-scrolling game, mid-stride, legs in an upside-down V shape`.
 
 **6. Cappelli e occhiali** (una immagine per oggetto, chat nuova, allega Aria ferma):
 ```
@@ -148,5 +167,5 @@ pincers, short sturdy legs. Seen in three-quarter view facing right.
 1. Sfondo magenta pieno, senza ombra e senza pavimento.
 2. Il personaggio guarda a destra, intero, con i piedi in basso.
 3. Bocca chiusa e piccola, occhi aperti (tranne la Pianta con le fauci aperte).
-4. Per la camminata di Aria: stessa grandezza e stessa posizione in tutte e 5 le immagini.
-5. Nomi dei file: `aria.png`, `aria-passo1.png` … `aria-passo4.png`, `cappello-fiore.png`, `oste.png`, `pianta.png`, `pianta-aperta.png`, ecc.
+4. Per la camminata di Aria: stessa grandezza e stessa posizione della testa nelle 3 immagini (ferma, passo A, passo B).
+5. Nomi dei file: `aria.png`, `aria-passoA.png`, `aria-passoB.png`, `cappello-fiore.png`, `oste.png`, `pianta.png`, `pianta-aperta.png`, ecc.
