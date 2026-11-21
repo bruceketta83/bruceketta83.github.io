@@ -33,7 +33,7 @@ async function scanRooms(page, flags) {
         .map(charRect).filter(Boolean);
       const hs = roomHotspots(area);
       // Oggetti: tutto ciò che si tocca, tranne i personaggi comparsa (es. Lavinia, Zia Turbina).
-      const objects = hs.filter(h => h.box[2] && (h.draw || !h.noDot) && !(h.draw && h.draw().includes('id="char-')))
+      const objects = hs.filter(h => h.box[2] && (h.draw || h.obj || !h.noDot) && !(h.draw && h.draw().includes('id="char-')))
         .map(h => { const b = box(document.querySelector(`rect[data-hs="${h.id}"]`)); return { id: h.id, l: b.left, r: b.right, t: b.top, b: b.bottom }; });
       const hit = (p, q) => p.l < q.r && q.l < p.r && p.t < q.b && q.t < p.b;
       const out = [];

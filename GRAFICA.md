@@ -186,6 +186,13 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 4. Pianta: 2 immagini (fauci chiuse e aperte). Aria: 3 immagini (ferma, passo A, passo B) per la camminata.
 5. Per ora il negozio non vende il look di Aria (colori, cappelli, occhiali): chi li aveva comprati riceve indietro l'Aura. Il codice per disegnare cappelli e occhiali sopra la testa resta, per quando arriveranno le immagini degli accessori.
 
+### Oggetti a immagine
+
+1. Gli oggetti sono immagini WebP in `img/obj/` (fino a 256 px, circa 15 KB l'una), preparate con Gemini a fogli 3 × 3 su sfondo magenta e tagliate con `tools/foglio.py` (prompt in `docs/mockup/PROMPT-OGGETTI.md`).
+2. Nella stanza ogni oggetto riempie il suo riquadro cliccabile, appoggiato in basso (`obj` nell'oggetto della stanza, `js/objects.js`).
+3. Scritte e numeri che cambiano (A-B-C, 2⁵, VIVAIO, 2¹⁰) sono in SVG sopra l'immagine.
+4. Le stesse immagini compaiono nello Zaino al posto delle emoji.
+
 ### Regole comuni
 
 1. Tutti guardano a destra e hanno i piedi nel punto (0, 0), con un'ombra ovale a terra.

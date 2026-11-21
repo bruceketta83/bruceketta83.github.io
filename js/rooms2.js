@@ -183,10 +183,7 @@ function readQuestBoard() {
         },
         {
           id: 'bacheca-missioni', name: '📋 Bacheca delle missioni', box: [278, 100, 30, 34], stand: 292,
-          draw: () => `<g transform="translate(293 168)"><rect x="-1.5" y="-68" width="3" height="68" fill="#78350f"/>
-            <rect x="-15" y="-68" width="30" height="30" rx="2" fill="#92400e" stroke="#451a03" stroke-width="1"/>
-            <rect x="-12" y="-65" width="11" height="12" fill="#fef3c7"/><rect x="1" y="-64" width="11" height="10" fill="#fde68a"/><rect x="-6" y="-51" width="12" height="10" fill="#fef3c7"/>
-            <text x="0" y="-71" font-size="5" fill="#fef3c7" text-anchor="middle" font-weight="900">MISSIONI</text></g>`,
+          obj: 'bacheca-missioni', objScale: 1.4,
           read: () => readQuestBoard(),
           look: 'Una bacheca piena di annunci. Qualcuno cerca dobloni, boccali, bulloni...'
         },
@@ -228,16 +225,14 @@ function readQuestBoard() {
         },
         {
           id: 'volantino', name: '📄 Volantino', box: [112, 116, 22, 28], stand: 123,
-          draw: () => `<g transform="rotate(4 123 130) translate(-34 -12)"><rect x="147" y="130" width="20" height="26" fill="#fef3c7" stroke="#d6b88a" stroke-width="0.6"/>
-            <text x="157" y="140" font-size="5.5" fill="#b91c1c" text-anchor="middle" font-weight="900" font-family="Georgia, serif">A4</text>
-            <path d="M150 145 L164 145 M150 148 L162 148 M150 151 L163 151" stroke="#a16207" stroke-width="0.5"/></g>`,
+          obj: 'volantino',
           read: () => readCuriosity('carta'),
           look: 'Un volantino attaccato al muro. Parla di fogli di carta. Su un’isola pirata. Ok.'
         },
         {
           id: 'coin2', name: '🪙 Qualcosa che luccica', box: [240, 176, 16, 12], stand: 248,
           visible: () => !flag('coin2'),
-          draw: () => sparkleSVG(248, 183, '<circle r="3.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.8"/>'),
+          draw: () => sparkleSVG(248, 183, COIN),
           take: () => takeCoin(2)
         },
         { id: 'gatto', name: '🐈‍⬛ Gatto', box: [212, 118, 28, 18], stand: 226, noDot: true, look: ['Il gatto dorme. Elevato alla zero: vale 1 gatto, ma pigrissimo.', 'Miao? No, ronfa e basta.'] },
@@ -276,10 +271,7 @@ function readQuestBoard() {
       hotspots: [
         {
           id: 'botti', name: '🛢️ Tre botticelle', box: [58, 166, 62, 26], stand: 89,
-          draw: () => ['A', 'B', 'C'].map((l, i) => `<g transform="translate(${68 + i * 21} 180)">
-            <rect x="-8" y="-11" width="16" height="20" rx="4" fill="#92400e"/>
-            <rect x="-8" y="-6" width="16" height="2" fill="#451a03"/><rect x="-8" y="3" width="16" height="2" fill="#451a03"/>
-            <text x="0" y="1.5" font-size="7" fill="#fde68a" text-anchor="middle" font-weight="900">${l}</text></g>`).join(''),
+          draw: () => ['A', 'B', 'C'].map((l, i) => objImg('botte', 72 + i * 20, 192, 19) + objText(l, 72 + i * 20, 186, 7, '#fef3c7')).join(''),
           look: () => `Tre botticelle con delle scritte: ${P_botti().kegs.map(k => `${k.l} = 3${toSup(k.m)} : 3${toSup(k.n)}`).join(', ')}.`,
           useIf: () => !flag('dadi_ok') && !hasItem('dadi'),
           use: () => {
@@ -487,9 +479,7 @@ function readQuestBoard() {
         },
         {
           id: 'armadio', name: '🗄️ Armadio', box: [204, 128, 40, 54], stand: 224,
-          draw: () => `<rect x="205" y="130" width="38" height="52" rx="1.5" fill="#7a4a26" ${wink(0.9)}/><path d="M224 132 L224 180" stroke="#4e2e18" stroke-width="0.9"/>
-            <rect x="207.5" y="133" width="14" height="45" fill="none" stroke="#5e3a1e" stroke-width="0.7"/><rect x="226.5" y="133" width="14" height="45" fill="none" stroke="#5e3a1e" stroke-width="0.7"/>
-            ${flag('armadio_open') ? '<rect x="207" y="132" width="34" height="48" fill="#1c1008"/>' : '<rect x="218" y="150" width="12" height="8" rx="1" fill="#2b2b33" stroke="#a8a29e" stroke-width="0.5"/><circle cx="221" cy="153" r="0.6" fill="#4ade80"/>'}`,
+          obj: () => (flag('armadio_open') ? 'armadio-aperto' : 'armadio'),
           look: ['Un armadio con un tastierino.', 'Chiuso a combinazione. Archimede è un tipo prudente.'],
           useIf: () => !flag('armadio_open'),
           use: () => {
@@ -512,7 +502,7 @@ function readQuestBoard() {
         },
         {
           id: 'arenario', name: '📖 Libro antico', box: [156, 124, 30, 14], stand: 170,
-          draw: () => '<g transform="translate(170 132)"><rect x="-11" y="-4" width="22" height="6" rx="1" fill="#7f1d1d"/><rect x="-10" y="-5" width="20" height="2" fill="#fef3c7"/><text x="0" y="1.5" font-size="3.5" fill="#fbbf24" text-anchor="middle" font-weight="700">ARENARIO</text></g>',
+          obj: 'libro', objScale: 1.6,
           read: () => readCuriosity('arenario'),
           look: 'Un libro antico sulla scrivania. Il titolo dice "Arenario".'
         },
@@ -622,7 +612,7 @@ function readQuestBoard() {
       hotspots: [
         {
           id: 'cartello', name: '🪧 Cartello', box: [208, 154, 24, 24], stand: 218,
-          draw: () => '<g transform="translate(220 166)"><line x1="0" y1="0" x2="0" y2="14" stroke="#78350f" stroke-width="1.4"/><rect x="-10" y="-11" width="20" height="13" rx="1.5" fill="#fef3c7" stroke="#a16207" stroke-width="0.8"/><text x="0" y="-3" font-size="4.5" fill="#78350f" text-anchor="middle" font-weight="800">VIVAIO</text></g>',
+          obj: 'cartello', objText: ['VIVAIO', 0.38, 4.6],
           read: () => {
             setFlag('read_cartello');
             const P = P_serra();
@@ -634,7 +624,7 @@ function readQuestBoard() {
         {
           id: 'porta-vivaio', name: '🚪 Porta del vivaio', box: [236, 126, 26, 56], stand: 249,
           visible: () => !flag('vivaio_open'),
-          draw: () => '<rect x="238" y="128" width="22" height="54" fill="#065f46" stroke="#022c22" stroke-width="1.5"/><rect x="241" y="134" width="16" height="18" fill="#a7f3d0" opacity="0.5"/><rect x="244" y="156" width="10" height="8" rx="1" fill="#1e293b"/><circle cx="249" cy="160" r="1.5" fill="#4ade80"/>',
+          obj: 'porta-vivaio',
           use: () => {
             const P = P_serra();
             askCode({
@@ -703,7 +693,7 @@ function readQuestBoard() {
         {
           id: 'annaffiatoio', name: '🚿 Annaffiatoio', box: [296, 166, 26, 20], stand: 300,
           visible: () => flag('vivaio_luce') && !hasItem('annaffiatoio') && !flag('pianta_sveglia'),
-          draw: () => '<g transform="translate(308 184)"><path d="M-8 0 L8 0 L7 -12 L-7 -12 Z" fill="#64748b"/><path d="M7 -10 L15 -17" stroke="#64748b" stroke-width="2.4"/><path d="M-7 -11 Q-13 -11 -12 -4" stroke="#64748b" stroke-width="1.6" fill="none"/></g>',
+          obj: 'annaffiatoio',
           take: () => {
             giveItem('annaffiatoio');
             refreshLabels(A);
@@ -873,14 +863,13 @@ function readQuestBoard() {
         },
         {
           id: 'manuale', name: '📘 Manuale', box: [290, 104, 22, 24], stand: 300,
-          draw: () => '<g transform="translate(301 116)"><rect x="-9" y="-11" width="18" height="22" rx="1" fill="#1d4ed8"/><rect x="-7" y="-9" width="14" height="4" fill="#bfdbfe"/><text x="0" y="5" font-size="5" fill="#fff" text-anchor="middle" font-weight="900">2¹⁰</text></g>',
+          obj: 'manuale', objText: ['2¹⁰', 0.42, 5, '#1e3a8a'],
           read: () => readCuriosity('kilobyte'),
           look: 'Un manuale di istruzioni. In copertina c’è scritto 2¹⁰.'
         },
         {
           id: 'vaso', name: '🪴 Vaso vuoto', box: [254, 166, 28, 24], stand: 268,
-          draw: () => `<g transform="translate(268 190)"><path d="M-11 -18 L11 -18 L8 0 L-8 0 Z" fill="#c2410c"/><rect x="-12" y="-21" width="24" height="4" rx="1" fill="#ea580c"/>
-            ${flag('seme_ok') ? '<path d="M0 -20 Q-3 -34 0 -44" stroke="#16a34a" stroke-width="2" fill="none"/><circle class="crystal-glow" cx="0" cy="-48" r="9" fill="#fde047"/><circle cx="0" cy="-48" r="4" fill="#fef9c3"/>' : ''}</g>`,
+          obj: () => (flag('seme_ok') ? 'vaso-fiore' : 'vaso'),
           look: () => (flag('seme_ok') ? 'Il fiore luminoso illumina tutto l’angolo. Che spettacolo!' : 'Un vaso con la terra, ma niente dentro. L’angolo intorno è buio.'),
           useItem: {
             i4: () => {
@@ -895,7 +884,7 @@ function readQuestBoard() {
         {
           id: 'rete', name: '🕸️ Rete robusta', box: [128, 176, 24, 18], stand: 140,
           visible: () => flag('seme_ok') && !hasItem('rete') && !flag('coin3'),
-          draw: () => '<g transform="translate(140 186)"><ellipse rx="10" ry="4" fill="none" stroke="#d6b88a" stroke-width="1.4"/><path d="M-8 -2 L8 2 M-8 2 L8 -2 M0 -4 L0 4" stroke="#d6b88a" stroke-width="0.8"/><circle cx="-9" cy="-3" r="1.6" fill="#ef4444"/></g>',
+          obj: 'rete',
           take: () => {
             giveItem('rete');
             refreshLabels(A);
