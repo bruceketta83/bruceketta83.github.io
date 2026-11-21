@@ -3,7 +3,7 @@
 Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco.
 
 - **Stile di riferimento:** i mock-up in `docs/mockup/`: area 1 (pontile, spiaggia, capanno) e 5 personaggi (Aria, Lavinia, Capitana Vera, Barnaba, Zia Turbina).
-- **Stato:** 7 stanze usano già gli sfondi a immagine (pontile, spiaggia, capanno, strada e sala della Taverna, terrazza della Torre, Belvedere). I 5 personaggi sono ridisegnati in SVG. Le altre stanze e gli altri personaggi sono ancora nello stile precedente.
+- **Stato:** tutte le 15 stanze e la schermata iniziale usano gli sfondi a immagine. Piazza e Officina hanno due versioni (cancello chiuso e aperto), la Cima del Faro due versioni (spento e acceso). I 5 personaggi principali sono ridisegnati in SVG; gli altri 8 sono ancora nello stile precedente.
 - **Immagini da correggere:** i prompt sono in [`docs/mockup/PROMPT.md`](docs/mockup/PROMPT.md).
 - **Dati tecnici:** vengono dal codice (`style.css`, `js/scenes.js`, `js/characters.js`, `js/meta.js`).
 

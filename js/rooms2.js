@@ -173,29 +173,29 @@ function readQuestBoard() {
       scene: 'piazza',
       title: '🏛️ Piazza del Mercato',
       enter: ['La Piazza del Mercato. Profuma di frittelle e di follia.', 'La fontana fa gli zampilli. Zia Turbina fa i rumori.', 'Il cuore dell’isola! Da qui si va dappertutto... quasi.'],
-      layout: { groundY: 188, ariaStart: 250 },
+      layout: { groundY: 170, ariaStart: 150 },
       hotspots: [
         {
-          id: 'turbina', name: '🌀 Zia Turbina', box: [104, 116, 32, 72], stand: 150,
-          draw: () => charSVG('turbina', 120, 188, 1, 'char-turbina-npc'),
+          id: 'turbina', name: '🌀 Zia Turbina', box: [196, 96, 32, 74], stand: 176,
+          draw: () => charSVG('turbina', 212, 170, 1, 'char-turbina-npc'),
           talk: () => talkTurbina(),
           look: TURBINA.look
         },
         {
-          id: 'bacheca-missioni', name: '📋 Bacheca delle missioni', box: [252, 118, 30, 34], stand: 266,
-          draw: () => `<g transform="translate(267 186)"><rect x="-1.5" y="-68" width="3" height="68" fill="#78350f"/>
+          id: 'bacheca-missioni', name: '📋 Bacheca delle missioni', box: [278, 100, 30, 34], stand: 292,
+          draw: () => `<g transform="translate(293 168)"><rect x="-1.5" y="-68" width="3" height="68" fill="#78350f"/>
             <rect x="-15" y="-68" width="30" height="30" rx="2" fill="#92400e" stroke="#451a03" stroke-width="1"/>
             <rect x="-12" y="-65" width="11" height="12" fill="#fef3c7"/><rect x="1" y="-64" width="11" height="10" fill="#fde68a"/><rect x="-6" y="-51" width="12" height="10" fill="#fef3c7"/>
             <text x="0" y="-71" font-size="5" fill="#fef3c7" text-anchor="middle" font-weight="900">MISSIONI</text></g>`,
           read: () => readQuestBoard(),
           look: 'Una bacheca piena di annunci. Qualcuno cerca dobloni, boccali, bulloni...'
         },
-        { id: 'fontana', name: '⛲ Fontana', box: [198, 142, 56, 44], stand: 226, noDot: true, look: ['Una fontana. Se butti una moneta esprimi un desiderio. Desidero non buttare monete.', 'L’acqua sale e scende. Come il mio umore durante le verifiche.'] }
+        { id: 'fontana', name: '⛲ Fontana', box: [70, 100, 58, 66], stand: 132, noDot: true, look: ['Una fontana. Se butti una moneta esprimi un desiderio. Desidero non buttare monete.', 'L’acqua sale e scende. Come il mio umore durante le verifiche.'] }
       ],
       exits: [
         { ...areaExit('pz-molo', 0, 'pontile', '⬅ Molo', [0, 112, 52, 76], 22, 106), arrive: 360 },
-        { id: 'to-strada', label: 'Taverna ➜', box: [348, 112, 52, 76], stand: 380, to: 'strada', arrive: 40, labelY: 106 },
-        areaExit('pz-torre', 2, 'terrazza', '⬆ Torre', [282, 112, 40, 74], 302, 84, () => state.unlockedArea < 2,
+        { id: 'to-strada', label: 'Taverna ➜', box: [348, 164, 52, 36], stand: 370, to: 'strada', arrive: 40, labelY: 192 },
+        areaExit('pz-torre', 2, 'terrazza', '⬆ Torre', [334, 58, 46, 104], 340, 52, () => state.unlockedArea < 2,
           ['Il cancello per la Torre è chiuso. Prima devo battere i Pirati Gemelli!', 'Chiuso. Il sentiero per la Torre si apre dopo la Taverna.'])
       ]
     },
@@ -473,10 +473,10 @@ function readQuestBoard() {
     biblioteca: {
       scene: 'biblioteca',
       enter: ['Quanti libri! Odore di carta vecchia e di segreti.', 'La biblioteca della Torre. Silenzio... e una candela accesa.', 'Libri fino al soffitto. Archimede legge davvero tanto.'],
-      layout: { groundY: 184, ariaStart: 60 },
+      layout: { groundY: 186, ariaStart: 60 },
       hotspots: [
         {
-          id: 'lavagna', name: '🟩 Lavagna', box: [224, 42, 60, 44], stand: 254,
+          id: 'lavagna', name: '🟩 Lavagna', box: [150, 46, 118, 80], stand: 200,
           read: () => {
             setFlag('read_lavagna');
             const P = P_torre();
@@ -486,7 +486,10 @@ function readQuestBoard() {
           look: 'Una lavagna con un calcolo scritto col gesso.'
         },
         {
-          id: 'armadio', name: '🗄️ Armadio', box: [300, 112, 52, 70], stand: 300,
+          id: 'armadio', name: '🗄️ Armadio', box: [204, 128, 40, 54], stand: 224,
+          draw: () => `<rect x="205" y="130" width="38" height="52" rx="1.5" fill="#7a4a26" ${wink(0.9)}/><path d="M224 132 L224 180" stroke="#4e2e18" stroke-width="0.9"/>
+            <rect x="207.5" y="133" width="14" height="45" fill="none" stroke="#5e3a1e" stroke-width="0.7"/><rect x="226.5" y="133" width="14" height="45" fill="none" stroke="#5e3a1e" stroke-width="0.7"/>
+            ${flag('armadio_open') ? '<rect x="207" y="132" width="34" height="48" fill="#1c1008"/>' : '<rect x="218" y="150" width="12" height="8" rx="1" fill="#2b2b33" stroke="#a8a29e" stroke-width="0.5"/><circle cx="221" cy="153" r="0.6" fill="#4ade80"/>'}`,
           look: ['Un armadio con un tastierino.', 'Chiuso a combinazione. Archimede è un tipo prudente.'],
           useIf: () => !flag('armadio_open'),
           use: () => {
@@ -508,8 +511,8 @@ function readQuestBoard() {
           useIcon: '🔢', useLabel: 'Codice'
         },
         {
-          id: 'arenario', name: '📖 Libro antico', box: [182, 128, 30, 14], stand: 196,
-          draw: () => '<g transform="translate(196 137)"><rect x="-11" y="-4" width="22" height="6" rx="1" fill="#7f1d1d"/><rect x="-10" y="-5" width="20" height="2" fill="#fef3c7"/><text x="0" y="1.5" font-size="3.5" fill="#fbbf24" text-anchor="middle" font-weight="700">ARENARIO</text></g>',
+          id: 'arenario', name: '📖 Libro antico', box: [156, 124, 30, 14], stand: 170,
+          draw: () => '<g transform="translate(170 132)"><rect x="-11" y="-4" width="22" height="6" rx="1" fill="#7f1d1d"/><rect x="-10" y="-5" width="20" height="2" fill="#fef3c7"/><text x="0" y="1.5" font-size="3.5" fill="#fbbf24" text-anchor="middle" font-weight="700">ARENARIO</text></g>',
           read: () => readCuriosity('arenario'),
           look: 'Un libro antico sulla scrivania. Il titolo dice "Arenario".'
         },
@@ -526,7 +529,7 @@ function readQuestBoard() {
           draw: () => sparkleSVG(241, 178, MUG),
           take: () => collectPiece('boccali', 'mug1', ['Un boccale della Taverna! Archimede ci beveva la camomilla.', 'Il boccale dell’Oste. Archimede, sei un ladro di boccali!'])
         },
-        { id: 'scaffali', name: '📚 Scaffali', box: [44, 34, 80, 120], stand: 92, noDot: true, look: ['Libri su libri. Uno si chiama "Potenze per principianti". Lo leggerei.', 'C’è un libro intitolato "2 alla 10: storia di un kilobyte".'] }
+        { id: 'scaffali', name: '📚 Scaffali', box: [72, 10, 64, 112], stand: 100, noDot: true, look: ['Libri su libri. Uno si chiama "Potenze per principianti". Lo leggerei.', 'C’è un libro intitolato "2 alla 10: storia di un kilobyte".'] }
       ],
       exits: [
         { id: 'to-terrazza', label: '🚪 Terrazza', box: [8, 96, 36, 88], stand: 30, to: 'terrazza', arrive: 196, labelY: 90 }
@@ -618,8 +621,8 @@ function readQuestBoard() {
       },
       hotspots: [
         {
-          id: 'cartello', name: '🪧 Cartello', box: [142, 116, 22, 22], stand: 153,
-          draw: () => '<g transform="translate(153 128)"><line x1="0" y1="0" x2="0" y2="12" stroke="#78350f" stroke-width="1.4"/><rect x="-10" y="-11" width="20" height="13" rx="1.5" fill="#fef3c7" stroke="#a16207" stroke-width="0.8"/><text x="0" y="-3" font-size="4.5" fill="#78350f" text-anchor="middle" font-weight="800">VIVAIO</text></g>',
+          id: 'cartello', name: '🪧 Cartello', box: [208, 154, 24, 24], stand: 218,
+          draw: () => '<g transform="translate(220 166)"><line x1="0" y1="0" x2="0" y2="14" stroke="#78350f" stroke-width="1.4"/><rect x="-10" y="-11" width="20" height="13" rx="1.5" fill="#fef3c7" stroke="#a16207" stroke-width="0.8"/><text x="0" y="-3" font-size="4.5" fill="#78350f" text-anchor="middle" font-weight="800">VIVAIO</text></g>',
           read: () => {
             setFlag('read_cartello');
             const P = P_serra();
@@ -629,9 +632,9 @@ function readQuestBoard() {
           look: 'Un cartellino infilato in un vaso.'
         },
         {
-          id: 'porta-vivaio', name: '🚪 Porta del vivaio', box: [236, 128, 26, 56], stand: 249,
+          id: 'porta-vivaio', name: '🚪 Porta del vivaio', box: [236, 126, 26, 56], stand: 249,
           visible: () => !flag('vivaio_open'),
-          draw: () => '<rect x="238" y="130" width="22" height="54" fill="#065f46" stroke="#022c22" stroke-width="1.5"/><rect x="241" y="134" width="16" height="18" fill="#a7f3d0" opacity="0.5"/><rect x="244" y="156" width="10" height="8" rx="1" fill="#1e293b"/><circle cx="249" cy="160" r="1.5" fill="#4ade80"/>',
+          draw: () => '<rect x="238" y="128" width="22" height="54" fill="#065f46" stroke="#022c22" stroke-width="1.5"/><rect x="241" y="134" width="16" height="18" fill="#a7f3d0" opacity="0.5"/><rect x="244" y="156" width="10" height="8" rx="1" fill="#1e293b"/><circle cx="249" cy="160" r="1.5" fill="#4ade80"/>',
           use: () => {
             const P = P_serra();
             askCode({
@@ -657,14 +660,14 @@ function readQuestBoard() {
         {
           id: 'porta-vivaio-aperta', box: [0, 0, 0, 0], noDot: true,
           visible: () => flag('vivaio_open'),
-          draw: () => '<rect x="238" y="130" width="22" height="54" fill="#022c22"/><path d="M238 130 L232 134 L232 186 L238 184 Z" fill="#065f46"/>'
+          draw: () => '<rect x="238" y="128" width="22" height="54" fill="#022c22"/><path d="M238 128 L232 132 L232 184 L238 182 Z" fill="#065f46"/>'
         },
         laviniaHotspot(A, 'lav3', 214, 184)
       ],
       exits: [
         leftExit(2, 'belvedere', '⬅ Belvedere'),
         rightExit(4, 'magazzino', 'Ponte ➜', () => state.unlockedArea < 4, ['Il ponte di corda porta all’Officina. È ancora rotto: prima devo battere la Pianta!', 'Il ponte è chiuso. Prima la Serra, poi l’Officina.']),
-        { id: 'to-vivaio', label: '🚪 Vivaio', box: [236, 128, 26, 56], stand: 249, to: 'vivaio', arrive: 70, labelY: 120, visible: () => flag('vivaio_open') }
+        { id: 'to-vivaio', label: '🚪 Vivaio', box: [236, 126, 26, 56], stand: 249, to: 'vivaio', arrive: 70, labelY: 120, visible: () => flag('vivaio_open') }
       ]
     },
 
@@ -676,15 +679,15 @@ function readQuestBoard() {
         {
           id: 'buio', box: [0, 0, 0, 0], noDot: true,
           visible: () => !flag('vivaio_luce'),
-          draw: () => '<rect width="400" height="186" fill="#020617" opacity="0.82"/><rect class="shimmer" x="188" y="34" width="64" height="26" fill="#bae6fd" style="animation-duration:2.4s"/><rect x="184" y="30" width="72" height="34" rx="3" fill="none" stroke="#fde68a" stroke-width="1" opacity="0.5"/>'
+          draw: () => '<rect width="400" height="220" fill="#020617" opacity="0.84"/><rect class="shimmer" x="136" y="0" width="132" height="20" fill="#bae6fd" style="animation-duration:2.4s"/><rect x="134" y="-2" width="136" height="24" rx="2" fill="none" stroke="#fde68a" stroke-width="1" opacity="0.5"/>'
         },
         {
           id: 'luce', box: [0, 0, 0, 0], noDot: true,
           visible: () => flag('vivaio_luce'),
-          draw: () => '<polygon class="shimmer" points="190,60 250,60 300,186 140,186" fill="#fef9c3" opacity="0.3" style="animation-duration:4s"/>'
+          draw: () => '<polygon class="shimmer" points="140,20 266,20 300,182 106,182" fill="#fef9c3" opacity="0.18" style="animation-duration:4s"/>'
         },
         {
-          id: 'lucernario', name: '🪟 Lucernario', box: [182, 28, 76, 38], stand: 220,
+          id: 'lucernario', name: '🪟 Lucernario', box: [134, 0, 136, 24], stand: 200,
           look: () => (flag('vivaio_luce') ? 'Il lucernario con la Lente: la luce entra concentrata. Fotosintesi turbo!' : 'Un lucernario sporco. Entra pochissima luce. Se potessi concentrarla...'),
           useItem: {
             i3: () => {
@@ -707,9 +710,9 @@ function readQuestBoard() {
           }
         },
         {
-          id: 'poster-batteri', name: '🦠 Poster', box: [300, 96, 46, 44], stand: 322,
+          id: 'poster-batteri', name: '🦠 Poster', box: [222, 62, 44, 50], stand: 244,
           visible: () => flag('vivaio_luce'),
-          draw: () => '<g transform="rotate(-2 323 118)"><rect x="301" y="98" width="44" height="40" fill="#ecfccb" stroke="#65a30d" stroke-width="1"/><text x="323" y="114" font-size="6" fill="#3f6212" text-anchor="middle" font-weight="900">BATTERI</text><text x="323" y="128" font-size="9" fill="#b91c1c" text-anchor="middle" font-weight="900" font-family="Courier New, monospace">2¹⁰</text></g>',
+          
           read: () => readCuriosity('batteri'),
           look: 'Un poster sui batteri. In una serra. Ha senso, credo.'
         },
@@ -720,7 +723,7 @@ function readQuestBoard() {
           read: () => readDiary(4),
           look: 'Un foglio viola tra le piantine. Ancora Lavinia!'
         },
-        { id: 'piantine', name: '🌱 Piantine', box: [50, 50, 110, 76], stand: 105, noDot: true, visible: () => flag('vivaio_luce'), look: ['Centinaia di piantine. Se ognuna fa 2 semi, poi 4, poi 8...', 'Piantine baby. Adorabili. Non carnivore, spero.'] }
+        { id: 'piantine', name: '🌱 Piantine', box: [84, 60, 124, 104], stand: 140, noDot: true, visible: () => flag('vivaio_luce'), look: ['Centinaia di piantine. Se ognuna fa 2 semi, poi 4, poi 8...', 'Piantine baby. Adorabili. Non carnivore, spero.'] }
       ],
       exits: [
         { id: 'to-giardino', label: '🚪 Giardino', box: [10, 98, 36, 88], stand: 30, to: 'giardino', arrive: 249, labelY: 92 }
@@ -819,7 +822,7 @@ function readQuestBoard() {
       hotspots: [
         {
           id: 'porta-magazzino', box: [0, 0, 0, 0], noDot: true,
-          draw: () => '<rect x="184" y="108" width="30" height="72" fill="#52525b" stroke="#27272a" stroke-width="1.5"/><rect x="188" y="114" width="22" height="14" fill="#27272a"/><circle cx="208" cy="146" r="1.6" fill="#a8a29e"/><text x="199" y="124" font-size="4.5" fill="#fbbf24" text-anchor="middle" font-weight="800">RICAMBI</text>'
+          draw: () => `<rect x="222" y="116" width="28" height="56" rx="1" fill="#52525b" ${wink(1)}/><rect x="226" y="121" width="20" height="9" fill="#2b2b33"/><circle cx="245" cy="146" r="1.4" fill="#a8a29e"/><text x="236" y="128" font-size="4.4" fill="#fbbf24" text-anchor="middle" font-weight="800">RICAMBI</text>`
         },
         {
           id: 'bul1', name: '🔩 Qualcosa che luccica', box: [222, 182, 16, 12], stand: 230,
@@ -827,23 +830,23 @@ function readQuestBoard() {
           draw: () => sparkleSVG(230, 189, BOLT),
           take: () => collectPiece('bulloni', 'bul1')
         },
-        { id: 'manometro', name: '⏲️ Manometro', box: [174, 48, 24, 24], stand: 186, noDot: true, look: 'La lancetta balla. La pressione è alla seconda... o alla terza.' },
+        { id: 'manometro', name: '⏲️ Manometro', box: [288, 82, 24, 26], stand: 296, noDot: true, look: 'La lancetta balla. La pressione è alla seconda... o alla terza.' },
         laviniaHotspot(A, 'lav4', 166, 180)
       ],
       exits: [
         leftExit(2, 'belvedere', '⬅ Belvedere'),
         { id: 'fwd-5', label: 'Faro ➜', box: [348, 112, 52, 70], stand: 380, toArea: 5, toRoom: 'scala', labelY: 106, visible: () => done(A) },
-        { id: 'to-magazzino', label: '🚪 Magazzino', box: [184, 108, 30, 72], stand: 199, to: 'magazzino', arrive: 60, labelY: 100 }
+        { id: 'to-magazzino', label: '🚪 Magazzino', box: [222, 116, 28, 56], stand: 236, to: 'magazzino', arrive: 60, labelY: 108 }
       ]
     },
 
     magazzino: {
       scene: 'magazzino',
       enter: ['Scaffali pieni di ricambi. Un paradiso per Mira e Nora.', 'Il magazzino. C’è una bilancia strana al centro.', 'Polvere, bulloni e una lampada che sfarfalla.'],
-      layout: { groundY: 184, ariaStart: 60 },
+      layout: { groundY: 190, ariaStart: 60 },
       hotspots: [
         {
-          id: 'bilancia', name: '⚖️ Bilancia a potenze', box: [112, 112, 76, 70], stand: 150,
+          id: 'bilancia', name: '⚖️ Bilancia a potenze', box: [156, 70, 88, 110], stand: 200,
           look: () => (flag('bilancia_ok') ? 'La bilancia è in equilibrio. Soddisfazione massima.' : `Una bilancia: a sinistra c’è ${P_bilancia().a}${toSup(P_bilancia().n)} · ${P_bilancia().b}${toSup(P_bilancia().n)}. A destra manca il peso giusto.`),
           useIf: () => !flag('bilancia_ok'),
           use: () => {
@@ -868,14 +871,14 @@ function readQuestBoard() {
           useIcon: '⚖️', useLabel: 'Prova'
         },
         {
-          id: 'manuale', name: '📘 Manuale', box: [252, 124, 22, 22], stand: 262,
-          draw: () => '<g transform="translate(263 135)"><rect x="-9" y="-11" width="18" height="22" rx="1" fill="#1d4ed8"/><rect x="-7" y="-9" width="14" height="4" fill="#bfdbfe"/><text x="0" y="5" font-size="5" fill="#fff" text-anchor="middle" font-weight="900">2¹⁰</text></g>',
+          id: 'manuale', name: '📘 Manuale', box: [290, 104, 22, 24], stand: 300,
+          draw: () => '<g transform="translate(301 116)"><rect x="-9" y="-11" width="18" height="22" rx="1" fill="#1d4ed8"/><rect x="-7" y="-9" width="14" height="4" fill="#bfdbfe"/><text x="0" y="5" font-size="5" fill="#fff" text-anchor="middle" font-weight="900">2¹⁰</text></g>',
           read: () => readCuriosity('kilobyte'),
           look: 'Un manuale di istruzioni. In copertina c’è scritto 2¹⁰.'
         },
         {
-          id: 'vaso', name: '🪴 Vaso vuoto', box: [324, 160, 28, 24], stand: 320,
-          draw: () => `<g transform="translate(338 184)"><path d="M-11 -18 L11 -18 L8 0 L-8 0 Z" fill="#c2410c"/><rect x="-12" y="-21" width="24" height="4" rx="1" fill="#ea580c"/>
+          id: 'vaso', name: '🪴 Vaso vuoto', box: [254, 166, 28, 24], stand: 268,
+          draw: () => `<g transform="translate(268 190)"><path d="M-11 -18 L11 -18 L8 0 L-8 0 Z" fill="#c2410c"/><rect x="-12" y="-21" width="24" height="4" rx="1" fill="#ea580c"/>
             ${flag('seme_ok') ? '<path d="M0 -20 Q-3 -34 0 -44" stroke="#16a34a" stroke-width="2" fill="none"/><circle class="crystal-glow" cx="0" cy="-48" r="9" fill="#fde047"/><circle cx="0" cy="-48" r="4" fill="#fef9c3"/>' : ''}</g>`,
           look: () => (flag('seme_ok') ? 'Il fiore luminoso illumina tutto l’angolo. Che spettacolo!' : 'Un vaso con la terra, ma niente dentro. L’angolo intorno è buio.'),
           useItem: {
@@ -889,9 +892,9 @@ function readQuestBoard() {
           }
         },
         {
-          id: 'rete', name: '🕸️ Rete robusta', box: [288, 168, 24, 18], stand: 299,
+          id: 'rete', name: '🕸️ Rete robusta', box: [128, 176, 24, 18], stand: 140,
           visible: () => flag('seme_ok') && !hasItem('rete') && !flag('coin3'),
-          draw: () => '<g transform="translate(299 180)"><ellipse rx="10" ry="4" fill="none" stroke="#d6b88a" stroke-width="1.4"/><path d="M-8 -2 L8 2 M-8 2 L8 -2 M0 -4 L0 4" stroke="#d6b88a" stroke-width="0.8"/><circle cx="-9" cy="-3" r="1.6" fill="#ef4444"/></g>',
+          draw: () => '<g transform="translate(140 186)"><ellipse rx="10" ry="4" fill="none" stroke="#d6b88a" stroke-width="1.4"/><path d="M-8 -2 L8 2 M-8 2 L8 -2 M0 -4 L0 4" stroke="#d6b88a" stroke-width="0.8"/><circle cx="-9" cy="-3" r="1.6" fill="#ef4444"/></g>',
           take: () => {
             giveItem('rete');
             refreshLabels(A);
@@ -899,10 +902,10 @@ function readQuestBoard() {
           },
           look: 'Una rete da pesca nuova di zecca, nascosta nell’angolo buio.'
         },
-        { id: 'cassettiera', name: '🗄️ Cassettiera', box: [56, 122, 54, 60], stand: 84, noDot: true, look: ['Cassetti pieni di viti. Mira le ha messe in ordine di grandezza. Nora no.', 'Una cassettiera. Un cassetto dice "potenze di 2", un altro "potenze di 10".'] }
+        { id: 'cassettiera', name: '🗄️ Cassettiera', box: [272, 126, 68, 54], stand: 300, noDot: true, look: ['Cassetti pieni di viti. Mira le ha messe in ordine di grandezza. Nora no.', 'Una cassettiera. Un cassetto dice "potenze di 2", un altro "potenze di 10".'] }
       ],
       exits: [
-        { id: 'to-officina', label: '🚪 Officina', box: [8, 96, 40, 88], stand: 30, to: 'officina', arrive: 199, labelY: 90 },
+        { id: 'to-officina', label: '🚪 Officina', box: [8, 96, 40, 88], stand: 30, to: 'officina', arrive: 236, labelY: 90 },
         { ...rightExit(3, 'giardino', 'Ponte ➜'), arrive: 360 }
       ]
     }
@@ -949,9 +952,9 @@ function readQuestBoard() {
       layout: { groundY: 188, ariaStart: 70 },
       hotspots: [
         {
-          id: 'botola', name: '🔩 Botola', box: [298, 8, 60, 22], stand: 330,
+          id: 'botola', name: '🔩 Botola', box: [212, 6, 94, 40], stand: 258,
           visible: () => !flag('botola_open'),
-          draw: () => '<g><circle cx="304" cy="20" r="2.4" fill="#a8a29e"/><circle cx="352" cy="20" r="2.4" fill="#a8a29e"/><path d="M302 18 L306 22 M350 18 L354 22" stroke="#57534e" stroke-width="0.8"/></g>',
+          draw: () => '<g><circle cx="222" cy="36" r="3" fill="#fbbf24" stroke="#1c1426" stroke-width="0.6"/><circle cx="296" cy="30" r="3" fill="#fbbf24" stroke="#1c1426" stroke-width="0.6"/><path d="M220 34 L224 38 M294 28 L298 32" stroke="#92400e" stroke-width="0.8"/></g>',
           look: ['Una botola bloccata da due bulloni enormi. Serve un attrezzo speciale.', 'La botola porta in cima. Bulloni d’oro... come la chiave inglese delle Gemelle!'],
           useItem: {
             i5: () => {
@@ -964,7 +967,12 @@ function readQuestBoard() {
           }
         },
         {
-          id: 'graffito', name: '✏️ Scritta sul muro', box: [108, 54, 74, 24], stand: 145,
+          id: 'botola-aperta', box: [0, 0, 0, 0], noDot: true,
+          visible: () => flag('botola_open'),
+          draw: () => '<path d="M214 10 L302 6 L305 42 L222 46 Z" fill="#0b0712"/><path d="M214 10 L196 2 L200 40 L222 46 Z" fill="#6b4022" stroke="#1c1426" stroke-width="0.8"/>'
+        },
+        {
+          id: 'graffito', name: '✏️ Scritta sul muro', box: [264, 78, 52, 26], stand: 288,
           read: () => readCuriosity('videogiochi'),
           look: 'Qualcuno ha scritto "2⁸ = 256!" sul muro. Un nerd dei videogiochi, sicuro.'
         },
@@ -975,11 +983,11 @@ function readQuestBoard() {
           read: () => readDiary(5),
           look: 'L’ultimo foglio viola. Questo sembra scritto in fretta.'
         },
-        { id: 'finestra', name: '🪟 Finestra', box: [58, 52, 38, 54], stand: 77, noDot: true, look: ['Fuori la tempesta. I lampi illuminano il mare.', 'Un lampo! Ho contato fino a 3: il temporale è vicino.'] }
+        { id: 'finestra', name: '🪟 Finestra', box: [242, 60, 20, 42], stand: 252, noDot: true, look: ['Fuori la tempesta. I lampi illuminano il mare.', 'Un lampo! Ho contato fino a 3: il temporale è vicino.'] }
       ],
       exits: [
         leftExit(2, 'belvedere', '⬅ Belvedere'),
-        { id: 'to-cima', label: '⬆ Cima', box: [296, 6, 64, 26], stand: 330, to: 'cima', arrive: 110, labelY: 40, visible: () => flag('botola_open') }
+        { id: 'to-cima', label: '⬆ Cima', box: [212, 6, 94, 40], stand: 258, to: 'cima', arrive: 140, labelY: 54, visible: () => flag('botola_open') }
       ]
     },
 
@@ -991,10 +999,10 @@ function readQuestBoard() {
         guardian: { ...A.layout.guardian, look: ['Lavinia. Corona, capelli viola e zero umiltà.', 'Mi guarda come se fossi un esercizio troppo facile.'] }
       },
       hotspots: [
-        { id: 'piedistallo', name: '💎 Piedistallo', box: [172, 146, 56, 38], stand: 200, noDot: true, look: () => `Il piedistallo dei Cristalli. Ce ne sono ${state.crystals.length} su 5.` }
+        { id: 'piedistallo', name: '💎 Piedistallo', box: [172, 136, 56, 48], stand: 200, noDot: true, look: () => `Il piedistallo dei Cristalli. Ce ne sono ${state.crystals.length} su 5.` }
       ],
       exits: [
-        { id: 'to-scala', label: '⬇ Scala', box: [0, 112, 52, 72], stand: 22, to: 'scala', arrive: 300, labelY: 106 }
+        { id: 'to-scala', label: '⬇ Scala', box: [108, 134, 24, 34], stand: 120, to: 'scala', arrive: 258, labelY: 128 }
       ]
     }
   };

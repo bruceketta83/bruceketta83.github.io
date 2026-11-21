@@ -240,10 +240,10 @@ const AREAS = [
     maxHp: 3,
     scene: 'serra',
     layout: {
-      groundY: 184,
+      groundY: 196,
       ariaStart: 190,
-      mentor: { x: 92, draw: 'zeri', stand: 128, label: '🕶️ Madame Zeri' },
-      guardian: { x: 285, draw: 'plant', stand: 240, label: '🌺 Pianta Carnivora' }
+      mentor: { x: 120, draw: 'zeri', stand: 150, label: '🕶️ Madame Zeri' },
+      guardian: { x: 292, draw: 'plant', stand: 250, label: '🌺 Pianta Carnivora' }
     },
     crystal: { id: 'c4', name: 'Cristallo Smeraldo', icon: '🟢', desc: 'Racchiude il potere assoluto dell’unità.' },
     item: { id: 'i4', name: 'Seme Luminescente', icon: '🌱', desc: 'Donato da Madame Zeri.' },
@@ -300,7 +300,7 @@ const AREAS = [
     layout: {
       groundY: 180,
       ariaStart: 196,
-      mentor: { x: 96, draw: 'gemelle', stand: 136, label: '👯‍♀️ Mira & Nora' },
+      mentor: { x: 132, draw: 'gemelle', stand: 170, label: '👯‍♀️ Mira & Nora' },
       guardian: { x: 292, draw: 'automa', stand: 244, label: '🤖 Automa' }
     },
     crystal: { id: 'c5', name: 'Cristallo Rubino', icon: '🔴', desc: 'L’ultimo cristallo! Arde di energia pura.' },
