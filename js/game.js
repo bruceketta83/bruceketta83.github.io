@@ -1184,7 +1184,7 @@ function renderInventory() {
       const card = document.createElement('div');
       card.className = `inv-card ${usable ? 'usable' : ''}`;
       card.innerHTML = `
-        <div class="inv-icon">${obj.icon}</div>
+        <div class="inv-icon">${itemIconHTML(obj)}</div>
         <div class="inv-name">${obj.name}</div>
         <div class="inv-desc">${obj.desc}</div>
         ${usable ? '<button class="inv-use">✋ Usa</button>' : ''}`;

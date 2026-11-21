@@ -15,8 +15,9 @@ from PIL import Image
 from scipy import ndimage
 
 
-def maschera(src):
-    """Restituisce l'immagine RGBA senza sfondo, non ritagliata."""
+def maschera(src, aloni=False):
+    """Restituisce l'immagine RGBA senza sfondo, non ritagliata.
+    aloni=True toglie anche gli aloni luminosi mescolati al magenta (oggetti che brillano)."""
     im = np.asarray(Image.open(src).convert('RGB')).astype(np.float32)
     r, g, b = im[..., 0], im[..., 1], im[..., 2]
     mag = np.minimum(r, b) - g                      # quanto è "magenta"
@@ -32,6 +33,13 @@ def maschera(src):
         sizes = ndimage.sum(np.ones_like(lab2), lab2, range(1, n2 + 1))
         keep = np.isin(lab2, np.nonzero(sizes >= 12)[0] + 1)
         bg |= keep
+    if aloni:
+        # Alone (es. luce verde o gialla sul magenta): colore ancora un po' magenta, chiaro,
+        # collegato allo sfondo. Il contorno scuro dell'oggetto ferma l'espansione.
+        lum = 0.3 * r + 0.59 * g + 0.11 * b
+        halo = (mag > 12) & (lum > 95)
+        lab3, _ = ndimage.label(halo | bg)
+        bg |= np.isin(lab3, np.unique(lab3[bg]))
     # Bordi sfumati: entro 3 pixel dallo sfondo l'alfa dipende da quanto è magenta.
     near = ndimage.binary_dilation(bg, iterations=3) & ~bg
     alpha = np.where(bg, 0.0, 1.0)

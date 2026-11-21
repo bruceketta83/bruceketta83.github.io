@@ -157,10 +157,7 @@ function readDiary(n) {
 
 /* Disegno di un foglio di diario a terra. */
 function diaryPageSVG(x, y) {
-  return `<g transform="translate(${x} ${y}) rotate(-12)">
-    <rect x="-6" y="-4" width="12" height="8" fill="#f5d0fe" stroke="#a855f7" stroke-width="0.6"/>
-    <path d="M-4 -1.5 L4 -1.5 M-4 0.5 L3 0.5 M-4 2.5 L2 2.5" stroke="#7e22ce" stroke-width="0.5"/>
-  </g>`;
+  return `<g transform="translate(${x} ${y}) rotate(-12)">${objIcon('diario', 13)}</g>`;
 }
 
 /* Disegno di un oggetto da raccogliere che luccica. */
@@ -168,8 +165,10 @@ function sparkleSVG(x, y, inner) {
   return `<g transform="translate(${x} ${y})">${inner}
     <path class="spark-pop" d="M4 -6 L4.8 -3.8 L7 -3 L4.8 -2.2 L4 0 L3.2 -2.2 L1 -3 L3.2 -3.8 Z" fill="#fff" style="animation-duration:1.6s"/></g>`;
 }
-const MUG = '<rect x="-3.5" y="-5" width="7" height="8" rx="1" fill="#d97706" stroke="#92400e" stroke-width="0.5"/><path d="M3.5 -3 q2.5 0 2.5 2.5 q0 2.5 -2.5 2.5" stroke="#92400e" stroke-width="1" fill="none"/><path d="M-4 -5 q2 -2 4 -0.6 q2 -1.6 4 0.6 Z" fill="#fffbeb"/>';
-const BOLT = '<polygon points="-3,-3 3,-3 4.5,0 3,3 -3,3 -4.5,0" fill="#fbbf24" stroke="#a16207" stroke-width="0.6"/><circle r="1.2" fill="#a16207"/>';
+/* Oggetti che luccicano: immagini centrate in (0,0). */
+const MUG = objIcon('boccale', 11);
+const BOLT = objIcon('bullone', 10);
+const COIN = objIcon('doblone', 9);
 
 function takeCoin(n) {
   setFlag(`coin${n}`);
@@ -401,33 +400,20 @@ function laviniaCameo(area, flagKey) {
         },
         {
           id: 'bottiglia', name: '🍾 Messaggio in bottiglia', box: [276, 184, 24, 16], stand: 282,
-          draw: () => `<g transform="translate(288 192) rotate(-18)">
-            <rect x="-9" y="-3.5" width="14" height="7" rx="3" fill="#16a34a" opacity="0.85"/>
-            <rect x="5" y="-1.8" width="5" height="3.6" fill="#16a34a" opacity="0.85"/>
-            <rect x="9.5" y="-2" width="2.6" height="4" rx="0.8" fill="#a16207"/>
-            <rect x="-6" y="-1.6" width="8" height="3.2" fill="#fef3c7"/>
-            <path d="M-8 -2.4 L3 -2.4" stroke="#fff" stroke-width="0.6" opacity="0.6"/>
-          </g>`,
+          obj: 'bottiglia', objScale: 1.5,
           read: () => readCuriosity('scacchiera'),
           look: 'Una bottiglia con dentro un foglio arrotolato. Classico messaggio in bottiglia!'
         },
         {
           id: 'doblone1', name: '🪙 Qualcosa che luccica', box: [220, 184, 18, 12], stand: 229,
           visible: () => !flag('coin1'),
-          draw: () => `<g transform="translate(229 190)">
-            <circle r="3.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.8"/>
-            <path class="spark-pop" d="M4 -6 L4.8 -3.8 L7 -3 L4.8 -2.2 L4 0 L3.2 -2.2 L1 -3 L3.2 -3.8 Z" fill="#fff" style="animation-duration:1.6s"/>
-          </g>`,
+          draw: () => sparkleSVG(229, 190, COIN),
           take: () => takeCoin(1)
         },
         {
           id: 'lucchetto', name: '🔒 Lucchetto del capanno', box: [326, 120, 16, 16], stand: 334,
           visible: () => !flag('capanno_open'),
-          draw: () => `<g transform="translate(334 128)">
-            <path d="M-3.5 -2 L-3.5 -5 Q0 -9 3.5 -5 L3.5 -2" stroke="#9ca3af" stroke-width="1.6" fill="none"/>
-            <rect x="-5" y="-2.5" width="10" height="8" rx="1.5" fill="#fbbf24" stroke="#a16207" stroke-width="0.7"/>
-            <circle cy="1.5" r="1.2" fill="#78350f"/>
-          </g>`,
+          obj: 'lucchetto', objScale: 1.1,
           use: () => openPadlock(),
           useIcon: '🔢',
           useLabel: 'Codice',
@@ -479,14 +465,7 @@ function laviniaCameo(area, flagKey) {
       hotspots: [
         {
           id: 'bacheca', name: '📌 Bacheca del porto', box: [96, 112, 32, 36], stand: 112,
-          draw: () => `<g transform="translate(112 158)">
-            <rect x="-12" y="-40" width="3" height="40" fill="#3b2410"/><rect x="9" y="-40" width="3" height="40" fill="#3b2410"/>
-            <rect x="-15" y="-46" width="30" height="28" rx="1.5" fill="#92400e" stroke="#451a03" stroke-width="1"/>
-            <rect x="-12" y="-43" width="11" height="15" fill="#fef3c7" transform="rotate(-4 -6 -35)"/>
-            <rect x="1" y="-42" width="11" height="13" fill="#fde68a" transform="rotate(5 6 -36)"/>
-            <path d="M-10 -39 L-4 -39 M-10 -36 L-3 -36 M-10 -33 L-5 -33 M3 -38 L10 -38 M3 -35 L9 -35" stroke="#78350f" stroke-width="0.6"/>
-            <circle cx="-6.5" cy="-42" r="1" fill="#dc2626"/><circle cx="6.5" cy="-41" r="1" fill="#dc2626"/>
-          </g>`,
+          obj: 'bacheca',
           read: () => {
             setFlag('read_bacheca');
             showReading('📌 Bacheca del porto',
@@ -500,14 +479,8 @@ function laviniaCameo(area, flagKey) {
         {
           id: 'cassa-acqua', name: '📦 Cassa in acqua', box: [112, 180, 34, 26], stand: 128,
           visible: () => !flag('cassa_ok'),
-          draw: () => `<g transform="translate(128 196)">
-            <ellipse cx="0" cy="7" rx="15" ry="2.5" fill="#93c5fd" opacity="0.4" class="shimmer"/>
-            <g class="bob">
-              <rect x="-10" y="-10" width="20" height="16" fill="#a16207" stroke="#713f12" stroke-width="1"/>
-              <path d="M-10 -10 L10 6 M10 -10 L-10 6" stroke="#713f12" stroke-width="0.7" opacity="0.6"/>
-              <text x="0" y="0.5" font-size="7" fill="#fef3c7" text-anchor="middle" font-weight="700" font-family="Courier New, monospace">2⁵</text>
-            </g>
-          </g>`,
+          draw: () => `<g class="bob">${objInBox('cassa', [112, 180, 34, 24]).svg}${objText('2⁵', 129, 197, 8, '#fef3c7')}</g>
+            <ellipse class="shimmer" cx="129" cy="205" rx="16" ry="2.4" fill="#c4b5fd" opacity="0.5"/>`,
           look: [
             'Una cassa del carico galleggia sotto il pontile. Senza una corda non ci arrivo.',
             'È la cassa di Barnaba! Dondola tra le onde. Mi serve qualcosa per tirarla su.'
@@ -528,17 +501,13 @@ function laviniaCameo(area, flagKey) {
         {
           id: 'cassa-salva', name: '📦 Cassa recuperata', box: [124, 140, 26, 22], stand: 136, noDot: true,
           visible: () => flag('cassa_ok'),
-          draw: () => `<g transform="translate(137 151)">
-            <rect x="-11" y="-11" width="22" height="22" fill="#a16207" stroke="#713f12" stroke-width="1"/>
-            <path d="M-11 -11 L11 11 M11 -11 L-11 11" stroke="#713f12" stroke-width="0.7" opacity="0.6"/>
-            <text x="0" y="3" font-size="8" fill="#fef3c7" text-anchor="middle" font-weight="700" font-family="Courier New, monospace">2⁵</text>
-          </g>`,
+          obj: 'cassa', objText: ['2⁵', 0.62, 8, '#fef3c7'],
           look: ['La cassa recuperata. Barnaba la guarda con amore.', 'Ancora bagnata. Odora di alghe e di vittoria.']
         },
         {
           id: 'doblone-mare', name: '🪙 Luccichio sul fondo', box: [134, 196, 30, 18], stand: 150,
           visible: () => flag('cassa_ok') && !flag('coin3'),
-          draw: () => sparkleSVG(150, 205, '<circle r="3.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.8" opacity="0.8"/>'),
+          draw: () => sparkleSVG(150, 205, COIN),
           look: ['Sul fondo del mare luccica un doblone. Troppo in basso per le mani. Serve una rete robusta.', 'Un doblone sul fondale! Con una rete lo prenderei.'],
           useItem: {
             rete: () => { removeItem('rete'); takeCoin(3); },
@@ -579,12 +548,7 @@ function laviniaCameo(area, flagKey) {
         {
           id: 'corda', name: '🪢 Corda', box: [158, 162, 34, 18], stand: 175,
           visible: () => !hasItem('corda') && !flag('cassa_ok'),
-          draw: () => `<g transform="translate(175 174)">
-            <ellipse rx="14" ry="5" fill="none" stroke="#d6b88a" stroke-width="2.4"/>
-            <ellipse rx="10" ry="3.6" fill="none" stroke="#c4a574" stroke-width="2.2"/>
-            <ellipse rx="6" ry="2.2" fill="none" stroke="#d6b88a" stroke-width="2"/>
-            <path d="M13 1 Q20 4 18 -6" stroke="#d6b88a" stroke-width="2" fill="none"/>
-          </g>`,
+          obj: 'corda',
           take: () => {
             giveItem('corda');
             refreshLabels(A);

@@ -162,7 +162,7 @@ function worldMarkersHTML(area) {
 }
 
 function propsHTML(area) {
-  return roomHotspots(area).filter(h => h.draw).map(h => h.draw()).join('');
+  return roomHotspots(area).filter(h => h.draw || h.obj).map(h => (h.obj ? objHotspotSVG(h) : h.draw())).join('');
 }
 
 /* Cambia stanza con una dissolvenza. */

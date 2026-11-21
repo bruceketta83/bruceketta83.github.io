@@ -1631,3 +1631,6 @@ html.read-voice #btn-listen { display: block; }
 @keyframes walkF0 { 0% { opacity: 0; } 25% { opacity: 1; } 50% { opacity: 0; } 75% { opacity: 1; } }
 @keyframes walkFA { 0% { opacity: 1; } 25% { opacity: 0; } }
 @keyframes walkFB { 0% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } }
+
+/* Oggetti a immagine nello Zaino. */
+.inv-icon .inv-img { width: 2.6rem; height: 2.6rem; object-fit: contain; display: block; margin: 0 auto; }
