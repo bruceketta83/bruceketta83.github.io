@@ -1,17 +1,48 @@
 # 🎨 Descrizione grafica
 
-Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco. Tutti i dati vengono dal codice (`style.css`, `js/scenes.js`, `js/characters.js`, `js/meta.js`).
+Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco.
+
+- **Stile di riferimento:** i mock-up dell'area 1 in `docs/mockup/` (spiaggia e capanno). Le scene nuove e quelle da rifare seguono questo stile.
+- **Dati tecnici:** vengono dal codice (`style.css`, `js/scenes.js`, `js/characters.js`, `js/meta.js`) e non cambiano.
+
+| Spiaggia | Capanno |
+| :---: | :---: |
+| ![Mock-up della spiaggia](docs/mockup/area1-spiaggia.jpg) | ![Mock-up del capanno](docs/mockup/area1-capanno.jpg) |
 
 ## 1. Stile generale
 
-1. Grafica vettoriale SVG disegnata a mano nel codice. Non ci sono immagini.
-2. Stile piatto da cartone animato: campiture piene, angoli arrotondati, nessun contorno nero.
-3. Le ombre sono tinte più scure dello stesso colore o rettangoli neri trasparenti. Non ci sono gradienti sui personaggi.
-4. I cieli, le pareti e le luci usano gradienti morbidi.
-5. Atmosfera da avventura punta-e-clicca: vista laterale "a teatrino", senza prospettiva reale. La profondità nasce da sagome lontane più scure.
-6. Quasi tutte le scene sono al tramonto o di notte. La Serra è l'unica scena di giorno.
-7. Ogni scena ha almeno 3–4 animazioni continue: stelle, onde, fiamme, oggetti che oscillano.
-8. Il gioco rispetta l'impostazione "riduci movimento" del dispositivo.
+### Stile di riferimento (mock-up)
+
+1. Illustrazione da cartone animato per avventura punta-e-clicca, con molti dettagli e un'atmosfera calda.
+2. Ombreggiatura a due toni (cel shading): una tinta piena per la luce e una più scura per l'ombra, con bordi netti.
+3. I bordi delle forme sono segnati da una tinta più scura dello stesso colore (marrone scuro sul legno, verde scuro sulle foglie). Non usare contorni neri.
+4. Materiali disegnati con poche linee:
+   - legno: venature e assi separate, chiodi, bordi consumati;
+   - tela: pieghe e toppe sulla vela;
+   - sabbia: sassolini, conchiglie, legnetti sparsi.
+5. Luce forte e calda:
+   - sole basso sull'orizzonte o lanterne accese;
+   - aloni morbidi arancio intorno alle fonti di luce;
+   - ombre lunghe proiettate a terra;
+   - bordo chiaro (luce di contorno) sui lati rivolti al sole.
+6. Colori saturi e caldi: viola, magenta, arancio e giallo nel cielo; marroni caldi nel legno; blu-viola nel mare.
+7. Profondità a strati:
+   - in primo piano sagome scure (foglie, rocce, pavimento) che fanno da cornice ai bordi;
+   - al centro la scena con gli oggetti cliccabili;
+   - sullo sfondo colline e isole blu-viola, più chiare e meno dettagliate.
+8. Negli interni gli angoli sono più scuri (vignettatura). La luce cade a cono dalla lanterna o dalla porta, con pulviscolo luminoso.
+9. Scritte su cartelli e poster: lettere disegnate a mano, scure su legno o carta chiara.
+
+### Regole tecniche (non cambiano)
+
+1. Grafica vettoriale SVG disegnata a mano nel codice. Non ci sono immagini nel gioco: i mock-up sono solo un riferimento.
+2. Campiture piene e angoli arrotondati. Nessun contorno nero.
+3. Ombre: tinte più scure dello stesso colore o forme scure trasparenti. Nessun gradiente sui personaggi.
+4. Gradienti morbidi solo per cieli, pareti, aloni di luce e coni di luce.
+5. Vista laterale "a teatrino", senza prospettiva reale.
+6. Ogni scena ha almeno 3–4 animazioni continue: stelle, onde, fiamme, oggetti che oscillano.
+7. Il gioco rispetta l'impostazione "riduci movimento" del dispositivo.
+8. Quasi tutte le scene sono al tramonto o di notte. La Serra è l'unica scena di giorno.
 
 ### Colori dell'interfaccia
 
@@ -68,11 +99,59 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 
 ### Area 1 – Il Molo delle Basi Uguali
 
-| Stanza | Luce | Descrizione |
+Stile di riferimento per tutta l'area: i due mock-up. Il pontile segue lo stesso stile.
+
+#### Spiaggia (mock-up)
+
+- **Luce:** tramonto. Sole grande e giallo-bianco sull'orizzonte, dietro la nave, a destra del centro.
+- **Cielo:** sfumatura da viola scuro in alto, a magenta, arancio e giallo vicino all'orizzonte.
+- **Sfondo:** colline e isole blu-viola a sinistra, scure e poco dettagliate.
+- **Mare:** blu-viola, con strisce di luce e riflessi del sole. Battigia chiara con onda bianca.
+- **Nave di Capitana Vera** al centro:
+  - galeone in legno marrone scuro, assi visibili, parapetto, coffa sull'albero, ancora sulla prua;
+  - grande vela beige con pieghe e toppe e un "2" marrone scuro dipinto a stampino;
+  - una barca a remi legata con una corda.
+- **Palma** a sinistra in primo piano, inclinata, tronco marrone e foglie verde scuro.
+- **Capanno** a destra:
+  - assi di legno grigio-marrone consumato, tetto spiovente, portico con pali;
+  - cartello in legno chiaro "CAPANNO" con lettere marroni;
+  - due lanterne accese ai lati della porta, con alone arancio;
+  - porta scura aperta, una botte, un'asse appoggiata.
+- **Sabbia:** giallo-arancio caldo, con una fascia più scura in primo piano. Conchiglie, stella marina rossa, granchio, sassolini, legnetti. Ombre lunghe del capanno e della palma.
+- **Cornice:** sagome scure di cespugli negli angoli in basso.
+
+#### Capanno, interno (mock-up)
+
+- **Luce:** lanterna appesa al centro, con un grande alone arancio e un cono di luce verso il basso. Angoli scuri. Pulviscolo luminoso.
+- **Pareti:** assi di legno marrone caldo con venature, una trave sul soffitto, corde che pendono.
+- **Porta** aperta a sinistra: si vedono il cielo del tramonto (viola, rosa, arancio) e il mare con sagome scure.
+- **Elementi:**
+  - rete da pesca appesa con galleggianti colorati (blu, verde, arancio, rosso);
+  - finestrella a quattro vetri con cielo lilla;
+  - poster di carta chiara "10¹⁰⁰ GOOGOL" con lettere scure;
+  - tavolo in legno con una mappa;
+  - remo appoggiato al muro;
+  - mensola con barattoli e bottiglie;
+  - botte a destra.
+- **Pavimento:** assi scure, una trave in primo piano.
+
+#### Pontile (da allineare allo stile)
+
+- **Oggi nel gioco:** notte al tramonto con luna, pontile in legno con pali, barile, lampione, casse "2³" e "2⁴", "Faro sabotato" indaco con luce rossa, nave lontana, gabbiano, nebbia lilla, onde in primo piano.
+- **Nello stile dei mock-up:** stessa luce calda del tramonto, venature sulle assi, lanterna con alone arancio, ombre lunghe, sagome scure in primo piano ai bordi.
+
+#### Differenze tra il gioco di oggi e i mock-up
+
+| Elemento | Oggi | Mock-up |
 | :--- | :--- | :--- |
-| **Pontile** | Notte al tramonto, luna, lanterna calda | Cielo blu notte → viola → rosa → ambra. Pontile in legno con pali, barile, lampione, casse con scritto "2³" e "2⁴". Sullo sfondo il "Faro sabotato" indaco con luce rossa, una nave lontana, un gabbiano, nebbia lilla. Onde in primo piano davanti ai personaggi. |
-| **Spiaggia** | Tramonto, sole che tocca il mare | Cielo viola → rosa → giallo, sabbia dorata. Nave di Capitana Vera con il "2" sulla vela, palma, barca a remi, conchiglie, stella marina, granchio che cammina. Capanno in legno con il cartello "CAPANNO". |
-| **Capanno** (interno) | Lanterna appesa, porta aperta sul tramonto | Assi di legno scuro. Rete da pesca con galleggianti, poster "10¹⁰⁰ GOOGOL", finestra, mensola con barattoli, tavolo con mappa, remo e botte. |
+| Nave | Piccola, a sinistra, forme semplici | Grande galeone al centro, dettagliato, vela con toppe |
+| Capanno (esterno) | Legno ocra, finestrella illuminata | Legno grigio consumato, portico, due lanterne |
+| Palma | Al centro, foglie che oscillano | A sinistra in primo piano, inclinata |
+| Sole | Al centro-sinistra | A destra del centro, dietro la nave |
+| Capanno (interno) | Lanterna piccola, luce quasi uniforme | Cono di luce dalla lanterna, angoli scuri |
+| Materiali | Superfici lisce | Venature, assi, pieghe, sassolini |
+| Ombre | Poche | Ombre lunghe a terra |
+| Cornice | Nessuna | Sagome scure negli angoli |
 
 ### Piazza del Mercato (punto centrale sud)
 
@@ -272,10 +351,15 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 
 ## 5. Regole per disegnare elementi nuovi
 
-1. Usa campiture piatte e angoli arrotondati. Non usare contorni neri.
-2. Fai le ombre con una tinta più scura dello stesso colore.
-3. Prendi i colori dalla scala già usata (palette Tailwind): legni `#78350f`/`#92400e`, pietre `#334155`/`#475569`, luci `#fde68a`/`#fbbf24`, rosso `#dc2626`.
-4. Disegna i personaggi con i piedi in (0, 0) e lo sguardo a destra. Registrali in `CHARS` con altezza e ritaglio del ritratto.
-5. Metti gli oggetti cliccabili tra x = 44 e x = 356, sopra la linea del pavimento.
-6. Dai a ogni scena almeno 3 animazioni lente e sfasate.
-7. Scrivi le formule sulle insegne in Courier New, con gli esponenti in apice.
+1. Segui lo stile dei mock-up in `docs/mockup/`.
+2. Usa campiture piatte e angoli arrotondati. Non usare contorni neri.
+3. Fai le ombre a due toni con una tinta più scura dello stesso colore. Segna i bordi con la stessa tinta scura.
+4. Aggiungi pochi dettagli di materiale: venature, assi, pieghe, sassolini.
+5. Metti una fonte di luce calda con alone e ombre lunghe.
+6. Incornicia la scena con sagome scure in primo piano negli angoli. Non coprire gli oggetti cliccabili.
+7. Prendi i colori dalla scala già usata (palette Tailwind): legni `#78350f`/`#92400e`, pietre `#334155`/`#475569`, luci `#fde68a`/`#fbbf24`, rosso `#dc2626`.
+8. Disegna i personaggi con i piedi in (0, 0) e lo sguardo a destra. Registrali in `CHARS` con altezza e ritaglio del ritratto. Usa la stessa ombreggiatura a due toni e la luce calda delle scene.
+9. Metti gli oggetti cliccabili tra x = 44 e x = 356, sopra la linea del pavimento.
+10. Dai a ogni scena almeno 3 animazioni lente e sfasate.
+11. Scrivi le formule sulle insegne in Courier New, con gli esponenti in apice.
+12. I mock-up hanno il formato 16:9 (1024 × 572). Una scena del gioco misura 400 × 220, quasi lo stesso formato: i bordi laterali si tagliano sui telefoni stretti.
