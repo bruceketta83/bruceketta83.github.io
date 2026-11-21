@@ -3,7 +3,8 @@
 Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco.
 
 - **Stile di riferimento:** i mock-up in `docs/mockup/`: area 1 (pontile, spiaggia, capanno) e 5 personaggi (Aria, Lavinia, Capitana Vera, Barnaba, Zia Turbina).
-- **Stato:** l'area 1 e i 5 personaggi sono già ridisegnati nel gioco con questo stile. Le altre aree e gli altri personaggi sono ancora nello stile precedente.
+- **Stato:** 7 stanze usano già gli sfondi a immagine (pontile, spiaggia, capanno, strada e sala della Taverna, terrazza della Torre, Belvedere). I 5 personaggi sono ridisegnati in SVG. Le altre stanze e gli altri personaggi sono ancora nello stile precedente.
+- **Immagini da correggere:** i prompt sono in [`docs/mockup/PROMPT.md`](docs/mockup/PROMPT.md).
 - **Dati tecnici:** vengono dal codice (`style.css`, `js/scenes.js`, `js/characters.js`, `js/meta.js`).
 
 | Pontile | Spiaggia | Capanno |
@@ -42,7 +43,10 @@ I mock-up delle scene sono verticali (9:16). Nel gioco la scena resta orizzontal
 
 ### Regole tecniche
 
-1. Grafica vettoriale SVG disegnata a mano nel codice. Non ci sono immagini nel gioco: i mock-up sono solo un riferimento.
+1. Gli sfondi delle stanze sono immagini WebP in `img/bg/` (1600 × 893, circa 50–100 KB). I personaggi, gli oggetti cliccabili e le animazioni restano in SVG sopra l'immagine.
+   - Nello sfondo va solo ciò che non cambia mai. Personaggi, oggetti da prendere, cristalli, cancelli che si aprono e numeri degli enigmi sono in SVG.
+   - Sopra l'immagine il codice aggiunge luci che tremolano, stelle, onde e fumo (`IMAGE_SCENES` in `js/scenes.js`).
+   - Ogni immagine nuova va aggiunta in `sw.js`, per il gioco offline.
 2. Campiture piene e angoli arrotondati. Contorno sottile scuro colorato (0,5–0,9 unità), mai nero puro.
 3. Ombre: tinte più scure dello stesso colore o forme scure trasparenti. Nessun gradiente sui personaggi.
 4. Gradienti morbidi solo per cieli, pareti, aloni di luce e coni di luce.

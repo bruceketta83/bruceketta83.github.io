@@ -206,7 +206,7 @@ function readQuestBoard() {
       layout: { groundY: 184, ariaStart: 120 },
       hotspots: [
         {
-          id: 'porta', name: '🚪 Porta della Taverna', box: [218, 116, 40, 68], stand: 238,
+          id: 'porta', name: '🚪 Porta della Taverna', box: [140, 84, 46, 88], stand: 162,
           visible: () => !flag('taverna_open'),
           use: () => ariaSays(['È chiusa a chiave. Mi serve una chiave...', 'Spingo... niente. Chiusa.']),
           useIcon: '✋', useLabel: 'Apri',
@@ -224,28 +224,28 @@ function readQuestBoard() {
         {
           id: 'porta-aperta', box: [0, 0, 0, 0], noDot: true,
           visible: () => flag('taverna_open'),
-          draw: () => '<rect x="222" y="120" width="32" height="62" fill="#fbbf24" opacity="0.85"/><path d="M222 120 L212 124 L212 186 L222 182 Z" fill="#78350f"/>'
+          draw: () => `<rect x="143" y="88" width="40" height="84" fill="#ffcf5a" opacity="0.85"/><path d="M143 88 L133 92 L133 176 L143 172 Z" fill="#6b4022" ${wink(0.7)}/>`
         },
         {
-          id: 'volantino', name: '📄 Volantino', box: [146, 128, 22, 28], stand: 157,
-          draw: () => `<g transform="rotate(4 157 142)"><rect x="147" y="130" width="20" height="26" fill="#fef3c7" stroke="#d6b88a" stroke-width="0.6"/>
+          id: 'volantino', name: '📄 Volantino', box: [112, 116, 22, 28], stand: 123,
+          draw: () => `<g transform="rotate(4 123 130) translate(-34 -12)"><rect x="147" y="130" width="20" height="26" fill="#fef3c7" stroke="#d6b88a" stroke-width="0.6"/>
             <text x="157" y="140" font-size="5.5" fill="#b91c1c" text-anchor="middle" font-weight="900" font-family="Georgia, serif">A4</text>
             <path d="M150 145 L164 145 M150 148 L162 148 M150 151 L163 151" stroke="#a16207" stroke-width="0.5"/></g>`,
           read: () => readCuriosity('carta'),
           look: 'Un volantino attaccato al muro. Parla di fogli di carta. Su un’isola pirata. Ok.'
         },
         {
-          id: 'coin2', name: '🪙 Qualcosa che luccica', box: [342, 144, 16, 12], stand: 340,
+          id: 'coin2', name: '🪙 Qualcosa che luccica', box: [240, 176, 16, 12], stand: 248,
           visible: () => !flag('coin2'),
-          draw: () => sparkleSVG(350, 151, '<circle r="3.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.8"/>'),
+          draw: () => sparkleSVG(248, 183, '<circle r="3.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.8"/>'),
           take: () => takeCoin(2)
         },
-        { id: 'gatto', name: '🐈‍⬛ Gatto', box: [288, 104, 24, 14], stand: 290, noDot: true, look: ['Il gatto dorme. Elevato alla zero: vale 1 gatto, ma pigrissimo.', 'Miao? No, ronfa e basta.'] },
-        { id: 'casse', name: '📦 Casse', box: [56, 150, 60, 32], stand: 100, noDot: true, look: 'Casse di frittelle e succo di mirtillo. La Taverna fa sul serio.' }
+        { id: 'gatto', name: '🐈‍⬛ Gatto', box: [212, 118, 28, 18], stand: 226, noDot: true, look: ['Il gatto dorme. Elevato alla zero: vale 1 gatto, ma pigrissimo.', 'Miao? No, ronfa e basta.'] },
+        { id: 'casse', name: '📦 Casse', box: [260, 134, 80, 46], stand: 252, noDot: true, look: 'Casse di frittelle e succo di mirtillo. La Taverna fa sul serio.' }
       ],
       exits: [
         { id: 'to-piazza', label: '⬅ Piazza', box: [0, 112, 52, 70], stand: 22, to: 'piazza', arrive: 350, labelY: 106 },
-        { id: 'to-sala', label: '🚪 Entra', box: [218, 116, 40, 68], stand: 238, to: 'sala', arrive: 60, labelY: 110, visible: () => flag('taverna_open') }
+        { id: 'to-sala', label: '🚪 Entra', box: [140, 84, 46, 88], stand: 162, to: 'sala', arrive: 60, labelY: 78, visible: () => flag('taverna_open') }
       ]
     },
 
@@ -275,8 +275,8 @@ function readQuestBoard() {
       },
       hotspots: [
         {
-          id: 'botti', name: '🛢️ Tre botticelle', box: [194, 146, 62, 26], stand: 225,
-          draw: () => ['A', 'B', 'C'].map((l, i) => `<g transform="translate(${205 + i * 20} 162)">
+          id: 'botti', name: '🛢️ Tre botticelle', box: [236, 172, 62, 26], stand: 262,
+          draw: () => ['A', 'B', 'C'].map((l, i) => `<g transform="translate(${246 + i * 21} 186)">
             <rect x="-8" y="-11" width="16" height="20" rx="4" fill="#92400e"/>
             <rect x="-8" y="-6" width="16" height="2" fill="#451a03"/><rect x="-8" y="3" width="16" height="2" fill="#451a03"/>
             <text x="0" y="1.5" font-size="7" fill="#fde68a" text-anchor="middle" font-weight="900">${l}</text></g>`).join(''),
@@ -301,15 +301,15 @@ function readQuestBoard() {
           useIcon: '🔍', useLabel: 'Apri una'
         },
         {
-          id: 'mug2', name: '🍺 Un boccale', box: [334, 168, 18, 14], stand: 330,
+          id: 'mug2', name: '🍺 Un boccale', box: [346, 126, 18, 14], stand: 340,
           visible: () => !flag('mug2'),
-          draw: () => sparkleSVG(343, 178, MUG),
+          draw: () => sparkleSVG(355, 133, MUG),
           take: () => collectPiece('boccali', 'mug2', ['Un boccale dell’Oste! Gli altri due sono in giro per l’isola.', 'Boccale numero uno. Pare che Archimede e Madame Zeri ne abbiano presi in prestito altri...'])
         },
         {
-          id: 'diario2', name: '📓 Un foglio viola', box: [140, 104, 22, 14], stand: 160,
+          id: 'diario2', name: '📓 Un foglio viola', box: [139, 184, 22, 14], stand: 150,
           visible: () => !flag('dia2'),
-          draw: () => diaryPageSVG(151, 111),
+          draw: () => diaryPageSVG(150, 191),
           read: () => readDiary(2),
           look: 'Un foglio viola sul bancone. Profuma di profumo costoso.'
         },
@@ -426,23 +426,24 @@ function readQuestBoard() {
         }
       },
       hotspots: [
-        { id: 'sfera', name: '🌐 Sfera armillare', box: [40, 150, 26, 36], stand: 66, noDot: true, look: 'Una sfera armillare che gira da sola. Magia? No, ingranaggi.' },
-        { id: 'libri', name: '📚 Libri', box: [110, 168, 26, 16], stand: 124, noDot: true, look: 'Libri di astronomia. Uno si chiama "Stelle al quadrato".' },
-        { id: 'pesi', name: '⚖️ Contrappesi', box: [302, 60, 52, 40], stand: 300, noDot: true, look: ['Due contrappesi con delle potenze. Per l’ascensore servono calcoli precisi.', 'I contrappesi dondolano. Mi fanno venire il mal di mare.'] },
+        { id: 'porta-biblioteca', box: [0, 0, 0, 0], noDot: true, draw: () => `<path d="M38 176 L38 150 Q49 140 60 150 L60 176 Z" fill="#6b4022" ${wink(0.8)}/><path d="M45 147 L45 176 M53 147 L53 176" stroke="#4e2e18" stroke-width="0.7"/><circle cx="56" cy="163" r="1" fill="#fbbf24"/>` },
+        { id: 'sfera', name: '🌐 Sfera armillare', box: [100, 104, 40, 84], stand: 120, noDot: true, look: 'Una sfera armillare che gira da sola. Magia? No, ingranaggi.' },
+        { id: 'libri', name: '📚 Libri', box: [82, 162, 24, 26], stand: 94, noDot: true, look: 'Libri di astronomia. Uno si chiama "Stelle al quadrato".' },
+        { id: 'pesi', name: '⚖️ Contrappesi', box: [326, 100, 48, 44], stand: 318, noDot: true, look: ['Due contrappesi con delle potenze. Per l’ascensore servono calcoli precisi.', 'I contrappesi dondolano. Mi fanno venire il mal di mare.'] },
         {
-          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [296, 176, 18, 12], stand: 296,
+          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [222, 178, 18, 12], stand: 230,
           visible: () => !flag('bul3'),
-          draw: () => sparkleSVG(304, 184, BOLT),
+          draw: () => sparkleSVG(230, 186, BOLT),
           take: () => collectPiece('bulloni', 'bul3', ['Un bullone d’oro vicino all’ascensore! Le Gemelle lo staranno cercando.', 'Un bullone tutto d’oro. Questo è roba da Officina.'])
         },
         laviniaHotspot(A, 'lav2', 160, 190)
       ],
       exits: [
         { ...leftExit(1, 'piazza', '⬅ Piazza'), arrive: 302 },
-        { id: 'to-belvedere', label: 'Belvedere ➜', box: [348, 112, 52, 70], stand: 380, to: 'belvedere', arrive: 40, labelY: 106,
+        { id: 'to-belvedere', label: 'Belvedere ➜', box: [348, 112, 52, 70], stand: 380, to: 'belvedere', arrive: 60, labelY: 160,
           locked: () => !done(A),
           lockedActions: [{ icon: '🚧', label: 'Bloccato', fn: () => ariaSays(['La strada per il Belvedere passa dall’ascensore. Prima devo battere il Terminale!', 'Bloccato. Il Terminale non mi lascia passare.']) }] },
-        { id: 'to-biblioteca', label: '🚪 Biblioteca', box: [182, 150, 28, 40], stand: 196, to: 'biblioteca', arrive: 60, labelY: 144 }
+        { id: 'to-biblioteca', label: '🚪 Biblioteca', box: [36, 140, 26, 36], stand: 52, to: 'biblioteca', arrive: 60, labelY: 134 }
       ]
     },
 
@@ -450,21 +451,21 @@ function readQuestBoard() {
       scene: 'belvedere',
       title: '🏔️ Belvedere',
       enter: ['Il Belvedere! Da qui si vede tutta l’isola.', 'Che vento quassù. La mongolfiera dondola.', 'Strade per la Serra, l’Officina e il Faro. Si sceglie!'],
-      layout: { groundY: 188, ariaStart: 40 },
+      layout: { groundY: 188, ariaStart: 60 },
       hotspots: [
         {
-          id: 'mongolfiera', name: '🎈 Mongolfiera', box: [276, 48, 48, 84], stand: 300,
+          id: 'mongolfiera', name: '🎈 Mongolfiera', box: [266, 8, 56, 80], stand: 256,
           use: () => { ariaSays('Salgo sulla mongolfiera: dove vado?'); openModal('map'); },
           useIcon: '🗺️', useLabel: 'Viaggia',
           look: ['La mongolfiera del Belvedere. Porta al Molo, alla Piazza e qui. Niente cinture di sicurezza. Ok.', 'Una mongolfiera rossa e gialla. Il viaggio rapido più stiloso dell’isola.']
         },
-        { id: 'panorama', name: '🔭 Cannocchiale panoramico', box: [148, 150, 26, 36], stand: 160, noDot: true, look: ['Dal cannocchiale vedo il Molo, la Piazza e il Faro in cima al monte. Che vista!', 'Vedo Zia Turbina che parla con un piccione. Normale.'] }
+        { id: 'panorama', name: '🔭 Cannocchiale panoramico', box: [280, 106, 62, 82], stand: 274, noDot: true, look: ['Dal cannocchiale vedo il Molo, la Piazza e il Faro in cima al monte. Che vista!', 'Vedo Zia Turbina che parla con un piccione. Normale.'] }
       ],
       exits: [
-        { id: 'to-terrazza2', label: '⬅ Torre', box: [0, 112, 52, 76], stand: 22, to: 'terrazza', arrive: 360, labelY: 106 },
-        { ...areaExit('bv-officina', 4, 'officina', 'Officina', [80, 130, 44, 58], 102, 124), arrive: 60, locked: () => state.unlockedArea < 4, lockedActions: [{ icon: '🚧', label: 'Bloccato', fn: () => ariaSays(['La galleria per l’Officina è chiusa. Prima devo finire la Serra.', 'Bloccata. L’Officina si apre dopo la Serra.']) }] },
-        { ...areaExit('bv-faro', 5, 'scala', '⬆ Faro', [194, 128, 36, 60], 212, 122), arrive: 70, locked: () => state.unlockedArea < 5, lockedActions: [{ icon: '🚧', label: 'Bloccato', fn: () => ariaSays(['La scalinata del Faro è bloccata. Prima l’Officina!', 'Il Faro è l’ultima tappa. Prima l’Officina!']) }] },
-        areaExit('bv-serra', 3, 'giardino', 'Serra ➜', [348, 112, 52, 76], 380, 106, () => state.unlockedArea < 3,
+        { id: 'to-terrazza2', label: '⬅ Torre', box: [0, 112, 52, 76], stand: 22, to: 'terrazza', arrive: 340, labelY: 106 },
+        { ...areaExit('bv-officina', 4, 'officina', 'Officina', [164, 100, 50, 62], 190, 92), arrive: 60, locked: () => state.unlockedArea < 4, lockedActions: [{ icon: '🚧', label: 'Bloccato', fn: () => ariaSays(['La galleria per l’Officina è chiusa. Prima devo finire la Serra.', 'Bloccata. L’Officina si apre dopo la Serra.']) }] },
+        { ...areaExit('bv-faro', 5, 'scala', '⬆ Faro', [58, 88, 46, 56], 96, 80), arrive: 70, locked: () => state.unlockedArea < 5, lockedActions: [{ icon: '🚧', label: 'Bloccato', fn: () => ariaSays(['La scalinata del Faro è bloccata. Prima l’Officina!', 'Il Faro è l’ultima tappa. Prima l’Officina!']) }] },
+        areaExit('bv-serra', 3, 'giardino', 'Serra', [118, 80, 40, 44], 138, 72, () => state.unlockedArea < 3,
           ['La Serra si apre dopo la Torre.', 'Bloccata.'])
       ]
     },
