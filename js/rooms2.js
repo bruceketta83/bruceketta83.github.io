@@ -301,9 +301,9 @@ function readQuestBoard() {
           useIcon: '🔍', useLabel: 'Apri una'
         },
         {
-          id: 'mug2', name: '🍺 Un boccale', box: [346, 126, 18, 14], stand: 340,
+          id: 'mug2', name: '🍺 Un boccale', box: [330, 126, 18, 14], stand: 330,
           visible: () => !flag('mug2'),
-          draw: () => sparkleSVG(355, 133, MUG),
+          draw: () => sparkleSVG(339, 133, MUG),
           take: () => collectPiece('boccali', 'mug2', ['Un boccale dell’Oste! Gli altri due sono in giro per l’isola.', 'Boccale numero uno. Pare che Archimede e Madame Zeri ne abbiano presi in prestito altri...'])
         },
         {

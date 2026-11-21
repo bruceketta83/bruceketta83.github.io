@@ -396,7 +396,7 @@ function laviniaCameo(area, flagKey) {
           ]
         },
         {
-          id: 'palma', name: '🌴 Palma', box: [4, 18, 70, 140], stand: 52, noDot: true,
+          id: 'palma', name: '🌴 Palma', box: [22, 18, 76, 126], stand: 60, noDot: true,
           look: ['Una palma. Niente cocchi, purtroppo.', 'Se fossi una palma, sarei una palma elevata alla seconda.']
         },
         {
