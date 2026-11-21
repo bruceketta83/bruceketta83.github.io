@@ -15,7 +15,7 @@ const MEDALS = [
   { id: 'aiutante', icon: '🤝', name: 'Aiutante dell’isola', desc: 'Completa le missioni di Vera, Oste, Archimede e Gemelle.', check: () => ['dobloni', 'boccali', 'cannocchiale', 'bulloni'].every(q => questState(q) === 'done') },
   { id: 'zittalavinia', icon: '👑', name: 'Zitta, Lavinia!', desc: 'Rispondi giusto a tutte le domande lampo di Lavinia.', check: () => [0, 1, 2, 3, 4].every(i => flag(`lav${i}_won`)) },
   { id: 'aura', icon: '✨', name: 'Aura stellare', desc: 'Raggiungi 1000 Aura.', check: () => state.aura >= 1000 },
-  { id: 'shopping', icon: '🛍️', name: 'Fashion victim', desc: 'Compra un oggetto nel Negozio dell’Aura.', check: () => state.owned.length >= 1 },
+  { id: 'shopping', icon: '🛍️', name: 'Fashion victim', desc: 'Compra un oggetto nel Negozio dell’Aura.', check: () => state.owned.length >= 1 || flag('shopped') },
   { id: 'stelle', icon: '⭐', name: 'Tutte le stelle', desc: 'Fai 3 stelle in tutte le 6 aree.', check: () => AREAS.every(a => (state.stars[a.id] || 0) === 3) },
   { id: 'faro', icon: '🏆', name: 'Eroina del Faro', desc: 'Accendi il Faro e salva l’isola.', check: () => state.gameWon }
 ];
@@ -38,42 +38,48 @@ function checkMedals() {
 /* --------------------------------------------------------------------------
    NEGOZIO DELL'AURA (aspetto di Aria)
    -------------------------------------------------------------------------- */
-const SHOP_SLOTS = [
-  { id: 'hat', name: '🎩 Cappelli' },
-  { id: 'tunic', name: '👕 Tunica' },
-  { id: 'scarf', name: '🧣 Sciarpa' },
-  { id: 'pack', name: '🎒 Zaino' },
-  { id: 'glasses', name: '🕶️ Occhiali' }
-];
-const SHOP = [
-  { id: 'hat-none', slot: 'hat', value: null, name: 'Niente', swatch: '🚫', price: 0 },
-  { id: 'hat-fiore', slot: 'hat', value: 'fiore', name: 'Fiore', swatch: '🌸', price: 60 },
-  { id: 'hat-cappellino', slot: 'hat', value: 'cappellino', name: 'Cappellino', swatch: '🧢', price: 100 },
-  { id: 'hat-cuffie', slot: 'hat', value: 'cuffie', name: 'Cuffie', swatch: '🎧', price: 120 },
-  { id: 'hat-pirata', slot: 'hat', value: 'pirata', name: 'Cappello pirata', swatch: '🏴‍☠️', price: 180 },
-  { id: 'hat-corona', slot: 'hat', value: 'corona', name: 'Corona', swatch: '👑', price: 300 },
+/* Per ora il negozio non vende accessori per Aria (torneranno con le immagini nuove). */
+const SHOP_SLOTS = [];
+const SHOP = [];
 
-  { id: 'tunic-teal', slot: 'tunic', value: null, name: 'Verde mare', color: '#0d9488', price: 0 },
-  { id: 'tunic-viola', slot: 'tunic', value: 'viola', name: 'Viola', color: '#7c3aed', price: 80 },
-  { id: 'tunic-rosa', slot: 'tunic', value: 'rosa', name: 'Rosa', color: '#db2777', price: 80 },
-  { id: 'tunic-rosso', slot: 'tunic', value: 'rosso', name: 'Rosso', color: '#dc2626', price: 80 },
-  { id: 'tunic-notte', slot: 'tunic', value: 'notte', name: 'Notte', color: '#1e293b', price: 120 },
-  { id: 'tunic-oro', slot: 'tunic', value: 'oro', name: 'Oro', color: '#d97706', price: 200 },
-
-  { id: 'scarf-rossa', slot: 'scarf', value: null, name: 'Rossa', color: '#e11d48', price: 0 },
-  { id: 'scarf-azzurra', slot: 'scarf', value: '#0ea5e9', name: 'Azzurra', color: '#0ea5e9', price: 50 },
-  { id: 'scarf-verde', slot: 'scarf', value: '#16a34a', name: 'Verde', color: '#16a34a', price: 50 },
-  { id: 'scarf-oro', slot: 'scarf', value: '#fbbf24', name: 'Oro', color: '#fbbf24', price: 90 },
-
-  { id: 'pack-marrone', slot: 'pack', value: null, name: 'Marrone', color: '#92400e', price: 0 },
-  { id: 'pack-rosa', slot: 'pack', value: '#ec4899', name: 'Rosa', color: '#ec4899', price: 60 },
-  { id: 'pack-nero', slot: 'pack', value: '#1f2937', name: 'Nero', color: '#1f2937', price: 60 },
-  { id: 'pack-viola', slot: 'pack', value: '#7c3aed', name: 'Viola', color: '#7c3aed', price: 60 },
-
-  { id: 'glasses-none', slot: 'glasses', value: null, name: 'Niente', swatch: '🚫', price: 0 },
-  { id: 'glasses-rosa', slot: 'glasses', value: '#f472b6', name: 'Da sole rosa', swatch: '🕶️', price: 120 },
-  { id: 'glasses-oro', slot: 'glasses', value: '#fbbf24', name: 'Da sole oro', swatch: '😎', price: 160 }
-];
+/* Look di Aria tolto dal negozio (colori, cappelli, occhiali).
+   Chi li aveva comprati riceve indietro l'Aura, una volta sola. */
+const SHOP_REMOVED = {
+  'hat-none': 0,
+  'hat-fiore': 60,
+  'hat-cappellino': 100,
+  'hat-cuffie': 120,
+  'hat-pirata': 180,
+  'hat-corona': 300,
+  'glasses-none': 0,
+  'glasses-rosa': 120,
+  'glasses-oro': 160,
+  'tunic-teal': 0,
+  'tunic-viola': 80,
+  'tunic-rosa': 80,
+  'tunic-rosso': 80,
+  'tunic-notte': 120,
+  'tunic-oro': 200,
+  'scarf-rossa': 0,
+  'scarf-azzurra': 50,
+  'scarf-verde': 50,
+  'scarf-oro': 90,
+  'pack-marrone': 0,
+  'pack-rosa': 60,
+  'pack-nero': 60,
+  'pack-viola': 60,
+};
+function refundRemovedLook(s) {
+  let back = 0;
+  s.owned = (s.owned || []).filter(id => {
+    if (!(id in SHOP_REMOVED)) return true;
+    back += SHOP_REMOVED[id];
+    return false;
+  });
+  s.look = {};
+  s.aura = (s.aura || 0) + back;
+  return back;
+}
 
 function shopOwned(item) { return item.price === 0 || state.owned.includes(item.id); }
 function shopEquipped(item) { return (state.look[item.slot] || null) === item.value; }
@@ -137,6 +143,7 @@ function buyConsumable(id) {
     return;
   }
   state.aura -= c.price;
+  state.flags.shopped = true;
   if (c.once) state.flags[id] = true;
   else state.cons[id] = consCount(id) + 1;
   playSound('victory');
@@ -188,11 +195,11 @@ function renderShop() {
     </div>
     <div class="inv-section">🧪 Oggetti utili</div>
     <div class="cons-list">${useful}</div>
-    <div class="shop-head small-head">
+    ${SHOP.length ? `<div class="shop-head small-head">
       <svg viewBox="-26 -70 52 76" class="shop-preview">${CHARS.aria.draw()}</svg>
       <div><div class="shop-name">👗 Look di Aria</div><div class="inv-desc">Tocca per comprare o indossare.</div></div>
     </div>
-    ${cosmeticsHTML(false)}`;
+    ${cosmeticsHTML(false)}` : ''}`;
 }
 
 /* --------------------------------------------------------------------------
@@ -204,7 +211,7 @@ function renderProfile(tab) {
   const c = $('profile-content');
   const me = currentProfile();
   const tabs = `<div class="tabs">
-    <button class="${profileTab === 'wardrobe' ? 'on' : ''}" onclick="renderProfile('wardrobe')">👗 Armadio</button>
+    <button class="${profileTab === 'wardrobe' ? 'on' : ''}" onclick="renderProfile('wardrobe')">🎒 Oggetti</button>
     <button class="${profileTab === 'medals' ? 'on' : ''}" onclick="renderProfile('medals')">🏅 Medaglie ${state.medals.length}/${MEDALS.length}</button>
     <button class="${profileTab === 'reading' ? 'on' : ''}" onclick="renderProfile('reading')">🔤 Lettura</button>
   </div>`;
@@ -215,7 +222,7 @@ function renderProfile(tab) {
     body = `<div class="shop-head">
         <svg viewBox="-26 -70 52 76" class="shop-preview">${CHARS.aria.draw()}</svg>
         <div><div class="shop-name">👤 ${me.name}</div><div class="shop-aura">✨ ${state.aura} Aura</div>
-        <div class="inv-desc">Vuoi altri vestiti o oggetti utili? Vai da <b>Zia Turbina</b> nella Piazza del Mercato!</div></div>
+        <div class="inv-desc">Vuoi oggetti utili? Vai da <b>Zia Turbina</b> nella Piazza del Mercato!</div></div>
       </div>
       ${cons.length ? `<div class="inv-section">🧪 I tuoi oggetti utili</div><div class="inv-desc">${cons.join(' · ')}</div>` : ''}
       ${cosmeticsHTML(true)}`;

@@ -1621,3 +1621,13 @@ html.read-voice #btn-listen { display: block; }
 .talking .jaw-open, .plant.talking .jaw-open { animation: jawTalk 0.36s steps(1) infinite; }
 @keyframes jawIdle { 0% { opacity: 0; } 78% { opacity: 1; } 88% { opacity: 0; } }
 @keyframes jawTalk { 0% { opacity: 0; } 50% { opacity: 1; } }
+
+/* Camminata di Aria con le immagini: passo A, ferma, passo B, ferma. */
+.aria .frame-a, .aria .frame-b { opacity: 0; }
+.walking .frame-0 { animation: walkF0 0.6s steps(1) infinite; }
+.walking .frame-a { animation: walkFA 0.6s steps(1) infinite; }
+.walking .frame-b { animation: walkFB 0.6s steps(1) infinite; }
+.walking .lid { display: none; }
+@keyframes walkF0 { 0% { opacity: 0; } 25% { opacity: 1; } 50% { opacity: 0; } 75% { opacity: 1; } }
+@keyframes walkFA { 0% { opacity: 1; } 25% { opacity: 0; } }
+@keyframes walkFB { 0% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } }

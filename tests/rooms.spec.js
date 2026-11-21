@@ -68,3 +68,18 @@ test('le scritte e i puntini cliccabili non si sovrappongono', async ({ page }) 
   }
   expect([...new Set(problems)]).toEqual([]);
 });
+
+// Le uscite verso un'altra area dicono dove portano (es. "🌉 Officina ➜", non "Ponte ➜").
+test('le uscite verso altre aree hanno il nome della destinazione', async ({ page }) => {
+  await page.goto('./');
+  const wrong = await page.evaluate(() => {
+    const names = { 0: ['Molo'], 1: ['Piazza', 'Taverna'], 2: ['Torre', 'Belvedere'], 3: ['Serra'], 4: ['Officina'], 5: ['Faro'] };
+    const out = [];
+    AREAS.forEach(a => Object.entries(areaRooms(a)).forEach(([rid, r]) => (r.exits || []).forEach(e => {
+      if (e.toArea === undefined || e.toArea === a.id) return;
+      if (!names[e.toArea].some(n => e.label.includes(n))) out.push(`${a.id}/${rid}: "${e.label}" → area ${e.toArea}`);
+    })));
+    return out;
+  });
+  expect(wrong).toEqual([]);
+});

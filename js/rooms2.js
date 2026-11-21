@@ -666,7 +666,8 @@ function readQuestBoard() {
       ],
       exits: [
         leftExit(2, 'belvedere', '⬅ Belvedere'),
-        rightExit(4, 'magazzino', 'Ponte ➜', () => state.unlockedArea < 4, ['Il ponte di corda porta all’Officina. È ancora rotto: prima devo battere la Pianta!', 'Il ponte è chiuso. Prima la Serra, poi l’Officina.']),
+        // Il ponte di corda arriva nel magazzino dell'Officina, dal lato destro.
+        { ...rightExit(4, 'magazzino', '🌉 Officina ➜', () => state.unlockedArea < 4, ['Il ponte di corda porta all’Officina. È ancora rotto: prima devo battere la Pianta!', 'Il ponte è chiuso. Prima la Serra, poi l’Officina.']), arrive: 360 },
         { id: 'to-vivaio', label: '🚪 Vivaio', box: [236, 126, 26, 56], stand: 249, to: 'vivaio', arrive: 70, labelY: 120, visible: () => flag('vivaio_open') }
       ]
     },
@@ -906,7 +907,7 @@ function readQuestBoard() {
       ],
       exits: [
         { id: 'to-officina', label: '🚪 Officina', box: [8, 96, 40, 88], stand: 30, to: 'officina', arrive: 236, labelY: 90 },
-        { ...rightExit(3, 'giardino', 'Ponte ➜'), arrive: 360 }
+        { ...rightExit(3, 'giardino', '🌉 Serra ➜'), arrive: 360 }
       ]
     }
   };
