@@ -1397,3 +1397,15 @@ sup {
 .quest-board { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; }
 .quest-board small { color: #78350f; }
 .map-node.hub text { font-weight: 900; }
+
+.install-btn {
+  margin-top: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #38bdf8;
+  background: rgba(12, 74, 110, 0.8);
+  color: #e0f2fe;
+  font-weight: 800;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
