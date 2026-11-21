@@ -68,7 +68,7 @@ const AREAS = [
       groundY: 162,
       ariaStart: 196,
       mentor: { x: 88, draw: 'vera', stand: 122, label: '🏴‍☠️ Capitana Vera' },
-      guardian: { x: 300, draw: 'barnaba', stand: 262, label: '🦍 Barnaba' }
+      guardian: { x: 262, draw: 'barnaba', stand: 228, label: '🦍 Barnaba' }
     },
     crystal: { id: 'c1', name: 'Cristallo Ambra', icon: '🟠', desc: 'Pulsa con l’energia della somma degli esponenti.' },
     item: { id: 'i1', name: 'Chiave della Taverna', icon: '🗝️', desc: 'Consegnata da Barnaba dopo aver sistemato il carico.' },

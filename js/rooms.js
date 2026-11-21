@@ -396,14 +396,14 @@ function laviniaCameo(area, flagKey) {
           ]
         },
         {
-          id: 'nave', name: '⛵ La nave di Vera', box: [36, 94, 74, 40], stand: 150,
+          id: 'nave', name: '⛵ La nave di Vera', box: [150, 30, 90, 118], stand: 176,
           look: [
             'La nave di Capitana Vera si chiama "Base Uguale". Che nome nerd.',
             'Una nave pirata vera! Le vele hanno delle toppe a forma di 2.'
           ]
         },
         {
-          id: 'palma', name: '🌴 Palma', box: [192, 66, 30, 104], stand: 206, noDot: true,
+          id: 'palma', name: '🌴 Palma', box: [44, 64, 44, 132], stand: 76, noDot: true,
           look: ['Una palma. Niente cocchi, purtroppo.', 'Se fossi una palma, sarei una palma elevata alla seconda.']
         },
         {
@@ -428,9 +428,9 @@ function laviniaCameo(area, flagKey) {
           take: () => takeCoin(1)
         },
         {
-          id: 'lucchetto', name: '🔒 Lucchetto del capanno', box: [279, 146, 16, 16], stand: 286,
+          id: 'lucchetto', name: '🔒 Lucchetto del capanno', box: [293, 148, 16, 16], stand: 301,
           visible: () => !flag('capanno_open'),
-          draw: () => `<g transform="translate(287 154)">
+          draw: () => `<g transform="translate(301 156)">
             <path d="M-3.5 -2 L-3.5 -5 Q0 -9 3.5 -5 L3.5 -2" stroke="#9ca3af" stroke-width="1.6" fill="none"/>
             <rect x="-5" y="-2.5" width="10" height="8" rx="1.5" fill="#fbbf24" stroke="#a16207" stroke-width="0.7"/>
             <circle cy="1.5" r="1.2" fill="#78350f"/>
@@ -443,14 +443,14 @@ function laviniaCameo(area, flagKey) {
         {
           id: 'porta-aperta', box: [0, 0, 0, 0], noDot: true,
           visible: () => flag('capanno_open'),
-          draw: () => `<rect x="272" y="130" width="26" height="46" fill="#1c1008"/>
-            <path d="M272 130 L264 134 L264 180 L272 176 Z" fill="#78350f"/>`
+          draw: () => `<rect x="290" y="134" width="22" height="44" fill="#1c1008"/>
+            <path d="M290 134 L283 138 L283 182 L290 178 Z" fill="#7a5a3c" ${wink(0.7)}/>`
         }
       ],
       exits: [
         { id: 'to-pontile', label: 'Pontile ➜', box: [348, 120, 52, 66], stand: 372, to: 'pontile', arrive: 60, labelY: 112 },
         {
-          id: 'to-capanno', label: '🚪 Capanno', box: [270, 126, 30, 52], stand: 285, to: 'capanno', arrive: 70, labelY: 120,
+          id: 'to-capanno', label: '🚪 Capanno', box: [288, 132, 26, 48], stand: 301, to: 'capanno', arrive: 70, labelY: 128,
           visible: () => flag('capanno_open')
         }
       ]
@@ -478,7 +478,7 @@ function laviniaCameo(area, flagKey) {
         groundY: 162,
         ariaStart: 60,
         guardian: {
-          x: 300, draw: 'barnaba', stand: 262, label: '🦍 Barnaba',
+          x: 262, draw: 'barnaba', stand: 228, label: '🦍 Barnaba',
           look: ['Barnaba. Braccia grosse come due potenze di 10.', 'Ha gli occhiali da sole anche al tramonto. Iconico.']
         }
       },
@@ -552,7 +552,7 @@ function laviniaCameo(area, flagKey) {
           }
         },
         {
-          id: 'casse', name: '📦 Casse del carico', box: [332, 112, 30, 46], stand: 322, noDot: true,
+          id: 'casse', name: '📦 Casse del carico', box: [296, 110, 54, 48], stand: 290, noDot: true,
           look: ['Due casse con delle potenze scritte sopra. Barnaba ci tiene tantissimo.', 'Casse con le potenze scritte sopra. Su quest’isola sono tutti fissati.']
         },
         {
@@ -605,12 +605,12 @@ function laviniaCameo(area, flagKey) {
           take: () => collectPiece('bulloni', 'bul2', ['Un bullone d’oro! Chissà di chi è...', 'Un bullone tutto d’oro. Qualcuno all’Officina lo starà cercando.'])
         },
         {
-          id: 'poster', name: '📜 Poster "Googol"', box: [168, 34, 52, 60], stand: 194,
+          id: 'poster', name: '📜 Poster "Googol"', box: [242, 36, 50, 60], stand: 266,
           read: () => readCuriosity('googol'),
           look: 'Un poster con scritto 10¹⁰⁰. Chi appende un numero in un capanno? Un pirata nerd.'
         },
         {
-          id: 'mappa', name: '🗺️ Mappa', box: [86, 128, 68, 22], stand: 120,
+          id: 'mappa', name: '🗺️ Mappa', box: [168, 126, 70, 22], stand: 203,
           look: [
             'Una mappa dell’isola: Molo, Taverna, Torre, Serra, Officina e il Faro in cima. Sei tappe, sei regole.',
             'Sulla mappa qualcuno ha cerchiato il Faro in rosso. E ha scritto "LAVINIA WAS HERE". Che nervi.'
@@ -629,7 +629,7 @@ function laviniaCameo(area, flagKey) {
         }
       ],
       exits: [
-        { id: 'to-spiaggia2', label: '🚪 Esci', box: [10, 94, 40, 88], stand: 40, to: 'spiaggia', arrive: 285, labelY: 90 }
+        { id: 'to-spiaggia2', label: '🚪 Esci', box: [10, 94, 44, 88], stand: 40, to: 'spiaggia', arrive: 301, labelY: 90 }
       ]
     }
   };

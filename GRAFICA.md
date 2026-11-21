@@ -2,12 +2,19 @@
 
 Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco.
 
-- **Stile di riferimento:** i mock-up dell'area 1 in `docs/mockup/` (spiaggia e capanno). Le scene nuove e quelle da rifare seguono questo stile.
-- **Dati tecnici:** vengono dal codice (`style.css`, `js/scenes.js`, `js/characters.js`, `js/meta.js`) e non cambiano.
+- **Stile di riferimento:** i mock-up in `docs/mockup/`: area 1 (pontile, spiaggia, capanno) e 5 personaggi (Aria, Lavinia, Capitana Vera, Barnaba, Zia Turbina).
+- **Stato:** l'area 1 e i 5 personaggi sono già ridisegnati nel gioco con questo stile. Le altre aree e gli altri personaggi sono ancora nello stile precedente.
+- **Dati tecnici:** vengono dal codice (`style.css`, `js/scenes.js`, `js/characters.js`, `js/meta.js`).
 
-| Spiaggia | Capanno |
-| :---: | :---: |
-| ![Mock-up della spiaggia](docs/mockup/area1-spiaggia.jpg) | ![Mock-up del capanno](docs/mockup/area1-capanno.jpg) |
+| Pontile | Spiaggia | Capanno |
+| :---: | :---: | :---: |
+| ![Mock-up del pontile](docs/mockup/area1-pontile-v.jpg) | ![Mock-up della spiaggia](docs/mockup/area1-spiaggia-v.jpg) | ![Mock-up del capanno](docs/mockup/area1-capanno-v.jpg) |
+
+| Aria | Lavinia | Capitana Vera | Barnaba | Zia Turbina |
+| :---: | :---: | :---: | :---: | :---: |
+| ![Aria](docs/mockup/aria.jpg) | ![Lavinia](docs/mockup/lavinia.jpg) | ![Vera](docs/mockup/vera.jpg) | ![Barnaba](docs/mockup/barnaba.jpg) | ![Zia Turbina](docs/mockup/turbina.jpg) |
+
+I mock-up delle scene sono verticali (9:16). Nel gioco la scena resta orizzontale (400 × 220): gli stessi elementi sono ricomposti in larghezza.
 
 ## 1. Stile generale
 
@@ -15,7 +22,7 @@ Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco.
 
 1. Illustrazione da cartone animato per avventura punta-e-clicca, con molti dettagli e un'atmosfera calda.
 2. Ombreggiatura a due toni (cel shading): una tinta piena per la luce e una più scura per l'ombra, con bordi netti.
-3. I bordi delle forme sono segnati da una tinta più scura dello stesso colore (marrone scuro sul legno, verde scuro sulle foglie). Non usare contorni neri.
+3. Contorno sottile scuro e colorato, mai nero puro: blu notte `#1c1426` sui personaggi, marrone scuro `#2a1a12` sul legno.
 4. Materiali disegnati con poche linee:
    - legno: venature e assi separate, chiodi, bordi consumati;
    - tela: pieghe e toppe sulla vela;
@@ -33,10 +40,10 @@ Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco.
 8. Negli interni gli angoli sono più scuri (vignettatura). La luce cade a cono dalla lanterna o dalla porta, con pulviscolo luminoso.
 9. Scritte su cartelli e poster: lettere disegnate a mano, scure su legno o carta chiara.
 
-### Regole tecniche (non cambiano)
+### Regole tecniche
 
 1. Grafica vettoriale SVG disegnata a mano nel codice. Non ci sono immagini nel gioco: i mock-up sono solo un riferimento.
-2. Campiture piene e angoli arrotondati. Nessun contorno nero.
+2. Campiture piene e angoli arrotondati. Contorno sottile scuro colorato (0,5–0,9 unità), mai nero puro.
 3. Ombre: tinte più scure dello stesso colore o forme scure trasparenti. Nessun gradiente sui personaggi.
 4. Gradienti morbidi solo per cieli, pareti, aloni di luce e coni di luce.
 5. Vista laterale "a teatrino", senza prospettiva reale.
@@ -97,61 +104,13 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 
 ## 3. Ambientazioni
 
-### Area 1 – Il Molo delle Basi Uguali
+### Area 1 – Il Molo delle Basi Uguali (nuovo stile)
 
-Stile di riferimento per tutta l'area: i due mock-up. Il pontile segue lo stesso stile.
-
-#### Spiaggia (mock-up)
-
-- **Luce:** tramonto. Sole grande e giallo-bianco sull'orizzonte, dietro la nave, a destra del centro.
-- **Cielo:** sfumatura da viola scuro in alto, a magenta, arancio e giallo vicino all'orizzonte.
-- **Sfondo:** colline e isole blu-viola a sinistra, scure e poco dettagliate.
-- **Mare:** blu-viola, con strisce di luce e riflessi del sole. Battigia chiara con onda bianca.
-- **Nave di Capitana Vera** al centro:
-  - galeone in legno marrone scuro, assi visibili, parapetto, coffa sull'albero, ancora sulla prua;
-  - grande vela beige con pieghe e toppe e un "2" marrone scuro dipinto a stampino;
-  - una barca a remi legata con una corda.
-- **Palma** a sinistra in primo piano, inclinata, tronco marrone e foglie verde scuro.
-- **Capanno** a destra:
-  - assi di legno grigio-marrone consumato, tetto spiovente, portico con pali;
-  - cartello in legno chiaro "CAPANNO" con lettere marroni;
-  - due lanterne accese ai lati della porta, con alone arancio;
-  - porta scura aperta, una botte, un'asse appoggiata.
-- **Sabbia:** giallo-arancio caldo, con una fascia più scura in primo piano. Conchiglie, stella marina rossa, granchio, sassolini, legnetti. Ombre lunghe del capanno e della palma.
-- **Cornice:** sagome scure di cespugli negli angoli in basso.
-
-#### Capanno, interno (mock-up)
-
-- **Luce:** lanterna appesa al centro, con un grande alone arancio e un cono di luce verso il basso. Angoli scuri. Pulviscolo luminoso.
-- **Pareti:** assi di legno marrone caldo con venature, una trave sul soffitto, corde che pendono.
-- **Porta** aperta a sinistra: si vedono il cielo del tramonto (viola, rosa, arancio) e il mare con sagome scure.
-- **Elementi:**
-  - rete da pesca appesa con galleggianti colorati (blu, verde, arancio, rosso);
-  - finestrella a quattro vetri con cielo lilla;
-  - poster di carta chiara "10¹⁰⁰ GOOGOL" con lettere scure;
-  - tavolo in legno con una mappa;
-  - remo appoggiato al muro;
-  - mensola con barattoli e bottiglie;
-  - botte a destra.
-- **Pavimento:** assi scure, una trave in primo piano.
-
-#### Pontile (da allineare allo stile)
-
-- **Oggi nel gioco:** notte al tramonto con luna, pontile in legno con pali, barile, lampione, casse "2³" e "2⁴", "Faro sabotato" indaco con luce rossa, nave lontana, gabbiano, nebbia lilla, onde in primo piano.
-- **Nello stile dei mock-up:** stessa luce calda del tramonto, venature sulle assi, lanterna con alone arancio, ombre lunghe, sagome scure in primo piano ai bordi.
-
-#### Differenze tra il gioco di oggi e i mock-up
-
-| Elemento | Oggi | Mock-up |
+| Stanza | Luce | Descrizione |
 | :--- | :--- | :--- |
-| Nave | Piccola, a sinistra, forme semplici | Grande galeone al centro, dettagliato, vela con toppe |
-| Capanno (esterno) | Legno ocra, finestrella illuminata | Legno grigio consumato, portico, due lanterne |
-| Palma | Al centro, foglie che oscillano | A sinistra in primo piano, inclinata |
-| Sole | Al centro-sinistra | A destra del centro, dietro la nave |
-| Capanno (interno) | Lanterna piccola, luce quasi uniforme | Cono di luce dalla lanterna, angoli scuri |
-| Materiali | Superfici lisce | Venature, assi, pieghe, sassolini |
-| Ombre | Poche | Ombre lunghe a terra |
-| Cornice | Nessuna | Sagome scure negli angoli |
+| **Pontile** | Sera: cielo blu notte → viola → magenta → arancio, luna piena | Isola a sinistra con il Faro in controluce e la luce rossa che lampeggia. Nave all'orizzonte, nuvole lilla, gabbiano sull'acqua. Pontile di assi con venature, ringhiera di corda sui pali, barile, lampione con lanterna appesa e alone arancio. Pila di casse: una con la croce, due con "2³" e "2⁴" dipinti. Mare blu-viola con riflessi. In primo piano due bitte scure ai bordi. |
+| **Spiaggia** | Tramonto, sole grande dietro la nave | Cielo viola → magenta → rosso → arancio → giallo. Colline blu-viola a sinistra. Galeone di Capitana Vera al centro: assi, parapetto, cassero con finestre accese, coffa, ancora, vela beige con toppe e un grande "2". Barca a remi legata. Palma inclinata a sinistra. Capanno di legno grigio con portico, cartello "CAPANNO", due lanterne, botte e asse appoggiata. Sabbia calda con conchiglie, stella marina, sassolini, legnetti e ombre lunghe. Cespugli scuri negli angoli in basso. |
+| **Capanno** (interno) | Lanterna centrale con alone e cono di luce, angoli scuri | Pareti di assi orizzontali con venature, trave e corde. Porta aperta sul tramonto e sul mare. Rete con galleggianti colorati, finestrella lilla, poster "10¹⁰⁰ GOOGOL", tavolo con mappa sotto la luce, remo, mensola con barattolo e bottiglie, botte. Pulviscolo che brilla nel cono di luce. |
 
 ### Piazza del Mercato (punto centrale sud)
 
@@ -219,15 +178,16 @@ Stile di riferimento per tutta l'area: i due mock-up. Il pontile segue lo stesso
 
 1. Tutti guardano a destra e hanno i piedi nel punto (0, 0), con un'ombra ovale a terra.
 2. Proporzioni "chibi": testa grande, figura alta 4–5 teste.
-3. Occhi: due piccoli ovali blu scuro spostati verso destra. Guance rosate trasparenti.
-4. Animazioni comuni:
+3. Occhi: due ovali blu scuro spostati verso destra, con un punto di luce bianco. Guance rosate trasparenti.
+4. Nuovo stile (Aria, Lavinia, Vera, Barnaba, Zia Turbina): contorno blu notte `#1c1426`, vista di tre quarti, ombre a due toni, pieghe sui vestiti. Gli altri personaggi saranno allineati.
+5. Animazioni comuni:
    - **respiro:** il busto si allunga piano (3,2 s);
    - **occhi:** sbattono ogni 4,6 s;
    - **parla:** la bocca si apre e si chiude;
    - **cammina:** le gambe oscillano, il corpo sobbalza;
    - **colpito:** trema e lampeggia;
    - **sconfitto:** cade in avanti.
-5. Il ritratto nei dialoghi è un ritaglio sulla testa del disegno intero. Non è un disegno separato.
+6. Il ritratto nei dialoghi è un ritaglio sulla testa del disegno intero. Non è un disegno separato.
 
 ### Altezze a confronto
 
@@ -248,11 +208,12 @@ Stile di riferimento per tutta l'area: i due mock-up. Il pontile segue lo stesso
 
 ### Aria – la protagonista
 
-1. Snella e giovane, capelli castano scuro `#5b3415` con frangia e coda di cavallo che ondeggia.
-2. Viso sereno, guance rosate, bocca piccola.
-3. Tunica verde acqua `#0d9488`, cintura marrone con fibbia oro, sciarpa rossa `#e11d48`.
-4. Pantaloni blu, scarpe marroni, zaino marrone `#92400e`.
-5. Si può vestire nel negozio di Zia Turbina:
+1. Ragazza giovane, viso sereno con un piccolo sorriso, guance rosate, orecchio visibile.
+2. Capelli castani `#6b3a1c` con frangia di lato e coda di cavallo alta e lunga, mossa, che ondeggia.
+3. Tunica verde acqua `#0d9488` lunga fino a metà coscia, maniche lunghe, pieghe in basso.
+4. Sciarpa rossa `#e11d48` avvolta al collo, cintura marrone con fibbia dorata.
+5. Jeans blu `#4c72c4`, scarpe marroni, zaino marrone con tasca e spallaccio.
+6. Si può vestire nel negozio di Zia Turbina:
 
 | Parte | Scelte (prezzo in Aura) |
 | :--- | :--- |
@@ -264,18 +225,22 @@ Stile di riferimento per tutta l'area: i due mock-up. Il pontile segue lo stesso
 
 ### Capitana Vera – mentore del Molo
 
-1. Più alta di Aria. Capelli rosso ruggine `#9a3412`, orecchino a cerchio d'oro, sopracciglia decise.
-2. Giacca blu `#1d4ed8` con bottoni d'oro, camicia bianca, fascia rossa in vita.
-3. Pantaloni marroni, stivali neri alti.
-4. Tricorno nero con bordo d'oro e emblema bianco. Spada dietro la schiena.
+1. Più alta di Aria. Capelli rosso rame `#b5481e` lunghi fino alle spalle, orecchino a cerchio d'oro.
+2. Sopracciglia decise, sorriso aperto e sicuro.
+3. Tricorno nero con bordo d'oro e teschio con ossa incrociate bianco.
+4. Giacca blu `#2346c8` lunga con colletto alto e doppia fila di bottoni d'oro, camicia bianca con scollo a V.
+5. Fascia rossa `#c62828` in vita con un lembo che pende.
+6. Una mano sul fianco. Spada dietro la schiena: elsa a destra, lama a sinistra.
+7. Pantaloni marroni, stivali neri alti con risvolto.
 
 ### Barnaba il Buttafuori – guardiano del Molo
 
-1. Il più massiccio: spalle larghe, gambe spesse, testa pelata e lucida, barba ombreggiata.
-2. Occhiali da sole neri, sopracciglia folte aggrottate, bocca dritta: espressione dura.
-3. Maglia nera, catena d'oro con medaglione, cintura con fibbia gialla.
-4. Pantaloni scuri, scarpe bianche.
-5. Braccia muscolose incrociate. Non sbatte gli occhi, ma alza le sopracciglia.
+1. Il più massiccio: spalle larghe, braccia muscolose incrociate, gambe corte e robuste.
+2. Testa pelata con riflesso di luce, barba corta grigia `#7f7f88`, orecchie tonde.
+3. Occhiali da sole neri, sopracciglia folte aggrottate, bocca dritta: espressione dura.
+4. Maglietta nera a maniche corte, catena d'oro con medaglione tondo.
+5. Pantaloni neri, cintura scura con fibbia d'oro, scarpe da ginnastica bianche.
+6. Non sbatte gli occhi, ma alza le sopracciglia.
 
 ### Oste Bartolomeo – mentore della Taverna
 
@@ -335,24 +300,26 @@ Stile di riferimento per tutta l'area: i due mock-up. Il pontile segue lo stesso
 
 ### Lavinia – la rivale
 
-1. Snella, capelli viola lunghi `#7e22ce` che ondeggiano, frangia, tiara d'oro con gemma rosa.
-2. Occhi con ciglia, sopracciglia arcuate, sorrisetto: aria altezzosa.
-3. Top rosa con colletto bianco e spilla, gonna viola a pieghe, calze viola, stivali bianchi.
+1. Capelli viola `#8b3fd1` lunghi e mossi fino alla vita, frangia dritta, tiara d'oro con gemma rosa.
+2. Occhi socchiusi con ciglia, sopracciglia arcuate, sorrisetto: aria altezzosa.
+3. Maglia rosa `#e05a98` a maniche lunghe con colletto bianco arrotondato e spilla rosa.
 4. Braccia incrociate.
+5. Gonna viola a pieghe, calze viola lunghe, stivaletti bianchi con bottoni.
 
 ### Zia Turbina – la mercante svalvolata
 
-1. Chioma arcobaleno a punte (rosa, viola, ciano, giallo, lime, arancio) che rimbalza.
-2. Cappellino blu storto con un'elica rossa che gira.
-3. Occhiali spaiati: una lente tonda viola con una spirale che gira e una quadrata verde.
-4. Grande sorriso.
-5. Vestito arancio con toppe colorate, bottoni spaiati, calze e scarpe spaiate.
-6. Tiene un'ampolla di pozione verde che fuma.
+1. Capelli arcobaleno a punte spettinate (rosa, viola, ciano, giallo, lime, arancio) che rimbalzano.
+2. Cappellino blu all'indietro con un'elica rossa che gira.
+3. Occhiali spaiati: lente tonda viola con una spirale che gira, lente quadrata verde.
+4. Sorriso enorme con i denti.
+5. Cappotto-vestito arancio con toppe cucite (rosa, gialla, azzurra) e bottoni spaiati con le crocette.
+6. Calza a righe e calza a pois, uno stivale marrone e una scarpa da ginnastica rosa.
+7. Tiene con due mani un'ampolla verde che fuma.
 
 ## 5. Regole per disegnare elementi nuovi
 
 1. Segui lo stile dei mock-up in `docs/mockup/`.
-2. Usa campiture piatte e angoli arrotondati. Non usare contorni neri.
+2. Usa campiture piatte e angoli arrotondati. Metti un contorno sottile scuro colorato, mai nero puro.
 3. Fai le ombre a due toni con una tinta più scura dello stesso colore. Segna i bordi con la stessa tinta scura.
 4. Aggiungi pochi dettagli di materiale: venature, assi, pieghe, sassolini.
 5. Metti una fonte di luce calda con alone e ombre lunghe.
@@ -362,4 +329,4 @@ Stile di riferimento per tutta l'area: i due mock-up. Il pontile segue lo stesso
 9. Metti gli oggetti cliccabili tra x = 44 e x = 356, sopra la linea del pavimento.
 10. Dai a ogni scena almeno 3 animazioni lente e sfasate.
 11. Scrivi le formule sulle insegne in Courier New, con gli esponenti in apice.
-12. I mock-up hanno il formato 16:9 (1024 × 572). Una scena del gioco misura 400 × 220, quasi lo stesso formato: i bordi laterali si tagliano sui telefoni stretti.
+12. Una scena del gioco misura 400 × 220. I mock-up verticali si ricompongono in orizzontale. I bordi laterali si tagliano sui telefoni stretti.

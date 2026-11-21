@@ -12,11 +12,26 @@ function wavePath(y, amp) {
 /* ==========================================================================
    SCENA 1: IL MOLO DELLE BASI UGUALI
    ========================================================================== */
+/* Contorno delle scene: marrone scuro per il legno, blu notte per il resto. */
+const WOOD_INK = '#2a1a12';
+function wink(w = 0.8) { return `stroke="${WOOD_INK}" stroke-width="${w}" stroke-linejoin="round"`; }
+
+/* Cassa di legno con angolari e scritta (stile mock-up). */
+function crateSVG(x, y, w, h, label, brace) {
+  return `
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#b07a46" ${wink(0.9)}/>
+  ${[1, 2].map(i => `<line x1="${x}" y1="${y + (h * i) / 3}" x2="${x + w}" y2="${y + (h * i) / 3}" stroke="#7a4a26" stroke-width="0.7"/>`).join('')}
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#7a4a26" stroke-width="2.6" opacity="0.85"/>
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" ${wink(0.9)}/>
+  <path d="M${x + 1} ${y + h - 1} L${x + w - 1} ${y + 1}" stroke="#7a4a26" stroke-width="${brace ? 2.4 : 0}" />
+  <rect x="${x + 1.3}" y="${y + h - 3}" width="${w - 2.6}" height="1.6" fill="#000" opacity="0.15"/>
+  ${label ? `<text x="${x + w / 2}" y="${y + h / 2 + 4}" font-size="${Math.round(h * 0.45)}" fill="#3a2414" text-anchor="middle" font-weight="900" font-family="Courier New, monospace">${label}</text>` : ''}`;
+}
+
 const STARS_MOLO = [
-  [24, 18, 1.1, 0], [62, 34, 0.8, 1.2], [104, 12, 1, 0.6], [140, 40, 0.7, 2.1],
-  [178, 20, 1.2, 1.5], [214, 46, 0.7, 0.3], [246, 14, 0.9, 2.6], [276, 34, 0.7, 1.9],
-  [366, 20, 1.1, 0.9], [384, 52, 0.8, 2.3], [12, 58, 0.7, 1.1], [196, 66, 0.6, 0.4],
-  [92, 70, 0.6, 2.8], [352, 76, 0.6, 1.6]
+  [24, 14, 1.1, 0], [62, 28, 0.8, 1.2], [104, 10, 1, 0.6], [140, 30, 0.7, 2.1],
+  [178, 16, 1.2, 1.5], [214, 36, 0.7, 0.3], [246, 12, 0.9, 2.6], [276, 28, 0.7, 1.9],
+  [368, 16, 1.1, 0.9], [386, 44, 0.8, 2.3], [12, 46, 0.7, 1.1], [196, 52, 0.6, 0.4]
 ];
 
 const SCENES = {
@@ -24,128 +39,156 @@ const SCENES = {
     bg() {
       const stars = STARS_MOLO.map(([x, y, r, d]) =>
         `<circle class="twinkle" cx="${x}" cy="${y}" r="${r}" fill="#fff" style="animation-delay:-${d}s"/>`).join('');
-      const seams = Array.from({ length: 17 }, (_, i) =>
-        `<line x1="${i * 24 + 6}" y1="157.5" x2="${i * 24 + 6}" y2="168" stroke="#4a2c11" stroke-width="0.8"/>`).join('');
-      const posts = [14, 112, 210, 308, 392].map(x =>
-        `<rect x="${x}" y="166" width="9" height="56" fill="#3b2410"/><rect x="${x - 0.5}" y="182" width="10" height="2" fill="#1c1208"/>`).join('');
+      const seams = Array.from({ length: 23 }, (_, i) => {
+        const x = i * 18 + (i % 3) * 2;
+        return `<line x1="${x}" y1="154.5" x2="${x - 1}" y2="170" stroke="#5a3a20" stroke-width="0.9"/>
+          <path d="M${x + 5} ${158 + (i % 4) * 2} q3 -0.6 6 0" stroke="#6b4424" stroke-width="0.6" fill="none"/>`;
+      }).join('');
+      const postsBack = [36, 128, 226].map(x =>
+        `<rect x="${x}" y="134" width="6" height="22" rx="1" fill="#7a4a26" ${wink(0.7)}/><rect x="${x - 0.6}" y="133" width="7.2" height="2.4" rx="1" fill="#8a5a32" ${wink(0.5)}/>`).join('');
+      const ropes = [[42, 128], [134, 226], [232, 322]].map(([a, b]) =>
+        `<path d="M${a} 139 Q${(a + b) / 2} 147 ${b} 139" stroke="#3a2a1c" stroke-width="1.1" fill="none"/>`).join('');
+      const posts = [20, 100, 180, 262, 342].map(x =>
+        `<rect x="${x}" y="174" width="9" height="40" fill="#4a301c" ${wink(0.8)}/>
+         <rect x="${x}" y="196" width="9" height="2" fill="#2a1a12" opacity="0.7"/>
+         <ellipse class="shimmer" cx="${x + 4.5}" cy="214" rx="8" ry="1" fill="#c4b5fd" style="animation-delay:-${x % 5}s"/>`).join('');
       return `
       <defs>
         <linearGradient id="m-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#0b1026"/>
-          <stop offset="0.5" stop-color="#3b1d5e"/>
-          <stop offset="0.82" stop-color="#b4436c"/>
-          <stop offset="1" stop-color="#f59e0b"/>
+          <stop offset="0" stop-color="#1b1640"/>
+          <stop offset="0.35" stop-color="#3a2468"/>
+          <stop offset="0.66" stop-color="#a8467a"/>
+          <stop offset="0.88" stop-color="#f08a4b"/>
+          <stop offset="1" stop-color="#f8b55a"/>
         </linearGradient>
         <linearGradient id="m-sea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#1e3a8a"/>
-          <stop offset="1" stop-color="#0a1633"/>
+          <stop offset="0" stop-color="#7c72b8"/>
+          <stop offset="1" stop-color="#3b3a78"/>
         </linearGradient>
         <radialGradient id="m-moon">
           <stop offset="0" stop-color="#fef3c7" stop-opacity="0.55"/>
           <stop offset="1" stop-color="#fef3c7" stop-opacity="0"/>
         </radialGradient>
+        <radialGradient id="m-sun">
+          <stop offset="0" stop-color="#ffd38a" stop-opacity="0.8"/>
+          <stop offset="1" stop-color="#ffb35a" stop-opacity="0"/>
+        </radialGradient>
         <radialGradient id="m-lamp">
-          <stop offset="0" stop-color="#fde68a" stop-opacity="0.85"/>
-          <stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+          <stop offset="0" stop-color="#ffd27a" stop-opacity="0.9"/>
+          <stop offset="1" stop-color="#ffb347" stop-opacity="0"/>
         </radialGradient>
       </defs>
 
-      <rect width="400" height="142" fill="url(#m-sky)"/>
+      <rect width="400" height="140" fill="url(#m-sky)"/>
       ${stars}
-      <circle cx="318" cy="40" r="36" fill="url(#m-moon)"/>
-      <circle cx="318" cy="40" r="14" fill="#fef3c7"/>
-      <circle cx="313" cy="36" r="2.8" fill="#fde68a"/>
-      <circle cx="322" cy="45" r="1.8" fill="#fde68a"/>
+      <circle cx="300" cy="142" r="70" fill="url(#m-sun)"/>
+      <circle cx="322" cy="34" r="34" fill="url(#m-moon)"/>
+      <circle cx="322" cy="34" r="13" fill="#fdf3d0" stroke="#e9d8a6" stroke-width="0.6"/>
+      <circle cx="317" cy="30" r="2.4" fill="#f3e3b3"/><circle cx="326" cy="39" r="1.6" fill="#f3e3b3"/>
 
-      <g class="drift" style="animation-duration:90s;animation-delay:-20s">
-        <g fill="#c4b5fd" opacity="0.3"><ellipse cx="0" cy="30" rx="28" ry="6"/><ellipse cx="12" cy="25" rx="16" ry="6"/></g>
+      <g class="drift" style="animation-duration:95s;animation-delay:-20s">
+        <path d="M-40 70 Q-30 60 -14 64 Q-4 54 12 60 Q26 56 32 66 Q40 72 -40 72 Z" fill="#c9a2d6" opacity="0.55"/>
       </g>
-      <g class="drift" style="animation-duration:120s;animation-delay:-75s">
-        <g fill="#f0abfc" opacity="0.22"><ellipse cx="0" cy="62" rx="36" ry="5"/><ellipse cx="-10" cy="58" rx="18" ry="5"/></g>
+      <g class="drift" style="animation-duration:125s;animation-delay:-70s">
+        <path d="M-50 104 Q-40 96 -22 99 Q-10 90 8 97 Q24 94 30 103 Z" fill="#d6a0c6" opacity="0.5"/>
       </g>
 
       <!-- Isola lontana con il Faro sabotato -->
-      <path d="M0 142 Q20 128 45 126 Q70 116 100 128 Q118 134 132 142 Z" fill="#1e1b4b"/>
-      <polygon points="54,124 66,124 64,100 56,100" fill="#312e81"/>
-      <rect x="55.5" y="108" width="9" height="3" fill="#4338ca"/>
-      <rect x="55" y="116" width="10" height="3" fill="#4338ca"/>
-      <rect x="55" y="94" width="10" height="6" fill="#1e1b4b"/>
-      <polygon points="53,94 67,94 60,88" fill="#312e81"/>
-      <polygon class="faro-blink" points="60,97 150,82 150,110" fill="#fde68a" opacity="0.2"/>
-      <circle class="faro-blink" cx="60" cy="97" r="3" fill="#fca5a5"/>
+      <path d="M0 140 Q14 128 40 127 Q64 120 92 128 Q112 133 124 140 Z" fill="#2c2a55"/>
+      <path d="M48 127 L50 96 L60 96 L62 127 Z" fill="#26244a" stroke="#1a1838" stroke-width="0.6"/>
+      <rect x="47" y="94" width="16" height="2.4" fill="#1a1838"/>
+      <rect x="50" y="86" width="10" height="8" fill="#1a1838"/>
+      <path d="M48.6 86 L55 79 L61.4 86 Z" fill="#1a1838"/>
+      <circle class="faro-blink" cx="55" cy="90" r="6" fill="#fca5a5" opacity="0.5"/>
+      <circle class="faro-blink" cx="55" cy="90" r="2.4" fill="#ff6b6b"/>
 
-      <!-- Nave lontana -->
-      <g transform="translate(225 140)">
-        <g class="bob">
-          <path d="M-18 -6 L18 -6 L13 0 L-13 0 Z" fill="#0f0a1e"/>
-          <line x1="0" y1="-6" x2="0" y2="-30" stroke="#0f0a1e" stroke-width="1.4"/>
-          <path d="M1 -28 Q11 -19 1 -9 Z" fill="#1e1b4b"/>
-          <path d="M-1 -26 Q-9 -18 -1 -10 Z" fill="#1e1b4b"/>
-          <path d="M0 -30 L6 -28 L0 -26 Z" fill="#dc2626"/>
-        </g>
-      </g>
+      <!-- Nave all'orizzonte -->
+      <g transform="translate(262 139)"><g class="bob">
+        <path d="M-12 -4 L12 -4 L9 0 L-9 0 Z" fill="#2c2a55"/>
+        <rect x="-5" y="-8" width="9" height="4" fill="#2c2a55"/><rect x="0" y="-11" width="2" height="3" fill="#2c2a55"/>
+      </g></g>
 
       <!-- Mare -->
-      <rect y="140" width="400" height="80" fill="url(#m-sea)"/>
-      <ellipse class="shimmer" cx="318" cy="146" rx="11" ry="1.2" fill="#fef3c7"/>
-      <ellipse class="shimmer" cx="318" cy="150.5" rx="7" ry="1" fill="#fef3c7" style="animation-delay:-0.7s"/>
-      <ellipse class="shimmer" cx="318" cy="154.5" rx="4" ry="0.8" fill="#fef3c7" style="animation-delay:-1.4s"/>
+      <rect y="139" width="400" height="81" fill="url(#m-sea)"/>
+      <rect y="139" width="400" height="1.2" fill="#f8c27a" opacity="0.6"/>
+      <ellipse class="shimmer" cx="300" cy="143" rx="22" ry="1.2" fill="#ffd38a"/>
+      <ellipse class="shimmer" cx="300" cy="147" rx="13" ry="1" fill="#ffd38a" style="animation-delay:-0.7s"/>
+      <ellipse class="shimmer" cx="96" cy="146" rx="18" ry="0.8" fill="#d8ccf4" style="animation-delay:-1.1s"/>
       <g class="wave" style="animation-duration:7s">
-        <path d="${wavePath(146, 1.4)}" stroke="#93c5fd" stroke-opacity="0.35" fill="none" stroke-width="1"/>
+        <path d="${wavePath(145, 1.2)}" stroke="#d8ccf4" stroke-opacity="0.45" fill="none" stroke-width="0.9"/>
       </g>
       <g class="wave" style="animation-duration:10s;animation-direction:reverse">
-        <path d="${wavePath(152, 1.6)}" stroke="#bfdbfe" stroke-opacity="0.25" fill="none" stroke-width="1"/>
-      </g>
-      <g class="fog">
-        <ellipse cx="120" cy="140" rx="95" ry="5" fill="#e9d5ff" opacity="0.12"/>
-        <ellipse cx="330" cy="137" rx="70" ry="4" fill="#e9d5ff" opacity="0.1"/>
+        <path d="${wavePath(150, 1.4)}" stroke="#d8ccf4" stroke-opacity="0.3" fill="none" stroke-width="0.9"/>
       </g>
 
-      <!-- Gabbiano -->
+      <!-- Gabbiano sull'acqua e gabbiano in volo -->
+      <g transform="translate(118 147)"><g class="bob" style="animation-duration:3s">
+        <path d="M-4 0 Q-1 -3 3 -2 L6 -3.6 L5 -1 Q2 1 -4 0 Z" fill="#e5e7eb" stroke="#2c2a55" stroke-width="0.4"/>
+        <path d="M-2.6 -0.8 Q0 -2.2 2.6 -1.4" stroke="#6b7280" stroke-width="0.6" fill="none"/>
+      </g></g>
       <g class="gull">
         <path class="gull-wings" d="M0 0 q4 -4 8 0 q4 -4 8 0" stroke="#f8fafc" stroke-width="1.2" fill="none"/>
       </g>
 
-      <!-- Pontile -->
-      <rect y="166" width="400" height="54" fill="#020617" opacity="0.35"/>
+      <!-- Pontile: ringhiera di corda dietro -->
+      ${postsBack}
+      ${ropes}
+
+      <!-- Pali nell'acqua e riflessi -->
+      <rect y="170" width="400" height="50" fill="#1b1838" opacity="0.25"/>
       ${posts}
-      <rect y="157" width="400" height="11" fill="#7c4a1e"/>
-      <rect y="157" width="400" height="1.8" fill="#b45309"/>
+
+      <!-- Assi del pontile -->
+      <path d="M0 154 L400 154 L400 170 L0 170 Z" fill="#8a5a32" ${wink(0.9)}/>
+      <rect y="154" width="400" height="1.8" fill="#c08a52"/>
       ${seams}
+      <rect y="170" width="400" height="6" fill="#5a3a20" ${wink(0.8)}/>
+      <rect y="176" width="400" height="3" fill="#000" opacity="0.25"/>
 
       <!-- Barile -->
-      <rect x="10" y="138" width="20" height="20" rx="4" fill="#92400e"/>
-      <rect x="10" y="142" width="20" height="2" fill="#451a03"/>
-      <rect x="10" y="152" width="20" height="2" fill="#451a03"/>
-      <ellipse cx="20" cy="138.5" rx="9.5" ry="2" fill="#b45309"/>
+      <g transform="translate(70 157)">
+        <path d="M-9 0 Q-11 -10 -9 -20 L9 -20 Q11 -10 9 0 Z" fill="#8a5530" ${wink(0.8)}/>
+        <path d="M-4 -20 Q-5.4 -10 -4 0" stroke="#6b3f1f" stroke-width="0.7" fill="none"/>
+        <path d="M3 -20 Q4.4 -10 3 0" stroke="#6b3f1f" stroke-width="0.7" fill="none"/>
+        <path d="M-10.2 -15 Q0 -14 10.2 -15 M-10.4 -5 Q0 -4 10.4 -5" stroke="#3f3f46" stroke-width="1.6" fill="none"/>
+        <ellipse cx="0" cy="-20" rx="9" ry="2.2" fill="#a8703e" ${wink(0.7)}/>
+        <path d="M6 -18 Q8 -10 6.4 -2" stroke="#b77d48" stroke-width="1" fill="none"/>
+      </g>
 
-      <!-- Lanterna -->
-      <rect x="158.5" y="116" width="3" height="42" fill="#3b2410"/>
-      <rect x="158.5" y="116" width="11" height="2" fill="#3b2410"/>
-      <circle class="flicker" cx="167" cy="124" r="17" fill="url(#m-lamp)"/>
-      <rect class="flicker" x="164" y="119" width="6" height="9" rx="1.2" fill="#fbbf24"/>
-      <rect x="163.5" y="118" width="7" height="1.6" fill="#1c1208"/>
+      <!-- Lampione con lanterna appesa -->
+      <rect x="157.5" y="96" width="5" height="62" fill="#5a3a20" ${wink(0.8)}/>
+      <path d="M160 101 L182 101" stroke="${WOOD_INK}" stroke-width="3.6"/>
+      <path d="M160 101 L182 101" stroke="#6b4424" stroke-width="2.2"/>
+      <path d="M162 112 L170 101" stroke="#5a3a20" stroke-width="2"/>
+      <g transform="translate(178 102)"><g class="swing" style="animation-duration:4.4s">
+        <circle class="flicker" cx="0" cy="13" r="24" fill="url(#m-lamp)"/>
+        <line x1="0" y1="0" x2="0" y2="5" stroke="${WOOD_INK}" stroke-width="0.8"/>
+        <path d="M-4 5 L4 5 L5 8 L-5 8 Z" fill="#2b2b33" ${wink(0.5)}/>
+        <rect class="flicker" x="-3.6" y="8" width="7.2" height="9" rx="1" fill="#ffcf5a" ${wink(0.5)}/>
+        <path d="M0 8 L0 17" stroke="#2b2b33" stroke-width="0.6"/>
+        <rect x="-4.6" y="17" width="9.2" height="2" rx="0.6" fill="#2b2b33" ${wink(0.4)}/>
+      </g></g>
 
       <!-- Casse del carico: 2³ e 2⁴ -->
-      <rect x="333" y="135" width="27" height="23" fill="#a16207" stroke="#713f12" stroke-width="1.2"/>
-      <path d="M333 135 L360 158 M360 135 L333 158" stroke="#713f12" stroke-width="0.8" opacity="0.6"/>
-      <rect x="340" y="140" width="13" height="12" rx="2" fill="#451a03" opacity="0.85"/>
-      <text x="346.5" y="149.5" font-size="9" fill="#fde68a" text-anchor="middle" font-weight="700" font-family="Courier New, monospace">2³</text>
-      <rect x="337" y="113" width="22" height="22" fill="#b45309" stroke="#713f12" stroke-width="1.2"/>
-      <rect x="341.5" y="118" width="13" height="12" rx="2" fill="#451a03" opacity="0.85"/>
-      <text x="348" y="127.5" font-size="9" fill="#fde68a" text-anchor="middle" font-weight="700" font-family="Courier New, monospace">2⁴</text>
-      <rect x="363" y="140" width="22" height="18" fill="#92400e" stroke="#713f12" stroke-width="1.2"/>
-      <ellipse cx="380" cy="156" rx="9" ry="3" fill="none" stroke="#d6b88a" stroke-width="1.6"/>
+      ${crateSVG(310, 112, 25, 22, '', true)}
+      ${crateSVG(297, 134, 26, 24, '2³')}
+      ${crateSVG(323, 134, 26, 24, '2⁴')}
       `;
     },
     fg() {
+      const bollard = (x, flip) => `
+        <rect x="${x}" y="184" width="16" height="40" rx="3" fill="#15112a"/>
+        <ellipse cx="${x + 8}" cy="184" rx="8" ry="2.4" fill="#221c3e"/>
+        <path d="M${x + (flip ? 0 : 16)} 194 Q${x + (flip ? -26 : 42)} 212 ${x + (flip ? -60 : 76)} 200" stroke="#15112a" stroke-width="2.6" fill="none"/>`;
       return `
       <g class="wave" style="animation-duration:5s">
-        <path d="${wavePath(200, 2)}" stroke="#93c5fd" stroke-opacity="0.3" fill="none" stroke-width="1.2"/>
+        <path d="${wavePath(200, 2)}" stroke="#d8ccf4" stroke-opacity="0.3" fill="none" stroke-width="1.2"/>
       </g>
       <g class="wave" style="animation-duration:8s;animation-direction:reverse">
-        <path d="${wavePath(212, 2.2)}" stroke="#bfdbfe" stroke-opacity="0.22" fill="none" stroke-width="1.2"/>
-      </g>`;
+        <path d="${wavePath(212, 2.2)}" stroke="#d8ccf4" stroke-opacity="0.22" fill="none" stroke-width="1.2"/>
+      </g>
+      ${bollard(2, true)}
+      ${bollard(382, false)}`;
     }
   }
 };
@@ -963,185 +1006,298 @@ SCENES.faro = {
 };
 
 /* ==========================================================================
-   MOLO – STANZA: SPIAGGIA (nave di Vera, capanno, palma)
+   MOLO – STANZA: SPIAGGIA (nave di Vera, capanno, palma) – stile mock-up
    ========================================================================== */
 SCENES.spiaggia = {
   bg() {
-    const planks = [252, 262, 308, 318].map(x => `<line x1="${x}" y1="112" x2="${x}" y2="176" stroke="#78350f" stroke-width="0.8" opacity="0.6"/>`).join('');
-    const leaves = [[-40, 6], [-22, -8], [0, -14], [24, -6], [40, 8]].map(([dx, dy], i) =>
-      `<path d="M0 0 Q${dx / 2} ${dy - 10} ${dx} ${dy + 6}" stroke="${i % 2 ? '#15803d' : '#16a34a'}" stroke-width="5" fill="none" stroke-linecap="round"/>`).join('');
-    const shells = [[60, 206, '#fda4af'], [190, 212, '#fde68a'], [300, 204, '#fecdd3']].map(([x, y, c]) =>
-      `<path d="M${x - 3} ${y} Q${x} ${y - 5} ${x + 3} ${y} Z" fill="${c}"/>`).join('');
+    const fronds = [[-34, 8], [-26, -10], [-6, -20], [16, -14], [34, 2], [26, 18], [-18, 20]].map(([dx, dy], i) => {
+      const c = i % 2 ? '#2f7a3a' : '#3c9447';
+      return `<path d="M0 0 Q${dx * 0.45} ${dy - 12} ${dx} ${dy} Q${dx * 0.55} ${dy - 4} 0 2 Z" fill="${c}" ${wink(0.7)}/>
+        <path d="M0 0 Q${dx * 0.45} ${dy - 9} ${dx * 0.9} ${dy - 0.5}" stroke="#1f5a2a" stroke-width="0.6" fill="none"/>`;
+    }).join('');
+    const trunk = Array.from({ length: 9 }, (_, i) => {
+      const t = i / 9, x = 34 + t * 28 + Math.sin(t * 2.4) * 4, y = 200 - t * 118;
+      return `<path d="M${x - 4} ${y} Q${x} ${y - 3} ${x + 4} ${y}" stroke="#4e2e18" stroke-width="0.8" fill="none"/>`;
+    }).join('');
+    const shells = [[120, 206, '#f9c6c9'], [214, 210, '#fde2b8'], [300, 214, '#f9c6c9'], [64, 214, '#e9d5ff']].map(([x, y, c]) =>
+      `<path d="M${x - 3.4} ${y} Q${x} ${y - 5.6} ${x + 3.4} ${y} Z" fill="${c}" ${wink(0.5)}/><path d="M${x} ${y - 4.6} L${x} ${y} M${x - 1.6} ${y - 3.6} L${x - 1.4} ${y} M${x + 1.6} ${y - 3.6} L${x + 1.4} ${y}" stroke="#c08a8a" stroke-width="0.4"/>`).join('');
+    const pebbles = [[150, 196], [176, 214], [252, 204], [92, 200], [330, 208], [276, 196]].map(([x, y]) =>
+      `<ellipse cx="${x}" cy="${y}" rx="2.2" ry="1.3" fill="#9a8a80" ${wink(0.4)}/>`).join('');
+    const wall = [276, 286, 296, 314, 324].map(x => `<line x1="${x}" y1="106" x2="${x}" y2="176" stroke="#5f5b54" stroke-width="0.8"/>`).join('');
     return `
     <defs>
       <linearGradient id="b-sky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#1e1b4b"/>
-        <stop offset="0.45" stop-color="#7c3aed"/>
-        <stop offset="0.78" stop-color="#f472b6"/>
-        <stop offset="1" stop-color="#fbbf24"/>
+        <stop offset="0" stop-color="#5b2a86"/>
+        <stop offset="0.35" stop-color="#b5397a"/>
+        <stop offset="0.62" stop-color="#ef5d4e"/>
+        <stop offset="0.84" stop-color="#f79a3e"/>
+        <stop offset="1" stop-color="#fbd06a"/>
       </linearGradient>
       <linearGradient id="b-sea" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#1d4ed8"/><stop offset="1" stop-color="#1e3a8a"/>
+        <stop offset="0" stop-color="#8a7fd8"/><stop offset="1" stop-color="#4b47a8"/>
       </linearGradient>
       <linearGradient id="b-sand" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#f6d38b"/><stop offset="1" stop-color="#e2a95a"/>
+        <stop offset="0" stop-color="#f6bd62"/><stop offset="1" stop-color="#e39a43"/>
       </linearGradient>
       <radialGradient id="b-sun">
-        <stop offset="0" stop-color="#fde68a" stop-opacity="0.7"/>
-        <stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+        <stop offset="0" stop-color="#fff1b8" stop-opacity="0.95"/>
+        <stop offset="0.35" stop-color="#ffd27a" stop-opacity="0.6"/>
+        <stop offset="1" stop-color="#ffb35a" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="b-lamp">
+        <stop offset="0" stop-color="#ffd27a" stop-opacity="0.85"/>
+        <stop offset="1" stop-color="#ffb347" stop-opacity="0"/>
       </radialGradient>
     </defs>
 
-    <rect width="400" height="132" fill="url(#b-sky)"/>
-    <circle cx="160" cy="128" r="70" fill="url(#b-sun)"/>
-    <circle cx="160" cy="128" r="24" fill="#fde68a"/>
+    <rect width="400" height="130" fill="url(#b-sky)"/>
+    <circle cx="252" cy="124" r="86" fill="url(#b-sun)"/>
+    <circle cx="252" cy="124" r="22" fill="#fff4c4"/>
     <g class="drift" style="animation-duration:100s;animation-delay:-40s">
-      <g fill="#fbcfe8" opacity="0.35"><ellipse cx="0" cy="42" rx="34" ry="6"/><ellipse cx="14" cy="37" rx="18" ry="6"/></g>
+      <path d="M-40 40 Q-28 32 -12 36 Q0 28 16 34 Q28 32 32 40 Z" fill="#f6a3a0" opacity="0.5"/>
     </g>
     <g class="drift" style="animation-duration:130s;animation-delay:-90s">
-      <g fill="#ddd6fe" opacity="0.3"><ellipse cx="0" cy="74" rx="44" ry="5"/></g>
+      <path d="M-50 78 Q-36 72 -18 75 Q-4 68 14 74 Q26 72 30 79 Z" fill="#fcc08a" opacity="0.45"/>
     </g>
 
-    <!-- Mare -->
-    <rect y="128" width="400" height="34" fill="url(#b-sea)"/>
-    <ellipse class="shimmer" cx="160" cy="133" rx="18" ry="1.3" fill="#fde68a"/>
-    <ellipse class="shimmer" cx="160" cy="138" rx="12" ry="1.1" fill="#fde68a" style="animation-delay:-0.6s"/>
-    <ellipse class="shimmer" cx="160" cy="143" rx="7" ry="0.9" fill="#fde68a" style="animation-delay:-1.2s"/>
-    <g class="wave" style="animation-duration:8s"><path d="${wavePath(136, 1.2)}" stroke="#bfdbfe" stroke-opacity="0.35" fill="none" stroke-width="0.9"/></g>
-    <g class="wave" style="animation-duration:11s;animation-direction:reverse"><path d="${wavePath(147, 1.5)}" stroke="#bfdbfe" stroke-opacity="0.3" fill="none" stroke-width="0.9"/></g>
+    <!-- Colline lontane -->
+    <path d="M0 128 L0 104 Q22 92 44 100 Q64 88 90 98 Q112 104 130 128 Z" fill="#4b4a8a"/>
+    <path d="M0 128 L0 112 Q30 104 58 112 Q80 106 104 128 Z" fill="#3a3a72"/>
+    <path d="M118 128 Q126 120 136 128 Z" fill="#3a3a72"/>
+
+    <!-- Mare con i riflessi del sole -->
+    <rect y="126" width="400" height="38" fill="url(#b-sea)"/>
+    <rect y="126" width="400" height="1.2" fill="#ffe1a0" opacity="0.7"/>
+    ${[[252, 131, 26], [252, 136, 20], [256, 141, 16], [248, 146, 12], [254, 151, 9]].map(([x, y, w], i) =>
+      `<rect class="shimmer" x="${x - w / 2}" y="${y}" width="${w}" height="1.3" rx="0.6" fill="#ffe9a8" style="animation-delay:-${i * 0.4}s"/>`).join('')}
+    <g class="wave" style="animation-duration:8s"><path d="${wavePath(138, 1.2)}" stroke="#e4ddff" stroke-opacity="0.45" fill="none" stroke-width="0.9"/></g>
+    <g class="wave" style="animation-duration:11s;animation-direction:reverse"><path d="${wavePath(150, 1.5)}" stroke="#e4ddff" stroke-opacity="0.35" fill="none" stroke-width="0.9"/></g>
 
     <!-- Nave di Capitana Vera -->
-    <g transform="translate(72 132)">
+    <g transform="translate(186 146)">
       <g class="bob" style="animation-duration:5s">
-        <path d="M-34 -10 L34 -10 L26 4 L-26 4 Z" fill="#7c2d12"/>
-        <rect x="-34" y="-12" width="68" height="3" fill="#a16207"/>
-        <circle cx="-14" cy="-4" r="1.6" fill="#1c1008"/><circle cx="0" cy="-4" r="1.6" fill="#1c1008"/><circle cx="14" cy="-4" r="1.6" fill="#1c1008"/>
-        <line x1="-8" y1="-12" x2="-8" y2="-50" stroke="#451a03" stroke-width="1.8"/>
-        <line x1="14" y1="-12" x2="14" y2="-42" stroke="#451a03" stroke-width="1.6"/>
-        <path d="M-7 -48 Q6 -38 -7 -18 Z" fill="#fef3c7"/>
-        <path d="M15 -40 Q26 -32 15 -18 Z" fill="#fef3c7"/>
-        <text x="-3" y="-30" font-size="7" fill="#b45309" font-weight="900" font-family="Georgia, serif">2</text>
-        <path d="M-8 -50 L2 -47 L-8 -44 Z" fill="#111827"/>
-        <circle cx="-5" cy="-47" r="1" fill="#fff"/>
+        <path d="M-38 -2 L-38 -16 L48 -16 L48 -2 Q40 6 6 8 Q-30 6 -38 -2 Z" fill="#6b4022" ${wink(0.9)}/>
+        <path d="M-36 -10 L46 -10 M-34 -4 L44 -4" stroke="#4e2e18" stroke-width="0.8"/>
+        <rect x="-38" y="-18" width="86" height="3" fill="#8a5a32" ${wink(0.7)}/>
+        ${[-30, -20, -10, 0, 10, 20, 30, 40].map(x => `<rect x="${x}" y="-24" width="1.4" height="6" fill="#8a5a32" ${wink(0.4)}/>`).join('')}
+        <path d="M-38 -24 L48 -24" stroke="#8a5a32" stroke-width="1.6"/>
+        <path d="M30 -16 L30 -32 L48 -32 L48 -16 Z" fill="#7a4a26" ${wink(0.8)}/>
+        <rect x="34" y="-28" width="4" height="4" fill="#ffcf5a" ${wink(0.4)}/><rect x="41" y="-28" width="4" height="4" fill="#ffcf5a" ${wink(0.4)}/>
+        ${[-24, -10, 4, 18].map(x => `<circle cx="${x}" cy="-8" r="1.6" fill="#2a1a12"/>`).join('')}
+        <path d="M-32 -12 L-32 -6 M-35 -9 L-29 -9 M-34.6 -5.6 Q-32 -3.6 -29.4 -5.6" stroke="#2a1a12" stroke-width="0.9" fill="none"/>
+        <path d="M-38 -14 L-60 -26" stroke="${WOOD_INK}" stroke-width="2.4"/><path d="M-38 -14 L-60 -26" stroke="#7a4a26" stroke-width="1.4"/>
+        <line x1="2" y1="-18" x2="2" y2="-118" stroke="${WOOD_INK}" stroke-width="3"/>
+        <line x1="2" y1="-18" x2="2" y2="-118" stroke="#6b4022" stroke-width="1.8"/>
+        <path d="M-5 -110 L9 -110 L8 -102 L-4 -102 Z" fill="#7a4a26" ${wink(0.7)}/>
+        <line x1="-24" y1="-96" x2="28" y2="-96" stroke="${WOOD_INK}" stroke-width="2.4"/><line x1="-24" y1="-96" x2="28" y2="-96" stroke="#6b4022" stroke-width="1.4"/>
+        <path d="M2 -118 L-60 -26 M2 -118 L48 -24 M2 -100 L-48 -24" stroke="#3a2a1c" stroke-width="0.5"/>
+        <path d="M-22 -95 Q2 -88 26 -95 Q31 -72 24 -44 Q2 -50 -20 -44 Q-27 -70 -22 -95 Z" fill="#eadcb6" ${wink(0.8)}/>
+        <path d="M-20 -94 Q-25 -70 -19 -46 Q-12 -48 -10 -48 Q-15 -70 -12 -92 Z" fill="#d6c494"/>
+        <path d="M6 -92 Q9 -70 6 -48" stroke="#d6c494" stroke-width="1" fill="none"/>
+        <rect x="14" y="-62" width="7" height="6" fill="#d6c494" ${wink(0.5)} transform="rotate(8 17 -59)"/>
+        <rect x="-16" y="-84" width="6" height="5" fill="#d6c494" ${wink(0.5)} transform="rotate(-6 -13 -82)"/>
+        <text x="3" y="-56" font-size="30" fill="#5a3a22" text-anchor="middle" font-weight="900" font-family="Georgia, serif">2</text>
       </g>
     </g>
+    <!-- Barca a remi legata alla nave -->
+    <path d="M232 140 Q240 148 246 150" stroke="#3a2a1c" stroke-width="0.6" fill="none"/>
+    <g transform="translate(254 154)"><g class="bob" style="animation-duration:3.6s">
+      <path d="M-12 -3 L12 -3 Q9 3 0 3.6 Q-9 3 -12 -3 Z" fill="#7a4a26" ${wink(0.7)}/>
+      <path d="M-11 -3 L11 -3" stroke="#a8703e" stroke-width="0.9"/>
+    </g></g>
 
     <!-- Sabbia e battigia -->
-    <path d="M0 158 Q100 152 200 158 T400 156 L400 220 L0 220 Z" fill="url(#b-sand)"/>
-    <path d="M0 158 Q100 152 200 158 T400 156 L400 164 Q300 160 200 166 Q100 160 0 166 Z" fill="#c9965a" opacity="0.5"/>
-    <g class="wave" style="animation-duration:6s"><path d="${wavePath(157, 1.4)}" stroke="#fff" stroke-opacity="0.7" fill="none" stroke-width="1.4"/></g>
+    <path d="M0 160 Q100 154 200 160 T400 158 L400 220 L0 220 Z" fill="url(#b-sand)"/>
+    <path d="M0 160 Q100 154 200 160 T400 158 L400 165 Q300 161 200 167 Q100 161 0 167 Z" fill="#d78c3c" opacity="0.45"/>
+    <g class="wave" style="animation-duration:6s"><path d="${wavePath(159, 1.4)}" stroke="#fff" stroke-opacity="0.8" fill="none" stroke-width="1.6"/></g>
+    <path d="M0 204 Q120 198 220 204 T400 202 L400 220 L0 220 Z" fill="#d8873a" opacity="0.6"/>
+
+    <!-- Ombre lunghe -->
+    <path d="M262 180 L346 180 L318 214 L222 214 Z" fill="#7a3a1a" opacity="0.22"/>
+    <path d="M38 200 L74 198 L120 214 L60 216 Z" fill="#7a3a1a" opacity="0.18"/>
+
     ${shells}
-    <path d="M140 200 L144 196 L148 200 L144 204 Z M144 196 L144 190" fill="#fb923c" stroke="#fb923c" stroke-width="0.6" opacity="0.8"/>
+    ${pebbles}
+    <path d="M204 192 L207 186 L210 192 L216 193 L211 197 L212 203 L207 200 L202 203 L203 197 L198 193 Z" fill="#e2483d" ${wink(0.5)}/>
+    <path d="M140 214 L162 208 M150 211 L154 206" stroke="#7a5a3a" stroke-width="1.6" stroke-linecap="round"/>
 
-    <!-- Palma -->
-    <path d="M214 178 Q206 130 204 72" stroke="#92400e" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <path d="M211 160 L206 158 M209 140 L204 138 M207 120 L202 118 M206 100 L201 98" stroke="#78350f" stroke-width="1.2"/>
-    <g transform="translate(204 72)"><g class="swing" style="animation-duration:5s">${leaves}</g></g>
+    <!-- Palma in primo piano a sinistra -->
+    <path d="M30 202 Q44 150 62 82 L70 84 Q54 150 42 204 Z" fill="#7a4a26" ${wink(0.9)}/>
+    <path d="M40 200 Q52 150 66 84" stroke="#9a6438" stroke-width="1.4" fill="none"/>
+    ${trunk}
+    <g transform="translate(66 80)"><g class="swing" style="animation-duration:5s">${fronds}
+      <circle cx="-2" cy="4" r="2.6" fill="#6b4022" ${wink(0.5)}/><circle cx="3" cy="5" r="2.4" fill="#6b4022" ${wink(0.5)}/>
+    </g></g>
 
-    <!-- Barca a remi -->
-    <g transform="translate(158 186)">
-      <path d="M-22 -6 L22 -6 Q18 4 0 5 Q-18 4 -22 -6 Z" fill="#9a3412"/>
-      <path d="M-20 -6 L20 -6" stroke="#fde68a" stroke-width="1"/>
-      <line x1="-12" y1="-10" x2="10" y2="2" stroke="#78350f" stroke-width="1.6"/>
+    <!-- Capanno con portico -->
+    <rect x="268" y="104" width="70" height="74" fill="#8e8a80" ${wink(0.9)}/>
+    <rect x="268" y="104" width="12" height="74" fill="#77736a"/>
+    ${wall}
+    <path d="M262 106 L303 74 L344 106 Z" fill="#6b665e" ${wink(0.9)}/>
+    <path d="M272 99 L303 76 L334 99 M282 101 L303 84" stroke="#55514a" stroke-width="0.8" fill="none"/>
+    <rect x="281" y="88" width="44" height="11" rx="1" fill="#d9b98a" ${wink(0.8)}/>
+    <text x="303" y="96.6" font-size="7" fill="#5a3a22" text-anchor="middle" font-weight="900" font-family="Georgia, serif" letter-spacing="0.6">CAPANNO</text>
+    <rect x="290" y="134" width="22" height="44" fill="#7a5a3c" ${wink(0.8)}/>
+    <path d="M297 134 L297 178 M304 134 L304 178" stroke="#5a3e26" stroke-width="0.8"/>
+    <path d="M254 118 L352 118 L350 125 L256 125 Z" fill="#7d786e" ${wink(0.8)}/>
+    <rect x="258" y="125" width="4" height="54" fill="#8a6a4a" ${wink(0.7)}/>
+    <rect x="344" y="125" width="4" height="54" fill="#8a6a4a" ${wink(0.7)}/>
+    <rect x="256" y="176" width="94" height="5" fill="#6b5a48" ${wink(0.7)}/>
+    ${[280, 322].map(x => `<g transform="translate(${x} 128)"><g class="swing" style="animation-duration:4s;animation-delay:-${x % 3}s">
+      <circle class="flicker" cx="0" cy="8" r="15" fill="url(#b-lamp)"/>
+      <line x1="0" y1="0" x2="0" y2="3" stroke="${WOOD_INK}" stroke-width="0.7"/>
+      <rect class="flicker" x="-2.8" y="3" width="5.6" height="7" rx="1" fill="#ffcf5a" ${wink(0.5)}/>
+      <rect x="-3.4" y="2.2" width="6.8" height="1.4" fill="#2b2b33"/><rect x="-3.4" y="9.6" width="6.8" height="1.4" fill="#2b2b33"/>
+    </g></g>`).join('')}
+    <g transform="translate(272 179)">
+      <path d="M-7 0 Q-8.4 -8 -7 -15 L7 -15 Q8.4 -8 7 0 Z" fill="#8a5530" ${wink(0.7)}/>
+      <path d="M-7.8 -11 L7.8 -11 M-7.8 -4 L7.8 -4" stroke="#3f3f46" stroke-width="1.2"/>
+      <ellipse cx="0" cy="-15" rx="7" ry="1.6" fill="#a8703e" ${wink(0.5)}/>
     </g>
-
-    <!-- Capanno -->
-    <rect x="246" y="112" width="78" height="64" fill="#a16207"/>
-    ${planks}
-    <polygon points="238,116 332,116 285,80" fill="#78350f"/>
-    <path d="M246 108 L285 84 L324 108" stroke="#a16207" stroke-width="1" fill="none" opacity="0.6"/>
-    <rect x="270" y="128" width="30" height="50" fill="#5b3415"/>
-    <rect x="272" y="130" width="26" height="46" fill="#451a03"/>
-    <rect x="304" y="130" width="14" height="12" fill="#fde68a" opacity="0.7"/>
-    <path d="M311 130 L311 142 M304 136 L318 136" stroke="#5b3415" stroke-width="1.2"/>
-    <rect x="262" y="116" width="46" height="9" rx="1.5" fill="#fef3c7"/>
-    <text x="285" y="123" font-size="6.2" fill="#78350f" text-anchor="middle" font-weight="900" font-family="Georgia, serif" letter-spacing="0.8">CAPANNO</text>
+    <path d="M316 182 L324 150 L329 151 L321 183 Z" fill="#a8845a" ${wink(0.7)}/>
     `;
+  },
+  fg() {
+    return `
+    <path d="M0 220 L0 196 Q8 188 16 194 Q22 186 30 194 Q38 190 42 200 Q48 204 44 220 Z" fill="#1f1a2e"/>
+    <path d="M400 220 L400 192 Q392 186 384 192 Q378 184 370 192 Q362 190 360 202 Q356 210 362 220 Z" fill="#1f1a2e"/>`;
   }
 };
 
 /* ==========================================================================
-   MOLO – STANZA: INTERNO DEL CAPANNO
+   MOLO – STANZA: INTERNO DEL CAPANNO – stile mock-up
    ========================================================================== */
 SCENES.capanno = {
   bg() {
-    const planks = Array.from({ length: 19 }, (_, i) =>
-      `<line x1="${i * 22}" y1="0" x2="${i * 22}" y2="180" stroke="#3b2410" stroke-width="1.2" opacity="0.7"/>`).join('');
-    const net = [];
-    for (let i = 0; i <= 6; i++) {
-      net.push(`<line x1="${64 + i * 13}" y1="30" x2="${70 + i * 12}" y2="96" stroke="#d6b88a" stroke-width="0.7" opacity="0.8"/>`);
-      net.push(`<path d="M62 ${32 + i * 10} Q103 ${38 + i * 10} 144 ${32 + i * 10}" stroke="#d6b88a" stroke-width="0.7" fill="none" opacity="0.8"/>`);
+    const planks = Array.from({ length: 13 }, (_, i) => {
+      const y = 14 + i * 13;
+      return `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#4e2e18" stroke-width="0.9"/>
+        <path d="M${(i * 67) % 380 + 10} ${y + 6} q8 -2 16 0 M${(i * 131) % 360 + 20} ${y + 8} q5 -1.4 10 0" stroke="#6b4022" stroke-width="0.6" fill="none"/>`;
+    }).join('');
+    const mesh = [];
+    for (let i = 0; i <= 8; i++) {
+      mesh.push(`<path d="M${66 + i * 9} 32 L${60 + i * 11} 96" stroke="#c8a878" stroke-width="0.6"/>`);
+      mesh.push(`<path d="M${66 + i * 9} 32 L${142 - (8 - i) * 9} 96" stroke="#c8a878" stroke-width="0.6"/>`);
     }
-    const floor = [190, 200, 212].map(y => `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#2a170b" stroke-width="1"/>`).join('');
+    const motes = [[196, 70], [214, 92], [188, 110], [222, 128], [204, 150], [180, 132], [228, 104]].map(([x, y], i) =>
+      `<circle class="twinkle" cx="${x}" cy="${y}" r="0.7" fill="#ffe1a0" style="animation-delay:-${i * 0.5}s"/>`).join('');
+    const floor = [192, 202, 214].map(y => `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#1e120a" stroke-width="1"/>`).join('');
     return `
     <defs>
-      <linearGradient id="c-door" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#fb923c"/>
+      <linearGradient id="c-wall" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#7a4a26"/><stop offset="1" stop-color="#5e3a1e"/>
+      </linearGradient>
+      <linearGradient id="c-door" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#7a5ab8"/><stop offset="0.55" stop-color="#e0709a"/><stop offset="1" stop-color="#f4a35a"/>
       </linearGradient>
       <radialGradient id="c-lamp">
-        <stop offset="0" stop-color="#fde68a" stop-opacity="0.75"/>
-        <stop offset="1" stop-color="#fde68a" stop-opacity="0"/>
+        <stop offset="0" stop-color="#ffcf7a" stop-opacity="0.9"/>
+        <stop offset="0.5" stop-color="#ff9f45" stop-opacity="0.35"/>
+        <stop offset="1" stop-color="#ff9f45" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="c-cone" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffe1a0" stop-opacity="0.35"/><stop offset="1" stop-color="#ffe1a0" stop-opacity="0.05"/>
+      </linearGradient>
+      <radialGradient id="c-vig" cx="0.52" cy="0.4" r="0.75">
+        <stop offset="0.5" stop-color="#120a06" stop-opacity="0"/><stop offset="1" stop-color="#120a06" stop-opacity="0.6"/>
       </radialGradient>
     </defs>
 
-    <rect width="400" height="220" fill="#5b3415"/>
+    <rect width="400" height="220" fill="url(#c-wall)"/>
     ${planks}
-    <rect width="400" height="12" fill="#2a170b"/>
-    <rect width="400" height="220" fill="#000" opacity="0.15"/>
 
-    <!-- Porta aperta verso la spiaggia -->
-    <rect x="12" y="92" width="40" height="90" fill="#3b2410"/>
-    <rect x="16" y="96" width="32" height="86" fill="url(#c-door)"/>
-    <path d="M16 150 Q32 146 48 150 L48 182 L16 182 Z" fill="#f6d38b"/>
+    <!-- Trave del soffitto e corde -->
+    <rect width="400" height="14" fill="#4e2e18" ${wink(0.9)}/>
+    <path d="M20 14 Q40 34 64 16 M330 14 Q342 30 356 14" stroke="#b08a5a" stroke-width="1.2" fill="none"/>
+    <path d="M300 14 L300 46" stroke="#b08a5a" stroke-width="1.2"/><circle cx="300" cy="14" r="2.4" fill="none" stroke="#b08a5a" stroke-width="1"/>
 
-    <!-- Rete da pesca -->
-    ${net.join('')}
-    <circle cx="72" cy="96" r="3" fill="#ef4444"/><circle cx="102" cy="99" r="3" fill="#f8fafc"/><circle cx="134" cy="96" r="3" fill="#ef4444"/>
-    <circle cx="64" cy="30" r="1.6" fill="#a16207"/><circle cx="144" cy="30" r="1.6" fill="#a16207"/>
+    <!-- Porta aperta sul tramonto -->
+    <rect x="10" y="90" width="44" height="94" fill="#5e3a1e" ${wink(0.9)}/>
+    <rect x="14" y="94" width="36" height="90" fill="url(#c-door)"/>
+    <path d="M14 152 L50 152 L50 184 L14 184 Z" fill="#6c66b0"/>
+    <path d="M16 152 L20 146 L24 152 M28 152 L30 140 L33 152" fill="#2c2a55"/>
+    <path d="M18 160 L46 160 M20 170 L44 170" stroke="#d8ccf4" stroke-width="0.6" opacity="0.6"/>
+    <path d="M54 92 L66 86 L66 190 L54 184 Z" fill="#8a5a32" ${wink(0.9)}/>
+    <path d="M60 90 L60 187" stroke="#6b4022" stroke-width="0.8"/>
+    <circle cx="63" cy="140" r="1.2" fill="#3f3f46"/>
+
+    <!-- Rete da pesca con galleggianti -->
+    <path d="M66 30 Q104 40 142 30 Q150 70 136 100 Q104 108 72 98 Q58 70 66 30 Z" fill="#c8a878" opacity="0.12"/>
+    ${mesh.join('')}
+    <path d="M66 30 Q104 40 142 30" stroke="#b08a5a" stroke-width="1.2" fill="none"/>
+    ${[[72, 58, '#3b82f6'], [80, 80, '#22c55e'], [126, 62, '#f97316'], [112, 88, '#14b8a6'], [94, 70, '#22c55e']].map(([x, y, c]) =>
+      `<circle cx="${x}" cy="${y}" r="3.4" fill="${c}" ${wink(0.6)}/><circle cx="${x - 1}" cy="${y - 1.2}" r="0.9" fill="#fff" opacity="0.6"/>`).join('')}
+    <circle cx="66" cy="30" r="1.8" fill="#3f3f46"/><circle cx="142" cy="30" r="1.8" fill="#3f3f46"/>
+
+    <!-- Finestrella -->
+    <rect x="150" y="42" width="40" height="38" fill="#8a5a32" ${wink(0.9)}/>
+    <rect x="154" y="46" width="32" height="30" fill="#c4b5fd"/>
+    <rect x="154" y="46" width="32" height="12" fill="#ddd0fb"/>
+    <path d="M170 46 L170 76 M154 61 L186 61" stroke="#8a5a32" stroke-width="2.4"/>
+    <rect x="148" y="80" width="44" height="3" fill="#6b4022" ${wink(0.6)}/>
+
+    <!-- Luce della lanterna -->
+    <path d="M198 44 L214 44 L262 184 L150 184 Z" fill="url(#c-cone)"/>
+    <circle class="flicker" cx="206" cy="36" r="40" fill="url(#c-lamp)"/>
+    ${motes}
 
     <!-- Poster Googol -->
-    <g transform="rotate(-3 194 64)">
-      <rect x="170" y="36" width="48" height="56" fill="#fef3c7" stroke="#d6b88a" stroke-width="1"/>
-      <text x="194" y="62" font-size="15" fill="#b91c1c" text-anchor="middle" font-weight="900" font-family="Courier New, monospace">10¹⁰⁰</text>
-      <text x="194" y="76" font-size="7" fill="#78350f" text-anchor="middle" font-weight="800" font-family="Georgia, serif" letter-spacing="1">GOOGOL</text>
-      <path d="M178 82 L210 82 M182 86 L206 86" stroke="#d6b88a" stroke-width="0.8"/>
-      <circle cx="194" cy="38" r="1.4" fill="#dc2626"/>
+    <g transform="rotate(2 266 66)">
+      <path d="M244 40 L288 40 L288 86 L282 92 L244 92 Z" fill="#f1e6cc" ${wink(0.8)}/>
+      <path d="M282 92 L282 86 L288 86 Z" fill="#d8c8a0" ${wink(0.6)}/>
+      <text x="264" y="66" font-size="15" fill="#3a2a1c" text-anchor="middle" font-weight="900" font-family="Courier New, monospace">10</text>
+      <text x="280" y="57" font-size="7" fill="#3a2a1c" text-anchor="middle" font-weight="900" font-family="Courier New, monospace">100</text>
+      <text x="266" y="80" font-size="7.4" fill="#3a2a1c" text-anchor="middle" font-weight="800" font-family="Georgia, serif" letter-spacing="0.8">GOOGOL</text>
+      <circle cx="266" cy="42" r="1.2" fill="#7a4a26"/>
     </g>
 
-    <!-- Finestra -->
-    <rect x="296" y="34" width="56" height="40" fill="#1d4ed8"/>
-    <rect x="296" y="34" width="56" height="20" fill="#f472b6" opacity="0.7"/>
-    <circle cx="336" cy="54" r="7" fill="#fde68a"/>
-    <path d="M324 34 L324 74 M296 54 L352 54" stroke="#3b2410" stroke-width="2.4"/>
-    <rect x="296" y="34" width="56" height="40" fill="none" stroke="#3b2410" stroke-width="3"/>
-
-    <!-- Mensola -->
-    <rect x="296" y="108" width="88" height="4" fill="#78350f"/>
-    <path d="M302 112 L308 120 M378 112 L372 120" stroke="#78350f" stroke-width="2"/>
-    <rect x="300" y="96" width="9" height="12" rx="2" fill="#0e7490" opacity="0.85"/>
-    <rect x="344" y="94" width="10" height="14" rx="2" fill="#a16207"/>
-    <rect x="360" y="98" width="14" height="10" rx="1" fill="#64748b"/>
+    <!-- Mensola con barattoli -->
+    <rect x="298" y="108" width="88" height="4" fill="#8a5a32" ${wink(0.7)}/>
+    <path d="M304 112 L310 120 M380 112 L374 120" stroke="#6b4022" stroke-width="2"/>
+    <rect x="302" y="94" width="12" height="14" rx="2" fill="#d8c8a8" fill-opacity="0.75" ${wink(0.6)}/>
+    <rect x="303" y="99" width="10" height="8" fill="#a8703e" opacity="0.7"/>
+    <rect x="301.5" y="92" width="13" height="3" rx="1" fill="#8a5a32" ${wink(0.4)}/>
+    <path d="M344 108 L344 98 Q344 95 346 94 L346 89 L350 89 L350 94 Q352 95 352 98 L352 108 Z" fill="#9a6a8a" ${wink(0.6)}/>
+    <path d="M362 108 L362 96 Q362 93 364 92 L364 86 L368 86 L368 92 Q370 93 370 96 L370 108 Z" fill="#5a3a22" ${wink(0.6)}/>
+    <rect x="363" y="98" width="6" height="5" fill="#f1e6cc"/>
 
     <!-- Tavolo con la mappa -->
-    <rect x="86" y="140" width="68" height="5" rx="1" fill="#78350f"/>
-    <rect x="92" y="145" width="4" height="36" fill="#451a03"/><rect x="144" y="145" width="4" height="36" fill="#451a03"/>
-    <path d="M92 140 L148 140 L146 133 L95 132 Z" fill="#fde68a"/>
-    <path d="M104 137 Q112 133 120 136 Q128 134 136 137" stroke="#a16207" stroke-width="0.8" fill="none"/>
-    <circle cx="138" cy="135" r="2" fill="none" stroke="#dc2626" stroke-width="0.8"/>
+    <rect x="168" y="136" width="70" height="5" rx="1" fill="#8a5a32" ${wink(0.8)}/>
+    <rect x="174" y="141" width="4.6" height="41" fill="#6b4022" ${wink(0.7)}/><rect x="227" y="141" width="4.6" height="41" fill="#6b4022" ${wink(0.7)}/>
+    <path d="M178 135.6 L230 135.6 L226 129 L182 128.4 Z" fill="#ead6a6" ${wink(0.6)}/>
+    <path d="M186 132 Q192 129 198 132 Q204 130 210 133 M214 131 Q218 129 224 132" stroke="#a8703e" stroke-width="0.8" fill="none"/>
+    <circle cx="220" cy="131" r="1.6" fill="none" stroke="#c62828" stroke-width="0.7"/>
 
-    <!-- Remi e botte -->
-    <line x1="268" y1="90" x2="276" y2="182" stroke="#a16207" stroke-width="2.4"/>
-    <ellipse cx="277" cy="180" rx="3" ry="6" fill="#a16207"/>
-    <g transform="translate(366 160)">
-      <rect x="-14" y="-20" width="28" height="36" rx="6" fill="#92400e"/>
-      <rect x="-14" y="-13" width="28" height="2.5" fill="#451a03"/><rect x="-14" y="5" width="28" height="2.5" fill="#451a03"/>
+    <!-- Remo e botte -->
+    <path d="M302 98 L288 176" stroke="${WOOD_INK}" stroke-width="3"/><path d="M302 98 L288 176" stroke="#b08a5a" stroke-width="1.8"/>
+    <path d="M288 168 Q282 178 286 186 Q292 186 293 176 Z" fill="#b08a5a" ${wink(0.7)}/>
+    <g transform="translate(366 182)">
+      <path d="M-15 0 Q-18 -18 -15 -36 L15 -36 Q18 -18 15 0 Z" fill="#8a5530" ${wink(0.9)}/>
+      <path d="M-5 -36 Q-6.6 -18 -5 0 M6 -36 Q7.6 -18 6 0" stroke="#6b3f1f" stroke-width="0.7" fill="none"/>
+      <path d="M-16.6 -28 Q0 -26.6 16.6 -28 M-16.8 -8 Q0 -6.6 16.8 -8" stroke="#3f3f46" stroke-width="2" fill="none"/>
+      <ellipse cx="0" cy="-36" rx="15" ry="3" fill="#a8703e" ${wink(0.7)}/>
     </g>
 
     <!-- Pavimento -->
-    <rect y="180" width="400" height="40" fill="#451a03"/>
+    <rect y="182" width="400" height="38" fill="#3a2414"/>
+    <rect y="182" width="400" height="5" fill="#2a1a10" ${wink(0.6)}/>
     ${floor}
 
-    ${hangingLantern(222, 12, 18, 'c-lamp')}
+    <!-- Lanterna appesa -->
+    <g transform="translate(206 14)">
+      <g class="swing" style="animation-duration:4.4s">
+        <line x1="0" y1="0" x2="0" y2="12" stroke="#b08a5a" stroke-width="1.2"/>
+        <circle cx="0" cy="13" r="2" fill="none" stroke="#2b2b33" stroke-width="1"/>
+        <path d="M-6 15 L6 15 L7.6 19 L-7.6 19 Z" fill="#2b2b33" ${wink(0.5)}/>
+        <rect class="flicker" x="-6" y="19" width="12" height="13" rx="2" fill="#ffcf5a" ${wink(0.6)}/>
+        <path class="flicker" d="M0 30 Q-2.4 26 0 22 Q2.4 26 0 30 Z" fill="#fff4c4"/>
+        <path d="M-6 19 L6 32 M6 19 L-6 32" stroke="#2b2b33" stroke-width="0.6" opacity="0.6"/>
+        <rect x="-7.6" y="32" width="15.2" height="3" rx="1" fill="#2b2b33" ${wink(0.5)}/>
+      </g>
+    </g>
+
+    <!-- Angoli in ombra -->
+    <rect width="400" height="220" fill="url(#c-vig)"/>
     `;
   }
 };
