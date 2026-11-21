@@ -44,6 +44,7 @@
   <div id="hud">
     <div class="hud-badge">✨ Aura: <span class="aura-val" id="hud-aura">100</span></div>
     <div class="hud-badge">💎 Cristalli: <span class="crystal-val" id="hud-crystals">0/5</span></div>
+    <button id="btn-reading" class="audio-toggle" onclick="openReading()" title="Opzioni di lettura" aria-label="Opzioni di lettura">Aa</button>
     <button id="btn-audio" class="audio-toggle" onclick="toggleAudio()" title="Audio" aria-label="Audio">🔊</button>
   </div>
 
@@ -83,6 +84,7 @@
         <div class="speaker-name" id="speaker-name">Aria</div>
         <div class="speaker-role" id="speaker-role">Esploratrice dell'Accademia</div>
       </div>
+      <button type="button" id="btn-listen" onclick="toggleListen()" aria-pressed="false">🔈 Ascolta</button>
     </div>
 
     <div class="dialogue-box" id="dialogue-text">
@@ -197,6 +199,7 @@
 <script src="js/generator.js"></script>
 <script src="js/exercises.js"></script>
 <script src="js/calculator.js"></script>
+<script src="js/reading.js"></script>
 <script src="js/characters.js"></script>
 <script src="js/scenes.js"></script>
 <script src="js/world.js"></script>

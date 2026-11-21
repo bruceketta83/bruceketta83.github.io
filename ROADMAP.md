@@ -26,7 +26,7 @@ Elenco delle evoluzioni proposte. Stato: ✅ fatto · 🚧 in corso · ⬜ da fa
 | # | Proposta | Descrizione | Lavoro | Stato |
 | :--- | :--- | :--- | :--- | :--- |
 | 10 | Gioco offline (PWA) | Funziona senza Wi-Fi e si installa come app. | Basso | ✅ |
-| 11 | Opzioni di lettura | Testo più grande, font per la dislessia, lettura ad alta voce dei dialoghi. | Basso | ⬜ |
+| 11 | Opzioni di lettura | Testo più grande, font per la dislessia, lettura ad alta voce dei dialoghi. | Basso | ✅ |
 | 11b | Calcolatrice per la discalculia | Solo + − × ÷, nella barra in basso. Copre la scena, non l'esercizio. | Basso | ✅ |
 | 12 | Test automatici su GitHub | Partita completa automatica a ogni PR, per evitare regressioni. | Basso | ✅ |
 | 13 | Salvataggio esportabile | Codice o QR code per spostare la partita tra dispositivi. | Basso | ⬜ |
@@ -44,4 +44,4 @@ Elenco delle evoluzioni proposte. Stato: ✅ fatto · 🚧 in corso · ⬜ da fa
 1. ✅ Gioco offline e test automatici (10, 12).
 2. ✅ Difficoltà adattiva e nuovi tipi di esercizio (1, 2).
 3. ⬜ Resoconto per l'insegnante (6).
-4. ⬜ Opzioni di lettura (11).
+4. ✅ Opzioni di lettura (11).

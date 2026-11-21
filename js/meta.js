@@ -206,6 +206,7 @@ function renderProfile(tab) {
   const tabs = `<div class="tabs">
     <button class="${profileTab === 'wardrobe' ? 'on' : ''}" onclick="renderProfile('wardrobe')">👗 Armadio</button>
     <button class="${profileTab === 'medals' ? 'on' : ''}" onclick="renderProfile('medals')">🏅 Medaglie ${state.medals.length}/${MEDALS.length}</button>
+    <button class="${profileTab === 'reading' ? 'on' : ''}" onclick="renderProfile('reading')">🔤 Lettura</button>
   </div>`;
   let body = '';
   if (profileTab === 'wardrobe') {
@@ -218,6 +219,8 @@ function renderProfile(tab) {
       </div>
       ${cons.length ? `<div class="inv-section">🧪 I tuoi oggetti utili</div><div class="inv-desc">${cons.join(' · ')}</div>` : ''}
       ${cosmeticsHTML(true)}`;
+  } else if (profileTab === 'reading') {
+    body = renderReadingTab();
   } else {
     body = '<div class="medal-grid">' + MEDALS.map(m => {
       const on = state.medals.includes(m.id);

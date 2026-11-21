@@ -59,6 +59,12 @@ L'avventura combina dialoghi in stile pop/moderno, scene animate in grafica vett
 - **5 tipi di esercizio** nei duelli: scelta multipla, ⌨️ esponente da scrivere con il tastierino, ⏱️ vero/falso a tempo, 🔍 trova l'errore di Lavinia, 🧱 costruisci la potenza con le tessere. Il mix cambia con il livello.
 - **Esercizi sempre nuovi**: un generatore crea esercizi casuali per ogni regola. Le risposte sbagliate nascono dagli errori tipici e ogni errore ha la sua spiegazione.
 - **Soluzione passo-passo** dopo ogni risposta.
+- **🔤 Opzioni di lettura** (pulsante **Aa** in alto, oppure Profilo → Lettura), salvate per ogni profilo:
+  - testo Normale, Grande o Molto grande;
+  - carattere **OpenDyslexic** o **Leggibile** (Atkinson Hyperlegible) per chi ha la dislessia;
+  - più spazio tra lettere e righe;
+  - testo subito, senza effetto macchina da scrivere;
+  - lettura ad alta voce con il pulsante 🔈 Ascolta, anche automatica a ogni dialogo, velocità lenta o normale. Le formule sono lette a parole (es. "2 alla 3 per 2 alla 4").
 - **🧮 Calcolatrice** nella barra in basso, per chi ha difficoltà con i calcoli (discalculia). Fa solo + − × ÷, con la precedenza della scuola. Si apre sopra la scena: l'esercizio e le risposte restano visibili. Nessun tasto per le potenze: le regole restano da applicare.
 - **Aura**: +50 per ogni risposta giusta, bonus combo per le risposte giuste di fila, −10 per ogni errore. Spendi 20 Aura per un "Aiutino".
 - **Stelle (1–3)** per ogni area, in base agli errori nel duello.
@@ -79,6 +85,8 @@ Nessuna dipendenza esterna e nessuna compilazione: GitHub Pages pubblica i file 
 | `js/generator.js` | Generatore di esercizi casuali per ogni regola |
 | `js/exercises.js` | Difficoltà adattiva e 5 tipi di esercizio |
 | `js/calculator.js` | Calcolatrice (+ − × ÷) che copre solo la scena |
+| `js/reading.js` | Opzioni di lettura e lettura ad alta voce |
+| `fonts/` | Font OpenDyslexic e Atkinson Hyperlegible (SIL Open Font License) |
 | `js/characters.js` | Personaggi SVG animati |
 | `js/scenes.js` | Scene SVG animate (schermata iniziale, aree e stanze) |
 | `js/world.js` | Motore dell'esplorazione: stanze, fumetto azioni, oggetti, lucchetti, domande lampo, missioni |
@@ -107,7 +115,7 @@ Il gioco è una PWA: dopo la prima apertura funziona anche **senza Internet**.
 
 ## 🧪 Test automatici
 
-A ogni pull request GitHub esegue i test (`.github/workflows/test.yml`): generatore di esercizi, tipi di esercizio, calcolatrice, tutte le stanze, una partita completa con i ritorni, gioco offline, salvataggi vecchi.
+A ogni pull request GitHub esegue i test (`.github/workflows/test.yml`): generatore di esercizi, tipi di esercizio, calcolatrice, opzioni di lettura, tutte le stanze, una partita completa con i ritorni, gioco offline, salvataggi vecchi.
 
 Per eseguirli sul computer:
 
