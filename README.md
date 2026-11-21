@@ -47,10 +47,13 @@ L'avventura combina dialoghi in stile pop/moderno, scene animate in grafica vett
 - **Frasi variabili**: molti dialoghi hanno più versioni, scelte a caso a ogni partita.
 - **Oggetti a catena**: il premio di ogni guardiano serve nell'area successiva (Chiave → porta della Taverna, Cannocchiale → Archimede, Lente → lucernario del vivaio, Seme → vaso del magazzino, Chiave Inglese → botola del Faro).
 - **Diario di Lavinia**: 5 pagine nascoste, una per area. Trovarle tutte sblocca il finale segreto.
-- **Negozio dell'Aura**: cappelli, tuniche, sciarpe, zaini e occhiali per Aria.
+- **Negozio dell'Aura**: la bancarella di **Zia Turbina**, mercante svalvolata, nella Piazza del Mercato. Vende vestiti per Aria e oggetti utili: ❤️ cuore extra, 💡 pergamena aiutino, 🧪 pozione Doppia Aura, 🧭 bussola dei tesori.
 - **Medaglie**: 12 traguardi (zero errori, tutte le Curiosità, tutte le stelle...).
 - **Profili**: fino a 6 giocatrici sullo stesso dispositivo, ognuna con il suo salvataggio.
-- **Mappa illustrata**: tocca un luogo per viaggiare, anche nelle aree già completate.
+- **Isola a rete con due punti centrali**: la **Piazza del Mercato** (Molo, Taverna, Torre) e il **Belvedere** (Torre, Serra, Officina, Faro), più il ponte tra Serra e Officina.
+- **Mappa illustrata** con viaggio rapido solo tra Molo, Piazza e Belvedere: gli altri luoghi si raggiungono a piedi.
+- **Enigmi con numeri casuali**, diversi per ogni profilo: nessuno può copiare la soluzione dalla compagna. Il gioco non dà mai il risultato, solo la regola da usare.
+- **Oggetti sparsi** tra le aree: per completare le missioni bisogna tornare indietro (es. la rete dell'Officina serve per il doblone in fondo al mare del Molo).
 - **Duello**: ogni guardiano ha una barra di vita. Ogni risposta giusta è un colpo. Aria ha 3 cuori.
 - **Esercizi sempre nuovi**: un generatore crea esercizi casuali per ogni regola. Le risposte sbagliate nascono dagli errori tipici e ogni errore ha la sua spiegazione.
 - **Soluzione passo-passo** dopo ogni risposta.

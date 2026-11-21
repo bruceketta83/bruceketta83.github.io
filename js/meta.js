@@ -78,9 +78,37 @@ const SHOP = [
 function shopOwned(item) { return item.price === 0 || state.owned.includes(item.id); }
 function shopEquipped(item) { return (state.look[item.slot] || null) === item.value; }
 
+/* Oggetti utili (si consumano, tranne la Bussola). */
+const CONSUMABLES = [
+  { id: 'cuore', icon: '❤️', name: 'Cuore extra', desc: 'Nel prossimo duello parti con 4 cuori invece di 3.', price: 80 },
+  { id: 'aiuto', icon: '💡', name: 'Pergamena aiutino', desc: 'Un "Aiutino" gratis in un duello (toglie una risposta sbagliata).', price: 40 },
+  { id: 'pozione', icon: '🧪', name: 'Pozione Doppia Aura', desc: 'Nel prossimo duello ogni risposta giusta vale il doppio di Aura.', price: 120 },
+  { id: 'bussola', icon: '🧭', name: 'Bussola dei tesori', desc: 'Per sempre: sulla mappa vedi dove mancano oggetti da raccogliere.', price: 150, once: true }
+];
+function consCount(id) { return (state.cons && state.cons[id]) || 0; }
+function useCons(id) {
+  if (consCount(id) <= 0) return false;
+  state.cons[id]--;
+  saveState();
+  return true;
+}
+
+function refreshShopViews() {
+  if ($('modal-shop').classList.contains('open')) renderShop();
+  if ($('modal-profile').classList.contains('open')) renderProfile();
+  if (gameStarted && !duel) {
+    const flip = $('aria-flip');
+    if (flip) flip.innerHTML = CHARS.aria.draw();
+  }
+}
+
 function shopPick(id) {
   const item = SHOP.find(i => i.id === id);
   if (!shopOwned(item)) {
+    if (!$('modal-shop').classList.contains('open')) {
+      toast('Questo si compra da <b>Zia Turbina</b> nella Piazza del Mercato!');
+      return;
+    }
     if (state.aura < item.price) {
       playSound('error');
       toast(`Ti servono <b>${item.price} Aura</b>. Ne hai ${state.aura}. Vinci duelli e completa missioni!`);
@@ -89,7 +117,7 @@ function shopPick(id) {
     state.aura -= item.price;
     state.owned.push(item.id);
     playSound('victory');
-    toast(`🛍️ Comprato: <b>${item.name}</b> (−${item.price} Aura)`);
+    toast(`🛍️ Comprato: <b>${item.name}</b> (−${item.price} Aura). ${say(TURBINA.bought)}`);
   } else {
     playSound('blip');
   }
@@ -97,46 +125,99 @@ function shopPick(id) {
   else state.look[item.slot] = item.value;
   saveState();
   updateHUD();
-  renderProfile('shop');
-  // Ridisegna Aria nella scena con il nuovo look.
-  if (gameStarted && !duel) {
-    const el = $('char-aria');
-    const flip = $('aria-flip');
-    if (el && flip) flip.innerHTML = CHARS.aria.draw();
+  refreshShopViews();
+}
+
+function buyConsumable(id) {
+  const c = CONSUMABLES.find(x => x.id === id);
+  if (c.once && flag(id)) { toast('Ce l’hai già! Zia Turbina dice: "Due bussole fanno girare la testa."'); return; }
+  if (state.aura < c.price) {
+    playSound('error');
+    toast(`Ti servono <b>${c.price} Aura</b>. Ne hai ${state.aura}.`);
+    return;
   }
+  state.aura -= c.price;
+  if (c.once) state.flags[id] = true;
+  else state.cons[id] = consCount(id) + 1;
+  playSound('victory');
+  toast(`${c.icon} Comprato: <b>${c.name}</b>! ${say(TURBINA.bought)}`);
+  saveState();
+  updateHUD();
+  refreshShopViews();
+}
+
+function cosmeticsHTML(onlyOwned) {
+  let body = '';
+  SHOP_SLOTS.forEach(slot => {
+    const items = SHOP.filter(i => i.slot === slot.id && (!onlyOwned || shopOwned(i)));
+    if (!items.length) return;
+    body += `<div class="inv-section">${slot.name}</div><div class="shop-grid">`;
+    items.forEach(i => {
+      const owned = shopOwned(i);
+      const eq = shopEquipped(i);
+      const sw = i.color ? `<span class="swatch" style="background:${i.color}"></span>` : `<span class="swatch-emoji">${i.swatch}</span>`;
+      body += `<button class="shop-item ${eq ? 'equipped' : ''} ${owned ? 'owned' : ''}" onclick="shopPick('${i.id}')">
+        ${sw}<span class="shop-item-name">${i.name}</span>
+        <span class="shop-price">${eq ? '✓ Indossato' : owned ? 'Indossa' : `✨ ${i.price}`}</span></button>`;
+    });
+    body += '</div>';
+  });
+  return body;
+}
+
+/* Negozio: si apre solo parlando con Zia Turbina in Piazza. */
+function openShop() {
+  playSound('blip');
+  renderShop();
+  $('modal-shop').classList.add('open');
+}
+
+function renderShop() {
+  const c = $('shop-content');
+  const useful = CONSUMABLES.map(x => {
+    const have = x.once ? (flag(x.id) ? '✓ Tua' : '') : (consCount(x.id) ? `Ne hai ${consCount(x.id)}` : '');
+    return `<button class="cons-item" onclick="buyConsumable('${x.id}')">
+      <span class="cons-icon">${x.icon}</span>
+      <span class="cons-text"><b>${x.name}</b><small>${x.desc}</small>${have ? `<em>${have}</em>` : ''}</span>
+      <span class="shop-price">${x.once && flag(x.id) ? '✓' : `✨ ${x.price}`}</span></button>`;
+  }).join('');
+  c.innerHTML = `<div class="shop-head">
+      <svg viewBox="${CHARS.turbina.portraitVB}" class="shop-preview small">${CHARS.turbina.draw()}</svg>
+      <div><div class="shop-name">🌀 Zia Turbina</div><div class="shop-aura">✨ ${state.aura} Aura</div>
+      <div class="inv-desc">"${say(['Tocca, compra, indossa! Restituzioni? Mai sentite.', 'Tutto originale! Tranne quello che non lo è.', 'Prezzi esponenziali! Cioè... normali. Ma il nome è bello.'])}"</div></div>
+    </div>
+    <div class="inv-section">🧪 Oggetti utili</div>
+    <div class="cons-list">${useful}</div>
+    <div class="shop-head small-head">
+      <svg viewBox="-26 -70 52 76" class="shop-preview">${CHARS.aria.draw()}</svg>
+      <div><div class="shop-name">👗 Look di Aria</div><div class="inv-desc">Tocca per comprare o indossare.</div></div>
+    </div>
+    ${cosmeticsHTML(false)}`;
 }
 
 /* --------------------------------------------------------------------------
-   MODALE PROFILO: NEGOZIO + MEDAGLIE
+   MODALE PROFILO: ARMADIO + MEDAGLIE
    -------------------------------------------------------------------------- */
-let profileTab = 'shop';
+let profileTab = 'wardrobe';
 function renderProfile(tab) {
-  if (tab) profileTab = tab;
+  if (tab) profileTab = tab === 'shop' ? 'wardrobe' : tab;
   const c = $('profile-content');
   const me = currentProfile();
   const tabs = `<div class="tabs">
-    <button class="${profileTab === 'shop' ? 'on' : ''}" onclick="renderProfile('shop')">🛍️ Negozio</button>
+    <button class="${profileTab === 'wardrobe' ? 'on' : ''}" onclick="renderProfile('wardrobe')">👗 Armadio</button>
     <button class="${profileTab === 'medals' ? 'on' : ''}" onclick="renderProfile('medals')">🏅 Medaglie ${state.medals.length}/${MEDALS.length}</button>
   </div>`;
   let body = '';
-  if (profileTab === 'shop') {
+  if (profileTab === 'wardrobe') {
+    const cons = CONSUMABLES.filter(x => !x.once && consCount(x.id)).map(x => `${x.icon} ${x.name} ×${consCount(x.id)}`)
+      .concat(CONSUMABLES.filter(x => x.once && flag(x.id)).map(x => `${x.icon} ${x.name}`));
     body = `<div class="shop-head">
         <svg viewBox="-26 -70 52 76" class="shop-preview">${CHARS.aria.draw()}</svg>
         <div><div class="shop-name">👤 ${me.name}</div><div class="shop-aura">✨ ${state.aura} Aura</div>
-        <div class="inv-desc">Tocca un oggetto per comprarlo o indossarlo.</div></div>
-      </div>`;
-    SHOP_SLOTS.forEach(slot => {
-      body += `<div class="inv-section">${slot.name}</div><div class="shop-grid">`;
-      SHOP.filter(i => i.slot === slot.id).forEach(i => {
-        const owned = shopOwned(i);
-        const eq = shopEquipped(i);
-        const sw = i.color ? `<span class="swatch" style="background:${i.color}"></span>` : `<span class="swatch-emoji">${i.swatch}</span>`;
-        body += `<button class="shop-item ${eq ? 'equipped' : ''} ${owned ? 'owned' : ''}" onclick="shopPick('${i.id}')">
-          ${sw}<span class="shop-item-name">${i.name}</span>
-          <span class="shop-price">${eq ? '✓ Indossato' : owned ? 'Indossa' : `✨ ${i.price}`}</span></button>`;
-      });
-      body += '</div>';
-    });
+        <div class="inv-desc">Vuoi altri vestiti o oggetti utili? Vai da <b>Zia Turbina</b> nella Piazza del Mercato!</div></div>
+      </div>
+      ${cons.length ? `<div class="inv-section">🧪 I tuoi oggetti utili</div><div class="inv-desc">${cons.join(' · ')}</div>` : ''}
+      ${cosmeticsHTML(true)}`;
   } else {
     body = '<div class="medal-grid">' + MEDALS.map(m => {
       const on = state.medals.includes(m.id);
@@ -219,70 +300,107 @@ function deleteProfile(id) {
 }
 
 /* --------------------------------------------------------------------------
-   MAPPA ILLUSTRATA DELL'ISOLA
+   MAPPA ILLUSTRATA DELL'ISOLA (rete di strade e punti centrali)
    -------------------------------------------------------------------------- */
+/* Luoghi della mappa: area, stanza, posizione. hub = viaggio rapido. */
 const MAP_NODES = [
-  { x: 78, y: 336, icon: '⚓' },
-  { x: 214, y: 306, icon: '🍺' },
-  { x: 92, y: 230, icon: '🔭' },
-  { x: 228, y: 196, icon: '🌺' },
-  { x: 108, y: 132, icon: '⚙️' },
-  { x: 206, y: 62, icon: '🌟' }
+  { id: 'molo', area: 0, room: 'spiaggia', x: 62, y: 352, icon: '⚓', name: 'Molo', hub: true, unlock: () => true },
+  { id: 'piazza', area: 1, room: 'piazza', x: 150, y: 318, icon: '🏛️', name: 'Piazza del Mercato', hub: true, unlock: () => state.unlockedArea >= 1 },
+  { id: 'taverna', area: 1, room: 'strada', x: 244, y: 350, icon: '🍺', name: 'Taverna', unlock: () => state.unlockedArea >= 1 },
+  { id: 'torre', area: 2, room: 'terrazza', x: 92, y: 236, icon: '🔭', name: 'Torre', unlock: () => state.unlockedArea >= 2 },
+  { id: 'belvedere', area: 2, room: 'belvedere', x: 172, y: 176, icon: '🎈', name: 'Belvedere', hub: true, unlock: () => state.completedAreas.includes(2) },
+  { id: 'serra', area: 3, room: 'giardino', x: 250, y: 222, icon: '🌺', name: 'Serra', unlock: () => state.unlockedArea >= 3 },
+  { id: 'officina', area: 4, room: 'officina', x: 74, y: 124, icon: '⚙️', name: 'Officina', unlock: () => state.unlockedArea >= 4 },
+  { id: 'faro', area: 5, room: 'scala', x: 204, y: 60, icon: '🌟', name: 'Faro', unlock: () => state.unlockedArea >= 5 }
 ];
+const MAP_EDGES = [
+  ['molo', 'piazza'], ['piazza', 'taverna'], ['piazza', 'torre'], ['torre', 'belvedere'],
+  ['belvedere', 'serra'], ['belvedere', 'officina'], ['belvedere', 'faro'], ['officina', 'faro'], ['serra', 'officina', 'ponte']
+];
+/* Punto centrale da cui si raggiunge a piedi ogni luogo. */
+const MAP_VIA = { taverna: 'Piazza del Mercato', torre: 'Piazza del Mercato', serra: 'Belvedere', officina: 'Belvedere', faro: 'Belvedere' };
+/* Dove si trova ogni pezzo da raccogliere (per la Bussola dei tesori). */
+const PIECE_PLACES = {
+  coin1: ['molo', '🪙'], coin2: ['taverna', '🪙'], coin3: ['molo', '🪙'],
+  mug1: ['torre', '🍺'], mug2: ['taverna', '🍺'], mug3: ['serra', '🍺'],
+  bul1: ['officina', '🔩'], bul2: ['molo', '🔩'], bul3: ['torre', '🔩'],
+  dia1: ['molo', '📓'], dia2: ['taverna', '📓'], dia3: ['torre', '📓'], dia4: ['serra', '📓'], dia5: ['faro', '📓']
+};
+
+function currentMapNode() {
+  const a = state.currentArea;
+  const r = currentRoomId(AREAS[a]);
+  if (a === 1) return r === 'piazza' ? 'piazza' : 'taverna';
+  if (a === 2) return r === 'belvedere' ? 'belvedere' : 'torre';
+  return MAP_NODES.find(n => n.area === a).id;
+}
 
 function renderMap() {
   const c = $('map-content');
-  const path = MAP_NODES.map((n, i) => `${i ? 'L' : 'M'}${n.x} ${n.y}`).join(' ');
-  const nodes = AREAS.map((area, i) => {
-    const n = MAP_NODES[i];
-    const unlocked = area.id <= state.unlockedArea;
-    const completed = state.completedAreas.includes(area.id);
-    const current = area.id === state.currentArea;
-    const fill = completed ? '#10b981' : unlocked ? '#f59e0b' : '#475569';
-    const stars = completed ? '⭐'.repeat(state.stars[area.id] || 0) : '';
-    const label = area.name.replace(/^\d+\.\s*/, '').replace(/\s*\(.*\)$/, '');
-    return `<g class="map-node ${unlocked ? 'unlocked' : 'locked'}" data-area="${area.id}" transform="translate(${n.x} ${n.y})">
-      ${current ? '<circle r="27" fill="none" stroke="#fde047" stroke-width="2.5" class="map-pulse"/>' : ''}
-      <circle r="20" fill="${fill}" stroke="#0f172a" stroke-width="3"/>
-      <text y="7" font-size="19" text-anchor="middle">${unlocked ? n.icon : '🔒'}</text>
-      <rect x="-56" y="24" width="112" height="${stars ? 30 : 18}" rx="7" fill="rgba(15,23,42,0.85)"/>
-      <text y="37" font-size="9.5" fill="#f8fafc" text-anchor="middle" font-weight="800" font-family="-apple-system, Segoe UI, Roboto, sans-serif">${label}</text>
-      ${stars ? `<text y="49" font-size="8" text-anchor="middle">${stars}</text>` : ''}
-      ${current ? '<g class="map-pin"><text x="0" y="-26" font-size="18" text-anchor="middle">📍</text></g>' : ''}
+  const byId = Object.fromEntries(MAP_NODES.map(n => [n.id, n]));
+  const here = currentMapNode();
+  const bussola = flag('bussola');
+  const missing = {};
+  if (bussola) {
+    Object.entries(PIECE_PLACES).forEach(([f, [place, icon]]) => {
+      if (!flag(f)) missing[place] = (missing[place] || '') + icon;
+    });
+  }
+  const edges = MAP_EDGES.map(([a, b, kind]) => {
+    const A = byId[a], B = byId[b];
+    const open = A.unlock() && B.unlock();
+    return `<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" stroke="${kind ? '#a16207' : '#fef3c7'}" stroke-width="${kind ? 2.5 : 3}" stroke-dasharray="${kind ? '6 3' : '2 6'}" stroke-linecap="round" opacity="${open ? 0.95 : 0.35}"/>`;
+  }).join('');
+  const nodes = MAP_NODES.map(n => {
+    const unlocked = n.unlock();
+    const completed = state.completedAreas.includes(n.area) && !n.hub;
+    const fill = n.hub ? '#0ea5e9' : completed ? '#10b981' : unlocked ? '#f59e0b' : '#475569';
+    const stars = completed ? '⭐'.repeat(state.stars[n.area] || 0) : '';
+    const miss = unlocked && missing[n.id] ? missing[n.id] : '';
+    const lines = (stars ? 1 : 0) + (miss ? 1 : 0);
+    return `<g class="map-node ${unlocked ? 'unlocked' : 'locked'} ${n.hub ? 'hub' : ''}" data-node="${n.id}" transform="translate(${n.x} ${n.y})">
+      ${n.id === here ? '<circle r="27" fill="none" stroke="#fde047" stroke-width="2.5" class="map-pulse"/>' : ''}
+      <circle r="${n.hub ? 21 : 18}" fill="${fill}" stroke="${n.hub ? '#e0f2fe' : '#0f172a'}" stroke-width="3"/>
+      <text y="6" font-size="${n.hub ? 18 : 16}" text-anchor="middle">${unlocked ? n.icon : '🔒'}</text>
+      <rect x="-50" y="22" width="100" height="${16 + lines * 11}" rx="7" fill="rgba(15,23,42,0.85)"/>
+      <text y="33" font-size="9" fill="#f8fafc" text-anchor="middle" font-weight="800" font-family="-apple-system, Segoe UI, Roboto, sans-serif">${n.hub ? '✈ ' : ''}${n.name}</text>
+      ${stars ? `<text y="45" font-size="7.5" text-anchor="middle">${stars}</text>` : ''}
+      ${miss ? `<text y="${stars ? 56 : 45}" font-size="7.5" text-anchor="middle">${miss}</text>` : ''}
+      ${n.id === here ? '<g class="map-pin"><text x="0" y="-24" font-size="16" text-anchor="middle">📍</text></g>' : ''}
     </g>`;
   }).join('');
 
   c.innerHTML = `
     <svg viewBox="0 0 300 410" class="island-map">
       <defs>
-        <radialGradient id="mp-sea" cx="0.5" cy="0.5" r="0.75">
-          <stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#1e3a8a"/>
-        </radialGradient>
-        <linearGradient id="mp-land" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#4d7c0f"/><stop offset="1" stop-color="#65a30d"/>
-        </linearGradient>
+        <radialGradient id="mp-sea" cx="0.5" cy="0.5" r="0.75"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#1e3a8a"/></radialGradient>
+        <linearGradient id="mp-land" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4d7c0f"/><stop offset="1" stop-color="#65a30d"/></linearGradient>
       </defs>
       <rect width="300" height="410" fill="url(#mp-sea)"/>
       <g class="wave" style="animation-duration:9s"><path d="${wavePath(30, 2)}" stroke="#bae6fd" stroke-opacity="0.35" fill="none"/></g>
-      <g class="wave" style="animation-duration:12s;animation-direction:reverse"><path d="${wavePath(392, 2)}" stroke="#bae6fd" stroke-opacity="0.35" fill="none"/></g>
-      <!-- Isola -->
+      <g class="wave" style="animation-duration:12s;animation-direction:reverse"><path d="${wavePath(395, 2)}" stroke="#bae6fd" stroke-opacity="0.35" fill="none"/></g>
       <path d="M150 22 Q228 26 262 82 Q290 140 268 212 Q292 288 252 346 Q206 398 120 392 Q40 384 26 318 Q12 248 46 190 Q26 120 70 66 Q100 24 150 22 Z" fill="#f6d38b"/>
       <path d="M150 34 Q220 38 250 88 Q274 140 254 210 Q276 284 240 334 Q200 380 124 376 Q54 368 42 312 Q30 250 62 192 Q44 124 82 74 Q108 36 150 34 Z" fill="url(#mp-land)"/>
-      <path d="M180 40 Q206 30 230 60 L206 80 Z" fill="#78716c"/>
-      <!-- Decorazioni -->
-      <g fill="#166534">${[[60, 280], [250, 250], [160, 150], [240, 120], [56, 160]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="7"/><circle cx="${x + 7}" cy="${y + 3}" r="5"/>`).join('')}</g>
-      <g transform="translate(266 384)"><circle r="14" fill="#fef3c7" opacity="0.9"/><path d="M0 -12 L3 0 L0 12 L-3 0 Z" fill="#dc2626"/><text y="-15" font-size="8" text-anchor="middle" fill="#fef3c7" font-weight="900">N</text></g>
-      <g class="bob" transform="translate(30 380)"><path d="M-10 0 L10 0 L7 4 L-7 4 Z" fill="#7c2d12"/><path d="M0 0 L0 -14 L8 -4 Z" fill="#fef3c7"/></g>
-      <!-- Sentiero -->
-      <path d="${path}" stroke="#fef3c7" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round" fill="none" opacity="0.9"/>
+      <path d="M150 90 Q200 30 250 96 Z" fill="#78716c" opacity="0.8"/>
+      <g fill="#166534">${[[60, 290], [262, 280], [140, 260], [236, 140], [52, 176], [120, 120]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="7"/><circle cx="${x + 7}" cy="${y + 3}" r="5"/>`).join('')}</g>
+      <g transform="translate(270 386)"><circle r="13" fill="#fef3c7" opacity="0.9"/><path d="M0 -11 L3 0 L0 11 L-3 0 Z" fill="#dc2626"/><text y="-14" font-size="8" text-anchor="middle" fill="#fef3c7" font-weight="900">N</text></g>
+      ${edges}
       ${nodes}
     </svg>
-    <p class="map-hint">Tocca un luogo sbloccato per viaggiare. Puoi tornare quando vuoi nelle aree già visitate.</p>`;
+    <p class="map-hint">✈ = viaggio rapido (Molo, Piazza, Belvedere). Gli altri luoghi si raggiungono a piedi dal punto centrale più vicino.${bussola ? ' 🧭 La Bussola mostra gli oggetti ancora da trovare.' : ' Con la 🧭 Bussola di Zia Turbina vedi dove mancano oggetti.'}</p>`;
 
   c.querySelectorAll('.map-node.unlocked').forEach(g => {
     g.addEventListener('click', () => {
+      const n = byId[g.dataset.node];
+      if (n.id === here) { closeModal('map'); return; }
+      if (!n.hub) {
+        playSound('error');
+        toast(`🚶 ${n.name}: si raggiunge a piedi dal <b>${MAP_VIA[n.id]}</b>.`);
+        return;
+      }
       closeModal('map');
-      renderArea(Number(g.dataset.area));
+      playSound('success');
+      travelTo(n.area, n.room);
     });
   });
 }

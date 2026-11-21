@@ -8,7 +8,7 @@ const RULES_DATA = [
     short: 'Prodotto, stessa base',
     formula: 'a<sup>m</sup> · a<sup>n</sup> = a<sup>m + n</sup>',
     desc: 'Quando moltiplichi due potenze che hanno la <b>stessa base</b>, il risultato è una potenza che ha per base la stessa base e per esponente la <b>somma degli esponenti</b>.',
-    example: 'Esempio: 2<sup>3</sup> · 2<sup>4</sup> = 2<sup>3+4</sup> = 2<sup>7</sup>'
+    example: 'Esempio: 3<sup>2</sup> · 3<sup>5</sup> = 3<sup>2+5</sup> = 3<sup>7</sup>'
   },
   {
     id: 'quot_same_base',
@@ -24,7 +24,7 @@ const RULES_DATA = [
     short: 'Potenza di potenza',
     formula: '(a<sup>m</sup>)<sup>n</sup> = a<sup>m · n</sup>',
     desc: 'Quando elevi una potenza a un altro esponente, il risultato è una potenza che ha per base la stessa base e per esponente il <b>prodotto degli esponenti</b>.',
-    example: 'Esempio: (3<sup>2</sup>)<sup>4</sup> = 3<sup>2·4</sup> = 3<sup>8</sup>'
+    example: 'Esempio: (5<sup>3</sup>)<sup>2</sup> = 5<sup>3·2</sup> = 5<sup>6</sup>'
   },
   {
     id: 'zero_one_exp',
@@ -32,7 +32,7 @@ const RULES_DATA = [
     short: 'Esponente 0 e 1',
     formula: 'a<sup>0</sup> = 1 (con a ≠ 0)  |  a<sup>1</sup> = a',
     desc: 'Qualsiasi numero diverso da zero elevato a <b>0</b> dà sempre <b>1</b>. Qualsiasi numero elevato a <b>1</b> rimane se stesso. Attenzione: <b>0<sup>0</sup> non ha significato</b>.',
-    example: 'Esempio: 458<sup>0</sup> = 1  |  9<sup>1</sup> = 9'
+    example: 'Esempio: 2026<sup>0</sup> = 1  |  9<sup>1</sup> = 9'
   },
   {
     id: 'same_exp',
@@ -40,7 +40,7 @@ const RULES_DATA = [
     short: 'Stesso esponente',
     formula: 'a<sup>n</sup> · b<sup>n</sup> = (a · b)<sup>n</sup>  |  a<sup>n</sup> : b<sup>n</sup> = (a : b)<sup>n</sup>',
     desc: 'Se due potenze hanno lo <b>stesso esponente</b> ma basi diverse, si moltiplicano (o dividono) prima le basi e si lascia lo <b>stesso esponente</b>.',
-    example: 'Esempio: 2<sup>3</sup> · 5<sup>3</sup> = (2 · 5)<sup>3</sup> = 10<sup>3</sup>'
+    example: 'Esempio: 4<sup>3</sup> · 5<sup>3</sup> = (4 · 5)<sup>3</sup> = 20<sup>3</sup>'
   }
 ];
 

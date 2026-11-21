@@ -1277,7 +1277,7 @@ SCENES.biblioteca = {
 
     <!-- Lavagna -->
     <rect x="226" y="44" width="56" height="40" rx="2" fill="#14532d" stroke="#78350f" stroke-width="3"/>
-    <text x="254" y="62" font-size="10" fill="#f8fafc" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">(2³)² = ?</text>
+    <text x="254" y="62" font-size="10" fill="#f8fafc" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">${(() => { const P = P_torre(); return `(${P.b}${toSup(P.m)})${toSup(P.n)} = ?`; })()}</text>
     <path d="M234 72 Q246 76 258 70 M260 74 L272 74" stroke="#f8fafc" stroke-width="0.8" opacity="0.6" fill="none"/>
 
     <!-- Scrivania con candela -->
@@ -1377,7 +1377,7 @@ SCENES.magazzino = {
       <rect x="-34" y="-62" width="68" height="3" rx="1" fill="#d97706"/>
       <path d="M-30 -60 L-38 -40 M-30 -60 L-22 -40 M30 -60 L22 -40 M30 -60 L38 -40" stroke="#a16207" stroke-width="0.8"/>
       <path d="M-40 -40 Q-30 -34 -20 -40 Z" fill="#fbbf24"/><path d="M20 -40 Q30 -34 40 -40 Z" fill="#fbbf24"/>
-      <text x="-30" y="-44" font-size="7" fill="#fef3c7" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">2⁴·5⁴</text>
+      <text x="-30" y="-44" font-size="7" fill="#fef3c7" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">${(() => { const P = P_bilancia(); return `${P.a}${toSup(P.n)}·${P.b}${toSup(P.n)}`; })()}</text>
       <text x="30" y="-44" font-size="8" fill="#fef3c7" text-anchor="middle" font-family="Courier New, monospace" font-weight="700">?</text>
       <circle cy="-62" r="3" fill="#b45309"/>
     </g>
@@ -1437,6 +1437,136 @@ SCENES.scala = {
     <!-- Pavimento -->
     <rect y="186" width="400" height="34" fill="#334155"/>
     <path d="M0 198 L400 198 M0 210 L400 210" stroke="#1e293b" stroke-width="1"/>
+    `;
+  }
+};
+
+/* ==========================================================================
+   PUNTO CENTRALE SUD: LA PIAZZA DEL MERCATO (banco di Zia Turbina)
+   ========================================================================== */
+SCENES.piazza = {
+  bg() {
+    const torreOpen = typeof state !== 'undefined' && state.unlockedArea >= 2;
+    const houses = [[0, 70, 52, '#be185d'], [50, 84, 46, '#0e7490'], [330, 76, 44, '#a16207'], [372, 66, 40, '#7c3aed']].map(([x, y, w, c]) => `
+      <rect x="${x}" y="${y}" width="${w}" height="${186 - y}" fill="${c}"/>
+      <polygon points="${x - 4},${y} ${x + w + 4},${y} ${x + w / 2},${y - 18}" fill="#7f1d1d"/>
+      <rect x="${x + 8}" y="${y + 14}" width="10" height="12" fill="#fde68a" opacity="0.8"/>
+      <rect x="${x + w - 18}" y="${y + 14}" width="10" height="12" fill="#fde68a" opacity="0.6"/>`).join('');
+    const flags = [];
+    for (let i = 0; i < 14; i++) {
+      const x = 20 + i * 27;
+      const y = 30 + Math.sin(i / 2) * 4;
+      flags.push(`<polygon points="${x},${y} ${x + 10},${y} ${x + 5},${y + 10}" fill="${['#ef4444', '#facc15', '#22d3ee', '#a855f7', '#22c55e'][i % 5]}"/>`);
+    }
+    const stones = [];
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 15; c++) stones.push(`<ellipse cx="${c * 28 + (r % 2 ? 14 : 0)}" cy="${192 + r * 10}" rx="12" ry="4" fill="#57534e" opacity="${0.5 + (c % 3) * 0.15}"/>`);
+    const goods = [['#ec4899', 82], ['#22d3ee', 96], ['#a3e635', 110], ['#f97316', 150], ['#a855f7', 164]].map(([c, x]) =>
+      `<rect x="${x - 4}" y="138" width="8" height="10" rx="2" fill="${c}"/><rect x="${x - 1.5}" y="134" width="3" height="4" fill="${c}"/>`).join('');
+    return `
+    <defs>
+      <linearGradient id="pz-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1e1b4b"/><stop offset="0.5" stop-color="#7c3aed"/><stop offset="1" stop-color="#fb923c"/>
+      </linearGradient>
+    </defs>
+    <rect width="400" height="220" fill="url(#pz-sky)"/>
+    <g class="drift" style="animation-duration:100s;animation-delay:-30s"><g fill="#fbcfe8" opacity="0.3"><ellipse cx="0" cy="50" rx="30" ry="6"/></g></g>
+
+    <!-- Collina con la Torre in lontananza -->
+    <path d="M220 130 Q280 60 360 120 L360 186 L220 186 Z" fill="#4c1d95" opacity="0.7"/>
+    <rect x="292" y="62" width="10" height="30" fill="#312e81"/><path d="M289 64 Q297 52 305 64 Z" fill="#4338ca"/>
+
+    ${houses}
+
+    <!-- Cancello del sentiero per la Torre -->
+    <rect x="280" y="112" width="6" height="74" fill="#57534e"/><rect x="318" y="112" width="6" height="74" fill="#57534e"/>
+    <path d="M280 114 Q302 96 324 114" stroke="#57534e" stroke-width="6" fill="none"/>
+    <rect x="288" y="96" width="28" height="9" rx="2" fill="#fef3c7"/>
+    <text x="302" y="103" font-size="6" fill="#78350f" text-anchor="middle" font-weight="900">TORRE ⬆</text>
+    ${torreOpen ? '' : '<path d="M287 120 L287 186 M295 118 L295 186 M303 117 L303 186 M311 118 L311 186 M318 120 L318 186" stroke="#292524" stroke-width="2"/><rect x="286" y="146" width="33" height="3" fill="#292524"/>'}
+
+    <!-- Bandierine -->
+    <path d="M0 28 Q100 40 200 30 T400 28" stroke="#1c1917" stroke-width="0.8" fill="none"/>
+    <g class="flicker" style="animation-duration:6s">${flags.join('')}</g>
+
+    <!-- Banco di Zia Turbina -->
+    <rect x="66" y="96" width="4" height="56" fill="#78350f"/><rect x="176" y="96" width="4" height="56" fill="#78350f"/>
+    <path d="M60 96 L186 96 L180 112 L66 112 Z" fill="#ef4444"/>
+    <path d="M74 96 L82 112 M90 96 L98 112 M106 96 L114 112 M122 96 L130 112 M138 96 L146 112 M154 96 L162 112 M170 96 L176 108" stroke="#fef3c7" stroke-width="5"/>
+    <path d="M66 112 Q72 118 78 112 Q84 118 90 112 Q96 118 102 112 Q108 118 114 112 Q120 118 126 112 Q132 118 138 112 Q144 118 150 112 Q156 118 162 112 Q168 118 174 112 Q177 116 180 112" fill="#ef4444"/>
+    <rect x="62" y="148" width="122" height="38" rx="2" fill="#92400e"/>
+    <rect x="62" y="146" width="122" height="5" rx="1.5" fill="#b45309"/>
+    ${goods}
+    <path d="M124 146 Q130 136 136 146 Z" fill="#facc15"/><rect x="122" y="144" width="16" height="2" fill="#facc15"/>
+    <rect x="80" y="160" width="86" height="14" rx="2" fill="#fef3c7"/>
+    <text x="123" y="170" font-size="6.5" fill="#b91c1c" text-anchor="middle" font-weight="900" font-family="Georgia, serif">COSE ESPONENZIALI!</text>
+
+    <!-- Fontana -->
+    <ellipse cx="226" cy="184" rx="30" ry="7" fill="#57534e"/>
+    <ellipse cx="226" cy="181" rx="27" ry="5" fill="#38bdf8"/>
+    <rect x="222" y="150" width="8" height="31" fill="#78716c"/>
+    <ellipse cx="226" cy="150" rx="12" ry="3" fill="#a8a29e"/>
+    <path class="shimmer" d="M226 148 Q214 140 206 178 M226 148 Q238 140 246 178" stroke="#bae6fd" stroke-width="2" fill="none" style="animation-duration:1.2s"/>
+    <circle class="shimmer" cx="226" cy="144" r="3" fill="#bae6fd" style="animation-duration:0.9s"/>
+
+    <!-- Piccioni -->
+    <g transform="translate(262 186)"><g class="bob" style="animation-duration:1.4s"><ellipse rx="4" ry="2.6" fill="#94a3b8"/><circle cx="3.6" cy="-2" r="1.6" fill="#64748b"/><path d="M5 -2 L7 -1.6" stroke="#f59e0b" stroke-width="0.8"/></g></g>
+    <g transform="translate(184 188)"><g class="bob" style="animation-duration:1.8s"><ellipse rx="4" ry="2.6" fill="#a8a29e"/><circle cx="-3.6" cy="-2" r="1.6" fill="#78716c"/><path d="M-5 -2 L-7 -1.6" stroke="#f59e0b" stroke-width="0.8"/></g></g>
+
+    <!-- Pavimento -->
+    <rect y="186" width="400" height="34" fill="#44403c"/>
+    ${stones.join('')}
+    `;
+  }
+};
+
+/* ==========================================================================
+   PUNTO CENTRALE NORD: IL BELVEDERE (mongolfiera per il viaggio rapido)
+   ========================================================================== */
+SCENES.belvedere = {
+  bg() {
+    const u = typeof state !== 'undefined' ? state.unlockedArea : 0;
+    const sign = (x, y, text, open) => `<g transform="translate(${x} ${y})">
+      <rect x="-1.5" y="0" width="3" height="26" fill="#78350f"/>
+      <rect x="-22" y="-10" width="44" height="12" rx="2" fill="${open ? '#fef3c7' : '#a8a29e'}"/>
+      <text x="0" y="-2" font-size="6.2" fill="#78350f" text-anchor="middle" font-weight="900">${text}</text></g>`;
+    return `
+    <defs>
+      <linearGradient id="bv-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0f172a"/><stop offset="0.55" stop-color="#6d28d9"/><stop offset="1" stop-color="#fdba74"/>
+      </linearGradient>
+    </defs>
+    <rect width="400" height="220" fill="url(#bv-sky)"/>
+    ${starField(25, 99, 400, 70, 0.8)}
+    <circle cx="320" cy="120" r="22" fill="#fde68a" opacity="0.9"/>
+    <rect y="128" width="400" height="30" fill="#1e3a8a" opacity="0.8"/>
+    <g class="wave" style="animation-duration:10s"><path d="${wavePath(136, 1)}" stroke="#bfdbfe" stroke-opacity="0.3" fill="none"/></g>
+    <!-- Monte con il Faro in cima -->
+    <path d="M120 140 Q170 30 216 24 Q262 30 300 140 Z" fill="#3b0764"/>
+    <rect x="210" y="6" width="10" height="20" fill="#e2e8f0"/><rect x="210" y="12" width="10" height="4" fill="#dc2626"/>
+    <polygon points="208,6 222,6 215,0" fill="#b91c1c"/>
+    <circle class="faro-blink" cx="215" cy="8" r="4" fill="#fde68a"/>
+    <!-- Scalinata verso il Faro -->
+    ${[0, 1, 2, 3, 4, 5].map(i => `<rect x="${196 + i * 2}" y="${178 - i * 10}" width="${28 - i * 3}" height="6" fill="#a8a29e" stroke="#57534e" stroke-width="0.6"/>`).join('')}
+    <!-- Galleria verso l'Officina -->
+    <path d="M78 186 L78 136 Q102 116 126 136 L126 186 Z" fill="#292524"/>
+    <path d="M78 136 Q102 116 126 136" stroke="#78716c" stroke-width="4" fill="none"/>
+    <g transform="translate(102 128)"><g class="spin" style="animation-duration:8s"><path d="${gearPath(7, 8)}" fill="#d97706"/><circle r="2" fill="#292524"/></g></g>
+    <!-- Serra in lontananza (destra) -->
+    <path d="M330 150 Q356 118 382 150 Z" fill="#6ee7b7" opacity="0.7"/>
+    <path d="M343 150 L343 132 M356 150 L356 124 M369 150 L369 132" stroke="#f1f5f9" stroke-width="1" opacity="0.7"/>
+    <!-- Mongolfiera -->
+    <g transform="translate(300 90)"><g class="crystal-float" style="animation-duration:4s">
+      <path d="M0 -40 Q26 -40 24 -12 Q20 6 6 14 L-6 14 Q-20 6 -24 -12 Q-26 -40 0 -40 Z" fill="#ef4444"/>
+      <path d="M0 -40 Q10 -38 9 -12 Q7 6 3 14 M0 -40 Q-10 -38 -9 -12 Q-7 6 -3 14" stroke="#facc15" stroke-width="3" fill="none"/>
+      <path d="M-6 14 L-6 26 M6 14 L6 26" stroke="#78350f" stroke-width="0.8"/>
+      <rect x="-8" y="26" width="16" height="10" rx="2" fill="#92400e"/>
+    </g></g>
+    <line x1="300" y1="126" x2="300" y2="186" stroke="#78350f" stroke-width="0.8" stroke-dasharray="2 2"/>
+    <!-- Cannocchiale panoramico -->
+    <g transform="translate(160 186)"><rect x="-2" y="-24" width="4" height="24" fill="#475569"/><rect x="-8" y="-32" width="16" height="9" rx="3" fill="#64748b" transform="rotate(-15 0 -28)"/></g>
+    <!-- Terrazza con ringhiera -->
+    <rect y="186" width="400" height="34" fill="#57534e"/>
+    <path d="M0 196 L400 196 M0 208 L400 208" stroke="#44403c" stroke-width="1"/>
     `;
   }
 };

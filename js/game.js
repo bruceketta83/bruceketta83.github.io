@@ -28,7 +28,9 @@ const DEFAULT_STATE = {
   medals: [],
   look: {},
   owned: [],
-  maxStreak: 0
+  maxStreak: 0,
+  puz: {},
+  cons: {}
 };
 
 function clone(obj) {
@@ -389,7 +391,10 @@ function buildScene(area, arriveX) {
   const L = room.layout;
   const ariaY = L.ariaY || L.groundY;
   const sc = room.scene ? SCENES[room.scene] : null;
+  if ((arriveX === undefined || arriveX === null) && pendingArrive !== null) arriveX = pendingArrive;
+  pendingArrive = null;
   ariaX = arriveX !== undefined && arriveX !== null ? arriveX : L.ariaStart;
+  $('location-banner').textContent = room.title || area.name;
   if (walkTimer) { clearTimeout(walkTimer); walkTimer = null; busy = false; }
   closeBubble();
 
@@ -627,8 +632,15 @@ function startGuardianChallenge(area) {
     authored: replay ? [] : [...g.questions],
     q: null,
     answered: false,
-    first: true
+    first: true,
+    maxHearts: MAX_HEARTS,
+    double: false
   };
+  // Oggetti utili comprati da Zia Turbina.
+  const boosts = [];
+  if (useCons('cuore')) { duel.hearts = duel.maxHearts = MAX_HEARTS + 1; boosts.push('❤️ Cuore extra: parti con 4 cuori!'); }
+  if (useCons('pozione')) { duel.double = true; boosts.push('🧪 Pozione: Aura doppia in questo duello!'); }
+  boosts.forEach(b => toast(b));
   showDuelPanel(area);
   nextQuestion();
 }
@@ -673,8 +685,10 @@ function renderQuestion() {
   });
   choices.appendChild(grid);
 
-  if (state.aura >= HINT_COST && q.options.filter(o => !o.correct).length > 1) {
-    const hint = addChoice(`💡 Aiutino: togli una risposta sbagliata (−${HINT_COST} Aura)`, () => useHint(hint), 'hint-btn');
+  const freeHints = consCount('aiuto');
+  if ((freeHints > 0 || state.aura >= HINT_COST) && q.options.filter(o => !o.correct).length > 1) {
+    const label = freeHints > 0 ? `💡 Aiutino gratis (pergamene: ${freeHints})` : `💡 Aiutino: togli una risposta sbagliata (−${HINT_COST} Aura)`;
+    const hint = addChoice(label, () => useHint(hint), 'hint-btn');
   }
 }
 
@@ -684,14 +698,16 @@ function formatMathString(str) {
 }
 
 function useHint(hintBtn) {
-  if (!duel || duel.answered || state.aura < HINT_COST) return;
+  const free = consCount('aiuto') > 0;
+  if (!duel || duel.answered || (!free && state.aura < HINT_COST)) return;
   const wrongBtns = [...document.querySelectorAll('.choices-grid .math-choice')]
     .filter(b => !b._opt.correct && !b.disabled);
   if (wrongBtns.length <= 1) return;
   const b = pick(wrongBtns);
   b.disabled = true;
   b.classList.add('eliminated');
-  state.aura -= HINT_COST;
+  if (free) useCons('aiuto');
+  else state.aura -= HINT_COST;
   saveState();
   updateHUD();
   popBadge('hud-aura');
@@ -763,7 +779,8 @@ function handleAnswer(opt, btn) {
   state.maxStreak = Math.max(state.maxStreak || 0, duel.streak);
   duel.hp--;
   const bonus = 10 * (duel.streak - 1);
-  state.aura += 50 + bonus;
+  const gain = (50 + bonus) * (duel.double ? 2 : 1);
+  state.aura += gain;
   saveState();
   updateHUD();
   popBadge('hud-aura');
@@ -775,7 +792,7 @@ function handleAnswer(opt, btn) {
   const slay = pick(['Slay!', 'Che aura!', 'Iconica!', 'Boom!', 'Mother!', 'Zero sbatti!']);
   setFeedback(`
     <div class="feedback-banner feedback-success">
-      ✅ <b>${slay} +${50 + bonus} Aura</b>${duel.streak > 1 ? ` &nbsp;🔥 Combo x${duel.streak}` : ''}
+      ✅ <b>${slay} +${gain} Aura</b>${duel.double ? ' 🧪' : ''}${duel.streak > 1 ? ` &nbsp;🔥 Combo x${duel.streak}` : ''}
       <div class="solution">${q.steps}</div>
     </div>`);
   scrollDialogueToEnd();
@@ -850,7 +867,7 @@ function duelLost(area) {
   const g = area.guardian;
   setFeedback(`
     <div class="feedback-banner feedback-info">
-      💔 Hai finito i cuori. Niente panico: ripassa la regola e riprova. Ogni duello ha esercizi nuovi!
+      💔 Hai finito i cuori. Niente panico: ripassa la regola a tappeto e riprova. Ogni duello ha esercizi nuovi!
     </div>`);
   setDialogue(g.name, g.role, guardianAvatar(area), g.loseMsg, 'guardian');
   clearChoices();
@@ -881,7 +898,7 @@ function hideDuelPanel() {
 function updateDuelPanel() {
   if (!duel) return;
   $('duel-hp-fill').style.width = `${(duel.hp / duel.max) * 100}%`;
-  $('duel-hearts').textContent = '❤️'.repeat(Math.max(0, duel.hearts)) + '🖤'.repeat(MAX_HEARTS - Math.max(0, duel.hearts));
+  $('duel-hearts').textContent = '❤️'.repeat(Math.max(0, duel.hearts)) + '🖤'.repeat(Math.max(0, duel.maxHearts - Math.max(0, duel.hearts)));
   $('duel-combo').textContent = duel.streak > 1 ? `🔥 x${duel.streak}` : '';
 }
 
@@ -918,6 +935,7 @@ function showVictoryScreen() {
   setDialogue("Faro dell'Accademia", 'Missione Compiuta!', '🏆',
     `<b>HAI SALVATO L'ISOLA DI ESPO-NENTIA!</b><br><br>
     Tutti e 5 i Cristalli Esponenziali brillano di nuovo e la flotta dell'Accademia può salpare!<br>
+    Hai studiato come se non ci fosse un domani: le potenze ora le sai a mena dito! 💪<br>
     ${questState('diario') === 'done'
       ? '<i>Lavinia ti saluta da lontano. Per la prima volta, sorride davvero. 💜</i><br><br>'
       : `<i>Pagine del diario di Lavinia trovate: ${questCount('diario')}/5. Trovale tutte per il finale segreto!</i><br><br>`}

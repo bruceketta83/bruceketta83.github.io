@@ -130,14 +130,15 @@ function worldMarkersHTML(area) {
   });
   roomExits(area).forEach(e => {
     const [x, y, w, hh] = e.box;
-    const lw = [...e.label].length * 4.6 + 14;
+    const label = e.locked && e.locked() ? `🔒 ${e.label}` : e.label;
+    const lw = [...label].length * 4.6 + 14;
     // Margine di 42: sui telefoni stretti i bordi della scena sono tagliati.
     const lx = Math.min(Math.max(x + w / 2, lw / 2 + 42), 358 - lw / 2);
     html += `<rect data-exit="${e.id}" x="${x}" y="${y}" width="${w}" height="${hh}" fill="transparent"/>
       <g data-exit="${e.id}" transform="translate(${lx} ${e.labelY || y + hh / 2})">
         <g class="exit-bob">
           <rect x="${-lw / 2}" y="-7.5" width="${lw}" height="13" rx="6.5" fill="rgba(15,23,42,0.85)" stroke="#38bdf8" stroke-width="1"/>
-          <text x="0" y="1.6" font-size="7.5" fill="#e0f2fe" text-anchor="middle" font-weight="700" font-family="-apple-system, Segoe UI, Roboto, sans-serif">${e.label}</text>
+          <text x="0" y="1.6" font-size="7.5" fill="#e0f2fe" text-anchor="middle" font-weight="700" font-family="-apple-system, Segoe UI, Roboto, sans-serif">${label}</text>
         </g>
       </g>`;
   });
@@ -322,7 +323,7 @@ function worldClick(area, e) {
     closeBubble();
     playSound('blip');
     // Uscita verso un'altra area (avanti o indietro sull'isola).
-    if (ex.toArea !== undefined) walkTo(ex.stand, () => renderArea(ex.toArea));
+    if (ex.toArea !== undefined) walkTo(ex.stand, () => travelTo(ex.toArea, ex.toRoom, ex.arrive));
     else walkTo(ex.stand, () => goRoom(area, ex.to, ex.arrive));
     return true;
   }
@@ -513,4 +514,41 @@ function questDeliverChoice(questId, who, reward, thanks) {
       addChoice('↩️ Continua a esplorare', () => ariaSays(null), 'primary-action');
     }
   }];
+}
+
+/* --------------------------------------------------------------------------
+   NUMERI CASUALI DEGLI ENIGMI (diversi per ogni profilo, fissi nel profilo)
+   -------------------------------------------------------------------------- */
+function puz(key, gen) {
+  if (!state.puz) state.puz = {};
+  if (!state.puz[key]) {
+    state.puz[key] = gen();
+    writeSave();
+  }
+  return state.puz[key];
+}
+function P_molo() { return puz('molo', () => ({ a: rnd(4, 9), b: rnd(6, 9) })); }
+function P_botti() {
+  return puz('botti', () => {
+    const k = rnd(2, 6);
+    const make = (d) => { const n = rnd(2, 6); return { m: n + d, n }; };
+    const kegs = shuffle([{ ...make(k), ok: true }, { ...make(k + 1) }, { ...make(k > 2 ? k - 1 : k + 2) }]);
+    ['A', 'B', 'C'].forEach((l, i) => { kegs[i].l = l; });
+    return { k, kegs };
+  });
+}
+function P_torre() { return puz('torre', () => ({ b: pick([2, 3, 5, 7]), m: rnd(3, 6), n: rnd(2, 4) })); }
+function P_serra() { return puz('serra', () => ({ a: rnd(3, 99), b: rnd(11, 40), c: rnd(2, 9) })); }
+function P_bilancia() {
+  return puz('bilancia', () => { const [a, b] = pick([[2, 5], [3, 4], [2, 7], [4, 5], [3, 5]]); return { a, b, n: rnd(3, 6) }; });
+}
+
+/* --------------------------------------------------------------------------
+   VIAGGIO TRA AREE (stanza e posizione di arrivo precise)
+   -------------------------------------------------------------------------- */
+let pendingArrive = null;
+function travelTo(areaId, roomId, arriveX) {
+  if (roomId) state.rooms[areaId] = roomId;
+  pendingArrive = arriveX !== undefined ? arriveX : null;
+  renderArea(areaId);
 }
