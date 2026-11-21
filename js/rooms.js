@@ -7,7 +7,17 @@
    OGGETTI RACCOGLIBILI (usable = si può usare dallo Zaino)
    -------------------------------------------------------------------------- */
 const ITEMS = {
-  corda: { name: 'Corda robusta', icon: '🪢', desc: 'Lunga e resistente. Utile per ripescare cose.', usable: true }
+  corda: { name: 'Corda robusta', icon: '🪢', desc: 'Lunga e resistente. Utile per ripescare cose.', usable: true },
+  dadi: { name: 'Dadi fortunati', icon: '🎲', desc: 'I dadi dei Pirati Gemelli. Odorano di botte.', usable: true },
+  scheda: { name: 'Scheda di calibrazione', icon: '💾', desc: 'Una scheda perforata con scritto "(a^m)^n".', usable: true },
+  annaffiatoio: { name: 'Annaffiatoio', icon: '🚿', desc: 'Pieno d’acqua fresca del vivaio.', usable: true },
+  ingranaggio: { name: 'Ingranaggio d’oro', icon: '⚙️', desc: 'Il pezzo mancante dell’Automa.', usable: true },
+  // Premi dei guardiani: servono nell'area successiva.
+  i1: { name: 'Chiave della Taverna', icon: '🗝️', desc: 'Consegnata da Barnaba dopo aver sistemato il carico.', usable: true },
+  i2: { name: 'Cannocchiale Ottico', icon: '🔭', desc: 'Vinto ai dadi contro i Pirati Gemelli.', usable: true },
+  i3: { name: 'Lente Stellare', icon: '🔍', desc: 'Calibrata in cima alla Torre. Concentra la luce.', usable: true },
+  i4: { name: 'Seme Luminescente', icon: '🌱', desc: 'Donato da Madame Zeri. Brilla al buio.', usable: true },
+  i5: { name: 'Chiave Inglese d’Oro', icon: '🔧', desc: 'Forgiata dalle Gemelle Mira e Nora.', usable: true }
 };
 
 /* --------------------------------------------------------------------------
@@ -21,6 +31,45 @@ const CURIOSITIES = {
       Sulla casella n° 64 ci vanno <span class="math-expr">2<sup>63</sup></span> chicchi: circa <b>9 miliardi di miliardi</b>! Il re non ha abbastanza riso in tutto il regno.<br><br>
       Morale: le potenze crescono in modo <b>esplosivo</b>.`,
     comment: ['Il re è stato fregato da una potenza di 2. Iconico.', 'Raddoppiare sembra poco... finché non arrivi a 2⁶³!', 'Note to self: mai sfidare un matematico con il riso.']
+  },
+  carta: {
+    icon: '📄',
+    title: 'I fogli A4 e le potenze di 2',
+    text: `Il foglio <b>A0</b> ha un’area di <b>1 m²</b>. Se lo tagli a metà ottieni un A1, a metà ancora un A2... e così via.<br><br>
+      Un foglio <b>A4</b> è A0 diviso 4 volte per 2: <span class="math-expr">1 : 2<sup>4</sup> = 1/16</span> di metro quadrato.<br><br>
+      Ecco perché in un A3 ci stanno esattamente <b>2 fogli A4</b>!`,
+    comment: ['Quindi il mio quaderno è fatto di potenze di 2. Pazzesco.', 'Dividere per 2 quattro volte = dividere per 2⁴. Chiaro!']
+  },
+  arenario: {
+    icon: '🏖️',
+    title: 'L’Arenario di Archimede',
+    text: `Più di 2000 anni fa il vero <b>Archimede</b> si chiese: quanti granelli di sabbia servono per riempire tutto l’universo?<br><br>
+      Per scrivere numeri così grandi inventò un sistema simile alle potenze. Il suo risultato: circa <span class="math-expr">10<sup>63</sup></span> granelli.<br><br>
+      Il libro si chiama <b>"Arenario"</b>.`,
+    comment: ['Archimede contava la sabbia dell’universo. E io mi lamento dei compiti.', '10⁶³ granelli. Mi fa male la testa, ma in modo bello.']
+  },
+  batteri: {
+    icon: '🦠',
+    title: 'I batteri che raddoppiano',
+    text: `Alcuni batteri si dividono in due circa ogni <b>20 minuti</b>.<br><br>
+      Da <b>1</b> batterio, dopo 10 divisioni ne hai <span class="math-expr">2<sup>10</sup> = 1024</span>. Dopo 20 divisioni ne hai più di <b>un milione</b> (2<sup>20</sup>).<br><br>
+      Per questo è importante lavarsi le mani!`,
+    comment: ['Ok, vado a lavarmi le mani. Subito.', '2²⁰ batteri. Bleah, ma che matematica!']
+  },
+  kilobyte: {
+    icon: '💻',
+    title: 'Perché 1 KB vale 1024 byte',
+    text: `I computer contano in <b>base 2</b>: ogni bit vale 0 oppure 1.<br><br>
+      Per questo un <b>kilobyte</b> nei computer vale spesso <span class="math-expr">2<sup>10</sup> = 1024</span> byte, non 1000.<br><br>
+      E <span class="math-expr">2<sup>10</sup> · 2<sup>10</sup> = 2<sup>20</sup></span> byte fanno circa un megabyte!`,
+    comment: ['Il mio telefono parla in potenze di 2. Lo sapevo che era nerd.', '2¹⁰ · 2¹⁰ = 2²⁰. Stessa base, esponenti sommati. Ovunque!']
+  },
+  videogiochi: {
+    icon: '🎮',
+    title: 'Il numero 256 nei videogiochi',
+    text: `Molti videogiochi vecchi salvavano i numeri in <b>8 bit</b>. Con 8 bit puoi scrivere <span class="math-expr">2<sup>8</sup> = 256</span> valori diversi: da 0 a 255.<br><br>
+      Per questo in alcuni giochi classici il livello <b>256</b> si "rompe": il contatore torna a zero e lo schermo impazzisce!`,
+    comment: ['Un livello che si rompe per colpa di 2⁸. Leggendario.', 'Ora capisco perché 255 è un numero così famoso.']
   },
   googol: {
     icon: '🔟',
@@ -39,12 +88,82 @@ function coinsFound() { return ['coin1', 'coin2', 'coin3'].filter(flag).length; 
 
 const QUESTS = {
   dobloni: {
-    icon: '🪙',
+    icon: '🪙', piece: 'Doblone d’oro', giverName: 'Capitana Vera',
     title: 'I dobloni di Vera',
     desc: 'Trova i 3 dobloni d’oro persi da Capitana Vera e riportaglieli.',
+    flags: ['coin1', 'coin2', 'coin3'],
     progress: () => `${coinsFound()}/3`
+  },
+  boccali: {
+    icon: '🍺', piece: 'Boccale', giverName: 'l’Oste',
+    title: 'I boccali dell’Oste',
+    desc: 'Trova i 3 boccali sparsi intorno alla Taverna.',
+    flags: ['mug1', 'mug2', 'mug3'],
+    progress: () => `${questCount('boccali')}/3`
+  },
+  cannocchiale: {
+    icon: '🔭', piece: 'Cannocchiale', giverName: 'Archimede',
+    title: 'Il cannocchiale di Archimede',
+    desc: 'Riporta ad Archimede il cannocchiale rubato dai Pirati Gemelli.',
+    flags: ['cannocchiale_reso'],
+    progress: () => (hasItem('i2') ? 'ce l’hai!' : '0/1')
+  },
+  bulloni: {
+    icon: '🔩', piece: 'Bullone d’oro', giverName: 'Mira e Nora',
+    title: 'I bulloni delle Gemelle',
+    desc: 'Trova i 3 bulloni d’oro di Mira e Nora tra officina e magazzino.',
+    flags: ['bul1', 'bul2', 'bul3'],
+    progress: () => `${questCount('bulloni')}/3`
+  },
+  diario: {
+    icon: '📓', piece: 'Pagina del diario', autoStart: true,
+    title: 'Il diario di Lavinia',
+    desc: 'Trova le 5 pagine del diario segreto di Lavinia sparse per l’isola.',
+    flags: ['dia1', 'dia2', 'dia3', 'dia4', 'dia5'],
+    progress: () => `${questCount('diario')}/5`,
+    onComplete: () => {
+      setQuest('diario', 'done');
+      addAura(150);
+      ariaSays('Ho tutte e 5 le pagine del diario di Lavinia (+150 Aura). Ora capisco tante cose...');
+    }
   }
 };
+
+/* --------------------------------------------------------------------------
+   DIARIO DI LAVINIA (5 pagine, una per area)
+   -------------------------------------------------------------------------- */
+const DIARY = [
+  'Giorno 1. Oggi all’Accademia hanno premiato Aria come "Esploratrice dell’anno". Io avevo fatto 100 esercizi in più. Nessuno se n’è accorto. Ho un piano.',
+  'Giorno 3. I cristalli del Faro sono 5. Se li prendo io, tutti vedranno chi è la vera prima della classe. I Pirati Gemelli mi hanno aiutata per 10 dobloni. Costosi, ma ne vale la pena.',
+  'Giorno 5. Ho sbagliato un calcolo: ho moltiplicato le basi invece di sommare gli esponenti. Nessuno lo deve sapere. MAI.',
+  'Giorno 7. Aria sta arrivando. È più brava di quanto pensassi. Tipo... davvero brava. Ugh.',
+  'Giorno 9. Forse volevo solo che qualcuno mi dicesse "brava". Se Aria arriva fin quassù, forse se lo merita lei. Ma non glielo dirò mai. Forse.'
+];
+
+function readDiary(n) {
+  showReading(`📓 Diario di Lavinia – pag. ${n}`, `<i>${DIARY[n - 1]}</i>`, () =>
+    collectPiece('diario', `dia${n}`, [
+      'Il diario segreto di Lavinia! Non dovrei leggerlo... ma l’ho già fatto.',
+      'Una pagina del diario di Lavinia. Interessante...',
+      'Lavinia scrive tutto. Proprio tutto.'
+    ]));
+}
+
+/* Disegno di un foglio di diario a terra. */
+function diaryPageSVG(x, y) {
+  return `<g transform="translate(${x} ${y}) rotate(-12)">
+    <rect x="-6" y="-4" width="12" height="8" fill="#f5d0fe" stroke="#a855f7" stroke-width="0.6"/>
+    <path d="M-4 -1.5 L4 -1.5 M-4 0.5 L3 0.5 M-4 2.5 L2 2.5" stroke="#7e22ce" stroke-width="0.5"/>
+  </g>`;
+}
+
+/* Disegno di un oggetto da raccogliere che luccica. */
+function sparkleSVG(x, y, inner) {
+  return `<g transform="translate(${x} ${y})">${inner}
+    <path class="spark-pop" d="M4 -6 L4.8 -3.8 L7 -3 L4.8 -2.2 L4 0 L3.2 -2.2 L1 -3 L3.2 -3.8 Z" fill="#fff" style="animation-duration:1.6s"/></g>`;
+}
+const MUG = '<rect x="-3.5" y="-5" width="7" height="8" rx="1" fill="#d97706" stroke="#92400e" stroke-width="0.5"/><path d="M3.5 -3 q2.5 0 2.5 2.5 q0 2.5 -2.5 2.5" stroke="#92400e" stroke-width="1" fill="none"/><path d="M-4 -5 q2 -2 4 -0.6 q2 -1.6 4 0.6 Z" fill="#fffbeb"/>';
+const BOLT = '<polygon points="-3,-3 3,-3 4.5,0 3,3 -3,3 -4.5,0" fill="#fbbf24" stroke="#a16207" stroke-width="0.6"/><circle r="1.2" fill="#a16207"/>';
 
 function takeCoin(n) {
   setFlag(`coin${n}`);
@@ -105,6 +224,7 @@ function laviniaCameo(area, flagKey) {
       clearChoices();
       addChoice('Continua →', () => {
         setFlag(flagKey);
+        if (ok) setFlag(`${flagKey}_won`);
         setFlag(`${flagKey}_here`, false);
         refreshLabels(area);
         ariaSays(LAVINIA.ariaAfter);
@@ -413,7 +533,11 @@ function laviniaCameo(area, flagKey) {
         }
       ],
       exits: [
-        { id: 'to-spiaggia', label: '⬅ Spiaggia', box: [0, 108, 40, 56], stand: 26, to: 'spiaggia', arrive: 360, labelY: 104 }
+        { id: 'to-spiaggia', label: '⬅ Spiaggia', box: [0, 108, 40, 56], stand: 26, to: 'spiaggia', arrive: 360, labelY: 104 },
+        {
+          id: 'to-taverna', label: 'Taverna ➜', box: [362, 160, 38, 30], stand: 378, toArea: 1, labelY: 176,
+          visible: () => state.completedAreas.includes(0)
+        }
       ]
     },
 
@@ -463,6 +587,13 @@ function laviniaCameo(area, flagKey) {
             'Una mappa dell’isola: Molo, Taverna, Torre, Serra, Officina e il Faro in cima. Sei tappe, sei regole.',
             'Sulla mappa qualcuno ha cerchiato il Faro in rosso. E ha scritto "LAVINIA WAS HERE". Che nervi.'
           ]
+        },
+        {
+          id: 'diario1', name: '📓 Un quaderno viola', box: [354, 132, 22, 14], stand: 340,
+          visible: () => !flag('dia1'),
+          draw: () => diaryPageSVG(366, 138),
+          read: () => readDiary(1),
+          look: 'Un foglio viola con una corona disegnata sopra. Mi ricorda qualcuno...'
         },
         {
           id: 'rete', name: '🕸️ Rete da pesca', box: [62, 28, 82, 70], stand: 104, noDot: true,

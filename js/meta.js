@@ -1,0 +1,288 @@
+/* ==========================================================================
+   META-GIOCO: MEDAGLIE, NEGOZIO DELL'AURA, PROFILI, MAPPA ILLUSTRATA
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   MEDAGLIE
+   -------------------------------------------------------------------------- */
+const MEDALS = [
+  { id: 'cristallo', icon: '💎', name: 'Primo cristallo', desc: 'Vinci il primo duello.', check: () => state.crystals.length >= 1 },
+  { id: 'lettrice', icon: '🧭', name: 'Esploratrice', desc: 'Leggi la tua prima Curiosità.', check: () => state.curiosities.length >= 1 },
+  { id: 'perfetto', icon: '🎯', name: 'Zero errori', desc: 'Vinci un duello senza errori.', check: () => flag('perfect') },
+  { id: 'combo', icon: '🔥', name: 'Combo x4', desc: 'Dai 4 risposte giuste di fila (si può solo nel Duello Finale!).', check: () => (state.maxStreak || 0) >= 4 },
+  { id: 'curiosa', icon: '🔍', name: 'Super curiosa', desc: 'Leggi tutte le Curiosità dell’isola.', check: () => state.curiosities.length >= Object.keys(CURIOSITIES).length },
+  { id: 'detective', icon: '📓', name: 'Detective', desc: 'Trova tutte le pagine del diario di Lavinia.', check: () => questState('diario') === 'done' },
+  { id: 'aiutante', icon: '🤝', name: 'Aiutante dell’isola', desc: 'Completa le missioni di Vera, Oste, Archimede e Gemelle.', check: () => ['dobloni', 'boccali', 'cannocchiale', 'bulloni'].every(q => questState(q) === 'done') },
+  { id: 'zittalavinia', icon: '👑', name: 'Zitta, Lavinia!', desc: 'Rispondi giusto a tutte le domande lampo di Lavinia.', check: () => [0, 1, 2, 3, 4].every(i => flag(`lav${i}_won`)) },
+  { id: 'aura', icon: '✨', name: 'Aura stellare', desc: 'Raggiungi 1000 Aura.', check: () => state.aura >= 1000 },
+  { id: 'shopping', icon: '🛍️', name: 'Fashion victim', desc: 'Compra un oggetto nel Negozio dell’Aura.', check: () => state.owned.length >= 1 },
+  { id: 'stelle', icon: '⭐', name: 'Tutte le stelle', desc: 'Fai 3 stelle in tutte le 6 aree.', check: () => AREAS.every(a => (state.stars[a.id] || 0) === 3) },
+  { id: 'faro', icon: '🏆', name: 'Eroina del Faro', desc: 'Accendi il Faro e salva l’isola.', check: () => state.gameWon }
+];
+
+let medalsChecking = false;
+function checkMedals() {
+  if (medalsChecking || !gameStarted) return;
+  medalsChecking = true;
+  const got = MEDALS.filter(m => !state.medals.includes(m.id) && m.check());
+  if (got.length) {
+    got.forEach(m => state.medals.push(m.id));
+    writeSave();
+    got.forEach(m => toast(`🏅 Nuova medaglia: <b>${m.icon} ${m.name}</b>`));
+    playSound('crystal');
+    restartAnim(document.querySelector('[data-nav="profile"]'), 'pop');
+  }
+  medalsChecking = false;
+}
+
+/* --------------------------------------------------------------------------
+   NEGOZIO DELL'AURA (aspetto di Aria)
+   -------------------------------------------------------------------------- */
+const SHOP_SLOTS = [
+  { id: 'hat', name: '🎩 Cappelli' },
+  { id: 'tunic', name: '👕 Tunica' },
+  { id: 'scarf', name: '🧣 Sciarpa' },
+  { id: 'pack', name: '🎒 Zaino' },
+  { id: 'glasses', name: '🕶️ Occhiali' }
+];
+const SHOP = [
+  { id: 'hat-none', slot: 'hat', value: null, name: 'Niente', swatch: '🚫', price: 0 },
+  { id: 'hat-fiore', slot: 'hat', value: 'fiore', name: 'Fiore', swatch: '🌸', price: 60 },
+  { id: 'hat-cappellino', slot: 'hat', value: 'cappellino', name: 'Cappellino', swatch: '🧢', price: 100 },
+  { id: 'hat-cuffie', slot: 'hat', value: 'cuffie', name: 'Cuffie', swatch: '🎧', price: 120 },
+  { id: 'hat-pirata', slot: 'hat', value: 'pirata', name: 'Cappello pirata', swatch: '🏴‍☠️', price: 180 },
+  { id: 'hat-corona', slot: 'hat', value: 'corona', name: 'Corona', swatch: '👑', price: 300 },
+
+  { id: 'tunic-teal', slot: 'tunic', value: null, name: 'Verde mare', color: '#0d9488', price: 0 },
+  { id: 'tunic-viola', slot: 'tunic', value: 'viola', name: 'Viola', color: '#7c3aed', price: 80 },
+  { id: 'tunic-rosa', slot: 'tunic', value: 'rosa', name: 'Rosa', color: '#db2777', price: 80 },
+  { id: 'tunic-rosso', slot: 'tunic', value: 'rosso', name: 'Rosso', color: '#dc2626', price: 80 },
+  { id: 'tunic-notte', slot: 'tunic', value: 'notte', name: 'Notte', color: '#1e293b', price: 120 },
+  { id: 'tunic-oro', slot: 'tunic', value: 'oro', name: 'Oro', color: '#d97706', price: 200 },
+
+  { id: 'scarf-rossa', slot: 'scarf', value: null, name: 'Rossa', color: '#e11d48', price: 0 },
+  { id: 'scarf-azzurra', slot: 'scarf', value: '#0ea5e9', name: 'Azzurra', color: '#0ea5e9', price: 50 },
+  { id: 'scarf-verde', slot: 'scarf', value: '#16a34a', name: 'Verde', color: '#16a34a', price: 50 },
+  { id: 'scarf-oro', slot: 'scarf', value: '#fbbf24', name: 'Oro', color: '#fbbf24', price: 90 },
+
+  { id: 'pack-marrone', slot: 'pack', value: null, name: 'Marrone', color: '#92400e', price: 0 },
+  { id: 'pack-rosa', slot: 'pack', value: '#ec4899', name: 'Rosa', color: '#ec4899', price: 60 },
+  { id: 'pack-nero', slot: 'pack', value: '#1f2937', name: 'Nero', color: '#1f2937', price: 60 },
+  { id: 'pack-viola', slot: 'pack', value: '#7c3aed', name: 'Viola', color: '#7c3aed', price: 60 },
+
+  { id: 'glasses-none', slot: 'glasses', value: null, name: 'Niente', swatch: '🚫', price: 0 },
+  { id: 'glasses-rosa', slot: 'glasses', value: '#f472b6', name: 'Da sole rosa', swatch: '🕶️', price: 120 },
+  { id: 'glasses-oro', slot: 'glasses', value: '#fbbf24', name: 'Da sole oro', swatch: '😎', price: 160 }
+];
+
+function shopOwned(item) { return item.price === 0 || state.owned.includes(item.id); }
+function shopEquipped(item) { return (state.look[item.slot] || null) === item.value; }
+
+function shopPick(id) {
+  const item = SHOP.find(i => i.id === id);
+  if (!shopOwned(item)) {
+    if (state.aura < item.price) {
+      playSound('error');
+      toast(`Ti servono <b>${item.price} Aura</b>. Ne hai ${state.aura}. Vinci duelli e completa missioni!`);
+      return;
+    }
+    state.aura -= item.price;
+    state.owned.push(item.id);
+    playSound('victory');
+    toast(`🛍️ Comprato: <b>${item.name}</b> (−${item.price} Aura)`);
+  } else {
+    playSound('blip');
+  }
+  if (item.value === null) delete state.look[item.slot];
+  else state.look[item.slot] = item.value;
+  saveState();
+  updateHUD();
+  renderProfile('shop');
+  // Ridisegna Aria nella scena con il nuovo look.
+  if (gameStarted && !duel) {
+    const el = $('char-aria');
+    const flip = $('aria-flip');
+    if (el && flip) flip.innerHTML = CHARS.aria.draw();
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MODALE PROFILO: NEGOZIO + MEDAGLIE
+   -------------------------------------------------------------------------- */
+let profileTab = 'shop';
+function renderProfile(tab) {
+  if (tab) profileTab = tab;
+  const c = $('profile-content');
+  const me = currentProfile();
+  const tabs = `<div class="tabs">
+    <button class="${profileTab === 'shop' ? 'on' : ''}" onclick="renderProfile('shop')">🛍️ Negozio</button>
+    <button class="${profileTab === 'medals' ? 'on' : ''}" onclick="renderProfile('medals')">🏅 Medaglie ${state.medals.length}/${MEDALS.length}</button>
+  </div>`;
+  let body = '';
+  if (profileTab === 'shop') {
+    body = `<div class="shop-head">
+        <svg viewBox="-26 -70 52 76" class="shop-preview">${CHARS.aria.draw()}</svg>
+        <div><div class="shop-name">👤 ${me.name}</div><div class="shop-aura">✨ ${state.aura} Aura</div>
+        <div class="inv-desc">Tocca un oggetto per comprarlo o indossarlo.</div></div>
+      </div>`;
+    SHOP_SLOTS.forEach(slot => {
+      body += `<div class="inv-section">${slot.name}</div><div class="shop-grid">`;
+      SHOP.filter(i => i.slot === slot.id).forEach(i => {
+        const owned = shopOwned(i);
+        const eq = shopEquipped(i);
+        const sw = i.color ? `<span class="swatch" style="background:${i.color}"></span>` : `<span class="swatch-emoji">${i.swatch}</span>`;
+        body += `<button class="shop-item ${eq ? 'equipped' : ''} ${owned ? 'owned' : ''}" onclick="shopPick('${i.id}')">
+          ${sw}<span class="shop-item-name">${i.name}</span>
+          <span class="shop-price">${eq ? '✓ Indossato' : owned ? 'Indossa' : `✨ ${i.price}`}</span></button>`;
+      });
+      body += '</div>';
+    });
+  } else {
+    body = '<div class="medal-grid">' + MEDALS.map(m => {
+      const on = state.medals.includes(m.id);
+      return `<div class="medal ${on ? 'on' : ''}"><div class="medal-icon">${on ? m.icon : '🔒'}</div>
+        <div class="medal-name">${m.name}</div><div class="medal-desc">${m.desc}</div></div>`;
+    }).join('') + '</div>';
+  }
+  c.innerHTML = tabs + body;
+}
+
+/* --------------------------------------------------------------------------
+   PROFILI (più giocatrici sullo stesso dispositivo)
+   -------------------------------------------------------------------------- */
+function currentProfile() {
+  return profiles.list.find(p => p.id === profiles.current) || profiles.list[0];
+}
+
+function profileSummary(id) {
+  try {
+    const raw = localStorage.getItem(profileSaveKey(id));
+    if (!raw) return 'Nuova partita';
+    const s = JSON.parse(raw);
+    const stars = Object.values(s.stars || {}).reduce((a, b) => a + b, 0);
+    return `💎 ${(s.crystals || []).length}/5 · ⭐ ${stars} · ✨ ${s.aura || 0}`;
+  } catch (e) { return ''; }
+}
+
+function openPlayers() {
+  playSound('blip');
+  renderPlayers();
+  $('modal-players').classList.add('open');
+}
+
+function renderPlayers() {
+  const c = $('players-content');
+  c.innerHTML = profiles.list.map(p => `
+    <div class="player-row ${p.id === profiles.current ? 'current' : ''}">
+      <div><b>👤 ${p.name}</b><div class="inv-desc">${profileSummary(p.id)}</div></div>
+      <div class="player-actions">
+        ${p.id === profiles.current ? '<span class="quest-status">In uso</span>' : `<button onclick="switchProfile('${p.id}')">▶ Gioca</button>`}
+        ${profiles.list.length > 1 ? `<button class="danger" onclick="deleteProfile('${p.id}')">🗑</button>` : ''}
+      </div>
+    </div>`).join('') + (profiles.list.length < 6 ? `
+    <div class="player-new">
+      <input id="new-player-name" maxlength="14" placeholder="Nome della nuova giocatrice">
+      <button onclick="createProfile()">➕ Crea</button>
+    </div>` : '<div class="inv-desc">Massimo 6 profili.</div>');
+}
+
+function createProfile() {
+  const input = $('new-player-name');
+  const name = (input.value || '').trim().replace(/[<>&"]/g, '').slice(0, 14);
+  if (!name) { input.focus(); return; }
+  const id = `p${Date.now().toString(36)}`;
+  profiles.list.push({ id, name });
+  profiles.current = id;
+  saveProfiles();
+  location.reload();
+}
+
+function switchProfile(id) {
+  profiles.current = id;
+  saveProfiles();
+  location.reload();
+}
+
+function deleteProfile(id) {
+  const p = profiles.list.find(x => x.id === id);
+  if (!window.confirm(`Cancellare il profilo "${p.name}" e tutti i suoi progressi?`)) return;
+  try { localStorage.removeItem(profileSaveKey(id)); } catch (e) {}
+  profiles.list = profiles.list.filter(x => x.id !== id);
+  if (profiles.current === id) {
+    profiles.current = profiles.list[0].id;
+    saveProfiles();
+    location.reload();
+    return;
+  }
+  saveProfiles();
+  renderPlayers();
+}
+
+/* --------------------------------------------------------------------------
+   MAPPA ILLUSTRATA DELL'ISOLA
+   -------------------------------------------------------------------------- */
+const MAP_NODES = [
+  { x: 78, y: 336, icon: '⚓' },
+  { x: 214, y: 306, icon: '🍺' },
+  { x: 92, y: 230, icon: '🔭' },
+  { x: 228, y: 196, icon: '🌺' },
+  { x: 108, y: 132, icon: '⚙️' },
+  { x: 206, y: 62, icon: '🌟' }
+];
+
+function renderMap() {
+  const c = $('map-content');
+  const path = MAP_NODES.map((n, i) => `${i ? 'L' : 'M'}${n.x} ${n.y}`).join(' ');
+  const nodes = AREAS.map((area, i) => {
+    const n = MAP_NODES[i];
+    const unlocked = area.id <= state.unlockedArea;
+    const completed = state.completedAreas.includes(area.id);
+    const current = area.id === state.currentArea;
+    const fill = completed ? '#10b981' : unlocked ? '#f59e0b' : '#475569';
+    const stars = completed ? '⭐'.repeat(state.stars[area.id] || 0) : '';
+    const label = area.name.replace(/^\d+\.\s*/, '').replace(/\s*\(.*\)$/, '');
+    return `<g class="map-node ${unlocked ? 'unlocked' : 'locked'}" data-area="${area.id}" transform="translate(${n.x} ${n.y})">
+      ${current ? '<circle r="27" fill="none" stroke="#fde047" stroke-width="2.5" class="map-pulse"/>' : ''}
+      <circle r="20" fill="${fill}" stroke="#0f172a" stroke-width="3"/>
+      <text y="7" font-size="19" text-anchor="middle">${unlocked ? n.icon : '🔒'}</text>
+      <rect x="-56" y="24" width="112" height="${stars ? 30 : 18}" rx="7" fill="rgba(15,23,42,0.85)"/>
+      <text y="37" font-size="9.5" fill="#f8fafc" text-anchor="middle" font-weight="800" font-family="-apple-system, Segoe UI, Roboto, sans-serif">${label}</text>
+      ${stars ? `<text y="49" font-size="8" text-anchor="middle">${stars}</text>` : ''}
+      ${current ? '<g class="map-pin"><text x="0" y="-26" font-size="18" text-anchor="middle">📍</text></g>' : ''}
+    </g>`;
+  }).join('');
+
+  c.innerHTML = `
+    <svg viewBox="0 0 300 410" class="island-map">
+      <defs>
+        <radialGradient id="mp-sea" cx="0.5" cy="0.5" r="0.75">
+          <stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#1e3a8a"/>
+        </radialGradient>
+        <linearGradient id="mp-land" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#4d7c0f"/><stop offset="1" stop-color="#65a30d"/>
+        </linearGradient>
+      </defs>
+      <rect width="300" height="410" fill="url(#mp-sea)"/>
+      <g class="wave" style="animation-duration:9s"><path d="${wavePath(30, 2)}" stroke="#bae6fd" stroke-opacity="0.35" fill="none"/></g>
+      <g class="wave" style="animation-duration:12s;animation-direction:reverse"><path d="${wavePath(392, 2)}" stroke="#bae6fd" stroke-opacity="0.35" fill="none"/></g>
+      <!-- Isola -->
+      <path d="M150 22 Q228 26 262 82 Q290 140 268 212 Q292 288 252 346 Q206 398 120 392 Q40 384 26 318 Q12 248 46 190 Q26 120 70 66 Q100 24 150 22 Z" fill="#f6d38b"/>
+      <path d="M150 34 Q220 38 250 88 Q274 140 254 210 Q276 284 240 334 Q200 380 124 376 Q54 368 42 312 Q30 250 62 192 Q44 124 82 74 Q108 36 150 34 Z" fill="url(#mp-land)"/>
+      <path d="M180 40 Q206 30 230 60 L206 80 Z" fill="#78716c"/>
+      <!-- Decorazioni -->
+      <g fill="#166534">${[[60, 280], [250, 250], [160, 150], [240, 120], [56, 160]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="7"/><circle cx="${x + 7}" cy="${y + 3}" r="5"/>`).join('')}</g>
+      <g transform="translate(266 384)"><circle r="14" fill="#fef3c7" opacity="0.9"/><path d="M0 -12 L3 0 L0 12 L-3 0 Z" fill="#dc2626"/><text y="-15" font-size="8" text-anchor="middle" fill="#fef3c7" font-weight="900">N</text></g>
+      <g class="bob" transform="translate(30 380)"><path d="M-10 0 L10 0 L7 4 L-7 4 Z" fill="#7c2d12"/><path d="M0 0 L0 -14 L8 -4 Z" fill="#fef3c7"/></g>
+      <!-- Sentiero -->
+      <path d="${path}" stroke="#fef3c7" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round" fill="none" opacity="0.9"/>
+      ${nodes}
+    </svg>
+    <p class="map-hint">Tocca un luogo sbloccato per viaggiare. Puoi tornare quando vuoi nelle aree già visitate.</p>`;
+
+  c.querySelectorAll('.map-node.unlocked').forEach(g => {
+    g.addEventListener('click', () => {
+      closeModal('map');
+      renderArea(Number(g.dataset.area));
+    });
+  });
+}

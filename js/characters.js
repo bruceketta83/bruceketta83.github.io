@@ -4,7 +4,50 @@
    Le classi CSS (torso, eyes, mouth, leg-f, leg-b...) attivano le animazioni.
    ========================================================================== */
 
+/* Aspetto di Aria: colori e accessori comprati nel Negozio dell'Aura. */
+const ARIA_TUNIC = {
+  teal: ['#0d9488', '#0f766e'], viola: ['#7c3aed', '#6d28d9'], rosso: ['#dc2626', '#b91c1c'],
+  oro: ['#d97706', '#b45309'], notte: ['#1e293b', '#0f172a'], rosa: ['#db2777', '#be185d']
+};
+function ariaLook() {
+  return (typeof state !== 'undefined' && state && state.look) || {};
+}
+
+function ariaHatSVG(hat) {
+  switch (hat) {
+    case 'pirata':
+      return `<path d="M-11 -53 Q0 -49 11 -53 Q7 -63 0 -61.5 Q-7 -63 -11 -53 Z" fill="#111827"/>
+        <path d="M-9.5 -53.5 Q0 -50.4 9.5 -53.5" stroke="#fbbf24" stroke-width="0.9" fill="none"/>
+        <circle cx="0" cy="-57" r="1.6" fill="#f8fafc"/>`;
+    case 'corona':
+      return `<path d="M-6 -54 L-5 -60 L-2 -56.5 L0.5 -61.5 L3 -56.5 L6 -60 L7 -54 Q0.5 -55.6 -6 -54 Z" fill="#fbbf24" stroke="#d97706" stroke-width="0.5"/>
+        <circle cx="0.5" cy="-58.4" r="1" fill="#ec4899"/>`;
+    case 'cappellino':
+      return `<path d="M-8.6 -50 Q-8 -58.6 1 -58.4 Q8.6 -58 8.8 -50.6 Z" fill="#2563eb"/>
+        <path d="M5 -50.6 Q12 -50.8 14.5 -48.6 Q9 -48.4 5 -49.2 Z" fill="#1d4ed8"/>
+        <circle cx="0.5" cy="-58.2" r="1" fill="#fbbf24"/>`;
+    case 'fiore':
+      return `<g transform="translate(-6.6 -52)">${[0, 72, 144, 216, 288].map(a =>
+        `<ellipse cx="0" cy="-2.2" rx="1.4" ry="2.2" fill="#f472b6" transform="rotate(${a})"/>`).join('')}<circle r="1.2" fill="#fde047"/></g>`;
+    case 'cuffie':
+      return `<path d="M-8.8 -47 Q-9 -58.5 0 -58.5 Q9 -58.5 8.8 -47" stroke="#111827" stroke-width="1.6" fill="none"/>
+        <rect x="-10.4" y="-49.5" width="3.4" height="6" rx="1.4" fill="#ec4899"/>`;
+    default:
+      return '';
+  }
+}
+
 function drawAria() {
+  const look = ariaLook();
+  const [tunic, tunicDark] = ARIA_TUNIC[look.tunic] || ARIA_TUNIC.teal;
+  const scarf = look.scarf || '#e11d48';
+  const pack = look.pack || '#92400e';
+  const clip = look.hat && look.hat !== 'cuffie' && look.hat !== 'fiore' ? '' : `<circle cx="-6.6" cy="-51.8" r="2.2" fill="${scarf}"/>`;
+  const glasses = look.glasses
+    ? `<rect x="0.6" y="-48.4" width="3.8" height="3" rx="1.2" fill="#0f172a" stroke="${look.glasses}" stroke-width="0.6"/>
+       <rect x="4.8" y="-48.4" width="3.6" height="3" rx="1.2" fill="#0f172a" stroke="${look.glasses}" stroke-width="0.6"/>
+       <path d="M4.4 -47.2 L4.8 -47.2" stroke="${look.glasses}" stroke-width="0.6"/>`
+    : '';
   return `
   <g class="char aria">
     <ellipse cx="0" cy="0" rx="10" ry="2.5" fill="#000" opacity="0.3"/>
@@ -17,27 +60,29 @@ function drawAria() {
       <rect x="-0.2" y="-3.2" width="7" height="3.2" rx="1.2" fill="#4a3222"/>
     </g>
     <g class="torso">
-      <rect x="-12" y="-37" width="7.5" height="15" rx="2.5" fill="#92400e"/>
-      <rect x="-12" y="-31" width="7.5" height="2" fill="#78350f"/>
-      <path d="M-6.5 -37 Q0 -40 6.5 -37 L7.5 -17 L-7.5 -17 Z" fill="#0d9488"/>
+      <rect x="-12" y="-37" width="7.5" height="15" rx="2.5" fill="${pack}"/>
+      <rect x="-12" y="-31" width="7.5" height="2" fill="#000" opacity="0.2"/>
+      <path d="M-6.5 -37 Q0 -40 6.5 -37 L7.5 -17 L-7.5 -17 Z" fill="${tunic}"/>
       <rect x="-7.5" y="-21" width="15" height="3" fill="#78350f"/>
       <circle cx="3" cy="-19.5" r="1.8" fill="#fbbf24" stroke="#92400e" stroke-width="0.5"/>
-      <path d="M-5.5 -37.5 L5.5 -37.5 L1.5 -32.5 Z" fill="#e11d48"/>
+      <path d="M-5.5 -37.5 L5.5 -37.5 L1.5 -32.5 Z" fill="${scarf}"/>
       <g class="arm">
-        <path d="M2.5 -35 Q6.5 -29 5.5 -23" stroke="#0f766e" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+        <path d="M2.5 -35 Q6.5 -29 5.5 -23" stroke="${tunicDark}" stroke-width="3.6" fill="none" stroke-linecap="round"/>
         <circle cx="5.5" cy="-22.5" r="1.9" fill="#f2c094"/>
       </g>
       <g class="head">
         <path class="ponytail" d="M-6.5 -51 Q-17 -49 -14 -38 Q-11.5 -44 -6 -45.5 Z" fill="#5b3415"/>
         <circle cx="0" cy="-46" r="8.6" fill="#f2c094"/>
         <path d="M-8.8 -46.5 Q-8 -56.5 0.5 -56 Q8.5 -55.5 8.8 -48.5 Q4.5 -52 -0.5 -50.8 Q-4.8 -49.8 -8.8 -44.5 Z" fill="#5b3415"/>
-        <circle cx="-6.6" cy="-51.8" r="2.2" fill="#e11d48"/>
+        ${clip}
         <g class="eyes">
           <ellipse cx="2.6" cy="-46.6" rx="1.05" ry="1.5" fill="#1e293b"/>
           <ellipse cx="6.2" cy="-46.6" rx="1.05" ry="1.5" fill="#1e293b"/>
         </g>
+        ${glasses}
         <circle cx="0.6" cy="-43.4" r="1.5" fill="#fb7185" opacity="0.45"/>
         <ellipse class="mouth" cx="4.8" cy="-42.2" rx="1.6" ry="0.9" fill="#7f1d1d"/>
+        ${ariaHatSVG(look.hat)}
       </g>
     </g>
   </g>`;
@@ -566,7 +611,7 @@ function drawLavinia() {
 }
 
 const CHARS = {
-  aria: { draw: drawAria, h: 57, portraitVB: '-13 -59 26 26' },
+  aria: { draw: drawAria, h: 57, portraitVB: '-14 -63 30 30' },
   vera: { draw: drawVera, h: 67, portraitVB: '-15 -68 30 30' },
   barnaba: { draw: drawBarnaba, h: 82, portraitVB: '-14 -84 28 28' },
   oste: { draw: drawOste, h: 61, portraitVB: '-12 -64 28 28' },

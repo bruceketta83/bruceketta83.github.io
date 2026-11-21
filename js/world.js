@@ -60,14 +60,26 @@ function unlockCuriosity(id) {
   restartAnim(document.querySelector('[data-nav="notebook"]'), 'pop');
 }
 
+/* Notifiche in coda: una alla volta, così nessuna si perde. */
+const toastQueue = [];
+let toastBusy = false;
 function toast(html) {
+  toastQueue.push(html);
+  if (!toastBusy) nextToast();
+}
+function nextToast() {
+  const html = toastQueue.shift();
+  if (html === undefined) { toastBusy = false; return; }
+  toastBusy = true;
   const t = $('toast');
   t.innerHTML = html;
   t.classList.remove('show');
   void t.offsetWidth;
   t.classList.add('show');
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => t.classList.remove('show'), 2600);
+  setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(nextToast, 280);
+  }, 2400);
 }
 
 /* --------------------------------------------------------------------------
@@ -195,7 +207,7 @@ function actionsFor(area, target) {
   if (h.talk) list.push({ icon: '💬', label: 'Parla', fn: h.talk });
   if (h.read) list.push({ icon: '📖', label: 'Leggi', fn: h.read });
   if (h.take) list.push({ icon: '✋', label: 'Prendi', fn: h.take });
-  if (h.use) list.push({ icon: h.useIcon || '🔧', label: h.useLabel || 'Usa', fn: h.use });
+  if (h.use && (!h.useIf || h.useIf())) list.push({ icon: h.useIcon || '🔧', label: h.useLabel || 'Usa', fn: h.use });
   if (h.look) list.push({ icon: '👁', label: 'Guarda', fn: () => ariaSays(h.look) });
   return list;
 }
@@ -283,7 +295,7 @@ function cancelUse(ev) {
 function useSelectedOn(area, target) {
   const id = selectedItem;
   cancelUse();
-  const handler = target.kind !== 'npc' && target.ref.useItem && target.ref.useItem[id];
+  const handler = target.ref.useItem && target.ref.useItem[id];
   runAction(area, target, handler || (() => ariaSays(FAIL_USE)));
 }
 
@@ -309,7 +321,9 @@ function worldClick(area, e) {
     if (ex.locked && ex.locked()) { openBubble(area, target); return true; }
     closeBubble();
     playSound('blip');
-    walkTo(ex.stand, () => goRoom(area, ex.to, ex.arrive));
+    // Uscita verso un'altra area (avanti o indietro sull'isola).
+    if (ex.toArea !== undefined) walkTo(ex.stand, () => renderArea(ex.toArea));
+    else walkTo(ex.stand, () => goRoom(area, ex.to, ex.arrive));
     return true;
   }
   openBubble(area, target);
@@ -423,4 +437,80 @@ function setQuest(id, s) {
   saveState();
   if (s === 'active' && before !== 'active') toast(`📜 Nuova missione: <b>${QUESTS[id].title}</b>`);
   if (s === 'done') toast(`🏅 Missione completata: <b>${QUESTS[id].title}</b>`);
+}
+
+/* --------------------------------------------------------------------------
+   SCELTA CON NUOVO TENTATIVO (bilance, botti, enigmi a scelta)
+   -------------------------------------------------------------------------- */
+function askChoice({ title, role, avatar, prompt, options, onSuccess }) {
+  setDialogue(title, role || 'Enigma', avatar || '🧩', prompt, null);
+  const c = clearChoices();
+  const grid = document.createElement('div');
+  grid.className = 'choices-grid';
+  shuffle(options).forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn math-choice';
+    btn.innerHTML = formatMathString(opt.text);
+    btn.onclick = () => {
+      if (opt.correct) {
+        playSound('success');
+        grid.querySelectorAll('button').forEach(b => { b.disabled = true; });
+        btn.classList.add('right');
+        setFeedback('');
+        setTimeout(onSuccess, 600);
+        return;
+      }
+      playSound('error');
+      btn.classList.add('wrong');
+      btn.disabled = true;
+      setFeedback(`<div class="feedback-banner feedback-error">❌ ${say(opt.msg)}</div>`);
+      scrollDialogueToEnd();
+    };
+    grid.appendChild(btn);
+  });
+  c.appendChild(grid);
+  addChoice('↩️ Lascia stare', () => ariaSays(null));
+}
+
+/* --------------------------------------------------------------------------
+   MISSIONI A RACCOLTA (boccali, bulloni, pagine...)
+   -------------------------------------------------------------------------- */
+function questCount(id) {
+  const q = QUESTS[id];
+  return q.count ? q.count() : q.flags.filter(flag).length;
+}
+function questTotal(id) { return QUESTS[id].total || QUESTS[id].flags.length; }
+
+function collectPiece(questId, flagKey, lines) {
+  const q = QUESTS[questId];
+  setFlag(flagKey);
+  playSound('crystal');
+  refreshLabels(AREAS[state.currentArea]);
+  if (questState(questId) === 'none' && q.autoStart) setQuest(questId, 'active');
+  const n = questCount(questId);
+  const tot = questTotal(questId);
+  toast(`${q.icon} ${q.piece} trovato! <b>${n}/${tot}</b>`);
+  if (n === tot && q.onComplete && questState(questId) !== 'done') { q.onComplete(); return; }
+  if (n === tot && q.giverName) {
+    ariaSays(`Ho tutto! Torno da ${q.giverName}.`);
+    return;
+  }
+  ariaSays(lines || [`Un altro pezzo: ${n} su ${tot}.`, `${q.piece}! Ne ho ${n} su ${tot}.`]);
+}
+
+/* Scelta "Consegna" per chi ha dato la missione. */
+function questDeliverChoice(questId, who, reward, thanks) {
+  if (questState(questId) !== 'active' || questCount(questId) < questTotal(questId)) return [];
+  return [{
+    html: `${QUESTS[questId].icon} Consegna: ${QUESTS[questId].title}`,
+    cls: 'primary-action',
+    fn: () => {
+      setQuest(questId, 'done');
+      addAura(reward);
+      playSound('victory');
+      setDialogue(who.name, who.role, who.avatar, thanks, who.speaker || 'mentor');
+      clearChoices();
+      addChoice('↩️ Continua a esplorare', () => ariaSays(null), 'primary-action');
+    }
+  }];
 }

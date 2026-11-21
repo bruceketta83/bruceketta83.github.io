@@ -30,6 +30,7 @@
       </p>
       <button class="start-btn" id="btn-start" onclick="startGame()">⛵ SALPA VERSO L'ISOLA</button>
       <div class="save-info" id="save-info"></div>
+      <button class="profile-chip" id="profile-chip" onclick="openPlayers()">👤 Giocatrice</button>
       <button class="reset-link" id="btn-reset-save" onclick="confirmReset()" style="display:none;">Ricomincia da zero</button>
     </div>
   </div>
@@ -94,6 +95,10 @@
       <span class="icon">🎒</span>
       <span>Zaino (<span id="inv-count">0</span>)</span>
     </button>
+    <button class="nav-btn" data-nav="profile" onclick="openModal('profile')">
+      <span class="icon">👤</span>
+      <span>Profilo</span>
+    </button>
   </div>
 
   <!-- MODALE TACCUINO -->
@@ -129,6 +134,28 @@
     </div>
   </div>
 
+  <!-- MODALE PROFILO: NEGOZIO E MEDAGLIE -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span>👤 Profilo</span>
+        <button class="close-modal" onclick="closeModal('profile')" aria-label="Chiudi">✕</button>
+      </div>
+      <div class="modal-body" id="profile-content"></div>
+    </div>
+  </div>
+
+  <!-- MODALE GIOCATRICI (dalla schermata iniziale) -->
+  <div class="modal-overlay players" id="modal-players">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span>👥 Chi gioca?</span>
+        <button class="close-modal" onclick="closeModal('players')" aria-label="Chiudi">✕</button>
+      </div>
+      <div class="modal-body" id="players-content"></div>
+    </div>
+  </div>
+
   <!-- NOTIFICHE -->
   <div id="toast"></div>
 
@@ -143,6 +170,8 @@
 <script src="js/scenes.js"></script>
 <script src="js/world.js"></script>
 <script src="js/rooms.js"></script>
+<script src="js/rooms2.js"></script>
+<script src="js/meta.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>
