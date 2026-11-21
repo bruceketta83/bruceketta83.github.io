@@ -498,9 +498,9 @@ function laviniaCameo(area, flagKey) {
           look: 'Una bacheca con dei fogli appesi. Qualcuno ha scritto qualcosa.'
         },
         {
-          id: 'cassa-acqua', name: '📦 Cassa in acqua', box: [46, 180, 34, 26], stand: 62,
+          id: 'cassa-acqua', name: '📦 Cassa in acqua', box: [112, 180, 34, 26], stand: 128,
           visible: () => !flag('cassa_ok'),
-          draw: () => `<g transform="translate(62 196)">
+          draw: () => `<g transform="translate(128 196)">
             <ellipse cx="0" cy="7" rx="15" ry="2.5" fill="#93c5fd" opacity="0.4" class="shimmer"/>
             <g class="bob">
               <rect x="-10" y="-10" width="20" height="16" fill="#a16207" stroke="#713f12" stroke-width="1"/>

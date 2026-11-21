@@ -195,7 +195,7 @@ function readQuestBoard() {
       exits: [
         { ...areaExit('pz-molo', 0, 'pontile', '⬅ Molo', [0, 112, 52, 76], 22, 106), arrive: 360 },
         { id: 'to-strada', label: 'Taverna ➜', box: [348, 164, 52, 36], stand: 370, to: 'strada', arrive: 40, labelY: 192 },
-        areaExit('pz-torre', 2, 'terrazza', '⬆ Torre', [334, 58, 46, 104], 340, 124, () => state.unlockedArea < 2,
+        areaExit('pz-torre', 2, 'terrazza', '⬆ Torre', [334, 58, 46, 104], 340, 84, () => state.unlockedArea < 2,
           ['Il cancello per la Torre è chiuso. Prima devo battere i Pirati Gemelli!', 'Chiuso. Il sentiero per la Torre si apre dopo la Taverna.'])
       ]
     },
@@ -203,7 +203,7 @@ function readQuestBoard() {
     strada: {
       scene: 'strada',
       enter: ['Strada di ciottoli. Dalla Taverna arriva odore di frittelle.', 'Un gatto dorme sul davanzale. Beato lui.', 'Qui fuori è tutto tranquillo. Dentro, decisamente no.'],
-      layout: { groundY: 184, ariaStart: 120 },
+      layout: { groundY: 184, ariaStart: 200 },
       hotspots: [
         {
           id: 'porta', name: '🚪 Porta della Taverna', box: [140, 84, 46, 88], stand: 162,
@@ -254,7 +254,7 @@ function readQuestBoard() {
       enter: ['La Taverna è piena di fumo e risate.', 'Qualcuno canta stonato in fondo alla sala.', 'Odore di frittelle e di guai.'],
       layout: {
         ...A.layout,
-        ariaStart: 60,
+        ariaStart: 255,
         mentor: { ...A.layout.mentor, look: ['L’Oste Bartolomeo. Ha i baffi più curati dell’isola.', 'Lucida i boccali con un’energia incredibile.'] },
         guardian: {
           ...A.layout.guardian,
@@ -275,8 +275,8 @@ function readQuestBoard() {
       },
       hotspots: [
         {
-          id: 'botti', name: '🛢️ Tre botticelle', box: [236, 172, 62, 26], stand: 262,
-          draw: () => ['A', 'B', 'C'].map((l, i) => `<g transform="translate(${246 + i * 21} 186)">
+          id: 'botti', name: '🛢️ Tre botticelle', box: [58, 166, 62, 26], stand: 89,
+          draw: () => ['A', 'B', 'C'].map((l, i) => `<g transform="translate(${68 + i * 21} 180)">
             <rect x="-8" y="-11" width="16" height="20" rx="4" fill="#92400e"/>
             <rect x="-8" y="-6" width="16" height="2" fill="#451a03"/><rect x="-8" y="3" width="16" height="2" fill="#451a03"/>
             <text x="0" y="1.5" font-size="7" fill="#fde68a" text-anchor="middle" font-weight="900">${l}</text></g>`).join(''),
@@ -313,7 +313,7 @@ function readQuestBoard() {
           read: () => readDiary(2),
           look: 'Un foglio viola sul bancone. Profuma di profumo costoso.'
         },
-        laviniaHotspot(A, 'lav1', 238, 172)
+        laviniaHotspot(A, 'lav1', 140, 186)
       ],
       exits: [
         { id: 'to-strada', label: '🚪 Esci', box: [0, 112, 52, 60], stand: 22, to: 'strada', arrive: 238, labelY: 104 }
@@ -431,12 +431,12 @@ function readQuestBoard() {
         { id: 'libri', name: '📚 Libri', box: [82, 162, 24, 26], stand: 94, noDot: true, look: 'Libri di astronomia. Uno si chiama "Stelle al quadrato".' },
         { id: 'pesi', name: '⚖️ Contrappesi', box: [326, 100, 48, 44], stand: 318, noDot: true, look: ['Due contrappesi con delle potenze. Per l’ascensore servono calcoli precisi.', 'I contrappesi dondolano. Mi fanno venire il mal di mare.'] },
         {
-          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [222, 178, 18, 12], stand: 230,
+          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [244, 178, 18, 12], stand: 252,
           visible: () => !flag('bul3'),
-          draw: () => sparkleSVG(230, 186, BOLT),
+          draw: () => sparkleSVG(253, 186, BOLT),
           take: () => collectPiece('bulloni', 'bul3', ['Un bullone d’oro vicino all’ascensore! Le Gemelle lo staranno cercando.', 'Un bullone tutto d’oro. Questo è roba da Officina.'])
         },
-        laviniaHotspot(A, 'lav2', 160, 190)
+        laviniaHotspot(A, 'lav2', 222, 188)
       ],
       exits: [
         { ...leftExit(1, 'piazza', '⬅ Piazza'), arrive: 302 },
@@ -524,9 +524,9 @@ function readQuestBoard() {
           look: 'Un altro foglio viola. Lavinia è passata anche di qui.'
         },
         {
-          id: 'mug1', name: '🍺 Un boccale', box: [232, 168, 18, 14], stand: 240,
+          id: 'mug1', name: '🍺 Un boccale', box: [258, 170, 18, 14], stand: 266,
           visible: () => !flag('mug1'),
-          draw: () => sparkleSVG(241, 178, MUG),
+          draw: () => sparkleSVG(267, 180, MUG),
           take: () => collectPiece('boccali', 'mug1', ['Un boccale della Taverna! Archimede ci beveva la camomilla.', 'Il boccale dell’Oste. Archimede, sei un ladro di boccali!'])
         },
         { id: 'scaffali', name: '📚 Scaffali', box: [72, 10, 64, 112], stand: 100, noDot: true, look: ['Libri su libri. Uno si chiama "Potenze per principianti". Lo leggerei.', 'C’è un libro intitolato "2 alla 10: storia di un kilobyte".'] }
@@ -652,9 +652,9 @@ function readQuestBoard() {
           look: 'Una porta verde con un tastierino. Il vivaio è chiuso.'
         },
         {
-          id: 'mug3', name: '🍺 Un boccale', box: [174, 170, 18, 14], stand: 183,
+          id: 'mug3', name: '🍺 Un boccale', box: [52, 178, 18, 14], stand: 70,
           visible: () => !flag('mug3'),
-          draw: () => sparkleSVG(183, 180, MUG),
+          draw: () => sparkleSVG(61, 188, MUG),
           take: () => collectPiece('boccali', 'mug3', ['Un boccale tra le piante! Madame Zeri ci annaffiava le orchidee.', 'Il boccale dell’Oste, pieno di terriccio. Che stile.'])
         },
         {
@@ -662,7 +662,7 @@ function readQuestBoard() {
           visible: () => flag('vivaio_open'),
           draw: () => '<rect x="238" y="128" width="22" height="54" fill="#022c22"/><path d="M238 128 L232 132 L232 184 L238 182 Z" fill="#065f46"/>'
         },
-        laviniaHotspot(A, 'lav3', 214, 184)
+        laviniaHotspot(A, 'lav3', 150, 196)
       ],
       exits: [
         leftExit(2, 'belvedere', '⬅ Belvedere'),
@@ -832,7 +832,7 @@ function readQuestBoard() {
           take: () => collectPiece('bulloni', 'bul1')
         },
         { id: 'manometro', name: '⏲️ Manometro', box: [288, 82, 24, 26], stand: 296, noDot: true, look: 'La lancetta balla. La pressione è alla seconda... o alla terza.' },
-        laviniaHotspot(A, 'lav4', 166, 180)
+        laviniaHotspot(A, 'lav4', 190, 180)
       ],
       exits: [
         leftExit(2, 'belvedere', '⬅ Belvedere'),

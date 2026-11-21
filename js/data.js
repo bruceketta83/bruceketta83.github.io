@@ -183,7 +183,7 @@ const AREAS = [
     scene: 'torre',
     layout: {
       groundY: 188,
-      ariaStart: 196,
+      ariaStart: 120,
       mentor: { x: 176, draw: 'archimede', stand: 146, label: '🔭 Archimede' },
       guardian: { x: 286, draw: 'terminal', stand: 250, label: '⚙️ Ascensore' }
     },
@@ -241,8 +241,8 @@ const AREAS = [
     scene: 'serra',
     layout: {
       groundY: 196,
-      ariaStart: 190,
-      mentor: { x: 120, draw: 'zeri', stand: 150, label: '🕶️ Madame Zeri' },
+      ariaStart: 188,
+      mentor: { x: 104, draw: 'zeri', stand: 134, label: '🕶️ Madame Zeri' },
       guardian: { x: 292, draw: 'plant', stand: 250, label: '🌺 Pianta Carnivora' }
     },
     crystal: { id: 'c4', name: 'Cristallo Smeraldo', icon: '🟢', desc: 'Racchiude il potere assoluto dell’unità.' },
@@ -299,7 +299,7 @@ const AREAS = [
     scene: 'officina',
     layout: {
       groundY: 180,
-      ariaStart: 196,
+      ariaStart: 230,
       mentor: { x: 132, draw: 'gemelle', stand: 170, label: '👯‍♀️ Mira & Nora' },
       guardian: { x: 292, draw: 'automa', stand: 244, label: '🤖 Automa' }
     },
