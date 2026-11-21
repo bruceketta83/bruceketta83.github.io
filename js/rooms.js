@@ -589,9 +589,9 @@ function laviniaCameo(area, flagKey) {
           ]
         },
         {
-          id: 'diario1', name: '📓 Un quaderno viola', box: [354, 132, 22, 14], stand: 340,
+          id: 'diario1', name: '📓 Un quaderno viola', box: [299, 170, 22, 14], stand: 310,
           visible: () => !flag('dia1'),
-          draw: () => diaryPageSVG(366, 138),
+          draw: () => diaryPageSVG(310, 177),
           read: () => readDiary(1),
           look: 'Un foglio viola con una corona disegnata sopra. Mi ricorda qualcuno...'
         },

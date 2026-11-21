@@ -730,14 +730,14 @@ function done(A) { return state.completedAreas.includes(A.id); }
               setFlag('seme_ok');
               playSound('success');
               refreshLabels(A);
-              ariaSays(['Pianto il Seme Luminescente... cresce un fiore che brilla! E dietro il vaso luccica qualcosa.', 'Il seme diventa un fiore-lampada. Ora vedo un bullone nell’angolo!']);
+              ariaSays(['Pianto il Seme Luminescente... cresce un fiore che brilla! E accanto al vaso luccica qualcosa.', 'Il seme diventa un fiore-lampada. Ora vedo un bullone nell’angolo!']);
             }
           }
         },
         {
-          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [356, 172, 16, 12], stand: 352,
+          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [290, 172, 18, 14], stand: 299,
           visible: () => flag('seme_ok') && !flag('bul3'),
-          draw: () => sparkleSVG(364, 180, BOLT),
+          draw: () => sparkleSVG(299, 180, BOLT),
           take: () => collectPiece('bulloni', 'bul3')
         },
         { id: 'cassettiera', name: '🗄️ Cassettiera', box: [56, 122, 54, 60], stand: 84, noDot: true, look: ['Cassetti pieni di viti. Mira le ha messe in ordine di grandezza. Nora no.', 'Una cassettiera. Un cassetto dice "potenze di 2", un altro "potenze di 10".'] }
