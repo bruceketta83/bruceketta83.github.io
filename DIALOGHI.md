@@ -14,6 +14,23 @@ Regole per scrivere e rivedere i dialoghi del gioco. Usale come lista di control
 1. Usa un tono pop e ironico, con lo slang dei ragazzi.
 2. Fai battute leggere. Non scrivere insulti, commenti sul corpo o frasi che escludono qualcuno.
 3. Non usare parolacce, nemmeno attenuate.
+4. Scrivi in italiano. Usa una parola inglese solo se è nello slang approvato (sezione 3).
+5. Puoi usare le parole inglesi già entrate nell'italiano: ok, wow, tilt, nerd, follower, TikTok.
+6. Traduci le altre parole inglesi. Esempi:
+
+| Non scrivere | Scrivi |
+| :--- | :--- |
+| game over | partita finita |
+| game on | sfida accettata |
+| plot twist | colpo di scena |
+| focus | concentrati |
+| zero drama | niente drammi |
+| combo | serie (di risposte giuste) |
+| boss | sfidante finale |
+| round | sfida |
+| online (robot) | attivo |
+| boom | bum |
+| stop | ferma |
 
 ## 3. Parole e riferimenti approvati
 

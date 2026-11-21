@@ -52,7 +52,7 @@ const MSG = {
   multExp: [
     'Bro, hai moltiplicato gli esponenti! Con la stessa base gli esponenti si SOMMANO.',
     'Nemmeno Fabri Fibra nei testi più paranoici moltiplicherebbe questi esponenti! Stessa base = esponenti SOMMATI.',
-    'Cringe alert: esponenti moltiplicati. Con il PER tra potenze della stessa base si SOMMANO!',
+    'Allarme cringe: esponenti moltiplicati. Con il PER tra potenze della stessa base si SOMMANO!',
     'Red flag: esponenti moltiplicati! Con la stessa base e il PER, gli esponenti si SOMMANO.'
   ],
   multBase: [
@@ -64,7 +64,7 @@ const MSG = {
   ],
   sumInsteadSub: [
     'Hai sommato invece di sottrarre! C’è il simbolo di DIVISO (:), non per!',
-    'Plot twist: era un DIVISO! Con il diviso gli esponenti si SOTTRAGGONO.',
+    'Colpo di scena: era un DIVISO! Con il diviso gli esponenti si SOTTRAGGONO.',
     'Occhio al segno! DIVISO = esponenti SOTTRATTI.',
     'Chillati e rileggi il segno: è un DIVISO. Gli esponenti si SOTTRAGGONO.',
     'Nemmeno Olly sul palco di Sanremo sbaglierebbe questo segno: con il DIVISO gli esponenti si SOTTRAGGONO.'
@@ -78,16 +78,16 @@ const MSG = {
   ],
   zeroIsZero: [
     'Cringe! Un numero elevato a zero non fa zero, fa UNO!',
-    'Zero drama: qualsiasi numero (tranne 0) elevato a 0 fa 1, non 0!',
+    'Niente drammi: qualsiasi numero (tranne 0) elevato a 0 fa 1, non 0!',
     'Esponente 0 ≠ risultato 0. Il risultato è sempre 1!',
     'Pensare che a<sup>0</sup> faccia 0 è un po’ delulu. Fa sempre 1 (con a diverso da 0)!',
     'Angelina Mango canta “La noia”, ma qui la noia è sbagliare: elevato a 0 fa 1!'
   ],
   meme67: [
-    'Six seven?! Ma che stai facendo, il balletto su TikTok?! Focus!',
+    'Six seven?! Ma che stai facendo, il balletto su TikTok?! Concentrati!',
     'Ancora con sto six seven?! Il meme è valido, la risposta no.',
     '6-7 rilevato 🤖. Meme approvato, risposta bocciata.',
-    'Six seven a random? Raga, focus: rifai il calcolo.'
+    'Six seven a random? Raga, concentrazione: rifai il calcolo.'
   ],
   close: [
     'Quasi! Ricontrolla il calcolo dell’esponente.',

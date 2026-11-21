@@ -146,7 +146,7 @@ function readQuestBoard() {
   ];
   A.guardian.loseMsg = [
     'Ahah, sei andata in tilt! Ripassa la Regola 2 e torna al tavolo, se hai il coraggio.',
-    'Game over! Ma il tavolo è sempre aperto. Torna quando vuoi.'
+    'Partita finita! Ma il tavolo è sempre aperto. Torna quando vuoi.'
   ];
   A.guardian.winMsg = [
     'Incredibile, ci ha ripuliti! Prendi pure il <b>Cristallo Ciano</b> e il <b>Cannocchiale</b>. Hai un’aura spaventosa!',
@@ -391,7 +391,7 @@ function readQuestBoard() {
         ...A.layout,
         mentor: {
           ...A.layout.mentor,
-          look: ['Archimede. Ha più barba che faccia.', 'Ha gli occhiali tondi e una lente in mano. Nerd level: leggendario.'],
+          look: ['Archimede. Ha più barba che faccia.', 'Ha gli occhiali tondi e una lente in mano. Livello nerd: leggendario.'],
           useItem: {
             i2: () => {
               removeItem('i2');
@@ -480,7 +480,7 @@ function readQuestBoard() {
             setFlag('read_lavagna');
             const P = P_torre();
             showReading('🟩 Lavagna di Archimede', `Combinazione dell’armadio:<br>l’<b>esponente</b> di <span class="math-expr">(${P.b}<sup>${P.m}</sup>)<sup>${P.n}</sup></span><br><br><i>Il risultato calcolalo tu, mica io!</i> — A.`,
-              () => ariaSays(['Potenza di potenza... gli esponenti si moltiplicano. Faccio il conto.', 'Ok, devo moltiplicare gli esponenti. Calcolatrice mentale: ON.']));
+              () => ariaSays(['Potenza di potenza... gli esponenti si moltiplicano. Faccio il conto.', 'Ok, devo moltiplicare gli esponenti. Calcolatrice mentale: accesa.']));
           },
           look: 'Una lavagna con un calcolo scritto col gesso.'
         },
@@ -546,7 +546,7 @@ function readQuestBoard() {
   ];
 
   A.mentor.lines = [
-    ['Tesoro, qui dentro vige la legge della Vera Baddie: non importa quanto un numero sia gigante, se lo elevi a <b>0</b> diventa subito <b>1</b>. Zero drama.',
+    ['Tesoro, qui dentro vige la legge della Vera Baddie: non importa quanto un numero sia gigante, se lo elevi a <b>0</b> diventa subito <b>1</b>. Niente drammi.',
      'Ciao cara. Io sono Madame Zeri e ti insegno la regola più chic dell’isola: l’esponente zero.'],
     'Ricorda due cose: <b>qualsiasi numero (tranne zero) elevato a 0 fa 1</b>, mentre <b>qualsiasi numero elevato a 1 resta se stesso</b>. E 0<sup>0</sup> non esiste!',
     'Ho inserito la <b>Regola 4</b> nel Taccuino. La pianta dorme: per svegliarla serve acqua. L’annaffiatoio è nel <b>vivaio</b>, ma è chiuso e buio. Il codice è sul cartello del banco.'
@@ -719,7 +719,7 @@ function readQuestBoard() {
           read: () => readDiary(4),
           look: 'Un foglio viola tra le piantine. Ancora Lavinia!'
         },
-        { id: 'piantine', name: '🌱 Piantine', box: [50, 50, 110, 76], stand: 105, noDot: true, visible: () => flag('vivaio_luce'), look: ['Centinaia di piantine. Se ognuna fa 2 semi, poi 4, poi 8...', 'Piantine baby. Adorabili. Non carnivore, spero.'] }
+        { id: 'piantine', name: '🌱 Piantine', box: [50, 50, 110, 76], stand: 105, noDot: true, visible: () => flag('vivaio_luce'), look: ['Centinaia di piantine. Se ognuna fa 2 semi, poi 4, poi 8...', 'Piantine neonate. Adorabili. Non carnivore, spero.'] }
       ],
       exits: [
         { id: 'to-giardino', label: '🚪 Giardino', box: [10, 98, 36, 88], stand: 30, to: 'giardino', arrive: 249, labelY: 92 }
@@ -744,7 +744,7 @@ function readQuestBoard() {
      'Mira: "Ciao! Noi siamo Mira e Nora. Gemelle, meccaniche e geniali. In quest’ordine."'],
     'Nora: "Quando moltiplichi o dividi potenze con lo <b>stesso esponente</b>, fai prima l’operazione tra le basi e lasci lo stesso esponente!"',
     ['Mira: "Esempio: <span class="math-expr">4<sup>3</sup> · 5<sup>3</sup> = (4 · 5)<sup>3</sup> = 20<sup>3</sup></span>. Facile come stringere un bullone."',
-     'Nora: "Tipo <span class="math-expr">12<sup>4</sup> : 4<sup>4</sup> = (12 : 4)<sup>4</sup> = 3<sup>4</sup></span>. Boom."'],
+     'Nora: "Tipo <span class="math-expr">12<sup>4</sup> : 4<sup>4</sup> = (12 : 4)<sup>4</sup> = 3<sup>4</sup></span>. Bum."'],
     'Mira: "Abbiamo scritto la <b>Regola 5</b> nel Taccuino. L’Automa è spento: gli manca l’<b>ingranaggio d’oro</b>, chiuso nella bilancia del magazzino." Nora: "E se trovi i nostri <b>3 bulloni d’oro</b>... ti paghiamo!"'
   ];
   A.mentor.again = () => (questState('bulloni') === 'active' && questCount('bulloni') < 3
@@ -760,7 +760,7 @@ function readQuestBoard() {
 
   A.guardian.intro = [
     'PROTOCOLLO DI BLOCCO ATTIVO. Fondere gli ingranaggi con lo stesso esponente per aprire il passaggio.',
-    'INGRANAGGIO INSERITO. SISTEMI ONLINE. AVVIO SFIDA.',
+    'INGRANAGGIO INSERITO. SISTEMI ATTIVI. AVVIO SFIDA.',
     'CLANK CLANK. RISPONDERE CORRETTAMENTE O RESTARE QUI PER SEMPRE.'
   ];
   A.guardian.blockMsg = [
@@ -807,7 +807,7 @@ function readQuestBoard() {
               setFlag('ingranaggio_ok');
               playSound('success');
               refreshLabels(A);
-              setDialogue(A.guardian.name, A.guardian.role, 'automa', ['CLICK... VRRRM! SISTEMI ONLINE. Avvio protocollo di sfida.', 'INGRANAGGIO RILEVATO. BUONGIORNO. ORA TI SFIDO.'], 'guardian');
+              setDialogue(A.guardian.name, A.guardian.role, 'automa', ['CLIC... VRRRM! SISTEMI ATTIVI. Avvio protocollo di sfida.', 'INGRANAGGIO RILEVATO. BUONGIORNO. ORA TI SFIDO.'], 'guardian');
               clearChoices();
               addChoice('⚔️ Sfida l’Automa', () => startGuardianChallenge(A), 'primary-action');
               addChoice('↩️ Più tardi', () => ariaSays(null));
@@ -920,7 +920,7 @@ function readQuestBoard() {
   ];
 
   A.guardian.intro = [
-    'Pensi davvero di battermi, Aria? Io ho l’aura da prima della classe! Vediamo se reggi questi round combinati!',
+    'Pensi davvero di battermi, Aria? Io ho l’aura da prima della classe! Vediamo se reggi queste sfide miste!',
     'Finalmente. Ti aspettavo. Ultimo duello: tutte le regole insieme.',
     'Sei arrivata fin qui? Ok. Ma qui finisce la tua fortuna.'
   ];

@@ -9,13 +9,13 @@ const MEDALS = [
   { id: 'cristallo', icon: '💎', name: 'Primo cristallo', desc: 'Vinci il primo duello.', check: () => state.crystals.length >= 1 },
   { id: 'lettrice', icon: '🧭', name: 'Esploratrice', desc: 'Leggi la tua prima Curiosità.', check: () => state.curiosities.length >= 1 },
   { id: 'perfetto', icon: '🎯', name: 'Zero errori', desc: 'Vinci un duello senza errori.', check: () => flag('perfect') },
-  { id: 'combo', icon: '🔥', name: 'Combo x4', desc: 'Dai 4 risposte giuste di fila (si può solo nel Duello Finale!).', check: () => (state.maxStreak || 0) >= 4 },
+  { id: 'combo', icon: '🔥', name: 'Serie da 4', desc: 'Dai 4 risposte giuste di fila (si può solo nel Duello Finale!).', check: () => (state.maxStreak || 0) >= 4 },
   { id: 'curiosa', icon: '🔍', name: 'Super curiosa', desc: 'Leggi tutte le Curiosità dell’isola.', check: () => state.curiosities.length >= Object.keys(CURIOSITIES).length },
   { id: 'detective', icon: '📓', name: 'Detective', desc: 'Trova tutte le pagine del diario di Lavinia.', check: () => questState('diario') === 'done' },
   { id: 'aiutante', icon: '🤝', name: 'Aiutante dell’isola', desc: 'Completa le missioni di Vera, Oste, Archimede e Gemelle.', check: () => ['dobloni', 'boccali', 'cannocchiale', 'bulloni'].every(q => questState(q) === 'done') },
   { id: 'zittalavinia', icon: '👑', name: 'Zitta, Lavinia!', desc: 'Rispondi giusto a tutte le domande lampo di Lavinia.', check: () => [0, 1, 2, 3, 4].every(i => flag(`lav${i}_won`)) },
   { id: 'aura', icon: '✨', name: 'Aura stellare', desc: 'Raggiungi 1000 Aura.', check: () => state.aura >= 1000 },
-  { id: 'shopping', icon: '🛍️', name: 'Fashion victim', desc: 'Compra un oggetto nel Negozio dell’Aura.', check: () => state.owned.length >= 1 },
+  { id: 'shopping', icon: '🛍️', name: 'Malata di shopping', desc: 'Compra un oggetto nel Negozio dell’Aura.', check: () => state.owned.length >= 1 },
   { id: 'stelle', icon: '⭐', name: 'Tutte le stelle', desc: 'Fai 3 stelle in tutte le 6 aree.', check: () => AREAS.every(a => (state.stars[a.id] || 0) === 3) },
   { id: 'faro', icon: '🏆', name: 'Eroina del Faro', desc: 'Accendi il Faro e salva l’isola.', check: () => state.gameWon }
 ];
