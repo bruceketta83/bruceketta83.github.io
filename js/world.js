@@ -21,7 +21,9 @@ const FAIL_USE = [
   'Nemmeno con tutta l’aura del mondo.',
   'Bella idea... ma no.',
   'Sei seria? Proviamo altro.',
-  'Ehm... no. Anche il granchio ride.'
+  'Ehm... no. Anche il granchio ride.',
+  'Boh. Così a random non funziona.',
+  'Sus. Meglio di no.'
 ];
 
 function flag(k) { return !!state.flags[k]; }

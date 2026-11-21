@@ -197,7 +197,11 @@ const LAVINIA = {
     'Ancora tu? Pensavo fossi rimasta a giocare con i granchi.',
     'Io le potenze le so a mena dito. Tu a mena... niente.',
     'Ho studiato come se non ci fosse un domani. Tu? Ah già, tu giochi coi granchi.',
-    'Ho ripassato tutto a tappeto. Il tuo tappeto invece è... vuoto.'
+    'Ho ripassato tutto a tappeto. Il tuo tappeto invece è... vuoto.',
+    'Pensi di arrivare al Faro prima di me? Delulu.',
+    'Guarda il mio Labubu edizione limitata. Ah, tu non ce l’hai? Che peccato. Non.',
+    'Oggi flexo: tre cristalli e zero errori. Tu? Boh, lascia stare.',
+    'Io studio con Elodie nelle cuffie. Tu con i granchi che fanno il beat.'
   ],
   challenge: [
     'Domanda lampo. Vediamo se reggi o se vai in tilt.',
@@ -207,17 +211,21 @@ const LAVINIA = {
   win: [
     'Tsk. Fortuna. Pura fortuna. Ci vediamo in cima al Faro!',
     'Ok, questa la sapevi. Non montarti la testa.',
-    'Ugh. Va bene. Ma il Faro sarà mio!'
+    'Ugh. Va bene. Ma il Faro sarà mio!',
+    'Ok, slay. Contenta? Tanto vinco io.'
   ],
   lose: [
     'Ahahah! Lo sapevo. Torna a giocare con i granchi.',
     'Sbagliato! Dovrei postarlo per i miei follower.',
-    'Che cringe. Ripassa, principiante.'
+    'Che cringe. Ripassa, principiante.',
+    'Red flag: sbagli le basi. Letteralmente.',
+    'Risposta random? Si vede.'
   ],
   ariaAfter: [
     'Che antipatica. Ma la batterò.',
     'Lavinia se n’è andata. Finalmente si respira.',
-    'Ok, Lavinia: game on.'
+    'Ok, Lavinia: game on.',
+    'Lavinia è troppo delulu. Io mi chillo e ripasso.'
   ]
 };
 

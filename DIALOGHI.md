@@ -28,6 +28,14 @@ Regole per scrivere e rivedere i dialoghi del gioco. Usale come lista di control
 | easy | Dopo un esempio semplice |
 | cringe | Per un errore imbarazzante o una battuta brutta. Esempio: "Moltiplicare gli esponenti qui? Cringe." |
 | chillati | Per calmare chi sbaglia o ha fretta. Esempio: "Chillati, rileggi la regola." |
+| slay | Lode dopo una risposta giusta. Lavinia: "Ok, slay. Contenta?" |
+| delulu | Illusa. Lavinia: "Pensi di arrivare al Faro prima di me? Delulu." |
+| red flag / green flag | Errore grave / risposta giusta. "Red flag: esponenti moltiplicati!" |
+| POV | Scena tipica. "POV: hai usato la regola sbagliata." |
+| boh / raga / ci sta | Parlato comune di Aria, Lavinia e Zia Turbina |
+| random | A caso. "Risposta random? Si vede." |
+| flexare | Vantarsi. Lavinia: "Oggi flexo: tre cristalli e zero errori." |
+| sus | Sospetto. "Base cambiata? Sus." |
 
 ### Artisti e meme
 
@@ -36,6 +44,16 @@ Regole per scrivere e rivedere i dialoghi del gioco. Usale come lista di control
 | Fabri Fibra | Spiegazione di un errore |
 | Marracash | Spiegazione di un errore |
 | "Six seven" (6⁷) | Risposta sbagliata buffa (`MSG.meme67`). Mai in "trova l'errore". |
+| Anna | Errore di potenza di potenza ("Anna lo direbbe a ritmo…") |
+| Angelina Mango | Errore di esponente zero ("La noia") |
+| Olly | Errore di quoziente (Sanremo) |
+| Annalisa | Errore di base cambiata (ritornello che resta in testa) |
+| Elodie | Lavinia studia con Elodie nelle cuffie |
+| Mahmood | Zia Turbina canta ai piccioni |
+| Sarah Toscano | Zia Turbina canta "come ad Amici" |
+| Labubu | Collezione di Zia Turbina e di Lavinia |
+| Capibara | Animale chill della Serra e di Zia Turbina |
+| Cioccolato di Dubai | Prodotto assurdo di Zia Turbina |
 
 ### Frasi della professoressa
 
@@ -80,41 +98,41 @@ Regole per scrivere e rivedere i dialoghi del gioco. Usale come lista di control
 | `js/world.js` | Frasi generiche (`FAIL_USE`, guarda, prendi) |
 | `js/generator.js` | Spiegazioni degli errori tipici negli esercizi casuali |
 
-## 8. Proposte da approvare
+## 8. Proposte valutate
 
-Stato: ✅ approvato · ⬜ da decidere · ⚠️ solo con cautela.
+Stato: ✅ approvato e già nel gioco · ❌ non scelto · ⚠️ solo con cautela.
 Le mode cambiano in fretta. Prima di usare una voce, chiedi conferma alla professoressa o alle ragazze.
 
 ### Slang
 
 | Parola | Significato | Esempio nel gioco | Stato |
 | :--- | :--- | :--- | :--- |
-| slay | Fare una cosa benissimo | "Tre giuste di fila: slay!" | ⬜ |
-| delulu | Illusa, fuori dalla realtà | Lavinia: "Pensi di battermi? Delulu." | ⬜ |
-| red flag / green flag | Segnale cattivo / buono | "Moltiplicare esponenti con basi diverse: red flag." | ⬜ |
-| POV | Punto di vista, scena tipica | Curiosità: "POV: dividi due potenze con la stessa base." | ⬜ |
-| main character | La protagonista | Zia Turbina: "Oggi sei la main character!" | ⬜ |
-| NPC | Personaggio senza idee | Lavinia ai guardiani: "Sei proprio un NPC." | ⬜ |
-| random | A caso | "Hai risposto random?" | ⬜ |
-| boh / raga / ci sta | Parlato comune | Battute di Aria | ⬜ |
-| flexare | Vantarsi | Lavinia: "Flexo il mio record." | ⬜ |
-| ick | Cosa che fa ribrezzo | "L'esponente zero che fa zero? Che ick." | ⬜ |
-| aura farming | Fare scena per guadagnare aura | Zia Turbina vende "kit per aura farming" | ⬜ |
-| sus | Sospetto | "Questo risultato è sus." | ⬜ |
+| slay | Fare una cosa benissimo | "Tre giuste di fila: slay!" | ✅ |
+| delulu | Illusa, fuori dalla realtà | Lavinia: "Pensi di battermi? Delulu." | ✅ |
+| red flag / green flag | Segnale cattivo / buono | "Moltiplicare esponenti con basi diverse: red flag." | ✅ |
+| POV | Punto di vista, scena tipica | Curiosità: "POV: dividi due potenze con la stessa base." | ✅ |
+| main character | La protagonista | Zia Turbina: "Oggi sei la main character!" | ❌ |
+| NPC | Personaggio senza idee | Lavinia ai guardiani: "Sei proprio un NPC." | ❌ |
+| random | A caso | "Hai risposto random?" | ✅ |
+| boh / raga / ci sta | Parlato comune | Battute di Aria | ✅ |
+| flexare | Vantarsi | Lavinia: "Flexo il mio record." | ✅ |
+| ick | Cosa che fa ribrezzo | "L'esponente zero che fa zero? Che ick." | ❌ |
+| aura farming | Fare scena per guadagnare aura | Zia Turbina vende "kit per aura farming" | ❌ |
+| sus | Sospetto | "Questo risultato è sus." | ✅ |
 | rizz / sigma / mewing | Slang maschile, da social | Meglio di no: il pubblico è femminile | ⚠️ |
 
 ### Artisti
 
 | Artista | Perché | Stato |
 | :--- | :--- | :--- |
-| Anna (Pepe) | Rapper italiana molto ascoltata dalle ragazze | ⬜ |
-| Angelina Mango | Cantautrice, Sanremo 2024 | ⬜ |
-| Olly | Vincitore di Sanremo 2025 | ⬜ |
-| Sarah Toscano | Da Amici, molto seguita dalle più giovani | ⬜ |
-| Annalisa, Elodie, Mahmood | Pop italiano conosciuto da tutti | ⬜ |
-| Taylor Swift, Sabrina Carpenter, Olivia Rodrigo, Billie Eilish | Pop internazionale molto seguito dalle ragazze | ⬜ |
-| K-pop (BTS, Stray Kids, Blackpink) | Fandom grandi tra le ragazze delle medie | ⬜ |
-| Rosé e Bruno Mars, "APT." | Canzone e balletto diventati meme | ⬜ |
+| Anna (Pepe) | Rapper italiana molto ascoltata dalle ragazze | ✅ |
+| Angelina Mango | Cantautrice, Sanremo 2024 | ✅ |
+| Olly | Vincitore di Sanremo 2025 | ✅ |
+| Sarah Toscano | Da Amici, molto seguita dalle più giovani | ✅ |
+| Annalisa, Elodie, Mahmood | Pop italiano conosciuto da tutti | ✅ |
+| Taylor Swift, Sabrina Carpenter, Olivia Rodrigo, Billie Eilish | Pop internazionale molto seguito dalle ragazze | ❌ |
+| K-pop (BTS, Stray Kids, Blackpink) | Fandom grandi tra le ragazze delle medie | ❌ |
+| Rosé e Bruno Mars, "APT." | Canzone e balletto diventati meme | ❌ |
 | Geolier, Lazza, Sfera Ebbasta | Molto ascoltati, ma con testi espliciti: citare solo il nome | ⚠️ |
 
 ### Meme e mode
@@ -122,8 +140,8 @@ Le mode cambiano in fretta. Prima di usare una voce, chiedi conferma alla profes
 | Meme | Esempio nel gioco | Stato |
 | :--- | :--- | :--- |
 | Italian brainrot (Tung Tung Tung Sahur, Ballerina Cappuccina) | Nomi buffi nelle frasi di Zia Turbina | ⚠️ Usa solo i nomi. Alcuni audio originali hanno bestemmie o frasi offensive (es. Tralalero Tralala, Bombardiro Crocodilo). |
-| Labubu | Peluche collezionabile nel negozio di Zia Turbina | ⬜ |
-| Capibara | Animale "chill" nella Serra | ⬜ |
-| Cioccolato di Dubai | Prodotto assurdo di Zia Turbina | ⬜ |
-| GRWM ("get ready with me") | Armadio: "GRWM per il duello" | ⬜ |
-| "It's giving..." | "It's giving esponente zero." | ⬜ |
+| Labubu | Peluche collezionabile nel negozio di Zia Turbina | ✅ |
+| Capibara | Animale "chill" nella Serra | ✅ |
+| Cioccolato di Dubai | Prodotto assurdo di Zia Turbina | ✅ |
+| GRWM ("get ready with me") | Armadio: "GRWM per il duello" | ❌ |
+| "It's giving..." | "It's giving esponente zero." | ❌ |
