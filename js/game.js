@@ -239,7 +239,7 @@ function flyCrystal(icon, svgX, svgY, done) {
    -------------------------------------------------------------------------- */
 function typeText(el, html, done) {
   el.innerHTML = html;
-  if (reducedMotion) { done(); return; }
+  if (reducedMotion || (typeof readingPrefs === 'function' && readingPrefs().instant)) { done(); return; }
 
   const nodes = [];
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
@@ -306,6 +306,7 @@ function setDialogue(name, role, avatar, html, speaker, boxClass = '') {
     if (s) talkers.push(s);
   }
   talkers.forEach(t => t.classList.add('talking'));
+  if (typeof readingOnDialogue === 'function') readingOnDialogue(html);
   typeText($('dialogue-text'), html, () => {
     talkers.forEach(t => t.classList.remove('talking'));
     choices.classList.remove('pending');
@@ -327,7 +328,10 @@ function addChoice(html, onClick, cls = '') {
   return b;
 }
 
-function setFeedback(html) { $('feedback-slot').innerHTML = html; }
+function setFeedback(html) {
+  $('feedback-slot').innerHTML = html;
+  if (typeof readingOnFeedback === 'function') readingOnFeedback(html);
+}
 
 function scrollDialogueToEnd() {
   const d = $('dialogue-area');

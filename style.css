@@ -81,12 +81,17 @@ body {
   transition: transform 0.2s;
 }
 .hud-badge.pop { animation: pop 0.5s ease; }
+.hud-badge { white-space: nowrap; }
+@media (max-width: 400px) {
+  #hud { padding: 8px 8px; gap: 5px; }
+  .hud-badge { padding: 5px 8px; gap: 4px; font-size: 0.78rem; }
+}
 @keyframes pop { 50% { transform: scale(1.25); } }
 
 .aura-val { color: var(--accent-gold); }
 .crystal-val { color: var(--accent-cyan); }
 
-#btn-audio {
+#btn-audio, #btn-reading {
   background: none;
   border: 1px solid var(--panel-border);
   color: var(--text-main);
@@ -1241,7 +1246,7 @@ sup {
 }
 
 /* ---------- PROFILO, NEGOZIO, MEDAGLIE ---------- */
-.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.tabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 6px; }
 .tabs button {
   padding: 8px;
   border-radius: 10px;
@@ -1476,6 +1481,68 @@ sup {
 
 .rule-level { margin-top: 6px; font-size: 0.8rem; color: #334155; display: flex; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
 .recent-dots { letter-spacing: -2px; font-size: 0.7rem; }
+
+/* ---------- OPZIONI DI LETTURA ----------
+   Font liberi (SIL Open Font License), salvati nella cartella fonts/ per il gioco offline. */
+@font-face { font-family: "OpenDyslexic"; src: url("fonts/opendyslexic-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "OpenDyslexic"; src: url("fonts/opendyslexic-latin-700-normal.woff2") format("woff2"); font-weight: 600 900; font-display: swap; }
+@font-face { font-family: "Atkinson Hyperlegible"; src: url("fonts/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Atkinson Hyperlegible"; src: url("fonts/atkinson-hyperlegible-latin-700-normal.woff2") format("woff2"); font-weight: 600 900; font-display: swap; }
+
+/* Font e grandezza solo nei testi da leggere: barre, scena e calcolatrice restano uguali. */
+html.font-dys :is(.dialogue-box, #feedback-slot, .choice-btn, .modal-body, #action-bubble),
+html.font-dys :is(.dialogue-box, #feedback-slot, .choice-btn, .modal-body, #action-bubble) button { font-family: "OpenDyslexic", sans-serif; }
+html.font-easy :is(.dialogue-box, #feedback-slot, .choice-btn, .modal-body, #action-bubble),
+html.font-easy :is(.dialogue-box, #feedback-slot, .choice-btn, .modal-body, #action-bubble) button { font-family: "Atkinson Hyperlegible", sans-serif; }
+
+.dialogue-box, #feedback-slot, .choices-list, .modal-body { zoom: var(--read-zoom, 1); }
+
+html.read-spacing .dialogue-box,
+html.read-spacing .choice-btn,
+html.read-spacing #feedback-slot,
+html.read-spacing .modal-body { letter-spacing: 0.06em; word-spacing: 0.16em; line-height: 1.75; }
+
+#btn-listen {
+  display: none;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--accent-cyan);
+  background: #164e63;
+  color: #cffafe;
+  font-weight: 800;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+html.read-voice #btn-listen { display: block; }
+#btn-listen[aria-pressed="true"] { background: var(--accent-gold); color: #1e293b; border-color: var(--accent-gold); }
+
+.reading-panel { display: flex; flex-direction: column; gap: 12px; }
+.read-sample {
+  background: var(--panel-bg);
+  border: 1px dashed var(--accent-cyan);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+}
+.read-row { display: flex; flex-direction: column; gap: 5px; }
+.read-title { font-weight: 800; font-size: 0.9rem; }
+.read-choices { display: flex; flex-wrap: wrap; gap: 6px; }
+.read-opt {
+  flex: 1 1 auto;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  background: #0f172a;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.read-opt.on { background: var(--accent-cyan); border-color: var(--accent-cyan); color: #0f172a; }
+.read-opt:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ---------- CALCOLATRICE ----------
    Sta dentro la scena: non copre mai dialoghi, esercizio e risposte. */
