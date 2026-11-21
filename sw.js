@@ -4,7 +4,7 @@
    aggiorna la copia; offline usa la copia salvata sul dispositivo.
    Cambia CACHE quando cambia l'elenco dei file.
    ========================================================================== */
-const CACHE = 'esponentia-v2';
+const CACHE = 'esponentia-v3';
 const FILES = [
   './',
   'index.html',
@@ -18,6 +18,7 @@ const FILES = [
   'js/data.js',
   'js/generator.js',
   'js/exercises.js',
+  'js/calculator.js',
   'js/characters.js',
   'js/scenes.js',
   'js/world.js',
