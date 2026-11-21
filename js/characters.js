@@ -610,6 +610,68 @@ function drawLavinia() {
   </g>`;
 }
 
+/* --------------------------------------------------------------------------
+   PIAZZA: ZIA TURBINA, LA MERCANTE SVALVOLATA
+   -------------------------------------------------------------------------- */
+function drawTurbina() {
+  const skin = '#f0c8a0';
+  const hair = [['#ec4899', -9, -58, 5], ['#a855f7', -3, -62, 5.5], ['#22d3ee', 4, -61, 5], ['#facc15', 9, -56, 4.6], ['#84cc16', -11, -50, 4.4], ['#f97316', 10, -49, 4.2]]
+    .map(([c, x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`).join('');
+  const spikes = [[-12, -60, -18, -66], [-4, -65, -6, -73], [5, -64, 9, -72], [11, -58, 18, -62], [-13, -52, -20, -52]]
+    .map(([x1, y1, x2, y2], i) => `<path d="M${x1} ${y1} L${x2} ${y2} L${x1 + 3} ${y1 + 1} Z" fill="${['#ec4899', '#a855f7', '#22d3ee', '#facc15', '#84cc16'][i]}"/>`).join('');
+  return `
+  <g class="char turbina">
+    <ellipse cx="0" cy="0" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
+    <g class="leg leg-b">
+      <rect x="-4.5" y="-16" width="4.2" height="16" rx="1.6" fill="#22c55e"/>
+      <path d="M-4.5 -13 L-0.3 -13 M-4.5 -9 L-0.3 -9 M-4.5 -5 L-0.3 -5" stroke="#fef08a" stroke-width="1.4"/>
+      <rect x="-6" y="-4" width="7" height="4" rx="1.5" fill="#7c3aed"/>
+    </g>
+    <g class="leg leg-f">
+      <rect x="0.3" y="-16" width="4.2" height="16" rx="1.6" fill="#f472b6"/>
+      <path d="M0.3 -13 L4.5 -13 M0.3 -9 L4.5 -9 M0.3 -5 L4.5 -5" stroke="#fff" stroke-width="1.4"/>
+      <rect x="-0.5" y="-4" width="8" height="4" rx="1.5" fill="#f97316"/>
+    </g>
+    <g class="torso">
+      <path d="M-9 -41 Q0 -44 9 -41 L12 -14 L-12 -14 Z" fill="#f59e0b"/>
+      <rect x="-8" y="-36" width="6" height="7" fill="#22d3ee" transform="rotate(-8 -5 -32)"/>
+      <rect x="2" y="-27" width="7" height="6" fill="#ec4899" transform="rotate(10 5 -24)"/>
+      <rect x="-9" y="-22" width="5" height="6" fill="#84cc16"/>
+      <path d="M-8 -36 L-2 -36 M2 -27 L9 -27" stroke="#78350f" stroke-width="0.5" stroke-dasharray="1 1"/>
+      <circle cx="0" cy="-33" r="1.2" fill="#dc2626"/><rect x="-1" y="-27.5" width="2.4" height="2.4" fill="#2563eb"/><circle cx="0" cy="-21" r="1.3" fill="#facc15"/>
+      <g class="arm">
+        <path d="M5 -39 Q12 -34 11 -27" stroke="#f59e0b" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M9 -34 L15 -34 L17 -26 Q13 -22 9 -26 Z" fill="#a3e635" stroke="#fff" stroke-width="0.5" opacity="0.9"/>
+        <rect x="10.5" y="-37" width="3" height="3" fill="#a16207"/>
+        <circle class="steam" cx="13" cy="-38" r="1.4" fill="#d9f99d"/>
+        <circle class="steam" cx="12" cy="-38" r="1.1" fill="#d9f99d" style="animation-delay:-1.2s"/>
+        <circle cx="11" cy="-26.5" r="2" fill="${skin}"/>
+      </g>
+      <g class="head">
+        <g class="hair-boing">${spikes}${hair}</g>
+        <circle cx="0" cy="-49" r="8.6" fill="${skin}"/>
+        <circle cx="-1.6" cy="-47.5" r="1.9" fill="#e6b38a"/>
+        <rect x="-2.8" y="-44.6" width="2.2" height="2.2" rx="0.4" fill="#fff" stroke="#111" stroke-width="0.4"/>
+        <circle cx="-1.7" cy="-43.5" r="0.4" fill="#111"/>
+        ${eyesSVG(-49.5)}
+        <circle cx="2.6" cy="-49.5" r="3.2" fill="#fff" fill-opacity="0.25" stroke="#7c3aed" stroke-width="1"/>
+        <g transform="translate(2.6 -49.5)"><g class="spin" style="animation-duration:2.5s">
+          <path d="M0 0 Q1.2 -1.2 1.6 0 Q1.2 2 -0.8 1.6 Q-2.6 0.8 -2 -1.6 Q-0.6 -3.2 1.8 -2.4" stroke="#7c3aed" stroke-width="0.5" fill="none"/>
+        </g></g>
+        <rect x="5.6" y="-51.4" width="3.8" height="3.6" rx="0.6" fill="#fff" fill-opacity="0.25" stroke="#16a34a" stroke-width="1"/>
+        <path d="M5.8 -49.5 L5.6 -49.5" stroke="#111" stroke-width="0.6"/>
+        <path class="mouth" d="M1.6 -44.4 Q5 -40.6 8.6 -44.6 Q5 -42.8 1.6 -44.4 Z" fill="#7f1d1d"/>
+        <circle cx="0.4" cy="-46.4" r="1.4" fill="#fb7185" opacity="0.5"/>
+        <path d="M-5 -57 L5 -58 L4.5 -62 L-4.5 -61 Z" fill="#2563eb" transform="rotate(-10 0 -59)"/>
+        <line x1="0" y1="-61.5" x2="0" y2="-65" stroke="#111" stroke-width="0.8" transform="rotate(-10 0 -59)"/>
+        <g transform="translate(-0.6 -65.2)"><g class="spin" style="animation-duration:0.6s">
+          <ellipse rx="6" ry="1.2" fill="#ef4444"/><ellipse rx="1.2" ry="6" fill="#facc15" opacity="0"/>
+        </g></g>
+      </g>
+    </g>
+  </g>`;
+}
+
 const CHARS = {
   aria: { draw: drawAria, h: 57, portraitVB: '-14 -63 30 30' },
   vera: { draw: drawVera, h: 67, portraitVB: '-15 -68 30 30' },
@@ -622,7 +684,8 @@ const CHARS = {
   plant: { draw: drawPlant, h: 110, portraitVB: '-22 -114 44 44' },
   gemelle: { draw: drawGemelle, h: 56, portraitVB: '-21 -60 40 40' },
   automa: { draw: drawAutoma, h: 84, portraitVB: '-17 -88 34 34' },
-  lavinia: { draw: drawLavinia, h: 65, portraitVB: '-12 -66 28 28' }
+  lavinia: { draw: drawLavinia, h: 65, portraitVB: '-12 -66 28 28' },
+  turbina: { draw: drawTurbina, h: 72, portraitVB: '-17 -72 36 36' }
 };
 
 function portraitSVG(key) {

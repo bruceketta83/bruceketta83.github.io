@@ -12,6 +12,7 @@ const ITEMS = {
   scheda: { name: 'Scheda di calibrazione', icon: '💾', desc: 'Una scheda perforata con scritto "(a^m)^n".', usable: true },
   annaffiatoio: { name: 'Annaffiatoio', icon: '🚿', desc: 'Pieno d’acqua fresca del vivaio.', usable: true },
   ingranaggio: { name: 'Ingranaggio d’oro', icon: '⚙️', desc: 'Il pezzo mancante dell’Automa.', usable: true },
+  rete: { name: 'Rete robusta', icon: '🕸️', desc: 'Una rete da pesca nuova. Ottima per ripescare cose piccole.', usable: true },
   // Premi dei guardiani: servono nell'area successiva.
   i1: { name: 'Chiave della Taverna', icon: '🗝️', desc: 'Consegnata da Barnaba dopo aver sistemato il carico.', usable: true },
   i2: { name: 'Cannocchiale Ottico', icon: '🔭', desc: 'Vinto ai dadi contro i Pirati Gemelli.', usable: true },
@@ -88,6 +89,7 @@ function coinsFound() { return ['coin1', 'coin2', 'coin3'].filter(flag).length; 
 
 const QUESTS = {
   dobloni: {
+    board: 'Uno sulla spiaggia, uno in città vicino alla Taverna, uno in fondo al mare (serve una rete).',
     icon: '🪙', piece: 'Doblone d’oro', giverName: 'Capitana Vera',
     title: 'I dobloni di Vera',
     desc: 'Trova i 3 dobloni d’oro persi da Capitana Vera e riportaglieli.',
@@ -95,6 +97,7 @@ const QUESTS = {
     progress: () => `${coinsFound()}/3`
   },
   boccali: {
+    board: 'Uno in Taverna, uno l’ha preso Archimede (Torre), uno Madame Zeri (Serra).',
     icon: '🍺', piece: 'Boccale', giverName: 'l’Oste',
     title: 'I boccali dell’Oste',
     desc: 'Trova i 3 boccali sparsi intorno alla Taverna.',
@@ -102,6 +105,7 @@ const QUESTS = {
     progress: () => `${questCount('boccali')}/3`
   },
   cannocchiale: {
+    board: 'Lo vincono i Pirati Gemelli: riportalo ad Archimede alla Torre.',
     icon: '🔭', piece: 'Cannocchiale', giverName: 'Archimede',
     title: 'Il cannocchiale di Archimede',
     desc: 'Riporta ad Archimede il cannocchiale rubato dai Pirati Gemelli.',
@@ -109,6 +113,7 @@ const QUESTS = {
     progress: () => (hasItem('i2') ? 'ce l’hai!' : '0/1')
   },
   bulloni: {
+    board: 'Uno all’Officina, uno nel capanno del Molo, uno vicino all’ascensore della Torre.',
     icon: '🔩', piece: 'Bullone d’oro', giverName: 'Mira e Nora',
     title: 'I bulloni delle Gemelle',
     desc: 'Trova i 3 bulloni d’oro di Mira e Nora tra officina e magazzino.',
@@ -116,6 +121,7 @@ const QUESTS = {
     progress: () => `${questCount('bulloni')}/3`
   },
   diario: {
+    board: 'Una pagina viola in ogni area. Cerca bene!',
     icon: '📓', piece: 'Pagina del diario', autoStart: true,
     title: 'Il diario di Lavinia',
     desc: 'Trova le 5 pagine del diario segreto di Lavinia sparse per l’isola.',
@@ -188,7 +194,10 @@ const LAVINIA = {
     'Oh, ma guarda chi c’è: la turista della matematica. Carino lo zainetto, l’hai preso in saldo?',
     'Aria! Che sorpresa... ah no, nessuna sorpresa: sei sempre in ritardo.',
     'Ciao Aria. Io i cristalli li ho quasi tutti. Tu invece hai... un taccuino. Adorabile.',
-    'Ancora tu? Pensavo fossi rimasta a giocare con i granchi.'
+    'Ancora tu? Pensavo fossi rimasta a giocare con i granchi.',
+    'Io le potenze le so a mena dito. Tu a mena... niente.',
+    'Ho studiato come se non ci fosse un domani. Tu? Ah già, tu giochi coi granchi.',
+    'Ho ripassato tutto a tappeto. Il tuo tappeto invece è... vuoto.'
   ],
   challenge: [
     'Domanda lampo. Vediamo se reggi o se vai in tilt.',
@@ -257,19 +266,20 @@ function laviniaCameo(area, flagKey) {
      'Ahoy, mozzo! Sono Capitana Vera. Hai la faccia di chi cerca guai... o cristalli.',
      'Ehi, tu! Sì, tu con lo zaino. Sono Capitana Vera e qui comando io.'],
     'Ascolta bene: quando due navi hanno la <b>stessa bandiera (la base)</b> e uniscono i carichi (moltiplicazione), non devi moltiplicare le basi! Tieni la <b>stessa base</b> e <b>somma gli esponenti</b>.',
-    ['Guarda le casse di Barnaba sul pontile: <span class="math-expr">2<sup>3</sup> · 2<sup>4</sup> = 2<sup>3+4</sup> = 2<sup>7</sup></span>. Base ferma, esponenti sommati. Easy.',
-     'Esempio lampo: <span class="math-expr">2<sup>3</sup> · 2<sup>4</sup> = 2<sup>3+4</sup> = 2<sup>7</sup></span>. La base resta 2, gli esponenti si sommano. Zero sbatti.'],
+    ['Guarda qua: <span class="math-expr">3<sup>2</sup> · 3<sup>5</sup> = 3<sup>2+5</sup> = 3<sup>7</sup></span>. Base ferma, esponenti sommati. Easy.',
+     'Esempio lampo: <span class="math-expr">4<sup>3</sup> · 4<sup>6</sup> = 4<sup>3+6</sup> = 4<sup>9</sup></span>. La base resta 4, gli esponenti si sommano. Zero sbatti.'],
     'Ti ho trascritto la <b>Regola 1</b> nel Taccuino. Barnaba è sul pontile, a destra. Ah, e già che ci sei: ho perso <b>3 dobloni d’oro</b> qui in giro. Se li trovi, ti ricompenso!'
   ];
   A.mentor.again = () => {
     if (questState('dobloni') === 'active' && coinsFound() < 3) {
       return say([
-        `Hai trovato ${coinsFound()} dobloni su 3. Cerca bene: sabbia, capanno, mare...`,
-        `${coinsFound()}/3 dobloni. Non arrenderti, mozzo!`
+        `Hai trovato ${coinsFound()} dobloni su 3. Uno l’ho perso in città, vicino alla Taverna. Un altro è in fondo al mare: serve una rete!`,
+        `${coinsFound()}/3 dobloni. Cerca a tappeto, mozzo: spiaggia, città e fondale!`
       ]);
     }
     return say([
       'Ancora qui, mozzo? Ricorda: stessa base, esponenti sommati!',
+      'Le regole delle potenze le devi sapere a mena dito, mozzo!',
       'Se ti serve la lezione, chiedi pure. Ma senza piangere, eh.',
       'Barnaba è sul pontile. Non farti mettere i piedi in testa!',
       'Il mare è calmo, la matematica pure. Vai e spacca.'
@@ -327,13 +337,17 @@ function laviniaCameo(area, flagKey) {
     if (!state.unlockedRules.includes(A.ruleId)) return 'Parla con Capitana Vera sulla spiaggia. Ti spiega la prima regola.';
     if (!flag('cassa_ok') && !hasItem('corda') && !flag('capanno_open')) {
       return flag('read_bacheca')
-        ? 'Barnaba vuole la sua cassa. Serve una corda: forse nel capanno sulla spiaggia. Il codice del lucchetto è l’esponente di 2⁵ · 2⁷.'
+        ? `Barnaba vuole la sua cassa. Serve una corda: forse nel capanno sulla spiaggia. Il codice del lucchetto è l’esponente di 2${toSup(P_molo().a)} · 2${toSup(P_molo().b)}: usa la Regola 1!`
         : 'Barnaba vuole la sua cassa, che galleggia sotto il pontile. Ti serve una corda. Leggi la bacheca sul pontile!';
     }
     if (!flag('cassa_ok') && !hasItem('corda')) return 'Il capanno è aperto. Dentro c’è una corda: prendila!';
     if (!flag('cassa_ok')) return 'Apri lo Zaino, tocca "Usa" sulla corda, poi tocca la cassa che galleggia sotto il pontile.';
     if (!state.completedAreas.includes(A.id)) return 'La cassa è salva. Ora sfida Barnaba sul pontile!';
-    if (questState('dobloni') === 'active' && coinsFound() < 3) return `Missione extra: trova i dobloni di Vera (${coinsFound()}/3).`;
+    if (questState('dobloni') === 'active' && coinsFound() < 3) {
+      if (!flag('coin2')) return `Missione extra (${coinsFound()}/3): Vera dice che un doblone è finito in città, vicino alla Taverna.`;
+      if (!flag('coin3')) return `Missione extra (${coinsFound()}/3): un doblone è in fondo al mare sotto il pontile. Ti serve una rete robusta... forse all’Officina.`;
+      return `Missione extra: trova i dobloni di Vera (${coinsFound()}/3).`;
+    }
     if (questState('dobloni') === 'active') return 'Porta i 3 dobloni a Capitana Vera!';
     return 'Area completata! Puoi proseguire verso la Taverna.';
   };
@@ -426,7 +440,7 @@ function laviniaCameo(area, flagKey) {
         }
       ],
       exits: [
-        { id: 'to-pontile', label: 'Pontile ➜', box: [362, 120, 38, 66], stand: 372, to: 'pontile', arrive: 60, labelY: 112 },
+        { id: 'to-pontile', label: 'Pontile ➜', box: [348, 120, 52, 66], stand: 372, to: 'pontile', arrive: 60, labelY: 112 },
         {
           id: 'to-capanno', label: '🚪 Capanno', box: [270, 126, 30, 52], stand: 285, to: 'capanno', arrive: 70, labelY: 120,
           visible: () => flag('capanno_open')
@@ -475,9 +489,9 @@ function laviniaCameo(area, flagKey) {
             setFlag('read_bacheca');
             showReading('📌 Bacheca del porto',
               `<b>AVVISO DELLA CAPITANERIA</b><br>Il capanno degli attrezzi sulla spiaggia è chiuso con un lucchetto.<br>
-               La combinazione è l’<b>esponente</b> del risultato di: <span class="math-expr">2<sup>5</sup> · 2<sup>7</sup></span><br><br>
+               La combinazione è l’<b>esponente</b> del risultato di: <span class="math-expr">2<sup>${P_molo().a}</sup> · 2<sup>${P_molo().b}</sup></span><br><br>
                <b>CERCASI</b><br>3 dobloni d’oro smarriti. Ricompensa! Chiedere di Capitana Vera.`,
-              () => ariaSays(['Il codice del capanno è un calcolo con le potenze. Facile... credo.', 'Stessa base, esponenti sommati: il codice ce l’ho!']));
+              () => ariaSays(['Il codice del capanno è un calcolo con le potenze. Ora tocca a me fare i conti.', 'Stessa base... quindi gli esponenti si sommano. Faccio il conto e provo il lucchetto.']));
           },
           look: 'Una bacheca con dei fogli appesi. Qualcuno ha scritto qualcosa.'
         },
@@ -500,13 +514,11 @@ function laviniaCameo(area, flagKey) {
             corda: () => {
               removeItem('corda');
               setFlag('cassa_ok');
-              setFlag('coin3');
               playSound('success');
               refreshLabels(A);
-              toast(`🪙 Doblone d’oro trovato! <b>${coinsFound()}/3</b>`);
               ariaSays([
-                'Lancio la corda... presa! La cassa è salva. E dentro c’è un doblone d’oro!',
-                'Tiro, tiro... fatto! Cassa recuperata. Sorpresa: dentro c’è un doblone!'
+                'Lancio la corda... presa! La cassa è salva. Sul fondo però luccica ancora qualcosa...',
+                'Tiro, tiro... fatto! Cassa recuperata. Ehi, laggiù in fondo brilla qualcosa!'
               ]);
             }
           }
@@ -522,8 +534,18 @@ function laviniaCameo(area, flagKey) {
           look: ['La cassa recuperata. Barnaba la guarda con amore.', 'Ancora bagnata. Odora di alghe e di vittoria.']
         },
         {
+          id: 'doblone-mare', name: '🪙 Luccichio sul fondo', box: [134, 196, 30, 18], stand: 150,
+          visible: () => flag('cassa_ok') && !flag('coin3'),
+          draw: () => sparkleSVG(150, 205, '<circle r="3.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.8" opacity="0.8"/>'),
+          look: ['Sul fondo del mare luccica un doblone. Troppo in basso per le mani. Serve una rete robusta.', 'Un doblone sul fondale! Con una rete lo prenderei.'],
+          useItem: {
+            rete: () => { removeItem('rete'); takeCoin(3); },
+            corda: () => ariaSays('La corda non basta: il doblone è piccolo e scivola via. Serve una rete.')
+          }
+        },
+        {
           id: 'casse', name: '📦 Casse del carico', box: [332, 112, 30, 46], stand: 322, noDot: true,
-          look: ['Due casse: 2³ e 2⁴. Insieme fanno 2⁷. Vera sarebbe fiera di me.', 'Casse con le potenze scritte sopra. Su quest’isola sono tutti fissati.']
+          look: ['Due casse con delle potenze scritte sopra. Barnaba ci tiene tantissimo.', 'Casse con le potenze scritte sopra. Su quest’isola sono tutti fissati.']
         },
         {
           id: 'lavinia', name: '👑 Lavinia', box: [182, 96, 28, 66], stand: 160, noDot: true,
@@ -533,10 +555,11 @@ function laviniaCameo(area, flagKey) {
         }
       ],
       exits: [
-        { id: 'to-spiaggia', label: '⬅ Spiaggia', box: [0, 108, 40, 56], stand: 26, to: 'spiaggia', arrive: 360, labelY: 104 },
+        { id: 'to-spiaggia', label: '⬅ Spiaggia', box: [0, 108, 52, 56], stand: 26, to: 'spiaggia', arrive: 360, labelY: 104 },
         {
-          id: 'to-taverna', label: 'Taverna ➜', box: [362, 160, 38, 30], stand: 378, toArea: 1, labelY: 176,
-          visible: () => state.completedAreas.includes(0)
+          id: 'to-piazza', label: 'Piazza ➜', box: [348, 160, 52, 30], stand: 378, toArea: 1, toRoom: 'piazza', arrive: 40, labelY: 176,
+          locked: () => !state.completedAreas.includes(0),
+          lockedActions: [{ icon: '🚧', label: 'Bloccato', fn: () => ariaSays(['Barnaba non mi fa passare. Prima la sfida!', 'La strada per la Piazza è dietro Barnaba. Devo batterlo.']) }]
         }
       ]
     },
@@ -568,13 +591,10 @@ function laviniaCameo(area, flagKey) {
           look: 'Un rotolo di corda. Sembra resistente.'
         },
         {
-          id: 'doblone2', name: '🪙 Qualcosa che luccica', box: [320, 96, 16, 12], stand: 322,
-          visible: () => !flag('coin2'),
-          draw: () => `<g transform="translate(328 104)">
-            <circle r="3.6" fill="#fbbf24" stroke="#a16207" stroke-width="0.8"/>
-            <path class="spark-pop" d="M4 -6 L4.8 -3.8 L7 -3 L4.8 -2.2 L4 0 L3.2 -2.2 L1 -3 L3.2 -3.8 Z" fill="#fff" style="animation-duration:1.6s"/>
-          </g>`,
-          take: () => takeCoin(2)
+          id: 'bul2', name: '🔩 Qualcosa che luccica', box: [320, 96, 16, 12], stand: 322,
+          visible: () => !flag('bul2'),
+          draw: () => sparkleSVG(328, 104, BOLT),
+          take: () => collectPiece('bulloni', 'bul2', ['Un bullone d’oro! Chissà di chi è...', 'Un bullone tutto d’oro. Qualcuno all’Officina lo starà cercando.'])
         },
         {
           id: 'poster', name: '📜 Poster "Googol"', box: [168, 34, 52, 60], stand: 194,
@@ -611,13 +631,13 @@ function laviniaCameo(area, flagKey) {
     askCode({
       title: 'Lucchetto del capanno',
       prompt: flag('read_bacheca')
-        ? 'Due rotelle con i numeri da 0 a 9. Il codice è l’<b>esponente</b> di <span class="math-expr">2<sup>5</sup> · 2<sup>7</sup></span>.'
+        ? `Due rotelle con i numeri da 0 a 9. Il codice è l’<b>esponente</b> di <span class="math-expr">2<sup>${P_molo().a}</sup> · 2<sup>${P_molo().b}</sup></span>.`
         : 'Due rotelle con i numeri da 0 a 9. Serve un codice di 2 cifre. Forse qualcuno l’ha scritto da qualche parte...',
-      answer: '12',
+      answer: String(P_molo().a + P_molo().b),
       onSuccess: () => {
         setFlag('capanno_open');
         refreshLabels(A);
-        ariaSays(['Click! Il lucchetto si apre. 5 + 7 = 12, ovvio!', 'Aperto! Stessa base, esponenti sommati: 2¹². Too easy.']);
+        ariaSays(['Click! Il lucchetto si apre. Stessa base, esponenti sommati: too easy.', 'Aperto! Le potenze le so a mena dito.']);
       }
     });
   }

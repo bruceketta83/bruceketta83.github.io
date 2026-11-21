@@ -1361,3 +1361,39 @@ sup {
 .map-pulse { transform-box: fill-box; transform-origin: center; animation: alertPulse 1.4s ease-in-out infinite; }
 .map-pin { animation: labelBob 1.4s ease-in-out infinite; }
 .map-hint { font-size: 0.8rem; color: var(--text-muted); text-align: center; }
+
+/* Zia Turbina */
+.hair-boing {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: hairBoing 0.9s ease-in-out infinite alternate;
+}
+@keyframes hairBoing {
+  from { transform: scale(1, 1) rotate(-3deg); }
+  to { transform: scale(1.08, 0.94) rotate(4deg); }
+}
+.turbina.talking .hair-boing { animation-duration: 0.25s; }
+
+/* Negozio di Zia Turbina */
+.shop-preview.small { width: 84px; height: 84px; }
+.small-head { margin-top: 6px; }
+.cons-list { display: flex; flex-direction: column; gap: 6px; }
+.cons-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: #0f172a;
+  color: var(--text-main);
+  text-align: left;
+  cursor: pointer;
+}
+.cons-icon { font-size: 1.6rem; }
+.cons-text { flex: 1; display: flex; flex-direction: column; gap: 2px; font-size: 0.82rem; }
+.cons-text small { color: var(--text-muted); font-size: 0.72rem; }
+.cons-text em { color: #6ee7b7; font-style: normal; font-size: 0.72rem; font-weight: 800; }
+.quest-board { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; }
+.quest-board small { color: #78350f; }
+.map-node.hub text { font-weight: 900; }
