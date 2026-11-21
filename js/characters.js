@@ -768,16 +768,63 @@ function drawTurbina() {
   </g>`;
 }
 
+
+/* --------------------------------------------------------------------------
+   PERSONAGGI A IMMAGINE (img/chars/*.webp, sfondo tolto con tools/scontorna.py)
+   L'immagine ha i piedi sul bordo in basso. Sopra, in SVG:
+   - palpebre che si chiudono ogni tanto (classe "lid");
+   - bocca che si apre solo quando il personaggio parla (classe "img-mouth").
+   Coordinate di occhi e bocca in pixel dell'immagine.
+   -------------------------------------------------------------------------- */
+function imageChar({ cls, file, eyes = [], lidColor, eyeR = 12, mouth, mouthW = 18, mouthH = 10, extra = '' }) {
+  const H = CHAR_IMG_H[file];
+  const sc = H.h / H.px;
+  const width = H.w * sc;
+  const P = (x, y) => [x * sc - width / 2, y * sc - H.h];
+  const lids = eyes.map(([x, y]) => {
+    const [cx, cy] = P(x, y);
+    return `<ellipse cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" rx="${(eyeR * sc).toFixed(2)}" ry="${(eyeR * sc).toFixed(2)}" fill="${lidColor}"/>`;
+  }).join('');
+  let m = '';
+  if (mouth) {
+    const [mx, my] = P(...mouth);
+    m = `<ellipse class="img-mouth" cx="${mx.toFixed(2)}" cy="${my.toFixed(2)}" rx="${(mouthW / 2 * sc).toFixed(2)}" ry="${(mouthH / 2 * sc).toFixed(2)}" fill="#5c1a1a"/>`;
+  }
+  return `
+  <g class="char ${cls} img-char">
+    <ellipse cx="0" cy="0.3" rx="${(width * 0.32).toFixed(1)}" ry="2.8" fill="#000" opacity="0.3"/>
+    <g class="torso">
+      <image href="img/chars/${file}.webp" x="${(-width / 2).toFixed(2)}" y="${-H.h}" width="${width.toFixed(2)}" height="${H.h}"/>
+      ${lids ? `<g class="lid">${lids}</g>` : ''}
+      ${m}
+      ${extra}
+    </g>
+  </g>`;
+}
+
+/* Misure delle immagini: larghezza e altezza in pixel, altezza nel gioco. */
+const CHAR_IMG_H = {
+  oste: { w: 432, px: 640, h: 61 },
+  pianta: { w: 362, px: 640, h: 110 }
+};
+
+function drawOsteImg() {
+  return imageChar({ cls: 'oste', file: 'oste', eyes: [[188, 86], [238, 84]], lidColor: '#f2c4a2', eyeR: 9, mouth: [229, 128], mouthW: 18, mouthH: 8 });
+}
+function drawPlantImg() {
+  return imageChar({ cls: 'plant', file: 'pianta', eyes: [[246, 150], [318, 150]], lidColor: '#c4479f', eyeR: 21, mouth: [268, 206], mouthW: 120, mouthH: 22 });
+}
+
 const CHARS = {
   aria: { draw: drawAria, h: 57, portraitVB: '-14 -63 30 30' },
   vera: { draw: drawVera, h: 67, portraitVB: '-15 -68 30 30' },
   barnaba: { draw: drawBarnaba, h: 82, portraitVB: '-14 -84 28 28' },
-  oste: { draw: drawOste, h: 61, portraitVB: '-12 -64 28 28' },
+  oste: { draw: drawOsteImg, h: 61, portraitVB: '-13 -63 26 26' },
   gemelli: { draw: drawGemelli, h: 56, portraitVB: '-21 -60 40 40' },
   archimede: { draw: drawArchimede, h: 66, portraitVB: '-13 -67 30 30' },
   terminal: { draw: drawTerminal, h: 79, portraitVB: '-18 -70 36 36' },
   zeri: { draw: drawZeri, h: 64, portraitVB: '-12 -65 28 28' },
-  plant: { draw: drawPlant, h: 110, portraitVB: '-22 -114 44 44' },
+  plant: { draw: drawPlantImg, h: 110, portraitVB: '0 -102 36 36' },
   gemelle: { draw: drawGemelle, h: 56, portraitVB: '-21 -60 40 40' },
   automa: { draw: drawAutoma, h: 84, portraitVB: '-17 -88 34 34' },
   lavinia: { draw: drawLavinia, h: 65, portraitVB: '-12 -66 28 28' },

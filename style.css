@@ -1610,3 +1610,10 @@ html.read-voice #btn-listen { display: block; }
 .calc-key.op { background: #164e63; color: #a5f3fc; }
 .calc-key.clear { background: #7f1d1d; color: #fecaca; font-size: 1.05rem; }
 .calc-key.eq { background: var(--accent-gold); color: #1e293b; }
+
+/* ---------- PERSONAGGI A IMMAGINE ----------
+   Palpebre: compaiono un attimo ogni 4,6 s. Bocca: si vede solo mentre il personaggio parla. */
+.img-char .lid { opacity: 0; animation: lidBlink 4.6s infinite; }
+@keyframes lidBlink { 0%, 94%, 100% { opacity: 0; } 95.5%, 98% { opacity: 1; } }
+.img-char .img-mouth { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.talking .img-mouth { opacity: 1; animation: talk 0.16s infinite alternate; }
