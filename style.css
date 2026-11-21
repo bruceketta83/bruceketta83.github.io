@@ -1617,3 +1617,7 @@ html.read-voice #btn-listen { display: block; }
 @keyframes lidBlink { 0%, 94%, 100% { opacity: 0; } 95.5%, 98% { opacity: 1; } }
 .img-char .img-mouth { opacity: 0; transform-box: fill-box; transform-origin: center; }
 .talking .img-mouth { opacity: 1; animation: talk 0.16s infinite alternate; }
+.plant .jaw-open { opacity: 0; animation: jawIdle 3.4s steps(1) infinite; }
+.talking .jaw-open, .plant.talking .jaw-open { animation: jawTalk 0.36s steps(1) infinite; }
+@keyframes jawIdle { 0% { opacity: 0; } 78% { opacity: 1; } 88% { opacity: 0; } }
+@keyframes jawTalk { 0% { opacity: 0; } 50% { opacity: 1; } }

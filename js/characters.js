@@ -811,8 +811,14 @@ const CHAR_IMG_H = {
 function drawOsteImg() {
   return imageChar({ cls: 'oste', file: 'oste', eyes: [[188, 86], [238, 84]], lidColor: '#f2c4a2', eyeR: 9, mouth: [229, 128], mouthW: 18, mouthH: 8 });
 }
+/* La Pianta ha 2 immagini: fauci chiuse e aperte. Quella aperta compare per il morso. */
 function drawPlantImg() {
-  return imageChar({ cls: 'plant', file: 'pianta', eyes: [[246, 150], [318, 150]], lidColor: '#c4479f', eyeR: 21, mouth: [268, 206], mouthW: 120, mouthH: 22 });
+  const H = CHAR_IMG_H.pianta;
+  const width = H.w * H.h / H.px;
+  return imageChar({
+    cls: 'plant', file: 'pianta', eyes: [[246, 150], [318, 150]], lidColor: '#c4479f', eyeR: 21,
+    extra: `<image class="jaw-open" href="img/chars/pianta-aperta.webp" x="${(-width / 2).toFixed(2)}" y="${-H.h}" width="${width.toFixed(2)}" height="${H.h}"/>`
+  });
 }
 
 const CHARS = {

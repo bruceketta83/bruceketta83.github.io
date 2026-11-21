@@ -1,6 +1,7 @@
 """Toglie lo sfondo magenta (#FF00FF) dalle immagini dei personaggi.
 
-Uso: python3 tools/scontorna.py ingresso.png uscita.webp [altezza_px]
+Uso: python3 tools/scontorna.py ingresso.png uscita.webp [ingresso2.png uscita2.webp ...]
+(più coppie = stesso personaggio, stesso ritaglio)
 
 1. Trova i pixel magenta collegati al bordo dell'immagine (lo sfondo).
    I colori magenta dentro il contorno del personaggio restano.
@@ -14,7 +15,8 @@ from PIL import Image
 from scipy import ndimage
 
 
-def scontorna(src, dst, height=640):
+def maschera(src):
+    """Restituisce l'immagine RGBA senza sfondo, non ritagliata."""
     im = np.asarray(Image.open(src).convert('RGB')).astype(np.float32)
     r, g, b = im[..., 0], im[..., 1], im[..., 2]
     mag = np.minimum(r, b) - g                      # quanto è "magenta"
@@ -40,17 +42,32 @@ def scontorna(src, dst, height=640):
     r2 = np.where(near, np.minimum(r, lim + 30), r)
     b2 = np.where(near, np.minimum(b, lim + 30), b)
     out = np.dstack([r2, g, b2, alpha * 255]).clip(0, 255).astype(np.uint8)
-    img = Image.fromarray(out, 'RGBA')
-    ys, xs = np.where(alpha > 0.05)
-    pad = 6
-    box = (max(xs.min() - pad, 0), max(ys.min() - pad, 0), min(xs.max() + pad, img.width), ys.max() + 1)
-    img = img.crop(box)
-    if height and img.height > height:
-        img = img.resize((round(img.width * height / img.height), height), Image.LANCZOS)
-    img.save(dst, 'WEBP', quality=86, method=6)
-    return img.size
+    return Image.fromarray(out, 'RGBA')
+
+
+def riquadro(img, pad=6):
+    a = np.asarray(img)[..., 3]
+    ys, xs = np.where(a > 12)
+    return (max(xs.min() - pad, 0), max(ys.min() - pad, 0), min(xs.max() + pad, img.width), ys.max() + 1)
+
+
+def scontorna(srcs, dsts, height=640):
+    """Più immagini dello stesso personaggio (es. fauci chiuse e aperte):
+    stesso ritaglio per tutte, così restano allineate nel gioco."""
+    imgs = [maschera(s) for s in srcs]
+    boxes = [riquadro(i) for i in imgs]
+    box = (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes))
+    sizes = []
+    for img, dst in zip(imgs, dsts):
+        img = img.crop(box)
+        if height and img.height > height:
+            img = img.resize((round(img.width * height / img.height), height), Image.LANCZOS)
+        img.save(dst, 'WEBP', quality=86, method=6)
+        sizes.append(img.size)
+    return sizes
 
 
 if __name__ == '__main__':
-    h = int(sys.argv[3]) if len(sys.argv) > 3 else 640
-    print(scontorna(sys.argv[1], sys.argv[2], h))
+    # python3 tools/scontorna.py a.png a.webp [b.png b.webp ...]
+    args = sys.argv[1:]
+    print(scontorna(args[0::2], args[1::2]))

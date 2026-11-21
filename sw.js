@@ -4,7 +4,7 @@
    aggiorna la copia; offline usa la copia salvata sul dispositivo.
    Cambia CACHE quando cambia l'elenco dei file.
    ========================================================================== */
-const CACHE = 'esponentia-v7';
+const CACHE = 'esponentia-v8';
 const FILES = [
   './',
   'index.html',
@@ -41,6 +41,7 @@ const FILES = [
   'img/bg/titolo.webp',
   'img/chars/oste.webp',
   'img/chars/pianta.webp',
+  'img/chars/pianta-aperta.webp',
   'fonts/opendyslexic-latin-400-normal.woff2',
   'fonts/opendyslexic-latin-700-normal.woff2',
   'fonts/atkinson-hyperlegible-latin-400-normal.woff2',
