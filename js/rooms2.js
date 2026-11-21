@@ -520,15 +520,15 @@ function done(A) { return state.completedAreas.includes(A.id); }
         {
           id: 'buio', box: [0, 0, 0, 0], noDot: true,
           visible: () => !flag('vivaio_luce'),
-          draw: () => '<rect width="400" height="186" fill="#020617" opacity="0.82"/><rect x="170" y="0" width="64" height="18" fill="#bae6fd" opacity="0.35"/>'
+          draw: () => '<rect width="400" height="186" fill="#020617" opacity="0.82"/><rect class="shimmer" x="188" y="34" width="64" height="26" fill="#bae6fd" style="animation-duration:2.4s"/><rect x="184" y="30" width="72" height="34" rx="3" fill="none" stroke="#fde68a" stroke-width="1" opacity="0.5"/>'
         },
         {
           id: 'luce', box: [0, 0, 0, 0], noDot: true,
           visible: () => flag('vivaio_luce'),
-          draw: () => '<polygon class="shimmer" points="172,18 232,18 280,186 124,186" fill="#fef9c3" opacity="0.3" style="animation-duration:4s"/>'
+          draw: () => '<polygon class="shimmer" points="190,60 250,60 300,186 140,186" fill="#fef9c3" opacity="0.3" style="animation-duration:4s"/>'
         },
         {
-          id: 'lucernario', name: '🪟 Lucernario', box: [168, 0, 68, 24], stand: 202,
+          id: 'lucernario', name: '🪟 Lucernario', box: [182, 28, 76, 38], stand: 220,
           look: () => (flag('vivaio_luce') ? 'Il lucernario con la Lente: la luce entra concentrata. Fotosintesi turbo!' : 'Un lucernario sporco. Entra pochissima luce. Se potessi concentrarla...'),
           useItem: {
             i3: () => {
@@ -730,14 +730,14 @@ function done(A) { return state.completedAreas.includes(A.id); }
               setFlag('seme_ok');
               playSound('success');
               refreshLabels(A);
-              ariaSays(['Pianto il Seme Luminescente... cresce un fiore che brilla! E dietro il vaso luccica qualcosa.', 'Il seme diventa un fiore-lampada. Ora vedo un bullone nell’angolo!']);
+              ariaSays(['Pianto il Seme Luminescente... cresce un fiore che brilla! E accanto al vaso luccica qualcosa.', 'Il seme diventa un fiore-lampada. Ora vedo un bullone nell’angolo!']);
             }
           }
         },
         {
-          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [356, 172, 16, 12], stand: 352,
+          id: 'bul3', name: '🔩 Qualcosa che luccica', box: [290, 172, 18, 14], stand: 299,
           visible: () => flag('seme_ok') && !flag('bul3'),
-          draw: () => sparkleSVG(364, 180, BOLT),
+          draw: () => sparkleSVG(299, 180, BOLT),
           take: () => collectPiece('bulloni', 'bul3')
         },
         { id: 'cassettiera', name: '🗄️ Cassettiera', box: [56, 122, 54, 60], stand: 84, noDot: true, look: ['Cassetti pieni di viti. Mira le ha messe in ordine di grandezza. Nora no.', 'Una cassettiera. Un cassetto dice "potenze di 2", un altro "potenze di 10".'] }
