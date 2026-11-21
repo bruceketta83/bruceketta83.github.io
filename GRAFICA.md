@@ -331,6 +331,8 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 7. Prendi i colori dalla scala già usata (palette Tailwind): legni `#78350f`/`#92400e`, pietre `#334155`/`#475569`, luci `#fde68a`/`#fbbf24`, rosso `#dc2626`.
 8. Disegna i personaggi con i piedi in (0, 0) e lo sguardo a destra. Registrali in `CHARS` con altezza e ritaglio del ritratto. Usa la stessa ombreggiatura a due toni e la luce calda delle scene.
 9. Metti gli oggetti cliccabili tra x = 44 e x = 356, sopra la linea del pavimento.
-10. Dai a ogni scena almeno 3 animazioni lente e sfasate.
-11. Scrivi le formule sulle insegne in Courier New, con gli esponenti in apice.
-12. Una scena del gioco misura 400 × 220. I mock-up verticali si ricompongono in orizzontale. I bordi laterali si tagliano sui telefoni stretti.
+10. Le uscite sui lati della scena hanno la scritta in un angolo: uscita a destra in alto a destra, uscita a sinistra in basso a sinistra. Se ci sono più uscite sullo stesso lato, le scritte si mettono una sotto l'altra.
+11. Tieni almeno 6 pixel tra scritte e puntini cliccabili: il test `tests/rooms.spec.js` lo controlla in tutte le stanze.
+12. Dai a ogni scena almeno 3 animazioni lente e sfasate.
+13. Scrivi le formule sulle insegne in Courier New, con gli esponenti in apice.
+14. Una scena del gioco misura 400 × 220. I mock-up verticali si ricompongono in orizzontale. I bordi laterali si tagliano sui telefoni stretti.

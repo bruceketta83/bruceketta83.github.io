@@ -130,14 +130,28 @@ function worldMarkersHTML(area) {
         <circle class="hs-dot" r="3.2" fill="#fde68a" stroke="#0f172a" stroke-width="0.8"/></g>`;
     }
   });
+  // Uscite ai lati della scena: la scritta va in un angolo, lontano dagli oggetti.
+  // Uscita a destra → angolo in alto a destra; uscita a sinistra → angolo in basso a sinistra.
+  const corner = { left: 0, right: 0 };
   roomExits(area).forEach(e => {
     const [x, y, w, hh] = e.box;
     const label = e.locked && e.locked() ? `🔒 ${e.label}` : e.label;
     const lw = [...label].length * 4.6 + 14;
-    // Margine di 42: sui telefoni stretti i bordi della scena sono tagliati.
-    const lx = Math.min(Math.max(x + w / 2, lw / 2 + 42), 358 - lw / 2);
+    const side = x <= 4 ? 'left' : x + w >= 396 ? 'right' : null;
+    let lx, ly;
+    if (side === 'right') {
+      lx = 351 - lw / 2;
+      ly = 46 + corner.right++ * 17;
+    } else if (side === 'left') {
+      lx = 49 + lw / 2;
+      ly = 204 - corner.left++ * 17;
+    } else {
+      // Margine di 49: sui telefoni stretti i bordi della scena sono tagliati.
+      lx = Math.min(Math.max(x + w / 2, lw / 2 + 49), 351 - lw / 2);
+      ly = e.labelY || y + hh / 2;
+    }
     html += `<rect data-exit="${e.id}" x="${x}" y="${y}" width="${w}" height="${hh}" fill="transparent"/>
-      <g data-exit="${e.id}" transform="translate(${lx} ${e.labelY || y + hh / 2})">
+      <g data-exit="${e.id}" transform="translate(${lx} ${ly})">
         <g class="exit-bob">
           <rect x="${-lw / 2}" y="-7.5" width="${lw}" height="13" rx="6.5" fill="rgba(15,23,42,0.85)" stroke="#38bdf8" stroke-width="1"/>
           <text x="0" y="1.6" font-size="7.5" fill="#e0f2fe" text-anchor="middle" font-weight="700" font-family="-apple-system, Segoe UI, Roboto, sans-serif">${label}</text>

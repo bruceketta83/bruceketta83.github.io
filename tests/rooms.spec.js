@@ -32,3 +32,39 @@ test('nessun oggetto è fuori dall’area visibile sui telefoni stretti', async 
   // La nave di Vera è grande: il suo centro è visibile.
   expect(outside.filter(id => !id.endsWith('/nave'))).toEqual([]);
 });
+
+// Scritte delle uscite, nomi dei personaggi e puntini non si coprono: si sceglie bene col dito.
+test('le scritte e i puntini cliccabili non si sovrappongono', async ({ page }) => {
+  const problems = [];
+  // Prima con le porte chiuse (lucchetti visibili), poi aperte (tutte le uscite insieme).
+  const open = { capanno_open: true, taverna_open: true, vivaio_open: true, botola_open: true, vivaio_luce: true };
+  for (const flags of [{}, open]) {
+  await startGame(page, { currentArea: 0, unlockedArea: 5, completedAreas: [], unlockedRules: [], flags });
+  const rooms = await page.evaluate(() => AREAS.flatMap(a => Object.keys(areaRooms(a)).map(r => [a.id, r])));
+  for (const [a, r] of rooms) {
+    await page.evaluate(([aa, rr]) => travelTo(aa, rr), [a, r]);
+    await page.waitForTimeout(700);
+    const found = await page.evaluate((where) => {
+      const pick = (sel, kind) => [...document.querySelectorAll(sel)].map(el => {
+        const b = el.getBoundingClientRect();
+        const host = el.closest('[data-exit],[data-hs],.label');
+        return { kind, id: host.dataset.exit || host.dataset.hs || host.id, l: b.left, t: b.top, r: b.right, b: b.bottom };
+      });
+      const items = [
+        ...pick('#layer-ui g[data-exit] > g', 'uscita'),
+        ...pick('#layer-ui g[data-hs] circle', 'puntino'),
+        ...pick('#layer-ui .label rect', 'nome')
+      ];
+      const gap = 6; // pixel minimi tra due elementi: spazio per il dito
+      const out = [];
+      for (let i = 0; i < items.length; i++) for (let j = i + 1; j < items.length; j++) {
+        const p = items[i], q = items[j];
+        if (p.l < q.r + gap && q.l < p.r + gap && p.t < q.b + gap && q.t < p.b + gap) out.push(`${where}: ${p.kind} ${p.id} / ${q.kind} ${q.id}`);
+      }
+      return out;
+    }, `${a}/${r}`);
+    problems.push(...found);
+  }
+  }
+  expect([...new Set(problems)]).toEqual([]);
+});
