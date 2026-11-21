@@ -63,6 +63,16 @@
       </div>
     </div>
     <div id="action-bubble"></div>
+
+    <!-- CALCOLATRICE: copre solo la scena, l'esercizio resta visibile -->
+    <div id="calc-panel" aria-hidden="true" role="dialog" aria-label="Calcolatrice">
+      <div class="calc-screen">
+        <button type="button" class="calc-close" onclick="calcToggle(false)" aria-label="Chiudi la calcolatrice">✕</button>
+        <div class="calc-last" id="calc-last"></div>
+        <div class="calc-display" id="calc-display" aria-live="polite">0</div>
+      </div>
+      <div class="calc-keys" id="calc-keys"></div>
+    </div>
   </div>
 
   <!-- AREA DIALOGHI E SFIDE -->
@@ -94,6 +104,10 @@
     <button class="nav-btn" data-nav="map" onclick="openModal('map')">
       <span class="icon">🗺️</span>
       <span>Mappa</span>
+    </button>
+    <button class="nav-btn" data-nav="calc" onclick="calcToggle()" aria-label="Calcolatrice">
+      <span class="icon">🧮</span>
+      <span>Calcola</span>
     </button>
     <button class="nav-btn" data-nav="inventory" onclick="openModal('inventory')">
       <span class="icon">🎒</span>
@@ -182,6 +196,7 @@
 <script src="js/data.js"></script>
 <script src="js/generator.js"></script>
 <script src="js/exercises.js"></script>
+<script src="js/calculator.js"></script>
 <script src="js/characters.js"></script>
 <script src="js/scenes.js"></script>
 <script src="js/world.js"></script>
