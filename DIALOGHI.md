@@ -84,6 +84,12 @@ Regole per scrivere e rivedere i dialoghi del gioco. Usale come lista di control
 | Lavinia | Rivale snob e antipatica. Provoca con domande lampo. I suoi errori servono per "trova l'errore". |
 | Zia Turbina | Mercante completamente svalvolata. Frasi assurde, parla veloce. |
 
+Sopra i personaggi non c'è il nome. Il nome compare nella finestra dei dialoghi.
+
+1. Fai dire il nome al personaggio nella prima battuta. Scrivilo in **tutte** le varianti di quella battuta.
+2. Per i guardiani, fai dire il nome sia in `intro` sia in `blockMsg`: la prima volta può essere l'una o l'altra.
+3. Per i personaggi che tornano più volte (Lavinia, Zia Turbina) usa una battuta fissa al primo incontro (flag `met_...`).
+
 ## 5. Struttura di un esercizio
 
 1. **Domanda:** frase breve + formula nel riquadro giallo (`M()` con `<sup>`).

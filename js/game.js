@@ -360,27 +360,23 @@ function charBounds(area, role) {
 }
 
 function labelsHTML(area) {
+  // Nessun nome sopra i personaggi: il nome compare nella finestra dei dialoghi.
+  // Resta solo il "!" quando il personaggio ha qualcosa di nuovo da dire.
   let html = '';
   ['mentor', 'guardian'].forEach(role => {
     const c = roomLayout(area)[role];
     if (!c) return;
     const b = charBounds(area, role);
-    const w = Math.round([...c.label].length * 5.2 + 14);
     const isNew = role === 'mentor'
       ? area.ruleId && !state.unlockedRules.includes(area.ruleId)
       : (!area.ruleId || state.unlockedRules.includes(area.ruleId)) && !state.completedAreas.includes(area.id);
-    const color = role === 'mentor' ? '#10b981' : '#ec4899';
     // Margine di 48: con preserveAspectRatio=slice i bordi della scena possono essere tagliati sui telefoni stretti.
-    const x = Math.min(Math.max(c.x, w / 2 + 48), 352 - w / 2);
+    const x = Math.min(Math.max(c.x, 48), 352);
     html += `
       <rect class="hit" data-role="${role}" x="${c.x - 22}" y="${b.top}" width="44" height="${b.bottom - b.top}" fill="transparent"/>
-      <g id="label-${role}" class="label" data-role="${role}" transform="translate(${x} ${b.top - 9})">
-        <g class="label-bob">
-          <rect x="${-w / 2}" y="-9" width="${w}" height="15" rx="7.5" fill="rgba(15,23,42,0.9)" stroke="${color}" stroke-width="1.3"/>
-          <text x="0" y="1.8" font-size="8.5" fill="#fff" text-anchor="middle" font-weight="700" font-family="-apple-system, Segoe UI, Roboto, sans-serif">${c.label}</text>
-          ${isNew ? `<g transform="translate(${w / 2 - 1} -8)"><circle class="alert-dot" r="5" fill="#f59e0b"/><text x="0" y="3" font-size="8" text-anchor="middle" font-weight="900" fill="#0f172a">!</text></g>` : ''}
-        </g>
-      </g>`;
+      ${isNew ? `<g id="label-${role}" class="label" data-role="${role}" transform="translate(${x} ${b.top - 6})">
+        <g class="label-bob"><circle class="alert-dot" r="5" fill="#f59e0b" stroke="#0f172a" stroke-width="0.8"/><text x="0" y="3" font-size="8" text-anchor="middle" font-weight="900" fill="#0f172a">!</text></g>
+      </g>` : ''}`;
   });
   return html + worldMarkersHTML(area);
 }
