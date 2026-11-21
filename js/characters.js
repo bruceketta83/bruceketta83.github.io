@@ -50,8 +50,8 @@ function ariaHatSVG(hat) {
    -------------------------------------------------------------------------- */
 const CHAR_IMG = {
   aria: { w: 382, px: 640, h: 57, eyes: [[232, 147], [280, 147]], eyeR: 13, lid: '#f8c09b', mouth: [263, 196], mouthW: 16, mouthH: 7, head: [228, 125, 240] },
-  vera: { w: 387, px: 640, h: 67, eyes: [[237, 132]], eyeR: 12, lid: '#f5c4a6', mouth: [250, 168], mouthW: 13, mouthH: 6, head: [215, 120, 230] },
-  barnaba: { w: 385, px: 640, h: 82, eyes: [], mouth: [247, 122], mouthW: 20, mouthH: 7, head: [225, 85, 210] },
+  vera: { w: 387, px: 588, h: 61.6, eyes: [[237, 132]], eyeR: 12, lid: '#f5c4a6', mouth: [250, 168], mouthW: 13, mouthH: 6, head: [215, 120, 230] },
+  barnaba: { w: 385, px: 592, h: 75.8, eyes: [], mouth: [247, 122], mouthW: 20, mouthH: 7, head: [225, 85, 210] },
   lavinia: { w: 241, px: 640, h: 65, eyes: [[163, 148], [207, 148]], eyeR: 11, lid: '#fbd3b7', mouth: [184, 190], mouthW: 18, mouthH: 6, head: [150, 125, 220] },
   turbina: { w: 318, px: 640, h: 72, eyes: [], mouth: [240, 257], mouthW: 18, mouthH: 6, head: [180, 170, 270] },
   oste: { w: 432, px: 640, h: 61, eyes: [[188, 86], [238, 84]], eyeR: 9, lid: '#f2c4a2', mouth: [229, 128], mouthW: 18, mouthH: 8, head: [212, 95, 190] },

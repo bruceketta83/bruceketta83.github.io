@@ -213,15 +213,12 @@ function readQuestBoard() {
               removeItem('i1');
               setFlag('taverna_open');
               playSound('success');
+              // Sfondo con la porta aperta.
+              if ($('layer-bg')) $('layer-bg').innerHTML = SCENES.strada.bg();
               refreshLabels(A);
               ariaSays(['Clack! La chiave di Barnaba funziona. Si entra!', 'La chiave gira. Taverna, sto arrivando!']);
             }
           }
-        },
-        {
-          id: 'porta-aperta', box: [0, 0, 0, 0], noDot: true,
-          visible: () => flag('taverna_open'),
-          draw: () => `<rect x="143" y="88" width="40" height="84" fill="#ffcf5a" opacity="0.85"/><path d="M143 88 L133 92 L133 176 L143 172 Z" fill="#6b4022" ${wink(0.7)}/>`
         },
         {
           id: 'volantino', name: '📄 Volantino', box: [112, 116, 22, 28], stand: 123,
@@ -249,7 +246,7 @@ function readQuestBoard() {
       enter: ['La Taverna è piena di fumo e risate.', 'Qualcuno canta stonato in fondo alla sala.', 'Odore di frittelle e di guai.'],
       layout: {
         ...A.layout,
-        ariaStart: 255,
+        ariaStart: 332,
         mentor: { ...A.layout.mentor, look: ['L’Oste Bartolomeo. Ha i baffi più curati dell’isola.', 'Lucida i boccali con un’energia incredibile.'] },
         guardian: {
           ...A.layout.guardian,
@@ -270,8 +267,8 @@ function readQuestBoard() {
       },
       hotspots: [
         {
-          id: 'botti', name: '🛢️ Tre botticelle', box: [58, 166, 62, 26], stand: 89,
-          draw: () => ['A', 'B', 'C'].map((l, i) => objImg('botte', 72 + i * 20, 192, 19) + objText(l, 72 + i * 20, 186, 7, '#fef3c7')).join(''),
+          id: 'botti', name: '🛢️ Tre botticelle', box: [52, 164, 62, 26], stand: 83,
+          draw: () => ['A', 'B', 'C'].map((l, i) => objImg('botte', 63 + i * 20, 190, 19) + objText(l, 63 + i * 20, 184, 7, '#fef3c7')).join(''),
           look: () => `Tre botticelle con delle scritte: ${P_botti().kegs.map(k => `${k.l} = 3${toSup(k.m)} : 3${toSup(k.n)}`).join(', ')}.`,
           useIf: () => !flag('dadi_ok') && !hasItem('dadi'),
           use: () => {
@@ -299,13 +296,13 @@ function readQuestBoard() {
           take: () => collectPiece('boccali', 'mug2', ['Un boccale dell’Oste! Gli altri due sono in giro per l’isola.', 'Boccale numero uno. Pare che Archimede e Madame Zeri ne abbiano presi in prestito altri...'])
         },
         {
-          id: 'diario2', name: '📓 Un foglio viola', box: [139, 184, 22, 14], stand: 150,
+          id: 'diario2', name: '📓 Un foglio viola', box: [240, 186, 18, 14], stand: 249,
           visible: () => !flag('dia2'),
-          draw: () => diaryPageSVG(150, 191),
+          draw: () => diaryPageSVG(249, 193),
           read: () => readDiary(2),
           look: 'Un foglio viola sul bancone. Profuma di profumo costoso.'
         },
-        laviniaHotspot(A, 'lav1', 140, 186)
+        laviniaHotspot(A, 'lav1', 222, 194)
       ],
       exits: [
         { id: 'to-strada', label: '🚪 Esci', box: [0, 112, 52, 60], stand: 22, to: 'strada', arrive: 238, labelY: 104 }
