@@ -1634,3 +1634,12 @@ html.read-voice #btn-listen { display: block; }
 
 /* Oggetti a immagine nello Zaino. */
 .inv-icon .inv-img { width: 2.6rem; height: 2.6rem; object-fit: contain; display: block; margin: 0 auto; }
+
+/* Oggetti cliccabili: leggero ondeggiare al posto del puntino giallo. */
+.obj-wobble { transform-box: fill-box; transform-origin: 50% 100%; animation: objWobble 2.4s ease-in-out infinite; }
+@keyframes objWobble {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50% { transform: rotate(2deg) translateY(-0.6px); }
+}
+@media (prefers-reduced-motion: reduce) { .obj-wobble { animation: none; } }
+.inline-obj { height: 1.4em; width: auto; vertical-align: -0.35em; }

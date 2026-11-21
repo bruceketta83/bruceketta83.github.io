@@ -36,7 +36,7 @@ function giveItem(id) {
   state.items.push({ id, ...it });
   saveState();
   updateHUD();
-  toast(`${it.icon} Hai preso: <b>${it.name}</b>`);
+  toast(`${itemInlineHTML(id, it.icon)} Hai preso: <b>${it.name}</b>`);
   restartAnim(document.querySelector('[data-nav="inventory"]'), 'pop');
 }
 
@@ -119,16 +119,12 @@ function charSVG(key, x, y, face = 1, id = '') {
   return `<g ${id ? `id="${id}"` : ''} transform="translate(${x} ${y})"><g transform="scale(${face} 1)">${CHARS[key].draw()}</g></g>`;
 }
 
-/* Marcatori: puntino sugli oggetti, freccia sulle uscite. */
+/* Zone cliccabili degli oggetti e scritte delle uscite. Gli oggetti si riconoscono perché ondeggiano. */
 function worldMarkersHTML(area) {
   let html = '';
   roomHotspots(area).forEach(h => {
     const [x, y, w, hh] = h.box;
     html += `<rect data-hs="${h.id}" x="${x}" y="${y}" width="${w}" height="${hh}" fill="transparent"/>`;
-    if (!h.noDot) {
-      html += `<g data-hs="${h.id}" transform="translate(${x + w / 2} ${y - 3})">
-        <circle class="hs-dot" r="3.2" fill="#fde68a" stroke="#0f172a" stroke-width="0.8"/></g>`;
-    }
   });
   // Uscite ai lati della scena: la scritta va in un angolo, lontano dagli oggetti.
   // Uscita a destra → angolo in alto a destra; uscita a sinistra → angolo in basso a sinistra.
@@ -162,7 +158,12 @@ function worldMarkersHTML(area) {
 }
 
 function propsHTML(area) {
-  return roomHotspots(area).filter(h => h.draw || h.obj).map(h => (h.obj ? objHotspotSVG(h) : h.draw())).join('');
+  // Gli oggetti cliccabili ondeggiano piano (non i personaggi, le porte e i veli di luce).
+  return roomHotspots(area).filter(h => h.draw || h.obj).map((h, i) => {
+    const svg = h.obj ? objHotspotSVG(h) : h.draw();
+    const wobble = h.box[2] && !/porta|botola/.test(h.id) && !svg.includes('id="char-');
+    return wobble ? `<g class="obj-wobble" style="animation-delay:-${(i * 0.37) % 2.4}s">${svg}</g>` : svg;
+  }).join('');
 }
 
 /* Cambia stanza con una dissolvenza. */
@@ -299,7 +300,7 @@ function selectItem(id) {
   closeModal('inventory');
   const it = ITEMS[id] || state.items.find(i => i.id === id);
   // La richiesta appare nel riquadro del dialogo: niente fasce sopra la scena.
-  setDialogue('Aria', 'Esploratrice', 'aria', `${it.icon} Su cosa uso <b>${it.name}</b>? Tocca un oggetto o un personaggio nella scena.`, 'aria');
+  setDialogue('Aria', 'Esploratrice', 'aria', `${itemInlineHTML(id, it.icon)} Su cosa uso <b>${it.name}</b>? Tocca un oggetto o un personaggio nella scena.`, 'aria');
   clearChoices();
   addChoice('✕ Annulla', () => { cancelUse(); ariaSays(null); });
 }

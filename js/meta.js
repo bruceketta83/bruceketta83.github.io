@@ -331,7 +331,7 @@ const MAP_EDGES = [
 const MAP_VIA = { taverna: 'Piazza del Mercato', torre: 'Piazza del Mercato', serra: 'Belvedere', officina: 'Belvedere', faro: 'Belvedere' };
 /* Dove si trova ogni pezzo da raccogliere (per la Bussola dei tesori). */
 const PIECE_PLACES = {
-  coin1: ['molo', '🪙'], coin2: ['taverna', '🪙'], coin3: ['molo', '🪙'],
+  coin1: ['molo', '💰'], coin2: ['taverna', '💰'], coin3: ['molo', '💰'],
   mug1: ['torre', '🍺'], mug2: ['taverna', '🍺'], mug3: ['serra', '🍺'],
   bul1: ['officina', '🔩'], bul2: ['molo', '🔩'], bul3: ['torre', '🔩'],
   dia1: ['molo', '📓'], dia2: ['taverna', '📓'], dia3: ['torre', '📓'], dia4: ['serra', '📓'], dia5: ['faro', '📓']

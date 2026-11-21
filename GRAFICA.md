@@ -192,6 +192,8 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 2. Nella stanza ogni oggetto riempie il suo riquadro cliccabile, appoggiato in basso (`obj` nell'oggetto della stanza, `js/objects.js`).
 3. Scritte e numeri che cambiano (A-B-C, 2⁵, VIVAIO, 2¹⁰) sono in SVG sopra l'immagine.
 4. Le stesse immagini compaiono nello Zaino al posto delle emoji.
+5. Gli oggetti cliccabili ondeggiano piano (classe `obj-wobble`): niente puntini gialli. Porte e personaggi non ondeggiano.
+6. Emoji: solo quelle presenti su tutti i telefoni (niente 🪙 🪢 🪧 🪟 🪴, che sui telefoni meno recenti non si vedono).
 
 ### Regole comuni
 

@@ -84,3 +84,9 @@ function itemIconHTML(obj) {
   const f = ITEM_IMG[obj.id];
   return f ? `<img class="inv-img" src="img/obj/${f}.webp" alt="">` : obj.icon;
 }
+
+/* Immagine piccola dentro un testo (avvisi e dialoghi). */
+function itemInlineHTML(id, fallback) {
+  const f = ITEM_IMG[id];
+  return f ? `<img class="inline-obj" src="img/obj/${f}.webp" alt="">` : fallback;
+}
