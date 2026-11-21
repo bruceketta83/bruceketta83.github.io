@@ -372,23 +372,16 @@ function laviniaCameo(area, flagKey) {
       ],
       layout: {
         groundY: 178,
-        ariaStart: 200,
+        ariaStart: 262,
         mentor: {
-          x: 108, draw: 'vera', stand: 142, label: '🏴‍☠️ Capitana Vera',
+          x: 196, draw: 'vera', stand: 162, label: '🏴‍☠️ Capitana Vera',
           look: ['Capitana Vera. Ha un cappello più grande del mio zaino.', 'Vera ha la spada, il cappello e l’autostima. Tutto il pacchetto.']
         }
       },
       hotspots: [
         {
-          id: 'granchio', name: '🦀 Granchio', box: [82, 180, 32, 18], stand: 132,
-          draw: () => `<g transform="translate(96 192)"><g class="crab-walk">
-            <ellipse cx="0" cy="0" rx="7" ry="4.5" fill="#dc2626"/>
-            <path d="M-6 -2 Q-12 -8 -9 -11 M6 -2 Q12 -8 9 -11" stroke="#dc2626" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <circle cx="-9.5" cy="-11.5" r="2.2" fill="#ef4444"/><circle cx="9.5" cy="-11.5" r="2.2" fill="#ef4444"/>
-            <path d="M-5 3 L-9 6 M-2 4 L-5 7 M5 3 L9 6 M2 4 L5 7" stroke="#b91c1c" stroke-width="1"/>
-            <line x1="-2" y1="-4" x2="-2.5" y2="-7" stroke="#b91c1c" stroke-width="0.8"/><line x1="2" y1="-4" x2="2.5" y2="-7" stroke="#b91c1c" stroke-width="0.8"/>
-            <circle cx="-2.5" cy="-7.5" r="1.1" fill="#111"/><circle cx="2.5" cy="-7.5" r="1.1" fill="#111"/>
-          </g></g>`,
+          id: 'granchio', name: '🦀 Granchio', box: [96, 160, 26, 18], stand: 124, noDot: true,
+          
           look: [
             'Un granchio. Cammina di lato, come chi non sa le regole delle potenze.',
             'Il granchio mi fissa. Ha un’aura minacciosa.',
@@ -396,19 +389,19 @@ function laviniaCameo(area, flagKey) {
           ]
         },
         {
-          id: 'nave', name: '⛵ La nave di Vera', box: [36, 94, 74, 40], stand: 150,
+          id: 'nave', name: '⛵ La nave di Vera', box: [120, 12, 116, 126], stand: 150,
           look: [
             'La nave di Capitana Vera si chiama "Base Uguale". Che nome nerd.',
             'Una nave pirata vera! Le vele hanno delle toppe a forma di 2.'
           ]
         },
         {
-          id: 'palma', name: '🌴 Palma', box: [192, 66, 30, 104], stand: 206, noDot: true,
+          id: 'palma', name: '🌴 Palma', box: [22, 18, 76, 126], stand: 60, noDot: true,
           look: ['Una palma. Niente cocchi, purtroppo.', 'Se fossi una palma, sarei una palma elevata alla seconda.']
         },
         {
-          id: 'bottiglia', name: '🍾 Messaggio in bottiglia', box: [334, 178, 24, 16], stand: 330,
-          draw: () => `<g transform="translate(346 189) rotate(-18)">
+          id: 'bottiglia', name: '🍾 Messaggio in bottiglia', box: [276, 184, 24, 16], stand: 282,
+          draw: () => `<g transform="translate(288 192) rotate(-18)">
             <rect x="-9" y="-3.5" width="14" height="7" rx="3" fill="#16a34a" opacity="0.85"/>
             <rect x="5" y="-1.8" width="5" height="3.6" fill="#16a34a" opacity="0.85"/>
             <rect x="9.5" y="-2" width="2.6" height="4" rx="0.8" fill="#a16207"/>
@@ -428,9 +421,9 @@ function laviniaCameo(area, flagKey) {
           take: () => takeCoin(1)
         },
         {
-          id: 'lucchetto', name: '🔒 Lucchetto del capanno', box: [279, 146, 16, 16], stand: 286,
+          id: 'lucchetto', name: '🔒 Lucchetto del capanno', box: [326, 120, 16, 16], stand: 334,
           visible: () => !flag('capanno_open'),
-          draw: () => `<g transform="translate(287 154)">
+          draw: () => `<g transform="translate(334 128)">
             <path d="M-3.5 -2 L-3.5 -5 Q0 -9 3.5 -5 L3.5 -2" stroke="#9ca3af" stroke-width="1.6" fill="none"/>
             <rect x="-5" y="-2.5" width="10" height="8" rx="1.5" fill="#fbbf24" stroke="#a16207" stroke-width="0.7"/>
             <circle cy="1.5" r="1.2" fill="#78350f"/>
@@ -442,15 +435,16 @@ function laviniaCameo(area, flagKey) {
         },
         {
           id: 'porta-aperta', box: [0, 0, 0, 0], noDot: true,
-          visible: () => flag('capanno_open'),
-          draw: () => `<rect x="272" y="130" width="26" height="46" fill="#1c1008"/>
-            <path d="M272 130 L264 134 L264 180 L272 176 Z" fill="#78350f"/>`
+          // Nell'immagine la porta è aperta: finché c'è il lucchetto la copriamo con la porta chiusa.
+          visible: () => !flag('capanno_open'),
+          draw: () => `<rect x="322.5" y="103" width="23.5" height="47" fill="#7a5a3c" ${wink(0.7)}/>
+            <path d="M330 103 L330 150 M338 103 L338 150" stroke="#5a3e26" stroke-width="0.8"/>`
         }
       ],
       exits: [
         { id: 'to-pontile', label: 'Pontile ➜', box: [348, 120, 52, 66], stand: 372, to: 'pontile', arrive: 60, labelY: 112 },
         {
-          id: 'to-capanno', label: '🚪 Capanno', box: [270, 126, 30, 52], stand: 285, to: 'capanno', arrive: 70, labelY: 120,
+          id: 'to-capanno', label: '🚪 Capanno', box: [322, 102, 26, 50], stand: 334, to: 'capanno', arrive: 70, labelY: 96,
           visible: () => flag('capanno_open')
         }
       ]
@@ -478,7 +472,7 @@ function laviniaCameo(area, flagKey) {
         groundY: 162,
         ariaStart: 60,
         guardian: {
-          x: 300, draw: 'barnaba', stand: 262, label: '🦍 Barnaba',
+          x: 330, draw: 'barnaba', stand: 296, label: '🦍 Barnaba',
           look: ['Barnaba. Braccia grosse come due potenze di 10.', 'Ha gli occhiali da sole anche al tramonto. Iconico.']
         }
       },
@@ -532,9 +526,9 @@ function laviniaCameo(area, flagKey) {
           }
         },
         {
-          id: 'cassa-salva', name: '📦 Cassa recuperata', box: [214, 136, 26, 22], stand: 226, noDot: true,
+          id: 'cassa-salva', name: '📦 Cassa recuperata', box: [124, 140, 26, 22], stand: 136, noDot: true,
           visible: () => flag('cassa_ok'),
-          draw: () => `<g transform="translate(227 147)">
+          draw: () => `<g transform="translate(137 151)">
             <rect x="-11" y="-11" width="22" height="22" fill="#a16207" stroke="#713f12" stroke-width="1"/>
             <path d="M-11 -11 L11 11 M11 -11 L-11 11" stroke="#713f12" stroke-width="0.7" opacity="0.6"/>
             <text x="0" y="3" font-size="8" fill="#fef3c7" text-anchor="middle" font-weight="700" font-family="Courier New, monospace">2⁵</text>
@@ -552,13 +546,13 @@ function laviniaCameo(area, flagKey) {
           }
         },
         {
-          id: 'casse', name: '📦 Casse del carico', box: [332, 112, 30, 46], stand: 322, noDot: true,
+          id: 'casse', name: '📦 Casse del carico', box: [228, 120, 84, 42], stand: 220, noDot: true,
           look: ['Due casse con delle potenze scritte sopra. Barnaba ci tiene tantissimo.', 'Casse con le potenze scritte sopra. Su quest’isola sono tutti fissati.']
         },
         {
-          id: 'lavinia', name: '👑 Lavinia', box: [182, 96, 28, 66], stand: 160, noDot: true,
+          id: 'lavinia', name: '👑 Lavinia', box: [202, 96, 28, 68], stand: 160, noDot: true,
           visible: () => flag('lav0_here'),
-          draw: () => charSVG('lavinia', 196, 162, -1, 'char-lavinia-cameo'),
+          draw: () => charSVG('lavinia', 216, 164, -1, 'char-lavinia-cameo'),
           talk: () => laviniaCameo(A, 'lav0')
         }
       ],
@@ -580,12 +574,12 @@ function laviniaCameo(area, flagKey) {
         'Qui dentro c’è un sacco di roba utile. E polvere.',
         'Che disordine! Però magari trovo qualcosa.'
       ],
-      layout: { groundY: 182, ariaStart: 70 },
+      layout: { groundY: 178, ariaStart: 76 },
       hotspots: [
         {
-          id: 'corda', name: '🪢 Corda', box: [234, 164, 34, 18], stand: 250,
+          id: 'corda', name: '🪢 Corda', box: [158, 162, 34, 18], stand: 175,
           visible: () => !hasItem('corda') && !flag('cassa_ok'),
-          draw: () => `<g transform="translate(250 176)">
+          draw: () => `<g transform="translate(175 174)">
             <ellipse rx="14" ry="5" fill="none" stroke="#d6b88a" stroke-width="2.4"/>
             <ellipse rx="10" ry="3.6" fill="none" stroke="#c4a574" stroke-width="2.2"/>
             <ellipse rx="6" ry="2.2" fill="none" stroke="#d6b88a" stroke-width="2"/>
@@ -599,37 +593,37 @@ function laviniaCameo(area, flagKey) {
           look: 'Un rotolo di corda. Sembra resistente.'
         },
         {
-          id: 'bul2', name: '🔩 Qualcosa che luccica', box: [320, 96, 16, 12], stand: 322,
+          id: 'bul2', name: '🔩 Qualcosa che luccica', box: [334, 100, 16, 12], stand: 330,
           visible: () => !flag('bul2'),
-          draw: () => sparkleSVG(328, 104, BOLT),
+          draw: () => sparkleSVG(342, 108, BOLT),
           take: () => collectPiece('bulloni', 'bul2', ['Un bullone d’oro! Chissà di chi è...', 'Un bullone tutto d’oro. Qualcuno all’Officina lo starà cercando.'])
         },
         {
-          id: 'poster', name: '📜 Poster "Googol"', box: [168, 34, 52, 60], stand: 194,
+          id: 'poster', name: '📜 Poster "Googol"', box: [238, 68, 52, 54], stand: 262,
           read: () => readCuriosity('googol'),
           look: 'Un poster con scritto 10¹⁰⁰. Chi appende un numero in un capanno? Un pirata nerd.'
         },
         {
-          id: 'mappa', name: '🗺️ Mappa', box: [86, 128, 68, 22], stand: 120,
+          id: 'mappa', name: '🗺️ Mappa', box: [228, 128, 84, 20], stand: 270,
           look: [
             'Una mappa dell’isola: Molo, Taverna, Torre, Serra, Officina e il Faro in cima. Sei tappe, sei regole.',
             'Sulla mappa qualcuno ha cerchiato il Faro in rosso. E ha scritto "LAVINIA WAS HERE". Che nervi.'
           ]
         },
         {
-          id: 'diario1', name: '📓 Un quaderno viola', box: [299, 170, 22, 14], stand: 310,
+          id: 'diario1', name: '📓 Un quaderno viola', box: [323, 166, 22, 14], stand: 334,
           visible: () => !flag('dia1'),
-          draw: () => diaryPageSVG(310, 177),
+          draw: () => diaryPageSVG(334, 173),
           read: () => readDiary(1),
           look: 'Un foglio viola con una corona disegnata sopra. Mi ricorda qualcuno...'
         },
         {
-          id: 'rete', name: '🕸️ Rete da pesca', box: [62, 28, 82, 70], stand: 104, noDot: true,
+          id: 'rete', name: '🕸️ Rete da pesca', box: [106, 68, 42, 84], stand: 126, noDot: true,
           look: ['Una rete da pesca. Ha un buco enorme. Il pesce ringrazia.', 'Una rete con dei galleggianti. Uno, due, quattro, otto... ok basta.']
         }
       ],
       exits: [
-        { id: 'to-spiaggia2', label: '🚪 Esci', box: [10, 94, 40, 88], stand: 40, to: 'spiaggia', arrive: 285, labelY: 90 }
+        { id: 'to-spiaggia2', label: '🚪 Esci', box: [20, 64, 80, 94], stand: 70, to: 'spiaggia', arrive: 334, labelY: 90 }
       ]
     }
   };

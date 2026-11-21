@@ -16,72 +16,92 @@ function ariaLook() {
 function ariaHatSVG(hat) {
   switch (hat) {
     case 'pirata':
-      return `<path d="M-11 -53 Q0 -49 11 -53 Q7 -63 0 -61.5 Q-7 -63 -11 -53 Z" fill="#111827"/>
+      return `<path d="M-11 -53 Q0 -49 11 -53 Q7 -63 0 -61.5 Q-7 -63 -11 -53 Z" fill="#1d1b22" ${ink(0.6)}/>
         <path d="M-9.5 -53.5 Q0 -50.4 9.5 -53.5" stroke="#fbbf24" stroke-width="0.9" fill="none"/>
         <circle cx="0" cy="-57" r="1.6" fill="#f8fafc"/>`;
     case 'corona':
-      return `<path d="M-6 -54 L-5 -60 L-2 -56.5 L0.5 -61.5 L3 -56.5 L6 -60 L7 -54 Q0.5 -55.6 -6 -54 Z" fill="#fbbf24" stroke="#d97706" stroke-width="0.5"/>
+      return `<path d="M-6 -54 L-5 -60 L-2 -56.5 L0.5 -61.5 L3 -56.5 L6 -60 L7 -54 Q0.5 -55.6 -6 -54 Z" fill="#fbbf24" ${ink(0.5)}/>
         <circle cx="0.5" cy="-58.4" r="1" fill="#ec4899"/>`;
     case 'cappellino':
-      return `<path d="M-8.6 -50 Q-8 -58.6 1 -58.4 Q8.6 -58 8.8 -50.6 Z" fill="#2563eb"/>
-        <path d="M5 -50.6 Q12 -50.8 14.5 -48.6 Q9 -48.4 5 -49.2 Z" fill="#1d4ed8"/>
+      return `<path d="M-9 -50 Q-8.4 -59 1 -58.8 Q9 -58.4 9.2 -50.6 Z" fill="#2563eb" ${ink(0.6)}/>
+        <path d="M5 -50.6 Q12 -50.8 14.5 -48.6 Q9 -48.4 5 -49.2 Z" fill="#1d4ed8" ${ink(0.5)}/>
         <circle cx="0.5" cy="-58.2" r="1" fill="#fbbf24"/>`;
     case 'fiore':
       return `<g transform="translate(-6.6 -52)">${[0, 72, 144, 216, 288].map(a =>
         `<ellipse cx="0" cy="-2.2" rx="1.4" ry="2.2" fill="#f472b6" transform="rotate(${a})"/>`).join('')}<circle r="1.2" fill="#fde047"/></g>`;
     case 'cuffie':
       return `<path d="M-8.8 -47 Q-9 -58.5 0 -58.5 Q9 -58.5 8.8 -47" stroke="#111827" stroke-width="1.6" fill="none"/>
-        <rect x="-10.4" y="-49.5" width="3.4" height="6" rx="1.4" fill="#ec4899"/>`;
+        <rect x="-10.6" y="-49.5" width="3.6" height="6" rx="1.4" fill="#ec4899" ${ink(0.5)}/>`;
     default:
       return '';
   }
 }
+
+/* Contorno dei personaggi: blu notte scuro, mai nero puro (stile dei mock-up). */
+const INK = '#1c1426';
+function ink(w = 0.7) { return `stroke="${INK}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`; }
 
 function drawAria() {
   const look = ariaLook();
   const [tunic, tunicDark] = ARIA_TUNIC[look.tunic] || ARIA_TUNIC.teal;
   const scarf = look.scarf || '#e11d48';
   const pack = look.pack || '#92400e';
-  const clip = look.hat && look.hat !== 'cuffie' && look.hat !== 'fiore' ? '' : `<circle cx="-6.6" cy="-51.8" r="2.2" fill="${scarf}"/>`;
+  const skin = '#f6c9a0', hair = '#6b3a1c', hairL = '#8f5630';
+  const clip = look.hat && look.hat !== 'cuffie' && look.hat !== 'fiore' ? '' : `<circle cx="-6.4" cy="-52.4" r="2" fill="${scarf}" ${ink(0.5)}/>`;
   const glasses = look.glasses
-    ? `<rect x="0.6" y="-48.4" width="3.8" height="3" rx="1.2" fill="#0f172a" stroke="${look.glasses}" stroke-width="0.6"/>
-       <rect x="4.8" y="-48.4" width="3.6" height="3" rx="1.2" fill="#0f172a" stroke="${look.glasses}" stroke-width="0.6"/>
+    ? `<rect x="0.6" y="-48.4" width="3.8" height="3" rx="1.2" fill="#0f172a" stroke="${look.glasses}" stroke-width="0.7"/>
+       <rect x="4.8" y="-48.4" width="3.6" height="3" rx="1.2" fill="#0f172a" stroke="${look.glasses}" stroke-width="0.7"/>
        <path d="M4.4 -47.2 L4.8 -47.2" stroke="${look.glasses}" stroke-width="0.6"/>`
     : '';
   return `
   <g class="char aria">
-    <ellipse cx="0" cy="0" rx="10" ry="2.5" fill="#000" opacity="0.3"/>
+    <ellipse cx="0" cy="0.3" rx="11" ry="2.6" fill="#000" opacity="0.3"/>
     <g class="leg leg-b">
-      <rect x="-4.5" y="-19" width="4.2" height="19" rx="1.6" fill="#1e3a8a"/>
-      <rect x="-5.5" y="-3.2" width="6.5" height="3.2" rx="1.2" fill="#3f2a1d"/>
+      <path d="M-4.8 -17 L-0.6 -17 L-0.8 -2.6 L-4.6 -2.6 Z" fill="#3a5aa8" ${ink(0.6)}/>
+      <path d="M-6.6 -3.4 Q-6.8 0 -3 0 L0 0 Q0.4 -2.2 -0.8 -3.4 Z" fill="#5c3518" ${ink(0.6)}/>
     </g>
     <g class="leg leg-f">
-      <rect x="0.3" y="-19" width="4.2" height="19" rx="1.6" fill="#2548b8"/>
-      <rect x="-0.2" y="-3.2" width="7" height="3.2" rx="1.2" fill="#4a3222"/>
+      <path d="M0.2 -17 L4.6 -17 L4.4 -2.6 L0.6 -2.6 Z" fill="#4c72c4" ${ink(0.6)}/>
+      <path d="M1.4 -15 L1.6 -5" stroke="#3a5aa8" stroke-width="0.6"/>
+      <path d="M0 -3.4 Q-0.2 0 3.4 0 L7.6 0 Q8 -2.4 4.6 -3.4 Z" fill="#7a4524" ${ink(0.6)}/>
     </g>
     <g class="torso">
-      <rect x="-12" y="-37" width="7.5" height="15" rx="2.5" fill="${pack}"/>
-      <rect x="-12" y="-31" width="7.5" height="2" fill="#000" opacity="0.2"/>
-      <path d="M-6.5 -37 Q0 -40 6.5 -37 L7.5 -17 L-7.5 -17 Z" fill="${tunic}"/>
-      <rect x="-7.5" y="-21" width="15" height="3" fill="#78350f"/>
-      <circle cx="3" cy="-19.5" r="1.8" fill="#fbbf24" stroke="#92400e" stroke-width="0.5"/>
-      <path d="M-5.5 -37.5 L5.5 -37.5 L1.5 -32.5 Z" fill="${scarf}"/>
+      <path d="M-5.6 -38.4 Q-13.6 -38.6 -13.6 -31 L-13.2 -22.4 Q-12.8 -19.6 -9 -19.8 L-5.6 -20.2 Z" fill="${pack}" ${ink(0.7)}/>
+      <path d="M-13.3 -27.6 L-8.4 -27.6 L-8.4 -20.4 Q-12.8 -20.4 -13.1 -22.6 Z" fill="${pack}" ${ink(0.6)}/>
+      <path d="M-13 -31.4 Q-9.6 -30.2 -6 -31.4" stroke="#000" stroke-opacity="0.25" stroke-width="0.8" fill="none"/>
+      <path d="M-7 -38.6 Q0 -40.6 7 -38.6 Q8.6 -27 9.6 -15.6 Q0 -13.4 -9 -15.6 Q-8.2 -27 -7 -38.6 Z" fill="${tunic}" ${ink(0.7)}/>
+      <path d="M-6.8 -38.4 Q-5.2 -38.8 -4 -38.6 Q-5 -27 -4.4 -14.4 Q-7 -14.8 -8.8 -15.6 Q-8 -27 -6.8 -38.4 Z" fill="${tunicDark}"/>
+      <path d="M2.2 -21.6 Q2.8 -18 2.4 -14.6 M-1.4 -21.4 Q-1.8 -18 -1.6 -14.4" stroke="${tunicDark}" stroke-width="0.6" fill="none"/>
+      <path d="M-4.8 -38.2 Q-3.2 -31 -4.4 -24.8" stroke="#5c3518" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M-8.3 -25.4 Q0 -24.2 8.8 -25.6 L9 -22.9 Q0 -21.6 -8.5 -22.8 Z" fill="#6b3f1f" ${ink(0.5)}/>
+      <rect x="2.2" y="-25.4" width="3.2" height="2.9" rx="0.5" fill="#fbbf24" ${ink(0.4)}/>
+      <path d="M-6.6 -39.8 Q0 -43.2 7.2 -39.6 Q7.8 -36.8 6.2 -35.4 Q0 -37.8 -6.2 -35.6 Q-7.6 -37.4 -6.6 -39.8 Z" fill="${scarf}" ${ink(0.6)}/>
+      <path d="M-4 -37.6 Q0.4 -39.6 4.8 -37.4" stroke="#000" stroke-opacity="0.22" stroke-width="0.7" fill="none"/>
       <g class="arm">
-        <path d="M2.5 -35 Q6.5 -29 5.5 -23" stroke="${tunicDark}" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-        <circle cx="5.5" cy="-22.5" r="1.9" fill="#f2c094"/>
+        <path d="M3.2 -37.8 Q8.8 -35.2 8.6 -24.4 L5.2 -24.2 Q5.6 -31.6 2 -34.2 Z" fill="${tunic}" ${ink(0.6)}/>
+        <path d="M6.8 -32 Q7.8 -28 7.6 -24.6" stroke="${tunicDark}" stroke-width="0.8" fill="none"/>
+        <ellipse cx="6.9" cy="-22.7" rx="1.9" ry="2" fill="${skin}" ${ink(0.5)}/>
       </g>
       <g class="head">
-        <path class="ponytail" d="M-6.5 -51 Q-17 -49 -14 -38 Q-11.5 -44 -6 -45.5 Z" fill="#5b3415"/>
-        <circle cx="0" cy="-46" r="8.6" fill="#f2c094"/>
-        <path d="M-8.8 -46.5 Q-8 -56.5 0.5 -56 Q8.5 -55.5 8.8 -48.5 Q4.5 -52 -0.5 -50.8 Q-4.8 -49.8 -8.8 -44.5 Z" fill="#5b3415"/>
+        <path class="ponytail" d="M-3.4 -55.6 Q-12.4 -58 -15.8 -49.6 Q-18.2 -42.4 -15.2 -36.4 Q-13.2 -31.6 -16.6 -27 Q-11.2 -28.8 -11.2 -34.4 Q-11.4 -40 -9.6 -44.6 Q-7.6 -49.6 -2.8 -51.4 Z" fill="${hair}" ${ink(0.7)}/>
+        <path d="M-12.6 -49.6 Q-15 -43 -12.6 -37.6" stroke="${hairL}" stroke-width="0.9" fill="none"/>
+        <circle cx="0" cy="-46" r="9" fill="${skin}" ${ink(0.7)}/>
+        <path d="M-9.4 -44.4 Q-10.6 -56.6 0 -56.8 Q9.8 -56.8 9.6 -47.6 Q9.4 -43.6 8.8 -41.2 Q8 -46 6.8 -49.6 Q2.8 -51.6 -1.6 -50.2 Q-4.4 -48.6 -5.4 -45.2 Q-7.4 -45.4 -7.8 -42.2 Q-8.6 -40.6 -9.4 -40.4 Z" fill="${hair}" ${ink(0.7)}/>
+        <path d="M-3.4 -54.6 Q2 -55.6 6.4 -52.6" stroke="${hairL}" stroke-width="0.9" fill="none"/>
+        <circle cx="-5.6" cy="-44.6" r="1.9" fill="${skin}" ${ink(0.5)}/>
+        <path d="M-5.9 -45.4 Q-5 -44.6 -5.8 -43.6" stroke="#e3a57a" stroke-width="0.5" fill="none"/>
         ${clip}
         <g class="eyes">
-          <ellipse cx="2.6" cy="-46.6" rx="1.05" ry="1.5" fill="#1e293b"/>
-          <ellipse cx="6.2" cy="-46.6" rx="1.05" ry="1.5" fill="#1e293b"/>
+          <ellipse cx="2.8" cy="-46.4" rx="1.15" ry="1.65" fill="#1e2a4a"/>
+          <ellipse cx="6.6" cy="-46.4" rx="1.15" ry="1.65" fill="#1e2a4a"/>
+          <circle cx="3.1" cy="-47" r="0.35" fill="#fff"/><circle cx="6.9" cy="-47" r="0.35" fill="#fff"/>
         </g>
+        <path d="M1.6 -49.2 Q2.8 -49.8 4 -49.3 M5.6 -49.3 Q6.8 -49.8 7.8 -49.1" stroke="${hair}" stroke-width="0.6" fill="none"/>
+        <path d="M8.9 -45 Q9.8 -43.8 8.8 -43.2" stroke="#d99a72" stroke-width="0.5" fill="none"/>
+        <ellipse cx="1.2" cy="-42.8" rx="1.6" ry="1" fill="#f28b8b" opacity="0.55"/>
+        <ellipse cx="8.2" cy="-42.8" rx="0.9" ry="0.8" fill="#f28b8b" opacity="0.5"/>
+        <path class="mouth" d="M3.6 -42 Q5.4 -40 7.2 -42 Q5.4 -41.2 3.6 -42 Z" fill="#8a2f2f" stroke="#8a2f2f" stroke-width="0.4"/>
         ${glasses}
-        <circle cx="0.6" cy="-43.4" r="1.5" fill="#fb7185" opacity="0.45"/>
-        <ellipse class="mouth" cx="4.8" cy="-42.2" rx="1.6" ry="0.9" fill="#7f1d1d"/>
         ${ariaHatSVG(look.hat)}
       </g>
     </g>
@@ -89,88 +109,120 @@ function drawAria() {
 }
 
 function drawVera() {
+  const skin = '#f3c09a', hair = '#b5481e', hairD = '#8e3612';
   return `
   <g class="char vera">
-    <ellipse cx="0" cy="0" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
+    <ellipse cx="0" cy="0.3" rx="12.5" ry="2.7" fill="#000" opacity="0.3"/>
     <g class="leg leg-b">
-      <rect x="-5" y="-21" width="4.6" height="21" rx="1.5" fill="#3f2a1d"/>
-      <rect x="-6" y="-7" width="6.4" height="7" rx="1.5" fill="#111"/>
+      <path d="M-5.2 -24 L-0.6 -24 L-0.8 -12 L-5 -12 Z" fill="#6b4a2f" ${ink(0.6)}/>
+      <path d="M-6.4 -13.4 L0.2 -13.4 L-0.2 0 L-6.8 0 Q-7.6 -0.2 -6.8 -2 Z" fill="#1f1d24" ${ink(0.6)}/>
+      <rect x="-6.8" y="-14.2" width="7.4" height="2.4" rx="0.6" fill="#2a2830" ${ink(0.5)}/>
     </g>
     <g class="leg leg-f">
-      <rect x="0.4" y="-21" width="4.6" height="21" rx="1.5" fill="#4a3222"/>
-      <rect x="0" y="-7" width="7" height="7" rx="1.5" fill="#1a1a1a"/>
+      <path d="M0.4 -24 L5 -24 L4.8 -12 L0.6 -12 Z" fill="#7d5a3a" ${ink(0.6)}/>
+      <path d="M-0.2 -13.4 L5.6 -13.4 L5.4 -3.6 Q8.6 -3 8.6 0 L-0.4 0 Z" fill="#26242c" ${ink(0.6)}/>
+      <rect x="-0.6" y="-14.2" width="7" height="2.4" rx="0.6" fill="#33313a" ${ink(0.5)}/>
     </g>
     <g class="torso">
-      <path d="M-9 -43 L-13 -14 L-2 -17 Z" fill="#1e3a8a"/>
-      <path d="M-8 -43 Q0 -46 8 -43 L10.5 -18 L-10.5 -18 Z" fill="#1d4ed8"/>
-      <path d="M-3 -43 L3 -43 L0 -35 Z" fill="#f8fafc"/>
-      <path d="M-3 -43 L0 -35 L0 -18" stroke="#fbbf24" stroke-width="1" fill="none"/>
-      <rect x="-9.5" y="-26" width="19" height="3.6" fill="#dc2626"/>
-      <circle cx="2.5" cy="-32" r="0.9" fill="#fbbf24"/>
-      <circle cx="2.5" cy="-29" r="0.9" fill="#fbbf24"/>
-      <path d="M-8 -24 L-15 -6" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-      <rect x="-9.5" y="-25.5" width="3" height="2.5" fill="#a16207"/>
+      <path d="M-8.6 -57 Q-14 -46 -11.6 -33 Q-8 -35 -6 -38 Q-6 -47 -4.6 -52 Z" fill="${hair}" ${ink(0.7)}/>
+      <path d="M11.6 -32 L-16 -8" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M11.6 -32 L-16 -8" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M9.4 -34.6 Q14.6 -34.6 14.8 -29.4" stroke="#9ca3af" stroke-width="1" fill="none"/>
+      <path d="M11.4 -32.2 L14.6 -35" stroke="#6b3f1f" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M-8.4 -44.2 Q0 -46.8 8.4 -44.2 Q10.4 -30 11.4 -16 Q0 -14 -11.2 -16 Q-10.4 -30 -8.4 -44.2 Z" fill="#2346c8" ${ink(0.7)}/>
+      <path d="M-8.2 -44 Q-6.4 -44.6 -5 -44.6 Q-6 -30 -5.6 -14.8 Q-8.6 -15 -11 -16 Q-10.2 -30 -8.2 -44 Z" fill="#1a3299"/>
+      <path d="M-2.6 -45 L3 -45 L0.6 -33.6 Z" fill="#f8fafc" ${ink(0.5)}/>
+      <path d="M0.6 -33.6 L0.4 -15" stroke="${INK}" stroke-width="0.5" opacity="0.6"/>
+      <path d="M-4.6 -46.6 L-2.6 -45 L-4 -42.4 Z M5 -46.6 L3 -45 L4.4 -42.2 Z" fill="#1a3299" ${ink(0.5)}/>
+      ${[-41.4, -38.4, -35.4].map(y => `<circle cx="3" cy="${y}" r="0.75" fill="#fbbf24" ${ink(0.3)}/><circle cx="5.8" cy="${y + 0.2}" r="0.75" fill="#fbbf24" ${ink(0.3)}/>`).join('')}
+      <path d="M-10.2 -30.6 Q0 -32.4 10.6 -30.6 L10.8 -25.6 Q0 -24 -10.4 -25.6 Z" fill="#c62828" ${ink(0.6)}/>
+      <path d="M-6 -29.6 Q0 -30.6 6 -29.4" stroke="#8e1b1b" stroke-width="0.6" fill="none"/>
+      <path d="M-9.6 -26 Q-12.6 -22 -11.4 -18.6 Q-9.4 -21 -8 -25.4 Z" fill="#c62828" ${ink(0.5)}/>
       <g class="arm">
-        <path d="M5 -41 Q11.5 -34 9.5 -26" stroke="#1d4ed8" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <circle cx="9.5" cy="-25" r="2.1" fill="#d9a07a"/>
+        <path d="M4.4 -43.6 Q11.4 -41 12.4 -33.6 Q11.4 -30 7.6 -27.6 L5.8 -29.8 Q8.8 -32 8.8 -34.6 Q7.8 -38.4 3.6 -39.6 Z" fill="#2346c8" ${ink(0.6)}/>
+        <path d="M9.4 -31.4 L6.8 -28.2" stroke="#f3e6c8" stroke-width="1.2"/>
+        <ellipse cx="6.6" cy="-27.6" rx="1.9" ry="1.6" fill="${skin}" ${ink(0.5)}/>
       </g>
       <g class="head">
-        <path d="M-8 -53 Q-13 -41 -9.5 -33 Q-6 -40 -5 -47 Z" fill="#9a3412"/>
-        <circle cx="0" cy="-50.5" r="8.6" fill="#d9a07a"/>
-        <path d="M-8.6 -51 Q-4 -58.5 4 -57.5 Q7.5 -56.5 8.6 -52 Q2 -54.5 -3 -52.5 Z" fill="#9a3412"/>
-        <circle cx="-2" cy="-46" r="1" fill="#fbbf24"/>
+        <circle cx="0" cy="-51" r="9" fill="${skin}" ${ink(0.7)}/>
+        <path d="M-9.2 -50 Q-9.6 -58 -2 -58.6 Q6.6 -58.8 9 -52.6 Q5 -55.4 1 -54.4 Q-2.4 -53.2 -4.4 -49.6 Q-6.4 -46 -7 -41.6 Q-8.8 -42.4 -9.2 -45 Z" fill="${hair}" ${ink(0.7)}/>
+        <path d="M8.8 -52.4 Q10.4 -48 9 -43.6 Q8.6 -47 7.4 -49.6 Z" fill="${hair}" ${ink(0.5)}/>
+        <path d="M-6 -55 Q-7.6 -50 -7.2 -45" stroke="${hairD}" stroke-width="0.7" fill="none"/>
+        <circle cx="-4.6" cy="-49.4" r="1.8" fill="${skin}" ${ink(0.5)}/>
+        <circle cx="-4.6" cy="-46.6" r="1.4" fill="none" stroke="#f2b53a" stroke-width="0.7"/>
         <g class="eyes">
-          <ellipse cx="3" cy="-51" rx="1.05" ry="1.5" fill="#1e293b"/>
-          <ellipse cx="6.6" cy="-51" rx="1.05" ry="1.5" fill="#1e293b"/>
+          <ellipse cx="3" cy="-51" rx="1.1" ry="1.55" fill="#1e2a4a"/>
+          <ellipse cx="6.8" cy="-51" rx="1.1" ry="1.55" fill="#1e2a4a"/>
+          <circle cx="3.3" cy="-51.6" r="0.33" fill="#fff"/><circle cx="7.1" cy="-51.6" r="0.33" fill="#fff"/>
         </g>
-        <path d="M1.6 -53.6 L4.4 -53.2 M5.4 -53.2 L8 -53.8" stroke="#7c2d12" stroke-width="0.7"/>
-        <ellipse class="mouth" cx="5" cy="-46.6" rx="1.7" ry="0.9" fill="#7f1d1d"/>
-        <path d="M-13.5 -55.5 Q0 -50.5 13.5 -55.5 Q8.5 -67 0 -65 Q-8.5 -67 -13.5 -55.5 Z" fill="#111827"/>
-        <path d="M-11.5 -56 Q0 -52 11.5 -56" stroke="#fbbf24" stroke-width="1" fill="none"/>
-        <circle cx="0" cy="-60" r="2" fill="#f8fafc"/>
-        <rect x="-1.1" y="-58.6" width="2.2" height="0.8" fill="#111827"/>
+        <path d="M1.2 -54.6 L4.6 -53.4 M5.6 -53.4 L8.8 -54.8" stroke="#6b2a10" stroke-width="0.9" stroke-linecap="round"/>
+        <path d="M9 -50 Q10 -48.6 8.9 -48" stroke="#d99a72" stroke-width="0.5" fill="none"/>
+        <ellipse cx="1.2" cy="-47.6" rx="1.6" ry="1" fill="#f28b8b" opacity="0.55"/>
+        <path class="mouth" d="M3.4 -46.6 Q5.6 -43.8 8 -46.8 Q5.6 -45.8 3.4 -46.6 Z" fill="#8a2f2f" stroke="#8a2f2f" stroke-width="0.4"/>
+        <path d="M-14.4 -56 Q-8 -53.6 0 -55.2 Q8 -53.6 14.6 -56.6 Q11.4 -60.2 8.2 -59.6 Q6.4 -66.6 0 -66.2 Q-6.4 -66.6 -8.2 -59.6 Q-11.4 -60 -14.4 -56 Z" fill="#1d1b22" ${ink(0.7)}/>
+        <path d="M-13.4 -56.4 Q-8 -54.4 0 -55.8 Q8 -54.4 13.6 -56.8" stroke="#f2b53a" stroke-width="0.9" fill="none"/>
+        <path d="M-8.2 -59.6 Q-6.4 -66.6 0 -66.2 Q6.4 -66.6 8.2 -59.6" stroke="#f2b53a" stroke-width="0.7" fill="none"/>
+        <circle cx="0" cy="-61.4" r="1.5" fill="#f8fafc"/>
+        <path d="M-2.2 -58.8 L2.2 -63.6 M2.2 -58.8 L-2.2 -63.6" stroke="#f8fafc" stroke-width="0.6"/>
+        <circle cx="-0.5" cy="-61.6" r="0.3" fill="#1d1b22"/><circle cx="0.5" cy="-61.6" r="0.3" fill="#1d1b22"/>
       </g>
     </g>
   </g>`;
 }
 
 function drawBarnaba() {
+  const skin = '#d39a72', skinD = '#b97d58';
   return `
   <g class="char barnaba">
-    <ellipse cx="0" cy="0" rx="17" ry="3" fill="#000" opacity="0.3"/>
+    <ellipse cx="0" cy="0.3" rx="17" ry="3" fill="#000" opacity="0.3"/>
     <g class="leg leg-b">
-      <rect x="-10" y="-27" width="8.5" height="27" rx="2.5" fill="#1f2937"/>
-      <rect x="-12" y="-4.5" width="11" height="4.5" rx="2" fill="#f8fafc"/>
+      <path d="M-10.4 -30 L-1.6 -30 L-2.4 -4 L-9.6 -4 Z" fill="#1f2128" ${ink(0.7)}/>
+      <path d="M-12.6 -5 Q-13 0 -8 0 L-1.2 0 Q-0.6 -3.6 -3 -5.6 Z" fill="#eef1f5" ${ink(0.7)}/>
+      <path d="M-12.6 -1.4 L-1 -1.4" stroke="#b8c0cc" stroke-width="1"/>
     </g>
     <g class="leg leg-f">
-      <rect x="1.5" y="-27" width="8.5" height="27" rx="2.5" fill="#111827"/>
-      <rect x="1" y="-4.5" width="11" height="4.5" rx="2" fill="#e2e8f0"/>
+      <path d="M1.2 -30 L10.4 -30 L9.6 -4 L2.2 -4 Z" fill="#2a2d36" ${ink(0.7)}/>
+      <path d="M4 -26 L4.4 -8" stroke="#1a1c22" stroke-width="0.7"/>
+      <path d="M1.4 -5.6 Q0.8 0 5 0 L13.4 0 Q14 -4 9.6 -5.6 Z" fill="#f8fafc" ${ink(0.7)}/>
+      <path d="M1 -1.4 L13.8 -1.4" stroke="#cbd2da" stroke-width="1"/>
+      <circle cx="7" cy="-4.4" r="0.4" fill="#94a3b8"/><circle cx="9" cy="-4.2" r="0.4" fill="#94a3b8"/>
     </g>
     <g class="torso">
-      <path d="M-16 -59 Q0 -63 16 -59 L14 -25 L-14 -25 Z" fill="#18181b"/>
-      <rect x="-14" y="-28" width="28" height="3.5" fill="#a16207"/>
-      <rect x="-2.5" y="-28.3" width="5" height="4" rx="0.8" fill="#facc15"/>
-      <path d="M-16 -58 Q-23 -49 -17.5 -38" stroke="#c68a5c" stroke-width="8" fill="none" stroke-linecap="round"/>
-      <path d="M16 -58 Q23 -49 17.5 -38" stroke="#c68a5c" stroke-width="8" fill="none" stroke-linecap="round"/>
-      <path d="M-6.5 -60 Q0 -50 6.5 -60" stroke="#facc15" stroke-width="1.4" fill="none"/>
-      <circle cx="0" cy="-52" r="1.8" fill="#facc15"/>
-      <rect x="-18" y="-43" width="36" height="7.5" rx="3.7" fill="#c68a5c"/>
-      <rect x="-16" y="-39" width="32" height="6.5" rx="3.2" fill="#b47a4e"/>
-      <rect x="-4.5" y="-65" width="9" height="6" fill="#b47a4e"/>
+      <path d="M-15.6 -62 Q0 -66.4 15.6 -62 Q19 -46 14.4 -28.6 L-14.4 -28.6 Q-19 -46 -15.6 -62 Z" fill="#1e1e24" ${ink(0.8)}/>
+      <path d="M12 -60 Q15.6 -46 12.6 -30" stroke="#3a3a46" stroke-width="1.4" fill="none"/>
+      <path d="M-14.6 -31.4 Q0 -30 14.6 -31.4 L14.6 -28.4 Q0 -27.4 -14.6 -28.4 Z" fill="#26262c" ${ink(0.6)}/>
+      <rect x="-3" y="-31.6" width="6" height="3.6" rx="0.6" fill="#f5c518" ${ink(0.5)}/>
+      <path d="M-20.4 -59 Q-23.6 -52 -21 -46.4 L-15.4 -46.6 L-14 -60 Z" fill="#1e1e24" ${ink(0.7)}/>
+      <path d="M20.4 -59 Q23.6 -52 21 -46.4 L15.4 -46.6 L14 -60 Z" fill="#1e1e24" ${ink(0.7)}/>
+      <path d="M-20.6 -47.4 Q-23.4 -42 -19.6 -37.6 L-15.4 -40 L-16 -47 Z" fill="${skin}" ${ink(0.7)}/>
+      <path d="M20.6 -47.4 Q23.4 -42 19.6 -37.6 L15.4 -40 L16 -47 Z" fill="${skinD}" ${ink(0.7)}/>
+      <path d="M-6 -64.4 Q-4 -56 0 -54.6 Q4 -56 6 -64.4" stroke="#e2b13c" stroke-width="1.1" fill="none"/>
+      <circle cx="0" cy="-53.4" r="2.4" fill="#f5c518" ${ink(0.5)}/>
+      <circle cx="-0.6" cy="-54" r="0.7" fill="#fff6c2"/>
+      <rect x="-20" y="-45.6" width="34" height="8" rx="4" fill="${skin}" ${ink(0.7)}/>
+      <path d="M-14 -43.6 Q-6 -45 2 -43.8" stroke="${skinD}" stroke-width="0.9" fill="none"/>
+      <rect x="-14" y="-40.6" width="34" height="7.4" rx="3.7" fill="${skinD}" ${ink(0.7)}/>
+      <path d="M-8 -38.4 Q2 -39.6 12 -38.2" stroke="#9e6646" stroke-width="0.9" fill="none"/>
+      <ellipse cx="-17.6" cy="-37" rx="3.2" ry="3" fill="${skinD}" ${ink(0.6)}/>
+      <ellipse cx="16" cy="-41.6" rx="3.4" ry="3.2" fill="${skin}" ${ink(0.6)}/>
+      <rect x="-4.6" y="-66" width="9.2" height="6" fill="${skinD}" ${ink(0.6)}/>
       <g class="head">
-        <circle cx="-10" cy="-70" r="2.3" fill="#b47a4e"/>
-        <circle cx="10" cy="-70" r="2.3" fill="#b47a4e"/>
-        <ellipse cx="0" cy="-71" rx="10" ry="10.5" fill="#c68a5c"/>
-        <path d="M-7.5 -65 Q0 -59.5 7.5 -65 Q6 -61 0 -60.5 Q-6 -61 -7.5 -65 Z" fill="#6b4226" opacity="0.5"/>
+        <ellipse cx="-10" cy="-71" rx="2.3" ry="2.8" fill="${skinD}" ${ink(0.6)}/>
+        <ellipse cx="0" cy="-73" rx="10.4" ry="11" fill="${skin}" ${ink(0.8)}/>
+        <ellipse cx="-3" cy="-80.6" rx="3.6" ry="1.8" fill="#fff" opacity="0.35"/>
+        <path d="M-9.6 -70 Q-9.4 -62.8 -4 -61.6 Q0 -60.6 4 -61.6 Q9.4 -62.8 9.8 -70 Q8 -66.6 5.6 -66.4 Q0 -67.6 -5.6 -66.4 Q-8 -66.6 -9.6 -70 Z" fill="#7f7f88" ${ink(0.6)}/>
+        <path d="M-6 -64 L-5.4 -63.4 M-2 -63 L-1.6 -62.4 M2 -63 L2.4 -62.4 M5.4 -64 L6 -63.4" stroke="#5c5c64" stroke-width="0.5"/>
         <g class="brows">
-          <path d="M-8 -77 L-2 -75.5 M2 -75.5 L8 -77" stroke="#3f2a1d" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M-8.6 -78.4 L-2 -76.2 M2 -76.2 L8.6 -78.4" stroke="#3a2a20" stroke-width="1.6" stroke-linecap="round"/>
         </g>
-        <rect x="-8.5" y="-74.5" width="7.5" height="4" rx="1.3" fill="#0a0a0a"/>
-        <rect x="1" y="-74.5" width="7.5" height="4" rx="1.3" fill="#0a0a0a"/>
-        <rect x="-1.2" y="-73.5" width="2.4" height="1" fill="#0a0a0a"/>
-        <path d="M-7 -73.6 L-4.5 -73.6 M2.5 -73.6 L5 -73.6" stroke="#fff" stroke-width="0.6" opacity="0.6"/>
-        <rect class="mouth" x="-3.2" y="-65.6" width="6.4" height="1.4" rx="0.7" fill="#7f1d1d"/>
-        <path d="M-4 -80.5 Q0 -82.5 4 -80.5" stroke="#fff" stroke-width="0.8" opacity="0.25" fill="none"/>
+        <rect x="-8.8" y="-76" width="7.8" height="4.4" rx="1.4" fill="#121218" ${ink(0.5)}/>
+        <rect x="1" y="-76" width="7.8" height="4.4" rx="1.4" fill="#121218" ${ink(0.5)}/>
+        <rect x="-1.2" y="-75" width="2.4" height="1" fill="#121218"/>
+        <path d="M-7.4 -74.8 L-5 -74.8 M2.4 -74.8 L4.8 -74.8" stroke="#fff" stroke-width="0.6" opacity="0.6"/>
+        <path d="M0.4 -71 Q1.6 -68.4 0 -67.8" stroke="${skinD}" stroke-width="0.8" fill="none"/>
+        <ellipse cx="-6.4" cy="-69.6" rx="1.6" ry="0.9" fill="#e07a6a" opacity="0.45"/>
+        <ellipse cx="6.6" cy="-69.6" rx="1.6" ry="0.9" fill="#e07a6a" opacity="0.45"/>
+        <rect class="mouth" x="-3.2" y="-65.8" width="6.4" height="1.3" rx="0.65" fill="#5c2626"/>
       </g>
     </g>
   </g>`;
@@ -578,33 +630,54 @@ function drawAutoma() {
    AREA 6: LAVINIA, LA RIVALESSA
    -------------------------------------------------------------------------- */
 function drawLavinia() {
-  const skin = '#f5d0b5';
+  const skin = '#f6d5bf', hair = '#8b3fd1', hairD = '#6a2aa8', hairL = '#a865e8';
   return `
   <g class="char lavinia">
-    <ellipse cx="0" cy="0" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
-    ${legsSVG({ len: 17, color: '#581c87', color2: '#6b21a8', shoe: '#f8fafc', shoeH: 6 })}
+    <ellipse cx="0" cy="0.3" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
+    <g class="leg leg-b">
+      <path d="M-4.8 -17 L-0.6 -17 L-0.8 -6 L-4.6 -6 Z" fill="#8b5cc7" ${ink(0.6)}/>
+      <path d="M-5.4 -7 L0 -7 L-0.2 0 L-7.4 0 Q-7.8 -2 -5.4 -2.6 Z" fill="#ede9f6" ${ink(0.6)}/>
+      <circle cx="-2.4" cy="-5" r="0.45" fill="#7c6f99"/>
+    </g>
+    <g class="leg leg-f">
+      <path d="M0.2 -17 L4.6 -17 L4.4 -6 L0.6 -6 Z" fill="#9d6fd6" ${ink(0.6)}/>
+      <path d="M0 -7 L5.2 -7 L5 -2.6 Q8.4 -2.2 8.4 0 L-0.2 0 Z" fill="#f8f6fc" ${ink(0.6)}/>
+      <circle cx="2.6" cy="-5" r="0.45" fill="#7c6f99"/><circle cx="2.6" cy="-3" r="0.45" fill="#7c6f99"/>
+    </g>
     <g class="torso">
-      <path class="hair-sway" d="M-7 -53 Q-13 -40 -14 -26 Q-10 -29 -8 -26 Q-7 -36 -4.5 -45 Z" fill="#7e22ce"/>
-      <path d="M-7.6 -24 L7.6 -24 L11 -14.5 L-11 -14.5 Z" fill="#7e22ce"/>
-      <path d="M-4 -24 L-5 -14.5 M2 -24 L2.6 -14.5" stroke="#6b21a8" stroke-width="0.8"/>
-      <path d="M-6.5 -38 Q0 -41 6.5 -38 L7.4 -23 L-7.4 -23 Z" fill="#ec4899"/>
-      <path d="M-3.4 -38.6 L0 -34 L3.4 -38.6" stroke="#fdf2f8" stroke-width="1.6" fill="none"/>
-      <rect x="-8" y="-33" width="16" height="4.4" rx="2.2" fill="#ec4899"/>
-      <rect x="-6.6" y="-30.2" width="14" height="3.8" rx="1.9" fill="#db2777"/>
-      <circle cx="-7.4" cy="-28.4" r="1.7" fill="${skin}"/>
-      <circle cx="8" cy="-31" r="1.7" fill="${skin}"/>
-      <path d="M-1 -36 L0.4 -33.6 L-2 -34.6 Z" fill="#fde68a"/>
+      <path class="hair-sway" d="M-6.6 -57.6 Q-14.8 -52 -13.4 -41 Q-15.4 -33.4 -12 -27 Q-9.4 -24.4 -6.6 -27.4 Q-8.4 -31 -6.4 -35 Q-4.6 -42 -3 -48 Z" fill="${hair}" ${ink(0.7)}/>
+      <path d="M-11.6 -45 Q-13 -37 -10.8 -30" stroke="${hairL}" stroke-width="0.8" fill="none"/>
+      <path d="M-7.8 -24 L7.8 -24 L11.4 -13.6 Q0 -12 -11.4 -13.6 Z" fill="#7e3fc4" ${ink(0.6)}/>
+      <path d="M-4.4 -23.8 L-6 -13 M-0.8 -23.8 L-1.2 -12.6 M2.8 -23.8 L3.6 -12.8 M6 -23.8 L8.2 -13.2" stroke="#5f2aa0" stroke-width="0.6"/>
+      <path d="M-7 -39.6 Q0 -42 7 -39.6 L7.8 -23 Q0 -22 -7.8 -23 Z" fill="#e05a98" ${ink(0.7)}/>
+      <path d="M-6.8 -39.4 Q-5.4 -39.8 -4.4 -39.8 L-4.8 -22.6 Q-6.4 -22.6 -7.6 -23 Z" fill="#c4447f"/>
+      <path d="M-4.6 -40.6 Q-2 -37 0.2 -39.4 Q2.6 -37 5 -40.4 Q0 -42.4 -4.6 -40.6 Z" fill="#fdf7fb" ${ink(0.5)}/>
+      <circle cx="0.2" cy="-37.4" r="1.2" fill="#ec4899" stroke="#f2b53a" stroke-width="0.5"/>
+      <g class="arm">
+        <path d="M-7.8 -34.6 Q0 -36.4 9 -33.6 Q10 -30.6 8.4 -29.4 Q0 -31.6 -7 -30.4 Z" fill="#e05a98" ${ink(0.6)}/>
+        <path d="M-6.4 -31 Q1 -29.6 8.6 -31.6 Q9.4 -28.4 7.8 -27 Q0 -26.4 -6.8 -27.8 Z" fill="#c4447f" ${ink(0.6)}/>
+        <path d="M7.6 -33.8 L8.6 -29.6" stroke="#fdf7fb" stroke-width="1"/>
+        <ellipse cx="-7.4" cy="-29" rx="1.7" ry="1.6" fill="${skin}" ${ink(0.5)}/>
+        <ellipse cx="9.2" cy="-31.6" rx="1.6" ry="1.5" fill="${skin}" ${ink(0.5)}/>
+      </g>
       <g class="head">
-        <path d="M-9 -52 Q-11 -60 0 -60 Q10 -60 9.6 -51 Q7 -55 0 -55 Q-6 -55 -9 -49 Z" fill="#7e22ce"/>
-        <circle cx="0" cy="-51" r="8.4" fill="${skin}"/>
-        <path d="M-8.8 -51.6 Q-5 -60.8 3.6 -59.4 Q9.6 -58.2 8.8 -52.6 Q5 -56.6 0.6 -54.4 Q-3.6 -52.6 -8.8 -48 Z" fill="#7e22ce"/>
-        ${eyesSVG(-51.6)}
-        <path d="M1.6 -53.6 L1 -54.8 M7.6 -53.6 L8.4 -54.6" stroke="#1e293b" stroke-width="0.6"/>
-        <path d="M1.2 -55.6 Q3 -56.6 4.6 -55.8 M5.6 -55.8 Q7.2 -56.6 8.8 -55.4" stroke="#581c87" stroke-width="0.9" fill="none"/>
-        <circle cx="3.6" cy="-48.4" r="1.4" fill="#f472b6" opacity="0.5"/>
-        <path class="mouth" d="M3.4 -46.8 Q6 -45 8.4 -47.4" stroke="#be185d" stroke-width="1.1" fill="none" stroke-linecap="round"/>
-        <path d="M-5.4 -58.4 L-3.4 -62.4 L-0.6 -59.6 L2.4 -64 L5 -59.6 L7.6 -62 L8.2 -57.6 Q1.4 -60.4 -5.4 -58.4 Z" fill="#fbbf24" stroke="#d97706" stroke-width="0.5"/>
-        <circle cx="2.4" cy="-61" r="1.2" fill="#ec4899"/>
+        <circle cx="0" cy="-51" r="9" fill="${skin}" ${ink(0.7)}/>
+        <path d="M-9.4 -50 Q-10.4 -60.4 0 -60.6 Q10 -60.6 9.8 -50.4 L9.6 -43 Q8.6 -47 8.4 -52.4 L-6 -52.4 Q-7 -47 -7.8 -42 Q-9.2 -45 -9.4 -50 Z" fill="${hair}" ${ink(0.7)}/>
+        <path d="M-6.4 -52.6 L8.6 -52.6" stroke="${hairD}" stroke-width="0.6"/>
+        <path d="M-1 -59.4 Q4 -60 7.6 -56.6" stroke="${hairL}" stroke-width="0.9" fill="none"/>
+        <circle cx="-5.4" cy="-49.6" r="1.8" fill="${skin}" ${ink(0.5)}/>
+        <g class="eyes">
+          <ellipse cx="3" cy="-49.8" rx="1.1" ry="1.3" fill="#1e2a4a"/>
+          <ellipse cx="6.8" cy="-49.8" rx="1.1" ry="1.3" fill="#1e2a4a"/>
+        </g>
+        <path d="M1.6 -50.8 Q3 -51.6 4.4 -50.8 M5.4 -50.8 Q6.8 -51.6 8.2 -50.8" stroke="${INK}" stroke-width="0.8" fill="none"/>
+        <path d="M1.6 -50.8 L0.8 -51.6 M8.2 -50.8 L9 -51.6" stroke="${INK}" stroke-width="0.5"/>
+        <path d="M1.2 -53.6 Q3 -55 4.8 -54.2 M5.4 -54.2 Q7 -55.2 8.8 -53.8" stroke="${hairD}" stroke-width="0.8" fill="none"/>
+        <path d="M9.1 -48.6 Q10 -47.4 9 -46.8" stroke="#d99a72" stroke-width="0.5" fill="none"/>
+        <ellipse cx="1.2" cy="-46.4" rx="1.6" ry="1" fill="#f28b8b" opacity="0.55"/>
+        <path class="mouth" d="M3.8 -45.4 Q6.2 -43.8 8.4 -46.2 Q6 -44.8 3.8 -45.4 Z" fill="#9b2457" stroke="#9b2457" stroke-width="0.5"/>
+        <path d="M-6.4 -58.6 L-4.6 -63 L-1.6 -59.8 L1.6 -64.6 L4.6 -59.8 L7.2 -63 L8.4 -58.2 Q1 -61.2 -6.4 -58.6 Z" fill="#fbbf24" ${ink(0.5)}/>
+        <circle cx="1.6" cy="-61" r="1.2" fill="#ec4899" ${ink(0.3)}/>
       </g>
     </g>
   </g>`;
@@ -614,59 +687,82 @@ function drawLavinia() {
    PIAZZA: ZIA TURBINA, LA MERCANTE SVALVOLATA
    -------------------------------------------------------------------------- */
 function drawTurbina() {
-  const skin = '#f0c8a0';
-  const hair = [['#ec4899', -9, -58, 5], ['#a855f7', -3, -62, 5.5], ['#22d3ee', 4, -61, 5], ['#facc15', 9, -56, 4.6], ['#84cc16', -11, -50, 4.4], ['#f97316', 10, -49, 4.2]]
-    .map(([c, x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`).join('');
-  const spikes = [[-12, -60, -18, -66], [-4, -65, -6, -73], [5, -64, 9, -72], [11, -58, 18, -62], [-13, -52, -20, -52]]
-    .map(([x1, y1, x2, y2], i) => `<path d="M${x1} ${y1} L${x2} ${y2} L${x1 + 3} ${y1 + 1} Z" fill="${['#ec4899', '#a855f7', '#22d3ee', '#facc15', '#84cc16'][i]}"/>`).join('');
+  const skin = '#f6cba4';
+  const spikes = [
+    ['#ec4899', 'M-6 -55 L-19 -60 L-10 -51 L-20 -48 L-9 -46 Z'],
+    ['#a855f7', 'M-8 -50 L-19 -44 L-9 -42 Z'],
+    ['#22d3ee', 'M-5 -56 L-11 -68 L-1 -58 Z'],
+    ['#ec4899', 'M-2 -57 L-3 -70 L4 -58 Z'],
+    ['#facc15', 'M2 -57 L9 -69 L8 -56 Z'],
+    ['#84cc16', 'M6 -55 L17 -63 L10 -52 Z'],
+    ['#f97316', 'M8 -52 L19 -53 L10 -48 Z'],
+    ['#22d3ee', 'M-7 -45 L-15 -38 L-6 -41 Z']
+  ].map(([c, d]) => `<path d="${d}" fill="${c}" ${ink(0.6)}/>`).join('');
+  const patch = (x, y, w, h, c, r) => `<g transform="rotate(${r} ${x + w / 2} ${y + h / 2})"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}" ${ink(0.4)}/>
+    <path d="M${x + 0.6} ${y - 0.4} l0 1 M${x + w - 0.6} ${y - 0.4} l0 1 M${x - 0.4} ${y + h / 2} l1 0 M${x + w - 0.6} ${y + h / 2} l1 0" stroke="${INK}" stroke-width="0.4"/></g>`;
+  const button = (x, y, c) => `<circle cx="${x}" cy="${y}" r="1.2" fill="${c}" ${ink(0.3)}/><path d="M${x - 0.5} ${y - 0.5} l1 1 M${x + 0.5} ${y - 0.5} l-1 1" stroke="${INK}" stroke-width="0.3"/>`;
   return `
   <g class="char turbina">
-    <ellipse cx="0" cy="0" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
+    <ellipse cx="0" cy="0.3" rx="12" ry="2.6" fill="#000" opacity="0.3"/>
     <g class="leg leg-b">
-      <rect x="-4.5" y="-16" width="4.2" height="16" rx="1.6" fill="#22c55e"/>
-      <path d="M-4.5 -13 L-0.3 -13 M-4.5 -9 L-0.3 -9 M-4.5 -5 L-0.3 -5" stroke="#fef08a" stroke-width="1.4"/>
-      <rect x="-6" y="-4" width="7" height="4" rx="1.5" fill="#7c3aed"/>
+      <rect x="-4.8" y="-16" width="4.4" height="13" rx="1" fill="#a78bfa" ${ink(0.6)}/>
+      <path d="M-4.8 -13 L-0.4 -13 M-4.8 -10 L-0.4 -10 M-4.8 -7 L-0.4 -7" stroke="#5eead4" stroke-width="1.1"/>
+      <path d="M-5.6 -5.4 L0 -5.4 L-0.2 0 L-7.6 0 Q-8 -2.2 -5.6 -2.6 Z" fill="#8a6a4a" ${ink(0.6)}/>
     </g>
     <g class="leg leg-f">
-      <rect x="0.3" y="-16" width="4.2" height="16" rx="1.6" fill="#f472b6"/>
-      <path d="M0.3 -13 L4.5 -13 M0.3 -9 L4.5 -9 M0.3 -5 L4.5 -5" stroke="#fff" stroke-width="1.4"/>
-      <rect x="-0.5" y="-4" width="8" height="4" rx="1.5" fill="#f97316"/>
+      <rect x="0.2" y="-16" width="4.4" height="13" rx="1" fill="#3b82f6" ${ink(0.6)}/>
+      <circle cx="1.6" cy="-13" r="0.6" fill="#fde047"/><circle cx="3.4" cy="-10" r="0.6" fill="#fde047"/><circle cx="1.6" cy="-7" r="0.6" fill="#fde047"/>
+      <path d="M-0.2 -4.2 Q-0.6 0 3 0 L8.8 0 Q9.2 -3 4.8 -4.4 Z" fill="#ec4899" ${ink(0.6)}/>
+      <path d="M-0.4 -1 L9 -1" stroke="#5eead4" stroke-width="1"/>
     </g>
     <g class="torso">
-      <path d="M-9 -41 Q0 -44 9 -41 L12 -14 L-12 -14 Z" fill="#f59e0b"/>
-      <rect x="-8" y="-36" width="6" height="7" fill="#22d3ee" transform="rotate(-8 -5 -32)"/>
-      <rect x="2" y="-27" width="7" height="6" fill="#ec4899" transform="rotate(10 5 -24)"/>
-      <rect x="-9" y="-22" width="5" height="6" fill="#84cc16"/>
-      <path d="M-8 -36 L-2 -36 M2 -27 L9 -27" stroke="#78350f" stroke-width="0.5" stroke-dasharray="1 1"/>
-      <circle cx="0" cy="-33" r="1.2" fill="#dc2626"/><rect x="-1" y="-27.5" width="2.4" height="2.4" fill="#2563eb"/><circle cx="0" cy="-21" r="1.3" fill="#facc15"/>
+      <path d="M-8.4 -42 Q0 -44.6 8.4 -42 Q11 -28 12.8 -14 Q0 -11.8 -12.8 -14 Q-11 -28 -8.4 -42 Z" fill="#f08a1c" ${ink(0.7)}/>
+      <path d="M-8.2 -41.8 Q-6.6 -42.4 -5.4 -42.4 Q-6.6 -28 -6.4 -12.8 Q-10 -13.2 -12.6 -14 Q-10.8 -28 -8.2 -41.8 Z" fill="#d06f10"/>
+      <path d="M0.4 -42 L1 -13" stroke="${INK}" stroke-width="0.5" opacity="0.6"/>
+      ${patch(-9.4, -24, 5, 5, '#ec4899', -8)}
+      ${patch(4.4, -20, 5, 4.4, '#facc15', 10)}
+      ${patch(-7, -36, 4, 4, '#60a5fa', 6)}
+      ${button(2.4, -37, '#ec4899')}${button(2.8, -31, '#84cc16')}${button(3.2, -25, '#60a5fa')}
       <g class="arm">
-        <path d="M5 -39 Q12 -34 11 -27" stroke="#f59e0b" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <path d="M9 -34 L15 -34 L17 -26 Q13 -22 9 -26 Z" fill="#a3e635" stroke="#fff" stroke-width="0.5" opacity="0.9"/>
-        <rect x="10.5" y="-37" width="3" height="3" fill="#a16207"/>
-        <circle class="steam" cx="13" cy="-38" r="1.4" fill="#d9f99d"/>
-        <circle class="steam" cx="12" cy="-38" r="1.1" fill="#d9f99d" style="animation-delay:-1.2s"/>
-        <circle cx="11" cy="-26.5" r="2" fill="${skin}"/>
+        <path d="M4.4 -40.8 Q10 -38 10.6 -31.4 L7.8 -30.4 Q7.4 -35 3.6 -37.2 Z" fill="#f08a1c" ${ink(0.6)}/>
+        <path d="M-6 -36 Q-1 -30 5 -30.4 L5.4 -27.6 Q-2 -27.2 -7 -33.4 Z" fill="#d06f10" ${ink(0.6)}/>
+        <path d="M8 -38 L8 -35.4 Q12.4 -33.4 12.2 -29 Q12 -25 8 -25 Q4 -25 3.8 -29 Q3.6 -33.4 8 -35.4 Z" fill="#a3e635" fill-opacity="0.85" ${ink(0.6)}/>
+        <path d="M4.4 -29 Q8 -27.6 11.6 -29 Q11.4 -25.6 8 -25.6 Q4.6 -25.6 4.4 -29 Z" fill="#4d9a2a"/>
+        <rect x="6.8" y="-39.4" width="2.6" height="1.8" rx="0.4" fill="#a16207" ${ink(0.4)}/>
+        <circle cx="9.6" cy="-29.6" r="0.7" fill="#ecfccb"/>
+        <circle class="steam" cx="8.6" cy="-40.6" r="1.5" fill="#bbf7d0"/>
+        <circle class="steam" cx="7.4" cy="-40.6" r="1.1" fill="#bbf7d0" style="animation-delay:-1.2s"/>
+        <ellipse cx="4.6" cy="-28.8" rx="1.8" ry="1.7" fill="${skin}" ${ink(0.5)}/>
+        <ellipse cx="11.6" cy="-30" rx="1.7" ry="1.7" fill="${skin}" ${ink(0.5)}/>
       </g>
       <g class="head">
-        <g class="hair-boing">${spikes}${hair}</g>
-        <circle cx="0" cy="-49" r="8.6" fill="${skin}"/>
-        <circle cx="-1.6" cy="-47.5" r="1.9" fill="#e6b38a"/>
-        <rect x="-2.8" y="-44.6" width="2.2" height="2.2" rx="0.4" fill="#fff" stroke="#111" stroke-width="0.4"/>
-        <circle cx="-1.7" cy="-43.5" r="0.4" fill="#111"/>
-        ${eyesSVG(-49.5)}
-        <circle cx="2.6" cy="-49.5" r="3.2" fill="#fff" fill-opacity="0.25" stroke="#7c3aed" stroke-width="1"/>
-        <g transform="translate(2.6 -49.5)"><g class="spin" style="animation-duration:2.5s">
-          <path d="M0 0 Q1.2 -1.2 1.6 0 Q1.2 2 -0.8 1.6 Q-2.6 0.8 -2 -1.6 Q-0.6 -3.2 1.8 -2.4" stroke="#7c3aed" stroke-width="0.5" fill="none"/>
+        <g class="hair-boing">${spikes}</g>
+        <circle cx="0" cy="-49" r="9" fill="${skin}" ${ink(0.7)}/>
+        <path d="M-9 -50 Q-8 -58.4 0.6 -58.2 Q8.6 -58 9.4 -51 Q6 -54.4 2 -53.6 Q-1 -55.4 -4 -52.6 Q-6.6 -53.6 -9 -50 Z" fill="#a855f7" ${ink(0.6)}/>
+        <path d="M-4 -56.6 Q0 -58 3 -55.6 L2 -53.6 Q-1 -55.4 -4 -52.6 Z" fill="#22d3ee"/>
+        <path d="M3 -56 Q7 -56.4 9.2 -52 L7 -52.6 Q5 -54.6 2 -53.6 Z" fill="#facc15"/>
+        <circle cx="-5.4" cy="-47.4" r="1.9" fill="${skin}" ${ink(0.5)}/>
+        <path d="M-9.4 -57.2 Q-8 -63.4 -1 -63 Q2.4 -62.6 2.6 -59.4 Q-3.4 -58 -9.4 -57.2 Z" fill="#3b6fd8" ${ink(0.6)}/>
+        <path d="M-8.6 -58 Q-6 -61.6 -2.6 -61.6" stroke="#6d95ea" stroke-width="0.8" fill="none"/>
+        <line x1="-3.4" y1="-62.8" x2="-3.6" y2="-65.6" stroke="${INK}" stroke-width="0.8"/>
+        <g transform="translate(-3.6 -66)"><g class="spin" style="animation-duration:0.6s">
+          <ellipse rx="6.4" ry="1.3" fill="#ef4444" ${ink(0.5)}/><circle r="0.8" fill="#facc15"/>
         </g></g>
-        <rect x="5.6" y="-51.4" width="3.8" height="3.6" rx="0.6" fill="#fff" fill-opacity="0.25" stroke="#16a34a" stroke-width="1"/>
-        <path d="M5.8 -49.5 L5.6 -49.5" stroke="#111" stroke-width="0.6"/>
-        <path class="mouth" d="M1.6 -44.4 Q5 -40.6 8.6 -44.6 Q5 -42.8 1.6 -44.4 Z" fill="#7f1d1d"/>
-        <circle cx="0.4" cy="-46.4" r="1.4" fill="#fb7185" opacity="0.5"/>
-        <path d="M-5 -57 L5 -58 L4.5 -62 L-4.5 -61 Z" fill="#2563eb" transform="rotate(-10 0 -59)"/>
-        <line x1="0" y1="-61.5" x2="0" y2="-65" stroke="#111" stroke-width="0.8" transform="rotate(-10 0 -59)"/>
-        <g transform="translate(-0.6 -65.2)"><g class="spin" style="animation-duration:0.6s">
-          <ellipse rx="6" ry="1.2" fill="#ef4444"/><ellipse rx="1.2" ry="6" fill="#facc15" opacity="0"/>
+        <g class="eyes">
+          <ellipse cx="2.8" cy="-49.4" rx="0.9" ry="1.2" fill="#1e2a4a"/>
+          <ellipse cx="7.4" cy="-49.4" rx="0.9" ry="1.2" fill="#1e2a4a"/>
+        </g>
+        <circle cx="2.8" cy="-49.4" r="3.2" fill="#e9d5ff" fill-opacity="0.55" stroke="#7c3aed" stroke-width="1.1"/>
+        <g transform="translate(2.8 -49.4)"><g class="spin" style="animation-duration:2.5s">
+          <path d="M0 0 Q1.2 -1.2 1.6 0 Q1.2 2 -0.8 1.6 Q-2.6 0.8 -2 -1.6 Q-0.6 -3.2 1.8 -2.4" stroke="#7c3aed" stroke-width="0.6" fill="none"/>
         </g></g>
+        <rect x="6.2" y="-51.8" width="4.2" height="4.4" rx="0.8" fill="#86efac" fill-opacity="0.55" stroke="#16a34a" stroke-width="1.1"/>
+        <path d="M6 -49.6 L6.2 -49.6" stroke="${INK}" stroke-width="0.6"/>
+        <ellipse cx="0.4" cy="-44.6" rx="1.5" ry="0.9" fill="#f28b8b" opacity="0.55"/>
+        <g class="mouth">
+          <path d="M1.6 -44.6 Q5.4 -39.6 9.4 -44.8 Q5.4 -43 1.6 -44.6 Z" fill="#7f1d1d" ${ink(0.5)}/>
+          <path d="M2.6 -44.2 Q5.4 -42.8 8.4 -44.2 L8 -43.2 Q5.4 -42.2 3 -43.2 Z" fill="#fff"/>
+        </g>
       </g>
     </g>
   </g>`;

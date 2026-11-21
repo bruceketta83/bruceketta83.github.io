@@ -68,7 +68,7 @@ const AREAS = [
       groundY: 162,
       ariaStart: 196,
       mentor: { x: 88, draw: 'vera', stand: 122, label: '🏴‍☠️ Capitana Vera' },
-      guardian: { x: 300, draw: 'barnaba', stand: 262, label: '🦍 Barnaba' }
+      guardian: { x: 330, draw: 'barnaba', stand: 296, label: '🦍 Barnaba' }
     },
     crystal: { id: 'c1', name: 'Cristallo Ambra', icon: '🟠', desc: 'Pulsa con l’energia della somma degli esponenti.' },
     item: { id: 'i1', name: 'Chiave della Taverna', icon: '🗝️', desc: 'Consegnata da Barnaba dopo aver sistemato il carico.' },
@@ -124,10 +124,10 @@ const AREAS = [
     maxHp: 3,
     scene: 'taverna',
     layout: {
-      groundY: 172,
+      groundY: 186,
       ariaStart: 190,
-      mentor: { x: 92, draw: 'oste', stand: 128, label: '🍺 Oste Bartolomeo' },
-      guardian: { x: 292, draw: 'gemelli', face: -1, stand: 238, label: '🎲 Pirati Gemelli' }
+      mentor: { x: 318, draw: 'oste', stand: 286, label: '🍺 Oste Bartolomeo' },
+      guardian: { x: 206, draw: 'gemelli', face: -1, stand: 236, label: '🎲 Pirati Gemelli' }
     },
     crystal: { id: 'c2', name: 'Cristallo Ciano', icon: '🔵', desc: 'Brilla della luce fredda della sottrazione.' },
     item: { id: 'i2', name: 'Cannocchiale Ottico', icon: '🔭', desc: 'Vinto ai dadi contro i Pirati Gemelli.' },
@@ -182,10 +182,10 @@ const AREAS = [
     maxHp: 3,
     scene: 'torre',
     layout: {
-      groundY: 190,
+      groundY: 188,
       ariaStart: 196,
-      mentor: { x: 92, draw: 'archimede', stand: 128, label: '🔭 Archimede' },
-      guardian: { x: 270, draw: 'terminal', stand: 236, label: '⚙️ Ascensore' }
+      mentor: { x: 176, draw: 'archimede', stand: 146, label: '🔭 Archimede' },
+      guardian: { x: 286, draw: 'terminal', stand: 250, label: '⚙️ Ascensore' }
     },
     crystal: { id: 'c3', name: 'Cristallo Viola', icon: '🟣', desc: 'Vibra con la forza della potenza di potenza.' },
     item: { id: 'i3', name: 'Lente Stellare', icon: '🔍', desc: 'Calibrata in cima alla Torre.' },
@@ -240,10 +240,10 @@ const AREAS = [
     maxHp: 3,
     scene: 'serra',
     layout: {
-      groundY: 184,
+      groundY: 196,
       ariaStart: 190,
-      mentor: { x: 92, draw: 'zeri', stand: 128, label: '🕶️ Madame Zeri' },
-      guardian: { x: 285, draw: 'plant', stand: 240, label: '🌺 Pianta Carnivora' }
+      mentor: { x: 120, draw: 'zeri', stand: 150, label: '🕶️ Madame Zeri' },
+      guardian: { x: 292, draw: 'plant', stand: 250, label: '🌺 Pianta Carnivora' }
     },
     crystal: { id: 'c4', name: 'Cristallo Smeraldo', icon: '🟢', desc: 'Racchiude il potere assoluto dell’unità.' },
     item: { id: 'i4', name: 'Seme Luminescente', icon: '🌱', desc: 'Donato da Madame Zeri.' },
@@ -300,7 +300,7 @@ const AREAS = [
     layout: {
       groundY: 180,
       ariaStart: 196,
-      mentor: { x: 96, draw: 'gemelle', stand: 136, label: '👯‍♀️ Mira & Nora' },
+      mentor: { x: 132, draw: 'gemelle', stand: 170, label: '👯‍♀️ Mira & Nora' },
       guardian: { x: 292, draw: 'automa', stand: 244, label: '🤖 Automa' }
     },
     crystal: { id: 'c5', name: 'Cristallo Rubino', icon: '🔴', desc: 'L’ultimo cristallo! Arde di energia pura.' },
