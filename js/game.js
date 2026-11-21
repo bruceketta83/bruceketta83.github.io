@@ -83,6 +83,8 @@ function loadState() {
       Object.keys(DEFAULT_STATE).forEach(k => {
         if (s[k] === undefined || s[k] === null) s[k] = clone(DEFAULT_STATE[k]);
       });
+      // Colori di Aria tolti dal negozio: rimborso dell'Aura.
+      if (typeof refundRemovedLook === 'function') refundRemovedLook(s);
       $('btn-reset-save').style.display = 'inline-block';
     }
   } catch (e) {}

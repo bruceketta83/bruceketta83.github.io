@@ -3,7 +3,7 @@
 Descrizione dello stile grafico, delle ambientazioni e dei personaggi del gioco.
 
 - **Stile di riferimento:** i mock-up in `docs/mockup/`: area 1 (pontile, spiaggia, capanno) e 5 personaggi (Aria, Lavinia, Capitana Vera, Barnaba, Zia Turbina).
-- **Stato:** tutte le 15 stanze e la schermata iniziale usano gli sfondi a immagine. Piazza e Officina hanno due versioni (cancello chiuso e aperto), la Cima del Faro due versioni (spento e acceso). I 5 personaggi principali sono ridisegnati in SVG; gli altri 8 sono ancora nello stile precedente.
+- **Stato:** tutte le 15 stanze, la schermata iniziale e tutti i 13 personaggi usano immagini preparate con Gemini (`img/bg/`, `img/chars/`).
 - **Immagini da correggere:** i prompt sono in [`docs/mockup/PROMPT.md`](docs/mockup/PROMPT.md).
 - **Dati tecnici:** vengono dal codice (`style.css`, `js/scenes.js`, `js/characters.js`, `js/meta.js`).
 
@@ -177,6 +177,14 @@ Le finestre (Taccuino, Mappa, Zaino, Profilo) si aprono sopra tutto, con lo sfon
 4. Rosa dei venti, onde animate, segnaposto 📍 sul luogo attuale.
 
 ## 4. Personaggi
+
+### Personaggi a immagine
+
+1. Ogni personaggio è un'immagine WebP in `img/chars/` (640 px di altezza, circa 30–80 KB), preparata su sfondo magenta e ritagliata con `tools/scontorna.py`.
+2. Le misure sono in `CHAR_IMG` (`js/characters.js`): occhi, bocca, ritratto, altezza nel gioco.
+3. Sopra l'immagine, in SVG: palpebre che sbattono, bocca che parla. Chi ha gli occhiali da sole (Barnaba, Madame Zeri, Zia Turbina) non sbatte le palpebre.
+4. Pianta: 2 immagini (fauci chiuse e aperte). Aria: 3 immagini (ferma, passo A, passo B) per la camminata.
+5. Aria: cappelli e occhiali del negozio disegnati in SVG sopra la testa. I colori di tunica, sciarpa e zaino non ci sono più: chi li aveva comprati riceve indietro l'Aura.
 
 ### Regole comuni
 

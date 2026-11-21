@@ -40,9 +40,6 @@ function checkMedals() {
    -------------------------------------------------------------------------- */
 const SHOP_SLOTS = [
   { id: 'hat', name: '🎩 Cappelli' },
-  { id: 'tunic', name: '👕 Tunica' },
-  { id: 'scarf', name: '🧣 Sciarpa' },
-  { id: 'pack', name: '🎒 Zaino' },
   { id: 'glasses', name: '🕶️ Occhiali' }
 ];
 const SHOP = [
@@ -53,27 +50,40 @@ const SHOP = [
   { id: 'hat-pirata', slot: 'hat', value: 'pirata', name: 'Cappello pirata', swatch: '🏴‍☠️', price: 180 },
   { id: 'hat-corona', slot: 'hat', value: 'corona', name: 'Corona', swatch: '👑', price: 300 },
 
-  { id: 'tunic-teal', slot: 'tunic', value: null, name: 'Verde mare', color: '#0d9488', price: 0 },
-  { id: 'tunic-viola', slot: 'tunic', value: 'viola', name: 'Viola', color: '#7c3aed', price: 80 },
-  { id: 'tunic-rosa', slot: 'tunic', value: 'rosa', name: 'Rosa', color: '#db2777', price: 80 },
-  { id: 'tunic-rosso', slot: 'tunic', value: 'rosso', name: 'Rosso', color: '#dc2626', price: 80 },
-  { id: 'tunic-notte', slot: 'tunic', value: 'notte', name: 'Notte', color: '#1e293b', price: 120 },
-  { id: 'tunic-oro', slot: 'tunic', value: 'oro', name: 'Oro', color: '#d97706', price: 200 },
-
-  { id: 'scarf-rossa', slot: 'scarf', value: null, name: 'Rossa', color: '#e11d48', price: 0 },
-  { id: 'scarf-azzurra', slot: 'scarf', value: '#0ea5e9', name: 'Azzurra', color: '#0ea5e9', price: 50 },
-  { id: 'scarf-verde', slot: 'scarf', value: '#16a34a', name: 'Verde', color: '#16a34a', price: 50 },
-  { id: 'scarf-oro', slot: 'scarf', value: '#fbbf24', name: 'Oro', color: '#fbbf24', price: 90 },
-
-  { id: 'pack-marrone', slot: 'pack', value: null, name: 'Marrone', color: '#92400e', price: 0 },
-  { id: 'pack-rosa', slot: 'pack', value: '#ec4899', name: 'Rosa', color: '#ec4899', price: 60 },
-  { id: 'pack-nero', slot: 'pack', value: '#1f2937', name: 'Nero', color: '#1f2937', price: 60 },
-  { id: 'pack-viola', slot: 'pack', value: '#7c3aed', name: 'Viola', color: '#7c3aed', price: 60 },
-
   { id: 'glasses-none', slot: 'glasses', value: null, name: 'Niente', swatch: '🚫', price: 0 },
   { id: 'glasses-rosa', slot: 'glasses', value: '#f472b6', name: 'Da sole rosa', swatch: '🕶️', price: 120 },
   { id: 'glasses-oro', slot: 'glasses', value: '#fbbf24', name: 'Da sole oro', swatch: '😎', price: 160 }
 ];
+
+/* Colori di tunica, sciarpa e zaino: non ci sono più (Aria ora è un'immagine).
+   Chi li aveva comprati riceve indietro l'Aura, una volta sola. */
+const SHOP_REMOVED = {
+  'tunic-teal': 0,
+  'tunic-viola': 80,
+  'tunic-rosa': 80,
+  'tunic-rosso': 80,
+  'tunic-notte': 120,
+  'tunic-oro': 200,
+  'scarf-rossa': 0,
+  'scarf-azzurra': 50,
+  'scarf-verde': 50,
+  'scarf-oro': 90,
+  'pack-marrone': 0,
+  'pack-rosa': 60,
+  'pack-nero': 60,
+  'pack-viola': 60,
+};
+function refundRemovedLook(s) {
+  let back = 0;
+  s.owned = (s.owned || []).filter(id => {
+    if (!(id in SHOP_REMOVED)) return true;
+    back += SHOP_REMOVED[id];
+    return false;
+  });
+  ['tunic', 'scarf', 'pack'].forEach(k => { if (s.look) delete s.look[k]; });
+  s.aura = (s.aura || 0) + back;
+  return back;
+}
 
 function shopOwned(item) { return item.price === 0 || state.owned.includes(item.id); }
 function shopEquipped(item) { return (state.look[item.slot] || null) === item.value; }
