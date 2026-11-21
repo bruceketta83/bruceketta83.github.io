@@ -230,7 +230,7 @@ function readQuestBoard() {
           look: 'Un volantino attaccato al muro. Parla di fogli di carta. Su un’isola pirata. Ok.'
         },
         {
-          id: 'coin2', name: '🪙 Qualcosa che luccica', box: [240, 176, 16, 12], stand: 248,
+          id: 'coin2', name: '💰 Qualcosa che luccica', box: [240, 176, 16, 12], stand: 248,
           visible: () => !flag('coin2'),
           draw: () => sparkleSVG(248, 183, COIN),
           take: () => takeCoin(2)
@@ -611,12 +611,12 @@ function readQuestBoard() {
       },
       hotspots: [
         {
-          id: 'cartello', name: '🪧 Cartello', box: [208, 154, 24, 24], stand: 218,
+          id: 'cartello', name: '📋 Cartello', box: [208, 154, 24, 24], stand: 218,
           obj: 'cartello', objText: ['VIVAIO', 0.38, 4.6],
           read: () => {
             setFlag('read_cartello');
             const P = P_serra();
-            showReading('🪧 Cartello del banco', `Termostato del <b>vivaio</b>:<br>imposta <span class="math-expr">${P.a}<sup>0</sup> + ${P.b}<sup>1</sup> + ${P.c}<sup>0</sup></span> gradi.<br><br><i>(Il risultato è anche il codice della porta.)</i>`,
+            showReading('📋 Cartello del banco', `Termostato del <b>vivaio</b>:<br>imposta <span class="math-expr">${P.a}<sup>0</sup> + ${P.b}<sup>1</sup> + ${P.c}<sup>0</sup></span> gradi.<br><br><i>(Il risultato è anche il codice della porta.)</i>`,
               () => ariaSays(['Esponente 0 ed esponente 1... Madame Zeri me l’ha spiegato. Faccio il conto.', 'Attenta: qualcosa elevato a 0 non fa 0! Calcolo con calma.']));
           },
           look: 'Un cartellino infilato in un vaso.'
@@ -678,7 +678,7 @@ function readQuestBoard() {
           draw: () => '<polygon class="shimmer" points="140,20 266,20 300,182 106,182" fill="#fef9c3" opacity="0.18" style="animation-duration:4s"/>'
         },
         {
-          id: 'lucernario', name: '🪟 Lucernario', box: [134, 0, 136, 24], stand: 200,
+          id: 'lucernario', name: '🖼️ Lucernario', box: [134, 0, 136, 24], stand: 200,
           look: () => (flag('vivaio_luce') ? 'Il lucernario con la Lente: la luce entra concentrata. Fotosintesi turbo!' : 'Un lucernario sporco. Entra pochissima luce. Se potessi concentrarla...'),
           useItem: {
             i3: () => {
@@ -868,7 +868,7 @@ function readQuestBoard() {
           look: 'Un manuale di istruzioni. In copertina c’è scritto 2¹⁰.'
         },
         {
-          id: 'vaso', name: '🪴 Vaso vuoto', box: [254, 166, 28, 24], stand: 268,
+          id: 'vaso', name: '🌱 Vaso vuoto', box: [254, 166, 28, 24], stand: 268,
           obj: () => (flag('seme_ok') ? 'vaso-fiore' : 'vaso'),
           look: () => (flag('seme_ok') ? 'Il fiore luminoso illumina tutto l’angolo. Che spettacolo!' : 'Un vaso con la terra, ma niente dentro. L’angolo intorno è buio.'),
           useItem: {
@@ -973,7 +973,7 @@ function readQuestBoard() {
           read: () => readDiary(5),
           look: 'L’ultimo foglio viola. Questo sembra scritto in fretta.'
         },
-        { id: 'finestra', name: '🪟 Finestra', box: [242, 60, 20, 42], stand: 252, noDot: true, look: ['Fuori la tempesta. I lampi illuminano il mare.', 'Un lampo! Ho contato fino a 3: il temporale è vicino.'] }
+        { id: 'finestra', name: '🖼️ Finestra', box: [242, 60, 20, 42], stand: 252, noDot: true, look: ['Fuori la tempesta. I lampi illuminano il mare.', 'Un lampo! Ho contato fino a 3: il temporale è vicino.'] }
       ],
       exits: [
         leftExit(2, 'belvedere', '⬅ Belvedere'),

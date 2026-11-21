@@ -7,7 +7,7 @@
    OGGETTI RACCOGLIBILI (usable = si può usare dallo Zaino)
    -------------------------------------------------------------------------- */
 const ITEMS = {
-  corda: { name: 'Corda robusta', icon: '🪢', desc: 'Lunga e resistente. Utile per ripescare cose.', usable: true },
+  corda: { name: 'Corda robusta', icon: '🧶', desc: 'Lunga e resistente. Utile per ripescare cose.', usable: true },
   dadi: { name: 'Dadi fortunati', icon: '🎲', desc: 'I dadi dei Pirati Gemelli. Odorano di botte.', usable: true },
   scheda: { name: 'Scheda di calibrazione', icon: '💾', desc: 'Una scheda perforata con scritto "(a^m)^n".', usable: true },
   annaffiatoio: { name: 'Annaffiatoio', icon: '🚿', desc: 'Pieno d’acqua fresca del vivaio.', usable: true },
@@ -90,7 +90,7 @@ function coinsFound() { return ['coin1', 'coin2', 'coin3'].filter(flag).length; 
 const QUESTS = {
   dobloni: {
     board: 'Uno sulla spiaggia, uno in città vicino alla Taverna, uno in fondo al mare (serve una rete).',
-    icon: '🪙', piece: 'Doblone d’oro', giverName: 'Capitana Vera',
+    icon: '💰', piece: 'Doblone d’oro', giverName: 'Capitana Vera',
     title: 'I dobloni di Vera',
     desc: 'Trova i 3 dobloni d’oro persi da Capitana Vera e riportaglieli.',
     flags: ['coin1', 'coin2', 'coin3'],
@@ -175,7 +175,7 @@ function takeCoin(n) {
   playSound('crystal');
   refreshLabels(AREAS[state.currentArea]);
   const c = coinsFound();
-  toast(`🪙 Doblone d’oro trovato! <b>${c}/3</b>`);
+  toast(`💰 Doblone d’oro trovato! <b>${c}/3</b>`);
   if (c === 3 && questState('dobloni') === 'active') {
     ariaSays(['Tre dobloni su tre! Torno da Capitana Vera.', 'Ho tutti i dobloni. Vera, arrivo!']);
   } else {
@@ -298,7 +298,7 @@ function laviniaCameo(area, flagKey) {
   A.mentor.extraChoices = (area) => {
     if (questState('dobloni') !== 'active' || coinsFound() < 3) return [];
     return [{
-      html: '🪙 Consegna i 3 dobloni',
+      html: '💰 Consegna i 3 dobloni',
       cls: 'primary-action',
       fn: () => {
         setQuest('dobloni', 'done');
@@ -405,7 +405,7 @@ function laviniaCameo(area, flagKey) {
           look: 'Una bottiglia con dentro un foglio arrotolato. Classico messaggio in bottiglia!'
         },
         {
-          id: 'doblone1', name: '🪙 Qualcosa che luccica', box: [220, 184, 18, 12], stand: 229,
+          id: 'doblone1', name: '💰 Qualcosa che luccica', box: [220, 184, 18, 12], stand: 229,
           visible: () => !flag('coin1'),
           draw: () => sparkleSVG(229, 190, COIN),
           take: () => takeCoin(1)
@@ -505,7 +505,7 @@ function laviniaCameo(area, flagKey) {
           look: ['La cassa recuperata. Barnaba la guarda con amore.', 'Ancora bagnata. Odora di alghe e di vittoria.']
         },
         {
-          id: 'doblone-mare', name: '🪙 Luccichio sul fondo', box: [134, 196, 30, 18], stand: 150,
+          id: 'doblone-mare', name: '💰 Luccichio sul fondo', box: [134, 196, 30, 18], stand: 150,
           visible: () => flag('cassa_ok') && !flag('coin3'),
           draw: () => sparkleSVG(150, 205, COIN),
           look: ['Sul fondo del mare luccica un doblone. Troppo in basso per le mani. Serve una rete robusta.', 'Un doblone sul fondale! Con una rete lo prenderei.'],
@@ -546,7 +546,7 @@ function laviniaCameo(area, flagKey) {
       layout: { groundY: 178, ariaStart: 76 },
       hotspots: [
         {
-          id: 'corda', name: '🪢 Corda', box: [158, 162, 34, 18], stand: 175,
+          id: 'corda', name: '🧶 Corda', box: [158, 162, 34, 18], stand: 175,
           visible: () => !hasItem('corda') && !flag('cassa_ok'),
           obj: 'corda',
           take: () => {
