@@ -74,7 +74,9 @@ const IMAGE_SCENES = {
   /* Taverna: strada davanti alla Taverna */
   strada: {
     bg() {
-      return `${bgImage('strada')}
+      // Dopo il codice la porta della Taverna è aperta (seconda immagine).
+      const open = typeof state !== 'undefined' && state.flags.taverna_open;
+      return `${bgImage(open ? 'strada-aperta' : 'strada')}
       ${twinkleSVG([[16, 30], [40, 64, 0.7], [92, 52], [356, 40], [384, 64, 0.7], [362, 14]])}
       ${glowSVG('gl-st1', 127, 88, 18)}${glowSVG('gl-st2', 284, 86, 24, '#ffb347', 1.3)}`;
     }

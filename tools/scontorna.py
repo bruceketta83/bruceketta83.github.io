@@ -56,7 +56,11 @@ def maschera(src, aloni=False):
 def riquadro(img, pad=6):
     a = np.asarray(img)[..., 3]
     ys, xs = np.where(a > 12)
-    return (max(xs.min() - pad, 0), max(ys.min() - pad, 0), min(xs.max() + pad, img.width), ys.max() + 1)
+    # In basso si taglia sull'ultima riga davvero piena: i resti dell'ombra a terra
+    # (semitrasparenti) farebbero "galleggiare" il personaggio.
+    full = np.where((a > 200).sum(1) > 3)[0]
+    bottom = full.max() + 2 if len(full) else ys.max() + 1
+    return (max(xs.min() - pad, 0), max(ys.min() - pad, 0), min(xs.max() + pad, img.width), min(bottom, img.height))
 
 
 def scontorna(srcs, dsts, height=640):

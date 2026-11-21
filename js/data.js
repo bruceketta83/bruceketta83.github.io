@@ -124,10 +124,10 @@ const AREAS = [
     maxHp: 3,
     scene: 'taverna',
     layout: {
-      groundY: 186,
-      ariaStart: 190,
-      mentor: { x: 318, draw: 'oste', stand: 286, label: '🍺 Oste Bartolomeo' },
-      guardian: { x: 190, draw: 'gemelli', face: -1, stand: 228, label: '🎲 Pirati Gemelli' }
+      groundY: 194,
+      ariaStart: 332,
+      mentor: { x: 286, draw: 'oste', stand: 322, label: '🍺 Oste Bartolomeo' },
+      guardian: { x: 176, draw: 'gemelli', face: -1, stand: 212, label: '🎲 Pirati Gemelli' }
     },
     crystal: { id: 'c2', name: 'Cristallo Ciano', icon: '🔵', desc: 'Brilla della luce fredda della sottrazione.' },
     item: { id: 'i2', name: 'Cannocchiale Ottico', icon: '🔭', desc: 'Vinto ai dadi contro i Pirati Gemelli.' },
