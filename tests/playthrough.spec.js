@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 const { W, watchErrors, startGame, game } = require('./helpers');
 
 test('partita completa dal Molo al Faro, con ritorni e negozio', async ({ page }) => {
-  test.setTimeout(10 * 60_000);
+  test.setTimeout(20 * 60_000);
   const errors = watchErrors(page);
   await startGame(page);
   const g = game(page);

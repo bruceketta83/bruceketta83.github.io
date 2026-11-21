@@ -281,16 +281,16 @@ function runAction(area, target, fn) {
 function selectItem(id) {
   selectedItem = id;
   closeModal('inventory');
-  const it = ITEMS[id];
-  const b = $('use-banner');
-  b.innerHTML = `${it.icon} Usa <b>${it.name}</b> su… <button onclick="cancelUse(event)" aria-label="Annulla">✕</button>`;
-  b.classList.add('open');
+  const it = ITEMS[id] || state.items.find(i => i.id === id);
+  // La richiesta appare nel riquadro del dialogo: niente fasce sopra la scena.
+  setDialogue('Aria', 'Esploratrice', 'aria', `${it.icon} Su cosa uso <b>${it.name}</b>? Tocca un oggetto o un personaggio nella scena.`, 'aria');
+  clearChoices();
+  addChoice('✕ Annulla', () => { cancelUse(); ariaSays(null); });
 }
 
 function cancelUse(ev) {
   if (ev) ev.stopPropagation();
   selectedItem = null;
-  $('use-banner').classList.remove('open');
 }
 
 function useSelectedOn(area, target) {
