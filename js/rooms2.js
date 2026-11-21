@@ -301,9 +301,9 @@ function readQuestBoard() {
           useIcon: '🔍', useLabel: 'Apri una'
         },
         {
-          id: 'mug2', name: '🍺 Un boccale', box: [292, 184, 18, 12], stand: 300,
+          id: 'mug2', name: '🍺 Un boccale', box: [104, 140, 18, 14], stand: 118,
           visible: () => !flag('mug2'),
-          draw: () => sparkleSVG(301, 191, MUG),
+          draw: () => sparkleSVG(113, 148, MUG),
           take: () => collectPiece('boccali', 'mug2', ['Un boccale dell’Oste! Gli altri due sono in giro per l’isola.', 'Boccale numero uno. Pare che Archimede e Madame Zeri ne abbiano presi in prestito altri...'])
         },
         {
@@ -440,7 +440,7 @@ function readQuestBoard() {
       ],
       exits: [
         { ...leftExit(1, 'piazza', '⬅ Piazza'), arrive: 302 },
-        { id: 'to-belvedere', label: 'Belvedere ➜', box: [348, 112, 52, 70], stand: 380, to: 'belvedere', arrive: 60, labelY: 160,
+        { id: 'to-belvedere', label: 'Belvedere ➜', box: [358, 112, 42, 70], stand: 380, to: 'belvedere', arrive: 60, labelY: 160,
           locked: () => !done(A),
           lockedActions: [{ icon: '🚧', label: 'Bloccato', fn: () => ariaSays(['La strada per il Belvedere passa dall’ascensore. Prima devo battere il Terminale!', 'Bloccato. Il Terminale non mi lascia passare.']) }] },
         { id: 'to-biblioteca', label: '🚪 Biblioteca', box: [36, 140, 26, 36], stand: 52, to: 'biblioteca', arrive: 60, labelY: 134 }
