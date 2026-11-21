@@ -92,6 +92,26 @@ Nessuna dipendenza esterna e nessuna compilazione: GitHub Pages pubblica i file 
 
 ---
 
+## 📲 Gioco offline (app)
+
+Il gioco è una PWA: dopo la prima apertura funziona anche **senza Internet**.
+
+1. Apri https://bruceketta83.github.io/ con il telefono.
+2. Android (Chrome): tocca **"📲 Installa il gioco"** nella schermata iniziale, oppure Menu → *Installa app*.
+3. iPhone (Safari): tocca **Condividi** → **Aggiungi alla schermata Home**.
+
+## 🧪 Test automatici
+
+A ogni pull request GitHub esegue i test (`.github/workflows/test.yml`): generatore di esercizi, tutte le stanze, una partita completa con i ritorni, gioco offline, salvataggi vecchi.
+
+Per eseguirli sul computer:
+
+1. Installa Node.js 22.
+2. Nella cartella del progetto esegui `npm ci`, poi `npx playwright install chromium`.
+3. Esegui `npm test`. Il server locale parte da solo.
+
+Elenco delle evoluzioni proposte: [ROADMAP.md](ROADMAP.md).
+
 ## 🚀 Pubblicazione su GitHub Pages
 
 1. Vai nelle impostazioni del repository (**Settings > Pages**).
