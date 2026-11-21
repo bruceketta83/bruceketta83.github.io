@@ -189,6 +189,7 @@ function takeCoin(n) {
 const LAVINIA = {
   name: 'Lavinia',
   role: 'Rivale (molto antipatica)',
+  hello: 'Ciao, Aria. Io sono Lavinia, la prima della classe. Ricorda il mio nome: lo leggerai in cima alla classifica.',
   taunts: [
     'Oh, ma guarda chi c’è: la turista della matematica. Carino lo zainetto, l’hai preso in saldo?',
     'Aria! Che sorpresa... ah no, nessuna sorpresa: sei sempre in ritardo.',
@@ -231,7 +232,10 @@ const LAVINIA = {
 /* Lavinia appare, provoca Aria e fa una domanda lampo sulla regola dell'area. */
 function laviniaCameo(area, flagKey) {
   const who = { name: LAVINIA.name, role: LAVINIA.role, avatar: 'lavinia', speaker: 'lavinia-cameo' };
-  setDialogue(who.name, who.role, who.avatar, LAVINIA.taunts, who.speaker);
+  // Primo incontro: Lavinia dice il suo nome.
+  const taunt = flag('met_lavinia') ? LAVINIA.taunts : LAVINIA.hello;
+  setFlag('met_lavinia');
+  setDialogue(who.name, who.role, who.avatar, taunt, who.speaker);
   clearChoices();
   const go = () => {
     const q = generateQuestion(area, area.ruleId ? ruleLevel(area.ruleId) : 1);
@@ -316,13 +320,13 @@ function laviniaCameo(area, flagKey) {
 
   /* ---------- Guardiano: Barnaba ---------- */
   A.guardian.intro = [
-    'Alt lì, baddie! Qui non si passa se non sistemi il carico. E non fare scena muta.',
-    'Eccoti. Il carico è tornato, ora tocca ai conti. Pronta?',
-    'Ok, cassa ripescata. Rispetto. Ma adesso si fa sul serio.'
+    'Alt lì, baddie! Sono Barnaba, il buttafuori del Molo. Qui non si passa se non sistemi il carico. E non fare scena muta.',
+    'Eccoti. Io sono Barnaba e il carico è tornato: ora tocca ai conti. Pronta?',
+    'Ok, cassa ripescata. Rispetto. Ma io sono Barnaba e adesso si fa sul serio.'
   ];
   A.guardian.blockMsg = [
-    'Ehi, frena! Non ti conosco. Prima fatti spiegare la regola da <b>Capitana Vera</b>, sulla spiaggia.',
-    'Niente sfide senza lezione. Vai da <b>Capitana Vera</b> sulla spiaggia, poi ne riparliamo.'
+    'Ehi, frena! Io sono Barnaba e non ti conosco. Prima fatti spiegare la regola da <b>Capitana Vera</b>, sulla spiaggia.',
+    'Sono Barnaba, il buttafuori. Niente sfide senza lezione. Vai da <b>Capitana Vera</b> sulla spiaggia, poi ne riparliamo.'
   ];
   A.guardian.loseMsg = [
     'Fuori dal mio molo! Torna quando sai sommare gli esponenti, baddie. Ti aspetto qui.',

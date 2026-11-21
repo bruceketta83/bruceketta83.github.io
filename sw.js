@@ -4,7 +4,7 @@
    aggiorna la copia; offline usa la copia salvata sul dispositivo.
    Cambia CACHE quando cambia l'elenco dei file.
    ========================================================================== */
-const CACHE = 'esponentia-v12';
+const CACHE = 'esponentia-v13';
 const FILES = [
   './',
   'index.html',

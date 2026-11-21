@@ -53,7 +53,7 @@ test('le scritte e i puntini cliccabili non si sovrappongono', async ({ page }) 
       const items = [
         ...pick('#layer-ui g[data-exit] > g', 'uscita'),
         ...pick('#layer-ui g[data-hs] circle', 'puntino'),
-        ...pick('#layer-ui .label rect', 'nome')
+        ...pick('#layer-ui .label circle', 'avviso')
       ];
       const gap = 6; // pixel minimi tra due elementi: spazio per il dito
       const out = [];

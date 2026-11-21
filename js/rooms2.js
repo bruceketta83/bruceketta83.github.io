@@ -78,7 +78,10 @@ const TURBINA = {
 };
 
 function talkTurbina() {
-  setDialogue('Zia Turbina', 'Mercante svalvolata', 'turbina', TURBINA.greet, 'turbina-npc');
+  // Primo incontro: Zia Turbina dice il suo nome.
+  const greet = flag('met_turbina') ? TURBINA.greet : TURBINA.greet[0];
+  setFlag('met_turbina');
+  setDialogue('Zia Turbina', 'Mercante svalvolata', 'turbina', greet, 'turbina-npc');
   clearChoices();
   addChoice('🛍️ Fammi vedere la merce!', () => openShop(), 'primary-action');
   addChoice('<span>🤔 Chi sei, scusa?</span><span>→</span>', () => {
@@ -117,8 +120,8 @@ function readQuestBoard() {
   ];
 
   A.mentor.lines = [
-    ['Benvenuta nella Taverna! Quei due pirati laggiù hanno rubato il cannocchiale dell’Osservatorio e il Cristallo Ciano.',
-     'Ehi, piccola esploratrice! Attenta ai Pirati Gemelli: hanno il Cristallo Ciano e barano pure.'],
+    ['Benvenuta nella Taverna! Io sono l’Oste Bartolomeo. Quei due pirati laggiù hanno rubato il cannocchiale dell’Osservatorio e il Cristallo Ciano.',
+     'Ehi, piccola esploratrice! Sono Bartolomeo, l’oste. Attenta ai Pirati Gemelli: hanno il Cristallo Ciano e barano pure.'],
     'Per batterli ti serve la regola della <b>divisione (quoziente)</b>: se due potenze hanno la <b>stessa base</b>, mantieni la base e <b>sottrai gli esponenti</b>.',
     ['Esempio: <span class="math-expr">5<sup>7</sup> : 5<sup>2</sup> = 5<sup>7−2</sup> = 5<sup>5</sup></span>. La base non si tocca!',
      'Tipo così: <span class="math-expr">6<sup>9</sup> : 6<sup>4</sup> = 6<sup>5</sup></span>. Sottrai e via.'],
@@ -136,13 +139,13 @@ function readQuestBoard() {
     ['I miei boccali! Sei un tesoro. Ecco <b>80 Aura</b>!', 'Tutti e tre! Offre la casa: <b>80 Aura</b> per te!']);
 
   A.guardian.intro = [
-    'Ehi ragazzina, qui si gioca pesante! Vuoi il Cannocchiale e il Cristallo? Risolvi queste divisioni senza andare in tilt!',
-    'Con i dadi fortunati siamo imbattibili. Vediamo se reggi!',
-    'Due contro una. Mi sembra giusto. Pronta?'
+    'Ehi ragazzina, noi siamo i Pirati Gemelli e qui si gioca pesante! Vuoi il Cannocchiale e il Cristallo? Risolvi queste divisioni senza andare in tilt!',
+    'Siamo i Pirati Gemelli: con i dadi fortunati siamo imbattibili. Vediamo se reggi!',
+    'Pirati Gemelli contro Aria: due contro una. Mi sembra giusto. Pronta?'
   ];
   A.guardian.blockMsg = [
-    'Al nostro tavolo si siede solo chi conosce le regole! Parla prima con l’<b>Oste Bartolomeo</b>.',
-    'Prima la lezione dell’<b>Oste</b>, poi i dadi. Regole della casa.'
+    'Siamo i Pirati Gemelli! Al nostro tavolo si siede solo chi conosce le regole! Parla prima con l’<b>Oste Bartolomeo</b>.',
+    'Noi Pirati Gemelli abbiamo una regola: prima la lezione dell’<b>Oste</b>, poi i dadi. Regole della casa.'
   ];
   A.guardian.loseMsg = [
     'Ahah, sei andata in tilt! Ripassa la Regola 2 e torna al tavolo, se hai il coraggio.',
@@ -341,13 +344,13 @@ function readQuestBoard() {
   };
 
   A.guardian.intro = [
-    'BEEP! Accesso alla cupola bloccato. Inserire il valore corretto dei contrappesi per attivare il motore.',
-    'SCHEDA RICEVUTA. AVVIO TEST DI CALIBRAZIONE. BEEP BOOP.',
-    'PROTOCOLLO MATEMATICO ATTIVO. PREGO RISPONDERE.'
+    'BEEP! QUI TERMINALE ASCENSORE. Accesso alla cupola bloccato. Inserire il valore corretto dei contrappesi per attivare il motore.',
+    'TERMINALE ASCENSORE: SCHEDA RICEVUTA. AVVIO TEST DI CALIBRAZIONE. BEEP BOOP.',
+    'TERMINALE ASCENSORE. PROTOCOLLO MATEMATICO ATTIVO. PREGO RISPONDERE.'
   ];
   A.guardian.blockMsg = [
-    'BEEP! Utente non autorizzato. Consultare il <b>Bibliotecario Archimede</b> per la procedura.',
-    'ERRORE 403: LEZIONE MANCANTE. Parlare con <b>Archimede</b>.'
+    'BEEP! QUI TERMINALE ASCENSORE. Utente non autorizzato. Consultare il <b>Bibliotecario Archimede</b> per la procedura.',
+    'TERMINALE ASCENSORE. ERRORE 403: LEZIONE MANCANTE. Parlare con <b>Archimede</b>.'
   ];
   A.guardian.loseMsg = [
     'ERRORE CRITICO. Accesso negato. Consultare il Taccuino e riprovare.',
@@ -537,7 +540,7 @@ function readQuestBoard() {
   ];
 
   A.mentor.lines = [
-    ['Tesoro, qui dentro vige la legge della Vera Baddie: non importa quanto un numero sia gigante, se lo elevi a <b>0</b> diventa subito <b>1</b>. Zero drama.',
+    ['Tesoro, io sono Madame Zeri. Qui dentro vige la legge della Vera Baddie: non importa quanto un numero sia gigante, se lo elevi a <b>0</b> diventa subito <b>1</b>. Zero drama.',
      'Ciao cara. Io sono Madame Zeri e ti insegno la regola più chic dell’isola: l’esponente zero.'],
     'Ricorda due cose: <b>qualsiasi numero (tranne zero) elevato a 0 fa 1</b>, mentre <b>qualsiasi numero elevato a 1 resta se stesso</b>. E 0<sup>0</sup> non esiste!',
     'Ho inserito la <b>Regola 4</b> nel Taccuino. La pianta dorme: per svegliarla serve acqua. L’annaffiatoio è nel <b>vivaio</b>, ma è chiuso e buio. Il codice è sul cartello del banco.'
@@ -551,12 +554,12 @@ function readQuestBoard() {
   A.mentor.onEnd = () => laviniaAfterLesson(A, 'lav3');
 
   A.guardian.intro = [
-    'GRRR! Mi hai svegliata! Se non mi riduci all’unità, ti mangio lo zaino!',
-    'Chi osa annaffiarmi?! Ok, era buona l’acqua. Ma adesso ti sfido!',
-    'GNAM GNAM. Rispondi o diventi concime!'
+    'GRRR! Mi hai svegliata! Io sono la Pianta Carnivora! Se non mi riduci all’unità, ti mangio lo zaino!',
+    'Chi osa annaffiare la Pianta Carnivora?! Ok, era buona l’acqua. Ma adesso ti sfido!',
+    'GNAM GNAM. Sono la Pianta Carnivora: rispondi o diventi concime!'
   ];
   A.guardian.blockMsg = [
-    'GRRR! Chi sei? Prima vai da <b>Madame Zeri</b>, poi forse non ti mangio.',
+    'GRRR! Io sono la Pianta Carnivora. E tu chi sei? Prima vai da <b>Madame Zeri</b>, poi forse non ti mangio.',
     'ZzZ... (La pianta dorme. Meglio parlare prima con <b>Madame Zeri</b>.)'
   ];
   A.guardian.loseMsg = [
@@ -732,7 +735,7 @@ function readQuestBoard() {
   ];
 
   A.mentor.lines = [
-    ['Mira: "Io e Nora abbiamo gusti diversi (basi diverse), ma portiamo gli stessi occhiali (<b>stesso esponente</b>)!"',
+    ['Mira: "Ciao! Io sono Mira, lei è Nora. Abbiamo gusti diversi (basi diverse), ma portiamo gli stessi occhiali (<b>stesso esponente</b>)!"',
      'Mira: "Ciao! Noi siamo Mira e Nora. Gemelle, meccaniche e geniali. In quest’ordine."'],
     'Nora: "Quando moltiplichi o dividi potenze con lo <b>stesso esponente</b>, fai prima l’operazione tra le basi e lasci lo stesso esponente!"',
     ['Mira: "Esempio: <span class="math-expr">4<sup>3</sup> · 5<sup>3</sup> = (4 · 5)<sup>3</sup> = 20<sup>3</sup></span>. Facile come stringere un bullone."',
@@ -751,13 +754,13 @@ function readQuestBoard() {
     ['Mira e Nora: "I nostri bulloni! Sei la migliore. Ecco <b>80 Aura</b>!"', 'Nora: "Tutti e tre!" Mira: "Prendi <b>80 Aura</b>, socia!"']);
 
   A.guardian.intro = [
-    'PROTOCOLLO DI BLOCCO ATTIVO. Fondere gli ingranaggi con lo stesso esponente per aprire il passaggio.',
-    'INGRANAGGIO INSERITO. SISTEMI ONLINE. AVVIO SFIDA.',
-    'CLANK CLANK. RISPONDERE CORRETTAMENTE O RESTARE QUI PER SEMPRE.'
+    'QUI AUTOMA DEL CANCELLO. PROTOCOLLO DI BLOCCO ATTIVO. Fondere gli ingranaggi con lo stesso esponente per aprire il passaggio.',
+    'AUTOMA DEL CANCELLO: INGRANAGGIO INSERITO. SISTEMI ONLINE. AVVIO SFIDA.',
+    'CLANK CLANK. QUI AUTOMA DEL CANCELLO. RISPONDERE CORRETTAMENTE O RESTARE QUI PER SEMPRE.'
   ];
   A.guardian.blockMsg = [
-    'ACCESSO NEGATO. Richiesta autorizzazione delle <b>Gemelle Mira e Nora</b>.',
-    'ERRORE: LEZIONE NON TROVATA. Consultare <b>Mira e Nora</b>.'
+    'QUI AUTOMA DEL CANCELLO. ACCESSO NEGATO. Richiesta autorizzazione delle <b>Gemelle Mira e Nora</b>.',
+    'AUTOMA DEL CANCELLO. ERRORE: LEZIONE NON TROVATA. Consultare <b>Mira e Nora</b>.'
   ];
   A.guardian.loseMsg = [
     'PROTOCOLLO DI ESPULSIONE. Ricalibrare le conoscenze e riprovare.',
@@ -911,9 +914,9 @@ function readQuestBoard() {
   ];
 
   A.guardian.intro = [
-    'Pensi davvero di battermi, Aria? Io ho l’aura da prima della classe! Vediamo se reggi questi round combinati!',
-    'Finalmente. Ti aspettavo. Ultimo duello: tutte le regole insieme.',
-    'Sei arrivata fin qui? Ok. Ma qui finisce la tua fortuna.'
+    'Pensi davvero di battere Lavinia, Aria? Io ho l’aura da prima della classe! Vediamo se reggi questi round combinati!',
+    'Finalmente. Io, Lavinia, ti aspettavo. Ultimo duello: tutte le regole insieme.',
+    'Sei arrivata fin qui? Ok, Lavinia è sorpresa. Ma qui finisce la tua fortuna.'
   ];
   A.guardian.loseMsg = [
     'Visto? L’aura da prima della classe è mia. Ripassa il Taccuino e torna, se hai coraggio!',
