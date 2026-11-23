@@ -1,4 +1,4 @@
-name: Test del gioco
+name: Test del sito
 
 on:
   pull_request:
