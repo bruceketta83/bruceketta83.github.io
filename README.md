@@ -1,16 +1,16 @@
 # 🎮 Giochi per imparare
 
-Pagina di index dei giochi e delle animazioni: https://bruceketta83.github.io/
+Pagina di index dei giochi, delle animazioni e dei video: https://bruceketta83.github.io/
 
 | Gioco | Repo | Indirizzo |
 | :--- | :--- | :--- |
 | 🏝️ Il Segreto dell'Isola di Espo-Nentia | [espo-nentia](https://github.com/bruceketta83/espo-nentia) | https://bruceketta83.github.io/espo-nentia/ |
 
-## Animazioni
+## Animazioni e video
 
-Le animazioni sono nel repo [animazioni](https://github.com/bruceketta83/animazioni): https://bruceketta83.github.io/animazioni/
+Animazioni, video e pagine interattive sono nel repo [animazioni](https://github.com/bruceketta83/animazioni): https://bruceketta83.github.io/animazioni/
 
-Per aggiungere un'animazione segui il README di quel repo. Poi copia una scheda nella sezione "Animazioni" di `index.html` e metti la copertina in `img/`.
+Per aggiungere un'animazione segui il README di quel repo. Poi copia una scheda nella sezione "Animazioni e video" di `index.html` e metti la copertina in `img/`.
 
 ## Come aggiungere un gioco
 
