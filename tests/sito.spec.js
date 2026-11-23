@@ -9,8 +9,11 @@ test('la pagina dei giochi mostra la scheda di Espo-Nentia senza errori', async 
   const card = page.locator('a.card[href="espo-nentia/"]');
   await expect(card).toBeVisible();
   await expect(card).toContainText('Espo-Nentia');
-  const imgOk = await card.locator('img').evaluate(img => img.complete && img.naturalWidth > 0);
-  expect(imgOk).toBe(true);
+  await expect(page.locator('a.card[href="animazioni/parallelogramma/"]')).toBeVisible();
+  await expect(page.locator('a[href="animazioni/"]')).toBeVisible();
+  for (const img of await page.locator('a.card img').all()) {
+    expect(await img.evaluate(i => i.complete && i.naturalWidth > 0)).toBe(true);
+  }
   // Nessuno scorrimento orizzontale sul telefono.
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);

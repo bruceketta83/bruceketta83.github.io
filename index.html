@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Giochi per imparare</title>
-<meta name="description" content="Giochi educativi di matematica per la scuola media.">
+<meta name="description" content="Giochi e animazioni di matematica per la scuola media.">
 <meta name="theme-color" content="#0f172a">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <script>
@@ -50,6 +50,13 @@
   .soon { border-style: dashed; background: transparent; align-items: center; justify-content: center; text-align: center; min-height: 220px; }
   .soon .body { justify-content: center; align-items: center; }
   .soon .icon { font-size: 40px; }
+  .sec { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 34px 0 14px; }
+  .sec:first-of-type { margin-top: 0; }
+  .sec h2 { font-size: 22px; margin: 0; }
+  .sec a { color: var(--gold); font-size: 15px; text-decoration: none; white-space: nowrap; }
+  .sec a:hover { text-decoration: underline; }
+  .film img { background: #f2ecde; }
+  .watch { background: #e2e8f0; color: #0f172a; }
   footer { margin-top: 36px; text-align: center; color: #64748b; font-size: 13px; }
   @media (prefers-reduced-motion: reduce) { .card { transition: none; } a.card:hover { transform: none; } }
 </style>
@@ -58,9 +65,10 @@
 <main>
   <header>
     <h1>Giochi per <span>imparare</span></h1>
-    <p>Matematica in avventura, per la scuola media.</p>
+    <p>Giochi e animazioni di matematica, per la scuola media.</p>
   </header>
 
+  <div class="sec"><h2>🎮 Giochi</h2></div>
   <section class="grid" aria-label="Giochi">
     <!-- Per aggiungere un gioco: copia questa scheda e cambia link, immagine e testi. -->
     <a class="card" href="espo-nentia/">
@@ -80,6 +88,20 @@
         <p>Presto una nuova avventura.</p>
       </div>
     </div>
+  </section>
+
+  <div class="sec"><h2>🎞️ Animazioni</h2><a href="animazioni/">Tutte le animazioni →</a></div>
+  <section class="grid" aria-label="Animazioni">
+    <!-- Per aggiungere un'animazione: copia questa scheda e cambia link, immagine e testi. -->
+    <a class="card film" href="animazioni/parallelogramma/">
+      <img src="img/parallelogramma.webp" alt="Un parallelogramma disegnato a inchiostro, con gli angoli di 53° e 127° colorati" width="720" height="446">
+      <div class="body">
+        <h2>Il parallelogramma</h2>
+        <p>Lati, angoli, diagonali, perimetro e area. Poi rettangolo, rombo e quadrato.</p>
+        <div class="tags"><span>Geometria</span><span>1:24</span></div>
+        <span class="play watch">Guarda ▶</span>
+      </div>
+    </a>
   </section>
 
   <footer>Progetto didattico libero e gratuito.</footer>
